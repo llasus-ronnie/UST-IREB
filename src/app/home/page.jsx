@@ -3,7 +3,7 @@
 //components
 import Navbar from '../components/navbar/Navbar'
 import Card from '../components/card/Card'
-// import Footer from '../../components/footer/Footer'
+import Footer from '../components/footer/Footer'
 import Carousel from '../components/carousel/Slider'
 
 //images
@@ -136,9 +136,9 @@ export default function Home() {
 
                 </div>
 
-                {/* <div className='footer'>
+                <div className='footer'>
                     <Footer />
-                </div> */}
+                </div>
                     
                 
 
