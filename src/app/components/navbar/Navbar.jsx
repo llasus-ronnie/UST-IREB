@@ -52,12 +52,16 @@ export default function Navbar() {
 
                     <div className='sidenav-account'>
                         <Image src={userIcon} alt="" className="logout-icon"/>
-                        <a href="/SignInOption" className="view-account">View Account</a>
+                        <Link href="/signinoption" className="view-account">
+                        View Account
+                        </Link>
                     </div>
 
         <div className="sidenav-links">
           <a href="/">Home</a>
-          <a href="/SubmissionFormsP1">Submission Form</a>
+          <Link href="/form1">
+          Submission Forms
+          </Link>
           <a href="/MySubmissions">View my Submissions</a>
           <Link href="/faqs">
             FAQs

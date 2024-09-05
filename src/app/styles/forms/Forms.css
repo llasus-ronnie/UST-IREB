@@ -1,0 +1,126 @@
+:root {
+  --primary-color: #121212;
+  --secondary-color: #ecf0f1;
+  --tertiary-color: #fcbf15;
+  --quaternary-color: #ffffff;
+  --poppins: "Poppins", sans-serif;
+  --title-size: 2rem;
+  --heading-1-size: 1.5rem;
+  --paragraph-size: 0.85rem;
+}
+
+.nav {
+  border-radius: 5px;
+  background: #1e1e1e;
+}
+
+.colpad {
+  padding-top: 15px;
+}
+
+.navtext {
+  color: #fff;
+  font-family: Poppins;
+  font-size: 15px;
+  font-style: normal;
+}
+
+.cont1 {
+  background-color: white;
+  border-radius: 5px;
+  margin-top: 40px;
+  padding-top: 10px;
+}
+
+.text {
+  color: #000;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 15px;
+  font-style: normal;
+  width: auto;
+}
+
+.rescont {
+  background-color: white;
+  max-width: 600px;
+}
+
+.resconthead {
+  color: #ecf0f1;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  background-color: black;
+  text-align: center;
+}
+
+.textcheck {
+  color: #121212;
+  font-family: Poppins;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 700;
+  text-align: center;
+}
+
+.formcheck {
+  color: #000;
+  font-family: Poppins;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: auto;
+}
+
+.formbtn {
+  width: 200px;
+  font-family: Poppins;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+/* pg2 */
+
+.headtext {
+  color: #121212;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.rescont2 {
+  background-color: white;
+  max-width: 1200px;
+}
+
+.formtext {
+  color: #000;
+  font-family: Poppins;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: auto;
+}
+
+/* pg3 */
+.rescont3 {
+  background-color: white;
+  max-width: 600px;
+}
+
+/* scroll design  */
+::-webkit-scrollbar {
+  background-color: var(--primary-color);
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--tertiary-color);
+  border-radius: 10px;
+}
