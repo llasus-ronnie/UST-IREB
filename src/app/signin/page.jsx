@@ -15,7 +15,9 @@ import USTLogo from "../../../public/images/signin/USTLogo.png";
 
 //css
 import "../styles/signin/SignIn.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+
+//components
+import SignInFooter from "../components/siginin/SignInFooter";
 
 export default function SignIn() {
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
@@ -32,6 +34,7 @@ export default function SignIn() {
             <Col className="thomasian-lft">
               <Image src={bg} alt="" className="thomasian-bg" />
             </Col>
+
             <Col className="thomasian-SignInHeader">
               <div className="thomasian-Sign">
                 <Image src={USTLogo} alt="" className="thomasian-logo" />
@@ -76,28 +79,7 @@ export default function SignIn() {
 
               <hr />
 
-              <div className="thomasian-help">
-                <p className="d-inline" style={{ margin: "5px" }}>
-                  <a href="#" style={{ color: "#8B8B8B" }}>
-                    Terms of Service
-                  </a>
-                </p>
-                <p className="d-inline" style={{ margin: "5px" }}>
-                  <a href="#" style={{ color: "#8B8B8B" }}>
-                    Privacy Policy
-                  </a>
-                </p>
-                <p className="d-inline" style={{ margin: "5px" }}>
-                  <a href="#" style={{ color: "#8B8B8B" }}>
-                    Help
-                  </a>
-                </p>
-                <p className="d-inline" style={{ margin: "5px" }}>
-                  <Link href="/home" style={{ color: "#FCBF15" }}>
-                    Return to Home
-                  </Link>
-                </p>
-              </div>
+              <SignInFooter />
             </Col>
           </Row>
         </Container>

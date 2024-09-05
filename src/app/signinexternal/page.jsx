@@ -11,10 +11,15 @@ import {
 } from "react-bootstrap";
 import bg from "../../../public/images/signin/bg.png";
 import USTLogo from "../../../public/images/signin/USTLogo.png";
-import "../styles/signin/SignIn.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 import ReCAPTCHA from "react-google-recaptcha";
 import Image from "next/image";
+
+//css
+import "../styles/signin/SignIn.css";
+
+//components
+import SignInFooter from "../components/siginin/SignInFooter";
 
 function SignIn() {
   return (
@@ -66,30 +71,9 @@ function SignIn() {
               </FormGroup>
             </Form>
 
-            <hr></hr>
+            <hr />
 
-            <div className="thomasian-help">
-              <p className="d-inline" style={{ margin: "5px" }}>
-                <a href="#" style={{ color: "#8B8B8B" }}>
-                  Terms of Service
-                </a>
-              </p>
-              <p className="d-inline" style={{ margin: "5px" }}>
-                <a href="#" style={{ color: "#8B8B8B" }}>
-                  Privacy Policy
-                </a>
-              </p>
-              <p className="d-inline" style={{ margin: "5px" }}>
-                <a href="#" style={{ color: "#8B8B8B" }}>
-                  Help
-                </a>
-              </p>
-              <p className="d-inline" style={{ margin: "5px" }}>
-                <a href="/" style={{ color: "#FCBF15" }}>
-                  Return to Home
-                </a>
-              </p>
-            </div>
+            <SignInFooter />
           </Col>
         </Row>
       </Container>
