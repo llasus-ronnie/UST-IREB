@@ -4,9 +4,9 @@ import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
 
 import "../styles/faqs/faqs.css";
-// import { Helmet } from "react-helmet";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import { Container, Row, Col, Accordion } from "react-bootstrap";
+import { Container, Row, Accordion } from "react-bootstrap";
 
 function FAQs() {
   return (
@@ -14,11 +14,6 @@ function FAQs() {
       <div className="header">
         <Navbar />
       </div>
-
-      {/* <Helmet>
-        <title>FAQs</title>
-        <style>{"body { background-color: #ECF0F1; }"}</style>
-      </Helmet> */}
 
       <div style={{ paddingTop: "2em" }} className="faqheader">
         <h1 className="text-center">Frequently Asked Questions</h1>
@@ -62,6 +57,10 @@ function FAQs() {
           </Accordion.Item>
         </Accordion>
       </Container>
+
+      <div style={{ marginTop: "2em" }} className="footer">
+        <Footer />
+      </div>
     </>
   );
 }

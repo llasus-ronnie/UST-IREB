@@ -9,7 +9,6 @@ import {
   FormLabel,
   Button,
 } from "react-bootstrap";
-import { Helmet } from "react-helmet";
 import bg from "../../../public/images/signin/bg.png";
 import USTLogo from "../../../public/images/signin/USTLogo.png";
 import "../styles/signin/SignIn.css";
@@ -20,11 +19,6 @@ import Image from "next/image";
 function SignIn() {
   return (
     <div className="thomasian-cont">
-      <Helmet>
-        <title>Sign In</title>
-        <style>{"body { background-color: #ECF0F1; }"}</style>
-      </Helmet>
-
       <Container>
         <Row className="thomasian-cont-border g-0">
           <Col>

@@ -1,32 +1,36 @@
 "use client";
 
-import Link from 'next/link';
-import { Button } from "react-bootstrap";
-import Image from 'next/image';
-import { Container, Col, Row } from "react-bootstrap";
-import { Helmet } from "react-helmet";
-import bg2 from "../../../public/images/signin/bg.png";
-import USTLogo from "../../../public/images/signin/USTLogo.png";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { Container, Col, Row, Button } from "react-bootstrap";
+import Head from "next/head";
 import "../styles/signin/SignInOption.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 function SignInOption() {
   return (
     <>
-      <Helmet>
+      <Head>
         <title>Sign In</title>
         <style>{"body { background-color: #ECF0F1; }"}</style>
-      </Helmet>
+      </Head>
 
       <div className="signin-wrapper">
         <Container className="signin-container">
           <Row>
             <Col md={4} className="p-0 left-column">
-              <Image src={bg2} alt="bg2" className="signin-background" />
+              <img
+                src="/images/signin/bg-2.png"
+                alt="bg2"
+                className="signin-background"
+              />
             </Col>
             <Col md={8} className="p-0 right-column">
               <Container className="signin-header">
-                <Image src={USTLogo} alt="logo" className="signin-logo" />
+                <img
+                  src="/images/signin/USTLogo.png"
+                  alt="logo"
+                  className="signin-logo"
+                />
                 <h1 className="d-inline">
                   UST IREB <b> Research Portal </b>
                 </h1>
@@ -44,10 +48,10 @@ function SignInOption() {
                   </Button>
                 </Link>
 
-                <Link href="/signinexternal">
-                <Button className="signin-option">
-                  External <br /> Primary Investigator
-                </Button>
+                <Link href="/signinexternal" passHref>
+                  <Button className="signin-option">
+                    External <br /> Primary Investigator
+                  </Button>
                 </Link>
               </Container>
 
@@ -57,10 +61,14 @@ function SignInOption() {
 
               <Container className="signin-footer">
                 <Row>
-                  {/* <a href="/">
-                    <Image src={home} alt="home" className="home-icon" />
+                  <a href="/home">
+                    <img
+                      src="/images/signin/home.png"
+                      alt="home"
+                      className="home-icon"
+                    />
                     Return to Home
-                  </a> */}
+                  </a>
                 </Row>
               </Container>
             </Col>
