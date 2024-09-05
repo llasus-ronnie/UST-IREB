@@ -1,6 +1,9 @@
+"use client";
+
 import "../../styles/navbar/navbar.css";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 //images
 import logout from "../../../../public/images/navbar/navbar-logout.png";
@@ -56,7 +59,9 @@ export default function Navbar() {
           <a href="/">Home</a>
           <a href="/SubmissionFormsP1">Submission Form</a>
           <a href="/MySubmissions">View my Submissions</a>
-          <a href="/FAQs">FAQs</a>
+          <Link href="/faqs">
+            FAQs
+          </Link>
         </div>
       </div>
     </>
