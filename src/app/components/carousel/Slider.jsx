@@ -10,6 +10,7 @@ import '../../styles/carousel/slider.css'
 function DarkVariantExample() {
 return (
 <>
+<div className="carousel">
 <Carousel data-bs-theme="light">
 
 {/* about ireb */}
@@ -20,10 +21,10 @@ return (
     alt="First slide"
 />
 <Carousel.Caption className='carousel-text-align'>
-    <h5>About UST IREB</h5>
+    <h3>About UST IREB</h3>
     <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.
+        The Institutional Research Ethics Board (IREB) was established to support high-impact research projects and increase research productivity at UST. It ensures adherence to ethical guidelines set by the Philippine Health Research Ethics Board (PHREB) and protects human participants in research.
+        The UST-IREB oversees Research Ethics Committees (RECs) in each academic unit, which review research protocols involving human participants conducted by academic researchers, staff, students, and UST Hospital personnel. It also reviews protocols by external researchers requesting UST data or using university and hospital facilities.
     </p>
 </Carousel.Caption>
 </Carousel.Item>
@@ -36,8 +37,8 @@ return (
     alt="Second slide"
 />
 <Carousel.Caption className='carousel-text-align'>
-    <h5>Mission</h5>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in </p>
+    <h3>Mission</h3>
+    <p>The University of Santo Tomas, in pursuit of truth guided by reason and illumined by faith, dedicates herself to the generation, advancement, integration, dissemination, and application of knowledge to form competent and compassionate persons committed to serving the Church, the nation, and the global community.</p>
 </Carousel.Caption>
 </Carousel.Item>
 
@@ -49,12 +50,12 @@ return (
     alt="Third slide"
 />
 <Carousel.Caption className='carousel-text-align'>
-    <h5>Vision</h5>
-    <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in     </p>
+    <h3>Vision</h3>
+    <p>By 2030, the University of Santo Tomas, faithful to her centuries-old tradition of excellence, envisions herself as a leading Catholic institution of learning in the Asia-Pacific, committed to the integral formation of her stakeholders for social transformation.</p>
 </Carousel.Caption>
 </Carousel.Item>
 </Carousel>
+</div>
 
 </>
 );

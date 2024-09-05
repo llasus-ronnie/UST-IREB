@@ -12,9 +12,6 @@
 }
 
 .card{
-    width: 18em;
-    height: 30em;
-
     background-color: #FFFCF7;
     box-shadow: 0 0 9px #0000003a;
     border-radius: 10px;
@@ -36,6 +33,8 @@
     gap: 0.5em;
     padding: 3.5rem;
     text-align: left;
+    height: 25rem;
+    width: 20rem;
 
 }
 
@@ -44,7 +43,6 @@
     text-align: left !important;
     text-align: left;
     font-weight: 700;
-    line-height: 35px;
     color: var(--primary-color);
 }
 

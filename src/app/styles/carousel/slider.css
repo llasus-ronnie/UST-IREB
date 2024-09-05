@@ -28,11 +28,13 @@ body{
     padding-right: 50vw;
 }
 
-h5{
+h3{
     font-size: var(--title-size);
-    font-weight: 600;
+    font-weight: 700;
+    padding-bottom: 1rem;
 }
 
-p{
+.carousel p{
     font-size: var(--paragraph-size);
+    width: 30rem;
 }

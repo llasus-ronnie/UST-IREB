@@ -43,10 +43,9 @@ export default function Home() {
                  {/* section 1 */}
                 <div className='section-1'>
                     <div className='section-1-content'>
-                        <h1>Welcome!</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim 
-                        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut</p>
+                        <h3>Welcome to the</h3>
+                        <h1>Research Portal of the University of Santo Tomas</h1>
+                        <p>This web portal offers a platform for research submissions, feedback, and certificate issuance. Designed for Thomasian researchers and external investigators, it supports effective management of research ethics review.</p>
 
                         <div className='buttons'>
                             <button className='get-started'>Get Started</button>
@@ -65,7 +64,7 @@ export default function Home() {
                     <Card
                     image = {viewIcon}
                     title = 'Ethics Review Guidelines'
-                    content ='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor '
+                    content ='View an overview of the ethics review process and guidelines here.'
                     />
 
                     {/* card 2 */}
@@ -79,14 +78,14 @@ export default function Home() {
                     <Card
                     image = {profileIcon}
                     title = 'How to Create an Account'
-                    content ='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor '
+                    content ='Learn how both Thomasian and external researchers can create an account here.'
                     />
 
                     {/* card 4 */}
                     <Card
                     image = {faqIcon}
                     title = 'Frequent Questions'
-                    content ='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor '
+                    content ='Get answers to frequently asked questions about UST ethics review here.'
                     />
                         </div>
                     </div>
