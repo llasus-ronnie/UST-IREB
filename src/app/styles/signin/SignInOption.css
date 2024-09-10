@@ -133,7 +133,8 @@
 .signin-footer {
   display: flex;
   justify-content: right;
-  padding-right: 6rem;
+  padding-right: 0rem;
+  margin-top: 10px;
 }
 
 .signin-footer a {

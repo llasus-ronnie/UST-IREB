@@ -4,7 +4,6 @@ import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
 
 import "../styles/faqs/faqs.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 import { Container, Row, Accordion } from "react-bootstrap";
 

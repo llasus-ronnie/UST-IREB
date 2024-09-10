@@ -9,9 +9,9 @@ const StepBar = ({ currentPage }) => {
 
   return (
     <div>
-      <Container style={{ paddingTop: "50px" }}>
-        <Row className="nav">
-          <Col className="d-flex flex-column align-items-center text-center colpad">
+      <Container>
+        <Row className="stepbar-nav">
+          <Col className="d-flex flex-column align-items-center text-center stepbar-colpad">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="52"
@@ -39,10 +39,10 @@ const StepBar = ({ currentPage }) => {
                 1
               </text>
             </svg>
-            <p className="navtext">Research Classification</p>
+            <p className="stepbar-navtext">Research Classification</p>
           </Col>
 
-          <Col className="d-flex flex-column align-items-center text-center colpad">
+          <Col className="d-flex flex-column align-items-center text-center stepbar-colpad">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="52"
@@ -70,10 +70,10 @@ const StepBar = ({ currentPage }) => {
                 2
               </text>
             </svg>
-            <p className="navtext">Proposal Metadata</p>
+            <p className="stepbar-navtext">Proposal Metadata</p>
           </Col>
 
-          <Col className="d-flex flex-column align-items-center text-center colpad">
+          <Col className="d-flex flex-column align-items-center text-center stepbar-colpad">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="52"
@@ -101,10 +101,10 @@ const StepBar = ({ currentPage }) => {
                 3
               </text>
             </svg>
-            <p className="navtext">Supplementary Materials</p>
+            <p className="stepbar-navtext">Supplementary Materials</p>
           </Col>
 
-          <Col className="d-flex flex-column align-items-center text-center colpad">
+          <Col className="d-flex flex-column align-items-center text-center stepbar-colpad">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="52"
@@ -132,7 +132,7 @@ const StepBar = ({ currentPage }) => {
                 4
               </text>
             </svg>
-            <p className="navtext">Summary of Proposal</p>
+            <p className="stepbar-navtext">Summary of Proposal</p>
           </Col>
         </Row>
       </Container>

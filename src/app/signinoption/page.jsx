@@ -1,17 +1,18 @@
 "use client";
+//css
+import "../styles/signin/SignInOption.css";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Container, Col, Row, Button } from "react-bootstrap";
 import Head from "next/head";
-import "../styles/signin/SignInOption.css";
+import SignInFooter from "../components/siginin/SignInFooter";
 
 function SignInOption() {
   return (
     <>
       <Head>
         <title>Sign In</title>
-        <style>{"body { background-color: #ECF0F1; }"}</style>
       </Head>
 
       <div className="signin-wrapper">
@@ -57,20 +58,8 @@ function SignInOption() {
 
               <Row className="signin-hr">
                 <hr />
+                <SignInFooter />
               </Row>
-
-              <Container className="signin-footer">
-                <Row>
-                  <a href="/home">
-                    <img
-                      src="/images/signin/home.png"
-                      alt="home"
-                      className="home-icon"
-                    />
-                    Return to Home
-                  </a>
-                </Row>
-              </Container>
             </Col>
           </Row>
         </Container>
