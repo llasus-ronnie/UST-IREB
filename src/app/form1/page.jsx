@@ -39,7 +39,7 @@ function SubmissionFormsP1() {
       event.stopPropagation();
     } else {
       event.preventDefault();
-      window.location.href = "/SubmissionFormsP2";
+      window.location.href = "/form2";
     }
     setValidated(true);
   };

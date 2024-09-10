@@ -18,6 +18,9 @@ function SubmissionFormP3() {
   const [validated, setValidated] = useState(false);
   const currentPage = 3;
 
+  const [fileType, setFileType] = useState("");
+  const [file, setFile] = useState(null);
+
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -48,6 +51,37 @@ function SubmissionFormP3() {
       window.location.href = "/SubmissionFormsCompleted";
     }
   };
+
+  const handleForms = async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    } else{
+      e.preventDefault();
+      const researcherData = {
+        ...JSON.parse(localStorage.getItem("researcherData")),
+        fileType: fileType,
+        file: file,
+      };
+      alert("Data Saved");
+        // Store data in localStorage
+        localStorage.setItem("researcherData", JSON.stringify(researcherData));
+        alert(researcherData);
+      // Navigate to next page
+      window.location.href = "/form3";
+          }
+          setValidated(true);
+
+          const res = await fetch("api/forms", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(researcherData),
+          });
+  }
+  
 
   return (
     <div>
@@ -109,6 +143,7 @@ function SubmissionFormP3() {
                   type="submit"
                   variant="outline-warning"
                   className="formbtn"
+                  onClick={handleForms}
                 >
                   Submit
                 </Button>

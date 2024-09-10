@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { Helmet } from "react-helmet";
 import StepBar from "../components/stepbar/StepBar";
 import Navbar from "../components/navbar/Navbar";
@@ -14,23 +14,92 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
+import Link from "next/link";
+import { useRouter } from 'next/router';
 
 function SubmissionFormsP2() {
   const [validated, setValidated] = useState(false);
   const currentPage = 2;
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      event.preventDefault();
-      window.location.href = "/SubmissionFormsP3";
-    }
-    setValidated(true);
-  };
+  //backend
+  const [primaryFullName, setPrimaryFullName] = useState("");
+  const [primaryEmail, setPrimaryEmail] = useState ("");
+  const [primaryPhoneNumber, setPrimaryPhoneNumber] = useState("");
+  const [primaryInstAffil, setPrimaryInstAffil] = useState("");
 
+  const [additionalFullName, setAdditionalFullName] = useState("");
+  const [additionalEmail, setAdditionalEmail] = useState ("");
+  const [additionalPhoneNumber, setAdditionalPhoneNumber] = useState("");
+  const [additionalInstAffil, setAdditionalInstAffil] = useState("");
+
+  const [title, setTitle] = useState('');
+  const [background, setBackground] = useState('');
+  const [objectives, setObjectives] = useState('');
+  const [outcomes, setOutcomes] = useState('');
+  const [keywords, setKeywords] = useState('');
+  const [studyType, setStudyType] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [primarySponsor, setPrimarySponsor] = useState('');
+  const [secondarySponsor, setSecondarySponsor] = useState('');
+  const [multiCountryResearch, setMultiCountryResearch] = useState('');
+  const [multiSiteResearch, setMultiSiteResearch] = useState('');
+  const [region, setRegion] = useState('');
+  const [researchField, setResearchField] = useState('');
+  const [involvesHumanSubjects, setInvolvesHumanSubjects] = useState('');
+  const [proposalType, setProposalType] = useState('');
+  const [dataCollection, setDataCollection] = useState('');
+  const [reviewedByOtherCommittee, setReviewedByOtherCommittee] = useState('');
+  const [monetarySource, setMonetarySource] = useState('');
+  const [amountInPeso, setAmountInPeso] = useState('');
+  const [otherSource, setOtherSource] = useState('');
+
+  const handleForms = async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    } else{
+      e.preventDefault();
+      const researcherData = {
+        primaryFullName,
+        primaryEmail,
+        primaryPhoneNumber,
+        primaryInstAffil,
+        additionalFullName,
+        additionalEmail,
+        additionalPhoneNumber,
+        additionalInstAffil,
+        title,
+        background,
+        objectives,
+        outcomes,
+        keywords,
+        studyType,
+        startDate,
+        endDate,
+        primarySponsor,
+        secondarySponsor,
+        multiCountryResearch,
+        multiSiteResearch,
+        region,
+        researchField,
+        involvesHumanSubjects,
+        proposalType,
+        dataCollection,
+        reviewedByOtherCommittee,
+        monetarySource,
+        amountInPeso,
+        otherSource
+      };
+      alert("Data Saved");
+        localStorage.setItem("researcherData", JSON.stringify(researcherData));
+        window.location.href = "/form3";
+          }
+          setValidated(true);
+  }
+  
+  //end of backend
   return (
     <div>
       <Helmet>
@@ -40,7 +109,7 @@ function SubmissionFormsP2() {
       <Navbar />
       <StepBar currentPage={currentPage} />
       <Container className="cont1">
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form noValidate validated={validated}>
           <h1 className="headtext">1. Researcher Information</h1>
 
           <Container className="rescont2">
@@ -55,6 +124,8 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+                  value = {primaryFullName}
+                  onChange={(e)=> setPrimaryFullName (e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a name.
@@ -66,6 +137,8 @@ function SubmissionFormsP2() {
                 <FormControl
                   type="email"
                   className="form-control formtext"
+                  value= {primaryEmail}
+                  onChange={(e)=> setPrimaryEmail(e.target.value)}
                   required
                 />
                 <Form.Control.Feedback type="invalid">
@@ -79,6 +152,8 @@ function SubmissionFormsP2() {
                   type="tel"
                   className="form-control formtext"
                   required
+                  value = {primaryPhoneNumber}
+                  onChange={(e)=> setPrimaryPhoneNumber(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a valid phone number.
@@ -93,6 +168,8 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+                  value = {primaryInstAffil}
+                  onChange={(e)=> setPrimaryInstAffil(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide your institutional affiliation.
@@ -107,24 +184,42 @@ function SubmissionFormsP2() {
             <Row>
               <Col xs={12} md={6}>
                 <FormLabel className="formtext">Full Name</FormLabel>
-                <FormControl type="text" className="form-control formtext" />
+                <FormControl 
+                type="text" 
+                className="form-control formtext"
+                value={additionalFullName}
+                onChange={(e)=> setAdditionalFullName(e.target.value)}
+                />
               </Col>
 
               <Col xs={12} md={6}>
                 <FormLabel className="formtext">Email</FormLabel>
-                <FormControl type="email" className="form-control formtext" />
+                <FormControl type="email" className="form-control formtext"
+                value={additionalEmail}
+                onChange={(e)=> setAdditionalEmail(e.target.value)}
+                />
               </Col>
 
               <Col xs={12} md={6}>
                 <FormLabel className="formtext">Phone Number</FormLabel>
-                <FormControl type="tel" className="form-control formtext" />
+                <FormControl 
+                type="number" 
+                className="form-control formtext" 
+                value={additionalPhoneNumber}
+                onChange={(e)=> setAdditionalPhoneNumber(e.target.value)}
+                />
               </Col>
 
               <Col xs={12} md={6}>
                 <FormLabel className="formtext">
                   Institutional Affiliation
                 </FormLabel>
-                <FormControl type="text" className="form-control formtext" />
+                <FormControl 
+                type="text" 
+                className="form-control formtext" 
+                value={additionalInstAffil}
+                onChange={(e)=> setAdditionalInstAffil(e.target.value)}
+                />
               </Col>
             </Row>
 
@@ -159,6 +254,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={title}
+                  onChange={e => setTitle(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a title.
@@ -171,6 +269,8 @@ function SubmissionFormsP2() {
                   as="textarea"
                   className="form-control formtext"
                   required
+                  value={background}
+                  onChange={e => setBackground(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a background.
@@ -183,6 +283,9 @@ function SubmissionFormsP2() {
                   as="textarea"
                   className="form-control formtext"
                   required
+
+                  value={objectives}
+                  onChange={e => setObjectives(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide objectives.
@@ -197,6 +300,8 @@ function SubmissionFormsP2() {
                   as="textarea"
                   className="form-control formtext"
                   required
+                  value={outcomes}
+                  onChange={e => setOutcomes(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide expected outcomes and use of result.
@@ -209,6 +314,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={keywords}
+                  onChange={e => setKeywords(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide keywords.
@@ -227,7 +335,9 @@ function SubmissionFormsP2() {
             <Row>
               <Col xs={12} md={6}>
                 <FormLabel className="formtext">Study Type</FormLabel>
-                <FormSelect required>
+                <FormSelect required
+                value={studyType}
+                onChange={e => setStudyType(e.target.value)}>
                   <option>Qualitative</option>
                   <option>Quantitative</option>
                   <option>Mixed Methods</option>
@@ -243,6 +353,9 @@ function SubmissionFormsP2() {
                   type="date"
                   className="form-control formtext"
                   required
+
+                  value={startDate}
+                  onChange={e => setStartDate(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a start date.
@@ -255,6 +368,9 @@ function SubmissionFormsP2() {
                   type="date"
                   className="form-control formtext"
                   required
+
+                  value={endDate}
+                  onChange={e => setEndDate(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide an end date.
@@ -267,6 +383,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={primarySponsor}
+                  onChange={e => setPrimarySponsor(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a primary sponsor.
@@ -279,6 +398,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={secondarySponsor}
+                  onChange={e => setSecondarySponsor(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a secondary sponsor.
@@ -293,6 +415,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={multiCountryResearch}
+                  onChange={e => setMultiCountryResearch(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please specify if it involves multi-country research.
@@ -305,6 +430,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={multiSiteResearch}
+                  onChange={e => setMultiSiteResearch(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please specify if it involves multi-site research.
@@ -317,6 +445,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={region}
+                  onChange={e => setRegion(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a region.
@@ -329,6 +460,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={researchField}
+                  onChange={e => setResearchField(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a research field.
@@ -343,6 +477,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={involvesHumanSubjects}
+                  onChange={e => setInvolvesHumanSubjects(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please specify if it involves human subjects.
@@ -355,6 +492,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={proposalType}
+                  onChange={e => setProposalType(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a proposal type.
@@ -367,6 +507,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={dataCollection}
+                  onChange={e => setDataCollection(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please specify the data collection method.
@@ -377,7 +520,10 @@ function SubmissionFormsP2() {
                 <FormLabel className="formtext">
                   Proposal Reviewed by Other Committee?
                 </FormLabel>
-                <FormSelect required>
+                <FormSelect required
+                value={reviewedByOtherCommittee}
+                onChange={e => setReviewedByOtherCommittee(e.target.value)}
+                >
                   <option>Yes</option>
                   <option>No</option>
                 </FormSelect>
@@ -393,6 +539,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={monetarySource}
+                  onChange={e => setMonetarySource(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a monetary source.
@@ -407,6 +556,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={amountInPeso}
+                  onChange={e => setAmountInPeso(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide the amount in Philippine Peso.
@@ -419,6 +571,9 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control formtext"
                   required
+
+                  value={otherSource}
+                  onChange={e => setOtherSource(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide another source of funding.
@@ -433,13 +588,14 @@ function SubmissionFormsP2() {
               <Button variant="outline-secondary" className="formbtn">
                 Back
               </Button>
-              <Button
-                type="submit"
-                variant="outline-warning"
-                className="formbtn"
-              >
-                Save & Continue
-              </Button>
+                <Button
+                  type="submit"
+                  variant="outline-warning"
+                  className="formbtn"
+                  onClick={handleForms}
+                >
+                  Save & Continue
+                </Button>
             </Row>
           </Container>
         </Form>
