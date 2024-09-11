@@ -5,16 +5,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import "../../styles/adminnav/adminnav.css";
 
-const IrebNav = () => { 
+const PrNav = () => { 
   const [isOpen, setIsOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleNav = () => {
     setIsOpen(!isOpen);
-  };
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
   };
 
   const handleImageClick = (event) => {
@@ -57,57 +52,16 @@ const IrebNav = () => {
             </Link>
           </li>
 
-          {/* Manage Accounts */}
-          <li className="dropdown">
-            <div className="dropdown-div" >
-              <Image
-                src="/images/adminnav/adminnav-manageaccounts.png"
-                alt="Manage Accounts"
-                width={32}
-                height={32}
-                onClick={handleImageClick}
-              />
-              {isOpen && (
-                <>
-                  <span>Manage Accounts</span>
-                  <span onClick={toggleDropdown} className="dropdown-toggle">
-                    {/* Dropdown toggle icon or text */}
-                  </span>
-                </>
-              )}
-            </div>
-
-            {/* Dropdown Menu */}
-            {isDropdownOpen && isOpen && (
-              <ul className="adminnav-dropdown">
-                <li>
-                  <Link href="/manageaccounts/create" passHref legacyBehavior>
-                    <a>
-                      <span>REC Accounts</span>
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/manageaccounts/view" passHref legacyBehavior>
-                    <a>
-                      <span>External Accounts</span>
-                    </a>
-                  </Link>
-                </li>
-              </ul>
-            )}
-          </li>
-
           <li>
-            <Link href="/reports" passHref>
+            <Link href="/home" passHref>
               <div onClick={handleImageClick}>
                 <Image
-                  src="/images/adminnav/adminnav-reports.png"
-                  alt="Reports"
+                  src="/images/adminnav/adminnav-submissions.png"
+                  alt="Submissions"
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>Reports</span>}
+                {isOpen && <span>Submissions</span>}
               </div>
             </Link>
           </li>
@@ -135,4 +89,4 @@ const IrebNav = () => {
   );
 };
 
-export default IrebNav;
+export default PrNav;
