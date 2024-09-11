@@ -1,0 +1,41 @@
+:root {
+    --primary-color: #121212;
+    --secondary-color: #ecf0f1;
+    --tertiary-color: #fcbf15;
+    --quaternary-color: #ffffff;
+    --poppins: "Poppins", sans-serif;
+    --title-size: 32px;
+    --heading-1-size: 24px;
+    --paragraph-size: 13.6px;
+}
+/* For Side Nav*/
+.adminnav.open ~ .pr-dashboard {
+    margin-left: 280px;
+}
+
+/* Main Content */
+.pr-dashboard {
+    background-color: var(--secondary-color);
+    flex: 1; 
+    transition: margin-left 0.3s ease;
+    height: 100vh;
+    margin: 2rem;
+}
+
+.pr-header {
+    margin-top: 5rem;
+    margin-left: 90px;
+}
+
+.pr-dashboard h1 {
+    font-family: var(--poppins);
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+}
+
+.pr-dashboard p {
+    font-family: var(--poppins);
+    font-size: 20px;
+    margin-top: 0.5rem;
+}

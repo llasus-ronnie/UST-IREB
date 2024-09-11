@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --primary-color: #121212;
+    --secondary-color: #ecf0f1;
+    --tertiary-color: #fcbf15;
+    --quaternary-color: #ffffff;
+    --poppins: "Poppins", sans-serif;
+}
+
+/* Sidebar Container */
+.adminnav {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background-color: var(--primary-color);
+    width: 90px;
+    transition: transform 0.3s ease, width 0.3s ease;
+    z-index: 1000;
+}
+
+.adminnav.open {
+    transform: translateX(0);
+    width: 280px;
+}
+
+/* Admin Content and Logout */
+.adminnav-content,
+.adminnav-logout {
+    display: flex;
+    flex-direction: column;
+    padding-left: 8%;
+}
+
+.adminnav-content {
+    padding-top: 6rem;
+}
+
+.adminnav-logout {
+    margin-top: auto;
+    overflow: hidden;
+}
+
+/* Flex and Alignment */
+.adminnav-content div,
+.adminnav-logout div,
+.adminnav ul li a {
+    display: flex;
+    align-items: center;
+}
+
+.adminnav-content div img,
+.adminnav-logout div img {
+    margin-right: 15px;
+}
+
+/* List and Links */
+.adminnav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.adminnav ul li {
+    margin: 40px 0;
+}
+
+.adminnav ul li a {
+    color: var(--tertiary-color);
+    text-decoration: none;
+    padding: 15px;
+}
+
+.adminnav ul li a:active span,
+.adminnav ul li a:hover span {
+    color: var(--tertiary-color);
+}
+
+.adminnav ul li a span {
+    font-family: var(--poppins);
+    color: var(--quaternary-color);
+    margin-left: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.adminnav ul li a img {
+    width: 32px;
+    height: 32px;
+}
+
+/* Nav Toggle */
+.adminnav-toggle {
+    position: absolute;
+    top: 50%;
+    right: -17px;
+    transform: translateY(-50%);
+    background-color: var(--primary-color);
+    color: #fff;
+    width: 34px;
+    height: 120px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 1rem;
+}
+
+.adminnav-toggle span {
+    font-size: 12px;
+    line-height: 1;
+}
+
+.adminnav:not(.open) .adminnav-content span,
+.adminnav:not(.open) .adminnav-logout span {
+    display: none;
+}
+
+.adminnav.open .adminnav-content span,
+.adminnav.open .adminnav-logout span {
+    display: inline;
+}
