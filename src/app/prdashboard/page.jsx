@@ -9,12 +9,14 @@ function PrDashboard() {
     <div className="page-container">
       <IrebNav />
       <div className="pr-dashboard">
+        <div className="main-content">
 
-        <div className="pr-header">
-          <h1>Primary Reviewer Dashboard</h1>
-          <p>Overview of UST-IREB Submissions and RECs.</p>
+          <div className="pr-header">
+            <h1>Primary Reviewer Dashboard</h1>
+            <p>Overview of UST-IREB Submissions and RECs.</p>
+          </div>
+
         </div>
-
       </div>
     </div>
   );

@@ -5,11 +5,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import "../../styles/adminnav/adminnav.css";
 
-const IrebNav = () => {
+const IrebNav = () => { 
   const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleNav = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   return (
@@ -47,18 +52,44 @@ const IrebNav = () => {
             </Link>
           </li>
 
-          <li>
-            <Link href="/manageaccounts" passHref>
-              <div>
-                <Image
-                  src="/images/adminnav/adminnav-manageaccounts.png"
-                  alt="Manage Accounts"
-                  width={32}
-                  height={32}
-                />
-                {isOpen && <span>Manage Accounts</span>}
-              </div>
-            </Link>
+          {/* Manage Accounts */}
+          <li className="dropdown">
+            <div className="dropdown-div">
+              <Image
+                src="/images/adminnav/adminnav-manageaccounts.png"
+                alt="Manage Accounts"
+                width={32}
+                height={32}
+              />
+              {isOpen && (
+                <>
+                  <span>Manage Accounts</span>
+                  <span onClick={toggleDropdown} className="dropdown-toggle">
+                    {/* Dropdown toggle icon or text */}
+                  </span>
+                </>
+              )}
+            </div>
+
+            {/* Dropdown Menu */}
+            {isDropdownOpen && isOpen && (
+              <ul className="adminnav-dropdown">
+                <li>
+                  <Link href="/manageaccounts/create" passHref legacyBehavior>
+                    <a>
+                      <span>REC Accounts</span>
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/manageaccounts/view" passHref legacyBehavior>
+                    <a>
+                      <span>External Accounts</span>
+                    </a>
+                  </Link>
+                </li>
+              </ul>
+            )}
           </li>
 
           <li>
@@ -74,25 +105,24 @@ const IrebNav = () => {
               </div>
             </Link>
           </li>
-
         </ul>
       </div>
 
       <div className="adminnav-logout">
         <ul>
-        <li>
-          <Link href="/logout" passHref>
-            <div>
-              <Image
-                src="/images/adminnav/adminnav-logout.png"
-                alt="Log Out"
-                width={32}
-                height={32}
-              />
-              {isOpen && <span>Log Out</span>}
-            </div>
-          </Link>
-        </li>
+          <li>
+            <Link href="/logout" passHref>
+              <div>
+                <Image
+                  src="/images/adminnav/adminnav-logout.png"
+                  alt="Log Out"
+                  width={32}
+                  height={32}
+                />
+                {isOpen && <span>Log Out</span>}
+              </div>
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
