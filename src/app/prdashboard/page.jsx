@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import IrebNav from "../components/irebnav/IrebNav";
+import PrNav from "../components/prnav/PrNav";
 import "../styles/prdashboard/PrDashboard.css";
 
 function PrDashboard() {
   return (
     <div className="page-container">
-      <IrebNav />
+      <PrNav />
       <div className="pr-dashboard">
         <div className="main-content">
 
