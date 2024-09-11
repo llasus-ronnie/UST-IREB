@@ -1,9 +1,4 @@
 "use client";
-
-import React, { use, useState } from "react";
-import { Helmet } from "react-helmet";
-import StepBar from "../components/stepbar/StepBar";
-import Navbar from "../components/navbar/Navbar";
 import {
   Container,
   Col,
@@ -13,9 +8,14 @@ import {
   FormSelect,
   FormControl,
   Button,
+  Table,
 } from "react-bootstrap";
+import React, { use, useState } from "react";
+import StepBar from "../components/stepbar/StepBar";
+import Navbar from "../components/navbar/Navbar";
+
 import Link from "next/link";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 function SubmissionFormsP2() {
   const [validated, setValidated] = useState(false);
@@ -23,43 +23,43 @@ function SubmissionFormsP2() {
 
   //backend
   const [primaryFullName, setPrimaryFullName] = useState("");
-  const [primaryEmail, setPrimaryEmail] = useState ("");
+  const [primaryEmail, setPrimaryEmail] = useState("");
   const [primaryPhoneNumber, setPrimaryPhoneNumber] = useState("");
   const [primaryInstAffil, setPrimaryInstAffil] = useState("");
 
   const [additionalFullName, setAdditionalFullName] = useState("");
-  const [additionalEmail, setAdditionalEmail] = useState ("");
+  const [additionalEmail, setAdditionalEmail] = useState("");
   const [additionalPhoneNumber, setAdditionalPhoneNumber] = useState("");
   const [additionalInstAffil, setAdditionalInstAffil] = useState("");
 
-  const [title, setTitle] = useState('');
-  const [background, setBackground] = useState('');
-  const [objectives, setObjectives] = useState('');
-  const [outcomes, setOutcomes] = useState('');
-  const [keywords, setKeywords] = useState('');
-  const [studyType, setStudyType] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [primarySponsor, setPrimarySponsor] = useState('');
-  const [secondarySponsor, setSecondarySponsor] = useState('');
-  const [multiCountryResearch, setMultiCountryResearch] = useState('');
-  const [multiSiteResearch, setMultiSiteResearch] = useState('');
-  const [region, setRegion] = useState('');
-  const [researchField, setResearchField] = useState('');
-  const [involvesHumanSubjects, setInvolvesHumanSubjects] = useState('');
-  const [proposalType, setProposalType] = useState('');
-  const [dataCollection, setDataCollection] = useState('');
-  const [reviewedByOtherCommittee, setReviewedByOtherCommittee] = useState('');
-  const [monetarySource, setMonetarySource] = useState('');
-  const [amountInPeso, setAmountInPeso] = useState('');
-  const [otherSource, setOtherSource] = useState('');
+  const [title, setTitle] = useState("");
+  const [background, setBackground] = useState("");
+  const [objectives, setObjectives] = useState("");
+  const [outcomes, setOutcomes] = useState("");
+  const [keywords, setKeywords] = useState("");
+  const [studyType, setStudyType] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [primarySponsor, setPrimarySponsor] = useState("");
+  const [secondarySponsor, setSecondarySponsor] = useState("");
+  const [multiCountryResearch, setMultiCountryResearch] = useState("");
+  const [multiSiteResearch, setMultiSiteResearch] = useState("");
+  const [region, setRegion] = useState("");
+  const [researchField, setResearchField] = useState("");
+  const [involvesHumanSubjects, setInvolvesHumanSubjects] = useState("");
+  const [proposalType, setProposalType] = useState("");
+  const [dataCollection, setDataCollection] = useState("");
+  const [reviewedByOtherCommittee, setReviewedByOtherCommittee] = useState("");
+  const [monetarySource, setMonetarySource] = useState("");
+  const [amountInPeso, setAmountInPeso] = useState("");
+  const [otherSource, setOtherSource] = useState("");
 
   const handleForms = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
       e.stopPropagation();
-    } else{
+    } else {
       e.preventDefault();
       const researcherData = {
         primaryFullName,
@@ -90,42 +90,38 @@ function SubmissionFormsP2() {
         reviewedByOtherCommittee,
         monetarySource,
         amountInPeso,
-        otherSource
+        otherSource,
       };
       alert("Data Saved");
-        localStorage.setItem("researcherData", JSON.stringify(researcherData));
-        window.location.href = "/form3";
-          }
-          setValidated(true);
-  }
-  
+      localStorage.setItem("researcherData", JSON.stringify(researcherData));
+      window.location.href = "/form3";
+    }
+    setValidated(true);
+  };
+
   //end of backend
   return (
     <div>
-      <Helmet>
-        <title>Submission Forms</title>
-        <style>{"body { background-color: #ECF0F1; }"}</style>
-      </Helmet>
       <Navbar />
-      <StepBar currentPage={currentPage} />
-      <Container className="cont1">
+      <Container className="PIforms-cont1">
+        <StepBar currentPage={currentPage} />
         <Form noValidate validated={validated}>
-          <h1 className="headtext">1. Researcher Information</h1>
+          <h1 className="PIforms-headtext">1. Researcher Information</h1>
 
-          <Container className="rescont2">
+          <Container className="PIforms-rescont2">
             <Row>
-              <h1 className="resconthead">Primary Researcher</h1>
+              <h1 className="PIforms-resconthead">Primary Researcher</h1>
             </Row>
 
             <Row>
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Full Name</FormLabel>
+                <FormLabel className="PIforms-formtext2">Full Name</FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-                  value = {primaryFullName}
-                  onChange={(e)=> setPrimaryFullName (e.target.value)}
+                  value={primaryFullName}
+                  onChange={(e) => setPrimaryFullName(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a name.
@@ -133,12 +129,12 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Email</FormLabel>
+                <FormLabel className="PIforms-formtext2">Email</FormLabel>
                 <FormControl
                   type="email"
-                  className="form-control formtext"
-                  value= {primaryEmail}
-                  onChange={(e)=> setPrimaryEmail(e.target.value)}
+                  className="form-control PIforms-formtext2"
+                  value={primaryEmail}
+                  onChange={(e) => setPrimaryEmail(e.target.value)}
                   required
                 />
                 <Form.Control.Feedback type="invalid">
@@ -147,13 +143,15 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Phone Number</FormLabel>
+                <FormLabel className="PIforms-formtext2">
+                  Phone Number
+                </FormLabel>
                 <FormControl
                   type="tel"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-                  value = {primaryPhoneNumber}
-                  onChange={(e)=> setPrimaryPhoneNumber(e.target.value)}
+                  value={primaryPhoneNumber}
+                  onChange={(e) => setPrimaryPhoneNumber(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a valid phone number.
@@ -161,102 +159,107 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">
+                <FormLabel className="PIforms-formtext2">
                   Institutional Affiliation
                 </FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-                  value = {primaryInstAffil}
-                  onChange={(e)=> setPrimaryInstAffil(e.target.value)}
+                  value={primaryInstAffil}
+                  onChange={(e) => setPrimaryInstAffil(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide your institutional affiliation.
                 </Form.Control.Feedback>
               </Col>
             </Row>
+          </Container>
 
-            <Row style={{ marginTop: "20px" }}>
-              <h1 className="resconthead">Additional Researcher</h1>
+          <Container className="PIforms-rescont2">
+            <Row>
+              <h1 className="PIforms-resconthead">Additional Researcher</h1>
             </Row>
 
             <Row>
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Full Name</FormLabel>
-                <FormControl 
-                type="text" 
-                className="form-control formtext"
-                value={additionalFullName}
-                onChange={(e)=> setAdditionalFullName(e.target.value)}
+                <FormLabel className="PIforms-formtext2">Full Name</FormLabel>
+                <FormControl
+                  type="text"
+                  className="form-control PIforms-formtext2"
+                  value={additionalFullName}
+                  onChange={(e) => setAdditionalFullName(e.target.value)}
                 />
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Email</FormLabel>
-                <FormControl type="email" className="form-control formtext"
-                value={additionalEmail}
-                onChange={(e)=> setAdditionalEmail(e.target.value)}
+                <FormLabel className="PIforms-formtext2">Email</FormLabel>
+                <FormControl
+                  type="email"
+                  className="form-control PIforms-formtext2"
+                  value={additionalEmail}
+                  onChange={(e) => setAdditionalEmail(e.target.value)}
                 />
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Phone Number</FormLabel>
-                <FormControl 
-                type="number" 
-                className="form-control formtext" 
-                value={additionalPhoneNumber}
-                onChange={(e)=> setAdditionalPhoneNumber(e.target.value)}
+                <FormLabel className="PIforms-formtext2">
+                  Phone Number
+                </FormLabel>
+                <FormControl
+                  type="number"
+                  className="form-control PIforms-formtext2"
+                  value={additionalPhoneNumber}
+                  onChange={(e) => setAdditionalPhoneNumber(e.target.value)}
                 />
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">
+                <FormLabel className="PIforms-formtext2">
                   Institutional Affiliation
                 </FormLabel>
-                <FormControl 
-                type="text" 
-                className="form-control formtext" 
-                value={additionalInstAffil}
-                onChange={(e)=> setAdditionalInstAffil(e.target.value)}
+                <FormControl
+                  type="text"
+                  className="form-control PIforms-formtext2"
+                  value={additionalInstAffil}
+                  onChange={(e) => setAdditionalInstAffil(e.target.value)}
                 />
               </Col>
             </Row>
 
             <Row
-              style={{ marginTop: "20px", paddingBottom: "20px" }}
+              style={{ marginTop: "20px" }}
               className="justify-content-around"
             >
-              <Button variant="outline-secondary" className="formbtn">
+              <Button variant="outline-secondary" className="PIforms-formbtn">
                 Cancel
               </Button>
               <Button
                 type="submit"
                 variant="outline-warning"
-                className="formbtn"
+                className="PIforms-formbtn"
               >
                 Add Researcher
               </Button>
             </Row>
           </Container>
 
-          <hr></hr>
-          <h1 className="headtext">2. Title and Summary Proposal</h1>
+          <hr />
+          <h1 className="PIforms-headtext">2. Title and Summary Proposal</h1>
 
-          <Container className="rescont2">
+          <Container className="PIforms-rescont2">
             <Row>
-              <h1 className="resconthead">Research Proposal</h1>
+              <h1 className="PIforms-resconthead">Research Proposal</h1>
             </Row>
             <Row>
               <Col xs={12}>
-                <FormLabel className="formtext">Title</FormLabel>
+                <FormLabel className="PIforms-formtext3">Title</FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext3"
                   required
-
                   value={title}
-                  onChange={e => setTitle(e.target.value)}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a title.
@@ -264,13 +267,13 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12}>
-                <FormLabel className="formtext">Background</FormLabel>
+                <FormLabel className="PIforms-formtext3">Background</FormLabel>
                 <FormControl
                   as="textarea"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext3"
                   required
                   value={background}
-                  onChange={e => setBackground(e.target.value)}
+                  onChange={(e) => setBackground(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a background.
@@ -278,14 +281,13 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12}>
-                <FormLabel className="formtext">Objectives</FormLabel>
+                <FormLabel className="PIforms-formtext3">Objectives</FormLabel>
                 <FormControl
                   as="textarea"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext3"
                   required
-
                   value={objectives}
-                  onChange={e => setObjectives(e.target.value)}
+                  onChange={(e) => setObjectives(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide objectives.
@@ -293,15 +295,15 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12}>
-                <FormLabel className="formtext">
+                <FormLabel className="PIforms-formtext3">
                   Expected Outcomes and Use of Result
                 </FormLabel>
                 <FormControl
                   as="textarea"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext3"
                   required
                   value={outcomes}
-                  onChange={e => setOutcomes(e.target.value)}
+                  onChange={(e) => setOutcomes(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide expected outcomes and use of result.
@@ -309,14 +311,13 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12}>
-                <FormLabel className="formtext">Keywords</FormLabel>
+                <FormLabel className="PIforms-formtext3">Keywords</FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext3"
                   required
-
                   value={keywords}
-                  onChange={e => setKeywords(e.target.value)}
+                  onChange={(e) => setKeywords(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide keywords.
@@ -325,19 +326,23 @@ function SubmissionFormsP2() {
             </Row>
           </Container>
 
-          <hr></hr>
-          <h1 className="headtext">3. Proposal Details</h1>
+          <hr />
+          <h1 className="PIforms-headtext">3. Proposal Details</h1>
 
-          <Container className="rescont2">
+          <Container className="PIforms-rescont2">
             <Row>
-              <h1 className="resconthead">Proposal Details</h1>
+              <h1 className="PIforms-resconthead">Proposal Details</h1>
             </Row>
+
             <Row>
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Study Type</FormLabel>
-                <FormSelect required
-                value={studyType}
-                onChange={e => setStudyType(e.target.value)}>
+                <FormLabel className="PIforms-formtext2">Study Type</FormLabel>
+                <FormSelect
+                  required
+                  value={studyType}
+                  onChange={(e) => setStudyType(e.target.value)}
+                  className="PIforms-formtext2"
+                >
                   <option>Qualitative</option>
                   <option>Quantitative</option>
                   <option>Mixed Methods</option>
@@ -348,14 +353,13 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Start Date</FormLabel>
+                <FormLabel className="PIforms-formtext2">Start Date</FormLabel>
                 <FormControl
                   type="date"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={startDate}
-                  onChange={e => setStartDate(e.target.value)}
+                  onChange={(e) => setStartDate(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a start date.
@@ -363,14 +367,13 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">End Date</FormLabel>
+                <FormLabel className="PIforms-formtext2">End Date</FormLabel>
                 <FormControl
                   type="date"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={endDate}
-                  onChange={e => setEndDate(e.target.value)}
+                  onChange={(e) => setEndDate(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide an end date.
@@ -378,14 +381,15 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Primary Sponsor</FormLabel>
+                <FormLabel className="PIforms-formtext2">
+                  Primary Sponsor
+                </FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={primarySponsor}
-                  onChange={e => setPrimarySponsor(e.target.value)}
+                  onChange={(e) => setPrimarySponsor(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a primary sponsor.
@@ -393,14 +397,15 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Secondary Sponsor</FormLabel>
+                <FormLabel className="PIforms-formtext2">
+                  Secondary Sponsor
+                </FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={secondarySponsor}
-                  onChange={e => setSecondarySponsor(e.target.value)}
+                  onChange={(e) => setSecondarySponsor(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a secondary sponsor.
@@ -408,16 +413,15 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">
+                <FormLabel className="PIforms-formtext2">
                   Multi-country Research
                 </FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={multiCountryResearch}
-                  onChange={e => setMultiCountryResearch(e.target.value)}
+                  onChange={(e) => setMultiCountryResearch(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please specify if it involves multi-country research.
@@ -425,14 +429,15 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Multi-site Research</FormLabel>
+                <FormLabel className="PIforms-formtext2">
+                  Multi-site Research
+                </FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={multiSiteResearch}
-                  onChange={e => setMultiSiteResearch(e.target.value)}
+                  onChange={(e) => setMultiSiteResearch(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please specify if it involves multi-site research.
@@ -440,14 +445,13 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Region</FormLabel>
+                <FormLabel className="PIforms-formtext2">Region</FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={region}
-                  onChange={e => setRegion(e.target.value)}
+                  onChange={(e) => setRegion(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a region.
@@ -455,14 +459,15 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Research Field</FormLabel>
+                <FormLabel className="PIforms-formtext2">
+                  Research Field
+                </FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={researchField}
-                  onChange={e => setResearchField(e.target.value)}
+                  onChange={(e) => setResearchField(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a research field.
@@ -470,16 +475,15 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">
+                <FormLabel className="PIforms-formtext2">
                   Involves Human Subjects
                 </FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={involvesHumanSubjects}
-                  onChange={e => setInvolvesHumanSubjects(e.target.value)}
+                  onChange={(e) => setInvolvesHumanSubjects(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please specify if it involves human subjects.
@@ -487,14 +491,15 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Proposal Type</FormLabel>
+                <FormLabel className="PIforms-formtext2">
+                  Proposal Type
+                </FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={proposalType}
-                  onChange={e => setProposalType(e.target.value)}
+                  onChange={(e) => setProposalType(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a proposal type.
@@ -502,14 +507,15 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Data Collection</FormLabel>
+                <FormLabel className="PIforms-formtext2">
+                  Data Collection
+                </FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={dataCollection}
-                  onChange={e => setDataCollection(e.target.value)}
+                  onChange={(e) => setDataCollection(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please specify the data collection method.
@@ -517,12 +523,13 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">
+                <FormLabel className="PIforms-formtext2">
                   Proposal Reviewed by Other Committee?
                 </FormLabel>
-                <FormSelect required
-                value={reviewedByOtherCommittee}
-                onChange={e => setReviewedByOtherCommittee(e.target.value)}
+                <FormSelect
+                  required
+                  value={reviewedByOtherCommittee}
+                  onChange={(e) => setReviewedByOtherCommittee(e.target.value)}
                 >
                   <option>Yes</option>
                   <option>No</option>
@@ -534,14 +541,15 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Monetary Source</FormLabel>
+                <FormLabel className="PIforms-formtext2">
+                  Monetary Source
+                </FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={monetarySource}
-                  onChange={e => setMonetarySource(e.target.value)}
+                  onChange={(e) => setMonetarySource(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a monetary source.
@@ -549,16 +557,15 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">
+                <FormLabel className="PIforms-formtext2">
                   Amount in Philippine Peso
                 </FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={amountInPeso}
-                  onChange={e => setAmountInPeso(e.target.value)}
+                  onChange={(e) => setAmountInPeso(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide the amount in Philippine Peso.
@@ -566,38 +573,384 @@ function SubmissionFormsP2() {
               </Col>
 
               <Col xs={12} md={6}>
-                <FormLabel className="formtext">Other Source</FormLabel>
+                <FormLabel className="PIforms-formtext2">
+                  Other Source
+                </FormLabel>
                 <FormControl
                   type="text"
-                  className="form-control formtext"
+                  className="form-control PIforms-formtext2"
                   required
-
                   value={otherSource}
-                  onChange={e => setOtherSource(e.target.value)}
+                  onChange={(e) => setOtherSource(e.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide another source of funding.
                 </Form.Control.Feedback>
               </Col>
             </Row>
+          </Container>
 
-            <Row
-              style={{ marginTop: "20px", paddingBottom: "20px" }}
-              className="justify-content-around"
-            >
-              <Button variant="outline-secondary" className="formbtn">
-                Back
-              </Button>
+          <hr />
+
+          <h1 className="PIforms-headtext">
+            4. Sources of Monetary or Material Support
+          </h1>
+
+          <Container className="PIforms-rescont2">
+            <Row>
+              <h1 className="PIforms-resconthead">
+                Sources of Monetary or Material Support
+              </h1>
+            </Row>
+            <Row>
+              <Col xs={12} md={6}>
+                <FormLabel className="PIforms-formtext2">
+                  Monetary Source
+                </FormLabel>
+                <FormControl
+                  type="text"
+                  className="form-control PIforms-formtext2"
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please provide a monetary source.
+                </Form.Control.Feedback>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <FormLabel className="PIforms-formtext2">
+                  Amount in Philippine Peso (Php)
+                </FormLabel>
+                <FormControl
+                  type="number"
+                  className="form-control PIforms-formtext2"
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please provide an amount.
+                </Form.Control.Feedback>
+              </Col>
+
+              <Row
+                style={{ marginTop: "20px" }}
+                className="justify-content-around"
+              >
+                <Button variant="outline-secondary" className="PIforms-formbtn">
+                  Remove
+                </Button>
                 <Button
                   type="submit"
                   variant="outline-warning"
-                  className="formbtn"
-                  onClick={handleForms}
+                  className="PIforms-formbtn"
                 >
-                  Save & Continue
+                  Add More Source
                 </Button>
+              </Row>
             </Row>
           </Container>
+
+          <hr />
+
+          <h1 className="PIforms-headtext">5. Assessment Questionnaire</h1>
+
+          <Container className="PIforms-rescont2">
+            <Row>
+              <h1 className="PIforms-resconthead">Assessment Questionnaire</h1>
+            </Row>
+
+            <Table className="PIforms-table" striped>
+              <thead>
+                <tr>
+                  <th>Does the proposed research include research subjects:</th>
+                  <th>Yes</th>
+                  <th>No</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    Whose identity may be revealed during the research process?
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="identity" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="identity" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Unable to consent?</td>
+                  <td>
+                    <Form.Check type="radio" name="consent" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="consent" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Under 18 years old?</td>
+                  <td>
+                    <Form.Check type="radio" name="under18" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="under18" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    In a dependent relationship with any of the research team?{" "}
+                    <br />
+                    (e.g. a researcher is the treating physician of one of the
+                    research participants)
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="dependent" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="dependent" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>From an ethnic minority group?</td>
+                  <td>
+                    <Form.Check type="radio" name="ethnic" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="ethnic" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Wtih intellectual or mental impairment?</td>
+                  <td>
+                    <Form.Check type="radio" name="intellectual" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="intellectual" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Who are pregnant?</td>
+                  <td>
+                    <Form.Check type="radio" name="pregnant" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="pregnant" value="no" />
+                  </td>
+                </tr>
+              </tbody>
+
+              <thead>
+                <tr>
+                  <th>Does the research include:</th>
+                  <th>{""}</th>
+                  <th>{""}</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>A new treatment, medical procedure or test?</td>
+                  <td>
+                    <Form.Check type="radio" name="treatment" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="treatment" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Collection of biological samples including tissue
+                    extraction?
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="biological" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="biological" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Use of ionizing radiation?</td>
+                  <td>
+                    <Form.Check type="radio" name="radiation" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="radiation" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Pain or psychological distress?</td>
+                  <td>
+                    <Form.Check type="radio" name="distress" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="distress" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Inducements?</td>
+                  <td>
+                    <Form.Check type="radio" name="inducements" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="inducements" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Collection of sensitive information?</td>
+                  <td>
+                    <Form.Check type="radio" name="sensitive" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="sensitive" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Deception?</td>
+                  <td>
+                    <Form.Check type="radio" name="deception" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="deception" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Assisted reproductive technology?</td>
+                  <td>
+                    <Form.Check type="radio" name="reproductive" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="reproductive" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Human genetic or genomic studies?</td>
+                  <td>
+                    <Form.Check type="radio" name="genetic" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="genetic" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Stemcell research?</td>
+                  <td>
+                    <Form.Check type="radio" name="stemcell" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="stemcell" value="no" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Biosafety issue?</td>
+                  <td>
+                    <Form.Check type="radio" name="biosafety" value="yes" />
+                  </td>
+                  <td>
+                    <Form.Check type="radio" name="biosafety" value="no" />
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+
+            <Row style={{ marginTop: "20px" }}>
+              <Col>
+                <h2>Potential Risks:</h2>
+                <FormLabel className="PIforms-formtext2">
+                  Level of Risk involved in the Research
+                </FormLabel>
+                <FormSelect className="PIforms-select2" required />
+
+                <br />
+
+                <p>Risks apply to</p>
+                <Form.Check type="checkbox" label="Research Team" />
+                <Form.Check type="checkbox" label="Research Subjects" />
+                <Form.Check type="checkbox" label="Wider Community" />
+              </Col>
+
+              <Col>
+                <h2>Potential Benefits:</h2>
+                <p className="PIforms-formtext2">
+                  Benefits from the research project
+                </p>
+
+                <Table className="PIforms-table">
+                  <tbody>
+                    <tr>
+                      <td>Multi-institutional Project</td>
+                      <td>
+                        <Form.Check
+                          inline
+                          type="radio"
+                          label="Yes"
+                          name="multi"
+                        />
+                      </td>
+                      <td>
+                        <Form.Check
+                          inline
+                          type="radio"
+                          label="No"
+                          name="multi"
+                        />
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>Conflict of Interest</td>
+                      <td>
+                        <Form.Check
+                          inline
+                          type="radio"
+                          label="Yes"
+                          name="interest"
+                        />
+                      </td>
+                      <td>
+                        <Form.Check
+                          inline
+                          type="radio"
+                          label="No"
+                          name="interest"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
+
+                <Form.Check
+                  type="checkbox"
+                  label="Direct benefit from participants"
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Generalizable knowledge about participants’ condition or disorder"
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Generalizable knowledge about diseases or condition under study"
+                />
+              </Col>
+            </Row>
+          </Container>
+
+          <Row
+            style={{ marginTop: "20px", paddingBottom: "20px" }}
+            className="justify-content-around"
+          >
+            <Button variant="outline-secondary" className="PIforms-formbtn">
+              Back
+            </Button>
+            <Button
+              type="submit"
+              variant="outline-warning"
+              className="PIforms-formbtn"
+              onClick={handleForms}
+            >
+              Save & Continue
+            </Button>
+          </Row>
         </Form>
       </Container>
     </div>

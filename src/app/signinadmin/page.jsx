@@ -14,70 +14,75 @@ import USTLogo from "../../../public/images/signin/USTLogo.png";
 import "../styles/signin/SignInAdmin.css";
 
 export default function SignIn() {
-const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+  const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
 
-const handleRecaptchaChange = (value) => {
+  const handleRecaptchaChange = (value) => {
     setIsRecaptchaVerified(!!value);
-};
+  };
 
-return (
+  return (
     <>
-    <div className="admin-signin-container">
-        <Image src={bgAdmin} alt="Background" layout="fill" className="admin-bg" />
-        
+      <div className="admin-signin-container">
+        <Image
+          src={bgAdmin}
+          alt="Background"
+          layout="fill"
+          className="admin-bg"
+        />
+
         <div className="admin-signin-logo-container">
-        <Image src={USTLogo} alt="UST Logo" className="admin-logo" />
-        <h1 className="admin-title">
-            <b>UST IREB</b> 
+          <Image src={USTLogo} alt="UST Logo" className="admin-logo" />
+          <h1 className="admin-title">
+            <b>UST IREB</b>
             <br />
             <span className="research-portal-text">Research Portal</span>
-        </h1>
-
+          </h1>
         </div>
 
         <div className="admin-signin-box">
-        <h1 className="admin-signin-title">Sign In</h1>
-        <br />
-        <p className="admin-signin-text">
-            Welcome, Admin! To access role features in the web portal, sign in with your UST Google Account.
-        </p>
+          <h1 className="admin-signin-title">Sign In</h1>
+          <br />
+          <p className="admin-signin-text">
+            Welcome, Admin! To access role features in the web portal, sign in
+            with your UST Google Account.
+          </p>
 
-        <button
+          <button
             onClick={() => signIn("google")}
             className="admin-google-btn"
             disabled={!isRecaptchaVerified}
-        >
+          >
             <Image
-            src={GoogleLogo}
-            alt="Google Logo"
-            className="google-logo"
-            width={20}
-            height={20}
+              src={GoogleLogo}
+              alt="Google Logo"
+              className="google-logo"
+              width={20}
+              height={20}
             />
             Continue with Google
-        </button>
+          </button>
 
-        <div className="recaptcha-wrapper">
+          <div className="recaptcha-wrapper">
             <ReCAPTCHA
-            className="admin-recaptcha"
-            sitekey="YOUR_RECAPTCHA_SITE_KEY"
-            size="normal"
-            onChange={handleRecaptchaChange}
+              className="admin-recaptcha"
+              sitekey="6LfgAgkqAAAAAC_WvkqfnkIF-NUvwHnVOPyDkD2G"
+              size="normal"
+              onChange={handleRecaptchaChange}
             />
-        </div>
+          </div>
 
-        <hr />
+          <hr />
 
-        <div className="admin-signin-footer">
+          <div className="admin-signin-footer">
             <p>
-            Need help signing in? <a href="#">Learn More</a>
+              Need help signing in? <a href="#">Learn More</a>
             </p>
             <p>
-            <a href="#">Return to Home</a>
+              <a href="#">Return to Home</a>
             </p>
+          </div>
         </div>
-        </div>
-    </div>
+      </div>
     </>
-);
+  );
 }
