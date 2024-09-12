@@ -1,0 +1,134 @@
+/* Container that wraps the entire dashboard */
+.dashboardContainer {
+    padding: 20px;
+    background-color: #f4f4f9;
+    margin-left: 200px; /* Move content to the right, leaving space for the sidebar */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Header */
+.header {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.header p {
+    font-size: 1.1rem;
+    color: #777;
+}
+
+/* Stats and Graph Section */
+.statsSection {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 20px; /* Added gap between the graph and stat boxes */
+}
+
+/* Submissions Graph */
+.submissionsGraph {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    flex: 2;
+    width: 100%; /* Full width for the graph */
+}
+
+/* Stats Boxes */
+.stats {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 15px; /* Gap between stat boxes */
+}
+
+.statBox {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center text in boxes */
+}
+
+.statBox h4 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.statBox p {
+    font-size: 1.1rem;
+    color: #777;
+}
+
+/* REC Status Section */
+.recStatusSection {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+.recStatusSection h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* REC Table */
+.recTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.recTable th, .recTable td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    color: #333;
+}
+
+.recTable th {
+    background-color: #f4f4f9;
+    font-weight: bold;
+}
+
+.recTable td {
+    background-color: #fff;
+}
+
+.viewButton {
+    background-color: #ffcc00;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+}
+
+.viewButton:hover {
+    background-color: #e6b800;
+}
+
+/* Table Column Alignment */
+.recTable th:first-child, 
+.recTable td:first-child {
+    width: 30%;
+}
+
+.recTable th:last-child,
+.recTable td:last-child {
+    width: 10%;
+}
