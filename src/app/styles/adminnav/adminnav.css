@@ -128,7 +128,7 @@
     font-family: var(--poppins);
     font-size: 1rem;
     text-decoration: none;
-    padding: 0.625rem 0.3125rem 0.3125rem 3.75rem !important;
+    padding: 0.2rem 0.3125rem 0.2rem 3.9rem !important;
     transition: color 0.1s ease, background-color 0.1s ease;
 }
 
@@ -148,6 +148,11 @@
 .dropdown-toggle {
     cursor: pointer;
     margin-left: 0.9375rem;
+}
+
+.dropdown-toggle:hover {
+    color: var(--tertiary-color);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Nav Toggle */

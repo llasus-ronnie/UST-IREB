@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --primary-color: #121212;
+    --secondary-color: #ecf0f1;
+    --tertiary-color: #fcbf15;
+    --quaternary-color: #ffffff;
+    --poppins: "Poppins", sans-serif;
+    --title-size: 1.875rem;
+    --heading-1-size: 1.5rem;
+    --paragraph-size: 1rem;
+}
+
+/* General Page Container */
+.page-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Side Nav */
+.adminnav.open ~ .ireb-manageaccounts {
+    margin-left: 18.75rem;
+}
+
+/* IREB Manage Accounts */
+.ireb-manageaccounts {
+    flex-grow: 1;
+    transition: margin-left 0.3s ease;
+    background-color: var(--secondary-color);
+    height: 100vh;
+    margin-left: 5.625rem;
+}
+
+/* Main Content Div for IREB Manage Accounts */
+.main-content {
+    font-family: var(--poppins);
+    color: var(--primary-color);
+    max-width: 81.25rem;
+    height: 100%;
+    margin: 1rem auto;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* Header */
+.header-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.UserLoggedIn {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}  
+
+.header {
+    margin-top: 0.2rem;
+    flex-grow: 1;
+}
+
+/* Filter Section */
+.filter-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+}
+
+.search {
+    margin-right: 2rem;
+}
+
+.search-bar {
+    max-width: 500px;
+    min-width: 200px;
+    width: 100%;
+}

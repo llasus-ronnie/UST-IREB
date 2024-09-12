@@ -43,8 +43,20 @@
 }
 
 /* Header */
+
+.pr-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.UserLoggedIn {
+  flex-shrink: 0;
+}
+
 .pr-header {
     margin-top: 0.2rem;
+    flex-grow: 1;
 }
 
 .pr-header h1 {
@@ -145,7 +157,7 @@
 
 /* Tables */
 .tables {
-    margin-top: 3rem;
+    margin: 3rem 0 5rem 0;
   }
   
   .newly-assigned {
@@ -207,7 +219,7 @@
   
   table {
     width: 100%;
-    margin-top: 1rem;
+    margin: 1rem;
     border-collapse: collapse;
     font-family: var(--poppins);
     background-color: var(--quaternary-color);

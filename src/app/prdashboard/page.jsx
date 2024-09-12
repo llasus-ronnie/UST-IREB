@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import PrNav from "../components/prnav/PrNav";
+import PrNav from "../components/navbaradmin/PrNav";
 import SearchBar from "../components/searchbar/SearchBar";
+import UserLoggedIn from "../components/userloggedin/UserLoggedIn";
 import "../styles/prdashboard/PrDashboard.css";
 
 function PrDashboard() {
@@ -19,10 +20,14 @@ function PrDashboard() {
       <PrNav />
       <div className="pr-dashboard">
         <div className="main-content">
+
+        <div className="pr-header-container">
           <div className="pr-header">
             <h1>Primary Reviewer Dashboard</h1>
             <p>Overview of UST-IREB Submissions and RECs.</p>
           </div>
+          <UserLoggedIn />
+        </div>
 
           <div className="cards">
             <div className="card">
