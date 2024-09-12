@@ -201,3 +201,15 @@ tr:hover {
 .me-table td .archive-icon {
     color: #e74c3c;
 }
+
+  /* Responsiveness */
+
+  /* Mobile */
+  @media only screen and (max-width: 576px) {
+
+  }
+
+  /* Tablets */
+  @media only screen and (min-width: 577px) and (max-width: 768px) {
+    
+  }

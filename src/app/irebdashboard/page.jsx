@@ -3,6 +3,7 @@
 //dependencies
 import React from "react";
 import IrebNav from "../components/navbaradmin/IrebNav";
+import UserLoggedIn from "../components/userloggedin/UserLoggedIn";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -58,38 +59,52 @@ function IrebDashboard() {
 
   return (
     <>
+    <div className="twocol-container">
       <IrebNav />
-      <div className={styles.dashboardContainer}>
-        <div className={styles.header}>
-        <h1>IREB Dashboard</h1>
-        <p>Overview of UST-IREB Submissions and RECs</p>
+      <div className="ireb-dashboard">
+        <div className="adminmain-content">
+
+        <div className="ireb-header-container">
+          <div className="ireb-header">
+            <h1>IREB Dashboard</h1>
+            <p>Overview of UST-IREB Submissions and RECs.</p>
+          </div>
+          <UserLoggedIn />
         </div>
 
-        <div className={styles.statsSection}>
-          <div className={styles.submissionsGraph}>
-            <Bar data={data} options={options} />
+        <div className="twocol-container">
+          <div className="ireb-chart-container">
+            {/* Insert Chart */}
+            <p>ireb chart goes here</p>
           </div>
-          <div className={styles.stats}>
-            <div className={styles.statBox}>
-              <h4>Total Accounts</h4>
-              <p>390 Investigators</p>
+
+          <div className="admindashboard-cards">
+            <div className="admindashboard-card">
+              <h2>Newly Assigned</h2>
+              <h3>100</h3>
+              <p>Submissions</p>
             </div>
-            <div className={styles.statBox}>
-              <h4>New Submissions</h4>
-              <p>17 Submissions</p>
+            <div className="admindashboard-card">
+              <h2>Resubmission</h2>
+              <h3>100</h3>
+              <p>Entries</p>
             </div>
-            <div className={styles.statBox}>
-              <h4>Ongoing Review</h4>
-              <p>53 Research</p>
+            <div className="admindashboard-card">
+              <h2>For Final Review</h2>
+              <h3>100</h3>
+              <p>Researches</p>
             </div>
-            <div className={styles.statBox}>
-              <h4>Certificates Released</h4>
-              <p>288 Certificates</p>
+            <div className="admindashboard-card">
+              <h2>Total Assigned</h2>
+              <h3>100</h3>
+              <p>Tasks</p>
             </div>
           </div>
+
         </div>
 
-        <div className={styles.recStatusSection}>
+
+          <div className="rec-status-section">
           <h3>REC Status</h3>
           <table className={styles.recTable}>
             <thead>
@@ -132,7 +147,10 @@ function IrebDashboard() {
             </tbody>
           </table>
         </div>
+
+        </div>
       </div>
+    </div>
     </>
   );
 }
