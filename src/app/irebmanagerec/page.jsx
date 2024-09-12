@@ -28,7 +28,7 @@ function IrebManageExternal() {
 
             <div className="acctype-container">
               <div className="acctype">
-                <h2>External Accounts</h2>
+                <h2>REC Accounts</h2>
               </div>
 
               <div className="acctype-toggles">
@@ -48,16 +48,16 @@ function IrebManageExternal() {
                     <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Affiliation</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>1</td>
-                    <td>Antonio, Ronielle</td>
-                    <td>rhonantonio@gmail.com</td>
-                    <td>National University Clark</td>
+                    <td>CICS</td>
+                    <td>cics.rec@ust.edu.ph</td>
+                    <td>PHREB Accredited sana</td>
                     <td>
                     <button class="edit-icon">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">

@@ -1,7 +1,7 @@
 .searchForm {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.625rem;
   width: auto;
 }
 
@@ -11,8 +11,8 @@
 }
 
 .searchInput {
-  padding: 8px 22px;
-  padding-right: 40px;
+  padding: 0.5rem 1.375rem;
+  padding-right: 2.5rem;
   font-size: 16px;
   border-radius: 10px;
   width: 100%;
@@ -21,10 +21,10 @@
 
 .searchIcon {
   position: absolute;
-  right: 10px;
+  right: 0.625rem;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
   color: #808080;
-  margin-right: 10px;
+  margin-right: 0.625rem;
 }

@@ -13,7 +13,7 @@ const UserInfo = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const userName = "John Doe";
+  const userName = "IREB Chair";
   const profileImage = "/images/userloggedin/user-placeholder.png";
 
   return (

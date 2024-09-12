@@ -12,7 +12,7 @@
 }
 
 /* General Page Container */
-.page-container {
+.adminpage-container {
     display: flex;
     height: 100vh;
 }
@@ -32,7 +32,7 @@
 }
 
 /* Main Content Div for IREB Manage Accounts */
-.main-content {
+.adminmain-content {
     font-family: var(--poppins);
     color: var(--primary-color);
     max-width: 81.25rem;
@@ -43,7 +43,7 @@
 }
 
 /* Header */
-.header-container {
+.adminheader-container {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -62,20 +62,142 @@
     flex-grow: 1;
 }
 
-/* Filter Section */
-.filter-section {
-    display: flex;
+/* Manage External */
+.manage-external {
+    display: column;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 0.625rem;
     flex-wrap: nowrap;
+    position: relative;
 }
 
-.search {
-    margin-right: 2rem;
+.me-title {
+    background-color: var(--tertiary-color);
+    color: #121212;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 1rem;
+    margin: 2rem 2rem 1rem 2rem;
+    font-size: 2rem;
+    font-weight: bold;
+    border-radius: 0.938rem;
+}
+
+.acctype-container {
+    background-color: var(--quaternary-color);
+    justify-content: left;
+    align-items: center;
+    display: flex;
+    padding: 1rem 1rem 1rem 3rem;
+    margin: 1.5rem 2rem 2rem 2rem;
+    font-size: 1.8rem;
+    font-weight: bold;
+    border-radius: 0.938rem;
+}
+
+.acctype {
+    min-width: 18rem;
+}
+.acctype h2 {
+    color: var(--tertiary-color);
+}
+
+/* Filter Section */
+
+.acctype-toggles {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 0.5rem 0 3rem;
 }
 
 .search-bar {
-    max-width: 500px;
-    min-width: 200px;
+    font-weight: 400;
+    max-width: 21.875rem;
+    min-width: 12.5rem;
     width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.me-buttonfilter {
+    padding: 0.7rem 1.2rem 0.7rem 1.2rem;
+    margin-left: 1rem;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 0.625rem;
+    cursor: pointer;
+    color: #369AD2;
+    background-color: var(--secondary-color);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.me-buttonaddacc {
+    padding: 0.7rem 1.2rem 0.7rem 1.2rem;
+    margin-left: 1rem;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 0.625rem;
+    cursor: pointer;
+    color: var(--quaternary-color);
+    background-color: #369AD2;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Manage External Table */
+
+.manageexternal-table {
+    background-color: var(--quaternary-color);
+    justify-content: left;
+    align-items: center;
+    display: flex;
+    margin: 1.5rem 2rem 2rem 2rem;
+    border-radius: 0.938rem;
+}
+
+.me-table {
+    width: 100%;
+    margin: 1.5rem 2rem 2rem 2rem;
+    border-collapse: collapse;
+    font-family: var(--poppins);
+    background-color: var(--quaternary-color);
+    border-radius: 0.938rem;
+}
+
+th, td {
+    padding: 0.625rem 0.313rem 0.625rem 1.25rem;
+    text-align: left;
+    border-bottom: 0.063rem solid #ddd;
+}
+
+th {
+    color: var(--primary-color);
+}
+
+tr:hover {
+    background-color: #f2f2f2;
+}
+
+/* Action Column */
+.me-table td .edit-icon, 
+.me-table td .archive-icon {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+    color: var(--primary-color);
+    transition: color 0.2s ease;
+}
+
+.me-table td .edit-icon {
+    color: var(--tertiary-color);
+}
+
+.me-table td .archive-icon {
+    color: #e74c3c;
 }
