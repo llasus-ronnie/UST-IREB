@@ -672,28 +672,58 @@ function SubmissionFormsP2() {
                     Whose identity may be revealed during the research process?
                   </td>
                   <td>
-                    <Form.Check type="radio" name="identity" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="identity"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="identity" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="identity"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Unable to consent?</td>
                   <td>
-                    <Form.Check type="radio" name="consent" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="consent"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="consent" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="consent"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Under 18 years old?</td>
                   <td>
-                    <Form.Check type="radio" name="under18" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="under18"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="under18" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="under18"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
@@ -704,37 +734,77 @@ function SubmissionFormsP2() {
                     research participants)
                   </td>
                   <td>
-                    <Form.Check type="radio" name="dependent" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="dependent"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="dependent" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="dependent"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>From an ethnic minority group?</td>
                   <td>
-                    <Form.Check type="radio" name="ethnic" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="ethnic"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="ethnic" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="ethnic"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Wtih intellectual or mental impairment?</td>
                   <td>
-                    <Form.Check type="radio" name="intellectual" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="intellectual"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="intellectual" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="intellectual"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Who are pregnant?</td>
                   <td>
-                    <Form.Check type="radio" name="pregnant" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="pregnant"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="pregnant" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="pregnant"
+                      value="no"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -751,10 +821,20 @@ function SubmissionFormsP2() {
                 <tr>
                   <td>A new treatment, medical procedure or test?</td>
                   <td>
-                    <Form.Check type="radio" name="treatment" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="treatment"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="treatment" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="treatment"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
@@ -763,91 +843,191 @@ function SubmissionFormsP2() {
                     extraction?
                   </td>
                   <td>
-                    <Form.Check type="radio" name="biological" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="biological"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="biological" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="biological"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Use of ionizing radiation?</td>
                   <td>
-                    <Form.Check type="radio" name="radiation" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="radiation"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="radiation" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="radiation"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Pain or psychological distress?</td>
                   <td>
-                    <Form.Check type="radio" name="distress" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="distress"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="distress" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="distress"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Inducements?</td>
                   <td>
-                    <Form.Check type="radio" name="inducements" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="inducements"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="inducements" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="inducements"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Collection of sensitive information?</td>
                   <td>
-                    <Form.Check type="radio" name="sensitive" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="sensitive"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="sensitive" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="sensitive"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Deception?</td>
                   <td>
-                    <Form.Check type="radio" name="deception" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="deception"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="deception" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="deception"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Assisted reproductive technology?</td>
                   <td>
-                    <Form.Check type="radio" name="reproductive" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="reproductive"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="reproductive" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="reproductive"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Human genetic or genomic studies?</td>
                   <td>
-                    <Form.Check type="radio" name="genetic" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="genetic"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="genetic" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="genetic"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Stemcell research?</td>
                   <td>
-                    <Form.Check type="radio" name="stemcell" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="stemcell"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="stemcell" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="stemcell"
+                      value="no"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Biosafety issue?</td>
                   <td>
-                    <Form.Check type="radio" name="biosafety" value="yes" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="biosafety"
+                      value="yes"
+                    />
                   </td>
                   <td>
-                    <Form.Check type="radio" name="biosafety" value="no" />
+                    <Form.Check
+                      required
+                      type="radio"
+                      name="biosafety"
+                      value="no"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -860,6 +1040,9 @@ function SubmissionFormsP2() {
                   Level of Risk involved in the Research
                 </FormLabel>
                 <FormSelect className="PIforms-select2" required />
+                <Form.Control.Feedback type="invalid">
+                  Please select the level of risk.
+                </Form.Control.Feedback>
 
                 <br />
 
@@ -885,6 +1068,7 @@ function SubmissionFormsP2() {
                           type="radio"
                           label="Yes"
                           name="multi"
+                          required
                         />
                       </td>
                       <td>
@@ -893,6 +1077,7 @@ function SubmissionFormsP2() {
                           type="radio"
                           label="No"
                           name="multi"
+                          required
                         />
                       </td>
                     </tr>
@@ -905,6 +1090,7 @@ function SubmissionFormsP2() {
                           type="radio"
                           label="Yes"
                           name="interest"
+                          required
                         />
                       </td>
                       <td>
@@ -913,6 +1099,7 @@ function SubmissionFormsP2() {
                           type="radio"
                           label="No"
                           name="interest"
+                          required
                         />
                       </td>
                     </tr>
