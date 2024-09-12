@@ -17,17 +17,17 @@ const UserInfo = () => {
   const profileImage = "/images/userloggedin/user-placeholder.png";
 
   return (
-    <div className="container">
+    <div className="uli-container">
       <Image
         src={profileImage}
         alt="Profile"
         width={40}
         height={40}
-        className="image"
+        className="uli-image"
       />
-      <div className="textContainer">
-        <div className="name">{userName}</div>
-        <div className="time">
+      <div className="uli-textContainer">
+        <div className="uli-name">{userName}</div>
+        <div className="uli-time">
           {currentTime.toLocaleDateString()} {currentTime.toLocaleTimeString()}
         </div>
       </div>

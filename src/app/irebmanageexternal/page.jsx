@@ -18,7 +18,7 @@ function IrebManageExternal() {
         <div className="main-content">
 
         <div className="header-container">
-          <UserLoggedIn class="user-loggedin"/>
+          <UserLoggedIn className="user-loggedin"/>
         </div>
 
         </div>
