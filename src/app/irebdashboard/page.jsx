@@ -87,12 +87,14 @@ function IrebDashboard() {
 
             <br />
             <br />
-
+            
+            {/* Chart */}
             <div className="twocol-container">
               <div className="ireb-chart-container">
                 <Bar data={chartData} options={options} />
               </div>
 
+            {/* Submission Cards */}
               <div className="admindashboard-cards">
                 <div className="admindashboard-card">
                   <h2>Newly Assigned</h2>
