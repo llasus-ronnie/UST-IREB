@@ -2,6 +2,7 @@
 
 import React from "react";
 import PrNav from "../components/navbaradmin/PrNav";
+import PrNavMobile from "../components/navbaradmin/PrNavMobile";
 import SearchBar from "../components/searchbar/SearchBar";
 import UserLoggedIn from "../components/userloggedin/UserLoggedIn";
 import "../styles/prdashboard/PrDashboard.css";
@@ -17,7 +18,12 @@ function PrDashboard() {
 
   return (
     <div className="adminpage-container">
-      <PrNav />
+      <div className="prnav-web">
+        <PrNav />
+      </div>
+      <div className="prnav-mobile">
+        <PrNavMobile />
+      </div>
       <div className="pr-dashboard">
         <div className="adminmain-content">
 

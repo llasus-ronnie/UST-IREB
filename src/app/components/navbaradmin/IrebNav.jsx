@@ -38,7 +38,7 @@ const IrebNav = () => {
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>My Account</span>}
+                {isOpen && <span>My Profile</span>}
               </div>
             </Link>
           </li>
@@ -81,14 +81,14 @@ const IrebNav = () => {
             {isDropdownOpen && isOpen && (
               <ul className="adminnav-dropdown">
                 <li>
-                  <Link href="/manageaccounts/create" passHref legacyBehavior>
+                  <Link href="/manageaccounts" passHref legacyBehavior>
                     <a>
                       <span>REC Accounts</span>
                     </a>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/manageaccounts/view" passHref legacyBehavior>
+                  <Link href="/manageaccounts" passHref legacyBehavior>
                     <a>
                       <span>External Accounts</span>
                     </a>

@@ -1,85 +1,85 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import "../../styles/adminnav/adminnav.css";
 
-const PrNav = () => { 
-  const [isOpen, setIsOpen] = useState(false);
+const IrebNavMobile = () => {
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const [lastScrollTop, setLastScrollTop] = useState(0);
 
-  const toggleNav = () => {
-    setIsOpen(!isOpen);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (currentScrollTop > lastScrollTop) {
+        setIsNavVisible(false);
+      } else {
+        setIsNavVisible(true);
+      }
+      setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
+    };
 
-  const handleImageClick = (event) => {
-    event.preventDefault();
-    toggleNav();
-  };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollTop]);
 
   return (
-    <div className={`adminnav ${isOpen ? 'open' : ''}`}>
-      <div className="adminnav-toggle" onClick={toggleNav}>
-        <span>{isOpen ? '◄' : '►'}</span>
-      </div>
+    <div className={`adminnav ${isNavVisible ? 'visible' : 'hidden'}`}>
       <div className="adminnav-content">
         <ul>
           <li>
             <Link href="/account" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-account.png"
                   alt="Account"
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>My Profile</span>}
+                <p>Profile</p>
               </div>
             </Link>
           </li>
 
           <li>
             <Link href="/home" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-home.png"
                   alt="Home"
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>Home</span>}
+                <p>Home</p>
               </div>
             </Link>
           </li>
 
           <li>
             <Link href="/submissions" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
-                  src="/images/adminnav/adminnav-submissions.png"
-                  alt="Submissions"
+                src="/images/adminnav/adminnav-submissions.png"
+                alt="Submissions"
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>Submissions</span>}
+                <p>Submissions</p>
               </div>
             </Link>
           </li>
-        </ul>
-      </div>
 
-      <div className="adminnav-logout">
-        <ul>
           <li>
             <Link href="/logout" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-logout.png"
                   alt="Log Out"
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>Log Out</span>}
+                <p>Log Out</p>
               </div>
             </Link>
           </li>
@@ -89,4 +89,4 @@ const PrNav = () => {
   );
 };
 
-export default PrNav;
+export default IrebNavMobile;

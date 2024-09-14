@@ -255,128 +255,145 @@
   .pr-view-btn:hover {
     transform: scale(1.05);
   }
-  
-/* Responsiveness */
-
-/* Mobile View (max-width: 576px) */
-@media only screen and (max-width: 576px) {
-
-  .adminnav {
-    display: none;
-  }
-
-  /* General Page Container */
-  .adminpage-container {
-    flex-direction: column;
-    height: auto;
-  }
-
-  /* Side Nav */
-  .adminnav.open ~ .pr-dashboard {
-    margin-left: 0;
-  }
-
-  /* PR Dashboard */
-  .pr-dashboard {
-    margin-left: 0;
-    padding: 1rem;
-    height: auto;
-  }
-
-  /* Main Content Div for PR Dashboard */
-  .adminmain-content {
-    padding: 1rem;
-    margin: 1rem auto;
-    max-width: 100%;
-  }
-
-  /* Header */
-  .pr-header-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .pr-header h1 {
-    font-size: 1.5rem;
-  }
-
-  .pr-header p {
-    font-size: 0.875rem;
-  }
-
-  /* Cards */
-  .admindashboard-cards {
-    margin: 2rem 0;
-    text-align: center;
-  }
-
-  .admindashboard-card {
-    width: 100%;
-    margin-bottom: 1.5rem;
-  }
-
-  .admindashboard-card h2,
-  .admindashboard-card h3,
-  .admindashboard-card p {
-    text-align: center;
-  }
-
-  /* Filter Section */
-  .filter-section {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .search-bar {
-    max-width: 100%;
-    min-width: unset;
-  }
-
-  .pr-button {
-    margin-right: 0;
-    width: 100%;
-    margin-bottom: 0.5rem;
-  }
-
-  /* Tables */
-  .pr-tables {
-    margin: 2rem 0;
-  }
-
-  .newly-assigned, 
-  .resubmission, 
-  .for-final {
-    padding: 1rem;
-  }
-
-  .newly-assigned h1, 
-  .resubmission h1, 
-  .for-final h1 {
-    font-size: 1.5rem;
-    text-align: center;
-  }
-
-  .pr-table {
-    font-size: 0.875rem;
-    border-radius: 10px;
-  }
-
-  th, td {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.75rem;
-  }
-
-  /* PR View Button */
-  .pr-view-btn {
-    padding: 0.25rem 1rem;
-    font-size: 0.75rem;
-  }
-}
 
 
-
-  /* Tablets */
+  /* Tablet */
   @media only screen and (min-width: 577px) and (max-width: 768px) {
+    .prnav-mobile {
+      display: none;
+    }
+  }
 
+  /* Laptops & Desktops */
+  @media only screen and (min-width: 769px) and (max-width: 1200px) {
+    .prnav-mobile {
+      display: none;
+    }
+  }
+
+  /* Larger Screens */
+  @media only screen and (min-width: 1201px) {
+    .prnav-mobile {
+      display: none;
+    }
+  }
+
+  /* Mobile */
+  @media only screen and (max-width: 576px) {
+
+    .prnav-web {
+      display: none;
+    }
+  
+    /* General Page Container */
+    .adminpage-container {
+      flex-direction: column;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+    }
+  
+    /* Side Nav */
+    .adminnav.open ~ .pr-dashboard {
+      margin-left: 0;
+    }
+  
+    /* PR Dashboard */
+    .pr-dashboard {
+      margin-left: 0;
+      padding: 1rem;
+      height: auto;
+    }
+  
+    /* Main Content Div for PR Dashboard */
+    .adminmain-content {
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 100%;
+    }
+  
+    /* Header */
+    .pr-header-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .pr-header h1 {
+      font-size: 1.5rem;
+    }
+  
+    .pr-header p {
+      font-size: 0.875rem;
+    }
+  
+    /* Cards */
+    .admindashboard-cards {
+      margin: 2rem 0;
+      text-align: center;
+    }
+  
+    .admindashboard-card {
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+  
+    .admindashboard-card h2,
+    .admindashboard-card h3,
+    .admindashboard-card p {
+      text-align: center;
+    }
+  
+    /* Filter Section */
+    .filter-section {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  
+    .search-bar {
+      max-width: 100%;
+      min-width: unset;
+    }
+  
+    .pr-button {
+      margin-right: 0;
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+  
+    /* Tables */
+    .pr-tables {
+      margin: 2rem 0;
+    }
+  
+    .newly-assigned, 
+    .resubmission, 
+    .for-final {
+      padding: 1rem;
+    }
+  
+    .newly-assigned h1, 
+    .resubmission h1, 
+    .for-final h1 {
+      font-size: 1.5rem;
+      text-align: center;
+    }
+  
+    .pr-table {
+      font-size: 0.875rem;
+      border-radius: 10px;
+    }
+  
+    th, td {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+    }
+  
+    /* PR View Button */
+    .pr-view-btn {
+      padding: 0.25rem 1rem;
+      font-size: 0.75rem;
+    }
   }
