@@ -74,12 +74,10 @@ function IrebDashboard() {
   return (
     <>
       <div className="adminpage-container">
-        <div className="irebnav-web">
-          <IrebNav />
-        </div>
         <div className="irebnav-mobile">
           <IrebNavMobile />
         </div>
+        <IrebNav />
         <div className="ireb-dashboard">
           <div className="adminmain-content">
 

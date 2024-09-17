@@ -15,7 +15,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 100%;
     background-color: var(--primary-color);
     width: 5.625rem;
     transition: transform 0.3s ease, width 0.3s ease;

@@ -18,7 +18,7 @@ const PrNav = () => {
   };
 
   return (
-    <div className={`adminnav ${isOpen ? 'open' : ''}`}>
+    <div className={`prnav adminnav ${isOpen ? 'open' : ''}`}>
       <div className="adminnav-toggle" onClick={toggleNav}>
         <span>{isOpen ? '◄' : '►'}</span>
       </div>

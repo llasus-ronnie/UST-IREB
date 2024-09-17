@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import "../../styles/adminnav/adminnav.css";
 
-const IrebNavMobile = () => {
+const PrNavMobile = () => {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollTop, setLastScrollTop] = useState(0);
 
@@ -103,4 +103,4 @@ const IrebNavMobile = () => {
   );
 };
 
-export default IrebNavMobile;
+export default PrNavMobile;

@@ -18,7 +18,7 @@ const RecNav = () => {
   };
 
   return (
-    <div className={`adminnav ${isOpen ? 'open' : ''}`}>
+    <div className={`recnav adminnav ${isOpen ? 'open' : ''}`}>
       <div className="adminnav-toggle" onClick={toggleNav}>
         <span>{isOpen ? '◄' : '►'}</span>
       </div>

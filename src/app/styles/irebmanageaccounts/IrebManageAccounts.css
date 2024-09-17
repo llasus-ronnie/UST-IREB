@@ -202,45 +202,34 @@ tr:hover {
     color: #e74c3c;
 }
 
-  /* Responsiveness */
+/* Responsiveness */
 
-  /* Tablet */
-  @media only screen and (min-width: 577px) and (max-width: 768px) {
+/* Laptops & Desktops */
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
     .irebnav-mobile {
-      display: none;
-    }
-    
-    .ireb-header-container-mobile {
         display: none;
-    }
-  }
-
-  /* Laptops & Desktops */
-  @media only screen and (min-width: 769px) and (max-width: 1200px) {
-    .irebnav-mobile {
-      display: none;
     }
 
     .ireb-header-container-mobile {
         display: none;
     }
-  }
+    }
 
-  /* Larger Screens */
-  @media only screen and (min-width: 1201px) {
+    /* Larger Screens */
+    @media only screen and (min-width: 1201px) {
     .irebnav-mobile {
-      display: none;
+        display: none;
     }
 
     .ireb-header-container-mobile {
         display: none;
     }
-  }
+}
 
   /* Mobile */
   @media only screen and (max-width: 576px) {
 
-    .irebnav-web {
+    .irebnav {
       display: none;
     }
 
@@ -327,3 +316,104 @@ tr:hover {
     }
 
   }
+
+    /* Tablet */
+    @media only screen and (min-width: 577px) and (max-width: 768px) {
+        .irebnav-mobile {
+        display: none;
+        }
+        
+    .ireb-header-container-mobile {
+        display: none;
+    }
+    
+    .ireb-manageaccounts {
+        margin-left: 5.625rem;
+    }
+
+        /* Tablet General Page Container */
+        .adminpage-container {
+            flex-direction: column;
+            height: auto;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Tablet Side Nav */
+        .adminnav.open ~ .ireb-manageaccounts {
+            margin-left: 18.75rem;
+            transition: margin-left 0.3s ease;
+            }
+
+        /* Tablet PR Dashboard */
+        .ireb-manageaccounts {
+            padding: 1rem;
+            flex-grow: 1;
+            transition: margin-left 0.3s ease;
+            background-color: var(--secondary-color);
+            height: 100vh;
+            margin-left: 5.625rem;
+        }
+        
+        /* Tablet Main Content Div for IREB Manage Accounts */
+        .adminmain-content {
+            padding: 1rem;
+            margin: 1rem auto;
+            max-width: 100%;
+        }
+
+        .adminheader-container {
+            padding: 0;
+        }
+
+        .me-title {
+            margin: 2rem 0;
+        }
+
+        .acctype-container {
+            margin: 2rem 0;
+            width: 100%;
+            flex-direction: column;
+            padding: 1rem;
+        }
+
+        .acctype h2 {
+            text-align: center;
+        }
+
+        .acctype-toggles {
+            justify-content: center;
+            align-items: flex-start;
+            margin: 0;
+            width: 100%;
+        }
+
+        .search-bar {
+            width: 45%;
+            margin-left: 0;
+            margin-top: 1rem;
+        }
+
+        .me-buttonfilter,
+        .me-buttonaddacc {
+            width: auto;
+            margin-left: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .manageexternal-table {
+            margin: 2rem 0;
+        }
+
+        .me-table {
+            font-size: 0.875rem;
+            border-radius: 10px;
+            width: 100%;
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+    }

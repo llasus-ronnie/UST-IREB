@@ -1,25 +1,30 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import IrebNav from "../components/navbaradmin/IrebNav";
 import IrebNavMobile from "../components/navbaradmin/IrebNavMobile";
 import SearchBar from "../components/searchbar/SearchBar";
 import UserLoggedIn from "../components/userloggedin/UserLoggedIn";
+import AddAccModal from '../components/modals/AddAccModal';
 import "../styles/irebmanageaccounts/IrebManageAccounts.css";
 
 function IrebManageExternal() {
+
+  const [modalShow, setModalShow] = useState(false);
+
+  const handleShowModal = () => setModalShow(true);
+  const handleCloseModal = () => setModalShow(false);
+
   const handleSearch = (query) => {
     console.log('Search query:', query);
   };
 
   return (
     <div className="adminpage-container">
-      <div className="irebnav-web">
-        <IrebNav />
-      </div>
       <div className="irebnav-mobile">
         <IrebNavMobile />
       </div>
+      <IrebNav />
       <div className="ireb-manageaccounts">
         <div className="adminmain-content">
 
@@ -51,7 +56,7 @@ function IrebManageExternal() {
                 </div>
 
                 <button className="me-buttonfilter"> Filter & Sort </button>
-                <button className="me-buttonaddacc"> + &nbsp; &nbsp; Add an Account </button>
+                <button className="me-buttonaddacc" onClick={handleShowModal}> + &nbsp; &nbsp; Add REC </button>
               </div>
             </div>
 
@@ -91,6 +96,9 @@ function IrebManageExternal() {
           </div>
         </div>
       </div>
+
+      <AddAccModal show={modalShow} onHide={handleCloseModal} />
+
     </div>
   );
 }

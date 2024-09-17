@@ -12,25 +12,20 @@ function PrDashboard() {
     console.log('Search query:', query);
   };
 
-  const handleButtonClick = () => {
-    console.log('Button clicked');
-  };
-
   const handleDropDown = (event) => {
     const selectedOption = event.target.value;
   };
 
   return (
     <div className="adminpage-container">
-      <div className="prnav-web">
-        <PrNav />
-      </div>
       <div className="prnav-mobile">
         <PrNavMobile />
       </div>
-      <div className="pr-dashboard">
-        <div className="adminmain-content">
 
+      <PrNav className="prnav" />
+
+      <div className="pr-dashboard">
+       <div className="adminmain-content">
         <div className="pr-header-container">
           <div className="pr-header">
             <h1>Primary Reviewer Dashboard</h1>
@@ -133,96 +128,101 @@ function PrDashboard() {
               </table>
             </div>
 
-            <div className="resubmission">
-              <h1>Resubmission</h1>
-              <table className="pr-table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Author</th>
-                    <th>Date of Submission</th>
-                    <th>Name of Research</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>2024-09-11</td>
-                    <td>Impact of Climate Change on Marine Life</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Jane Smith</td>
-                    <td>2024-09-10</td>
-                    <td>Advances in Artificial Intelligence</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Florence Navidad</td>
-                    <td>2024-09-09</td>
-                    <td>Encryption Methods in Modern Technology</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            {/*
+              Add the code below to only show the "Resubmission" and "For Final Review" sections on mobile view
+            */}
+            {window.innerWidth <= 768 && (
+              <>
+                <div className="resubmission">
+                  <h1>Resubmission</h1>
+                  <table className="pr-table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Author</th>
+                        <th>Date of Submission</th>
+                        <th>Name of Research</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>John Doe</td>
+                        <td>2024-09-11</td>
+                        <td>Impact of Climate Change on Marine Life</td>
+                        <td>
+                          <button className="pr-view-btn">View</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Jane Smith</td>
+                        <td>2024-09-10</td>
+                        <td>Advances in Artificial Intelligence</td>
+                        <td>
+                          <button className="pr-view-btn">View</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>Florence Navidad</td>
+                        <td>2024-09-09</td>
+                        <td>Encryption Methods in Modern Technology</td>
+                        <td>
+                          <button className="pr-view-btn">View</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
-            <div className="for-final">
-              <h1>For Final Review</h1>
-              <table className="pr-table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Author</th>
-                    <th>Date of Submission</th>
-                    <th>Name of Research</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>2024-09-11</td>
-                    <td>Impact of Climate Change on Marine Life</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Jane Smith</td>
-                    <td>2024-09-10</td>
-                    <td>Advances in Artificial Intelligence</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Florence Navidad</td>
-                    <td>2024-09-09</td>
-                    <td>Encryption Methods in Modern Technology</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
+                <div className="for-final">
+                  <h1>For Final Review</h1>
+                  <table className="pr-table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Author</th>
+                        <th>Date of Submission</th>
+                        <th>Name of Research</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>John Doe</td>
+                        <td>2024-09-11</td>
+                        <td>Impact of Climate Change on Marine Life</td>
+                        <td>
+                          <button className="pr-view-btn">View</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Jane Smith</td>
+                        <td>2024-09-10</td>
+                        <td>Advances in Artificial Intelligence</td>
+                        <td>
+                          <button className="pr-view-btn">View</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>Florence Navidad</td>
+                        <td>2024-09-09</td>
+                        <td>Encryption Methods in Modern Technology</td>
+                        <td>
+                          <button className="pr-view-btn">View</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
           </div>
-
         </div>
       </div>
     </div>

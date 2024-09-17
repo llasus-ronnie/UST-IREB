@@ -23,7 +23,7 @@ const IrebNav = () => {
   };
 
   return (
-    <div className={`adminnav ${isOpen ? 'open' : ''}`}>
+    <div className={`irebnav adminnav ${isOpen ? 'open' : ''}`}>
       <div className="adminnav-toggle" onClick={toggleNav}>
         <span>{isOpen ? '◄' : '►'}</span>
       </div>

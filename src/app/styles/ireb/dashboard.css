@@ -17,6 +17,11 @@
     height: 100vh;
 }
 
+/* Side Nav */
+.adminnav.open ~ .ireb-dashboard {
+    margin-left: 18.75rem;
+}
+
 /* PR Dashboard */
 .ireb-dashboard {
     flex-grow: 1;
@@ -204,7 +209,7 @@
   /* Mobile */
   @media only screen and (max-width: 576px) {
 
-    .irebnav-web {
+    .irebnav {
       display: none;
     }
 

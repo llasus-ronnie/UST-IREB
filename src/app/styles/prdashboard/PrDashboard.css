@@ -83,7 +83,7 @@
     display: inline-block;
     align-items: center;
     text-align: left;
-    margin-right: 2rem;
+    margin: 1rem 2rem 0 0;
     padding: 1.7rem 1.7rem 1.7rem 2.2rem;
     border-radius: 15px;
     border: none;
@@ -238,7 +238,29 @@
 }
 
 
-  /* Responsiveness */
+/* Responsiveness */
+
+/* Laptops & Desktops */
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
+  .prnav-mobile {
+    display: none;
+  }
+
+  .pr-header-container-mobile {
+    display: none;
+  }
+}
+
+/* Larger Screens */
+@media only screen and (min-width: 1201px) {
+  .prnav-mobile {
+    display: none;
+  }
+
+  .pr-header-container-mobile {
+    display: none;
+  }
+}
 
   /* Tablet */
   @media only screen and (min-width: 577px) and (max-width: 768px) {
@@ -249,149 +271,149 @@
     .pr-header-container-mobile {
       display: none;
     }
-  }
 
-  /* Laptops & Desktops */
-  @media only screen and (min-width: 769px) and (max-width: 1200px) {
-    .prnav-mobile {
-      display: none;
-    }
-
-    .pr-header-container-mobile {
-      display: none;
-    }
-  }
-
-  /* Larger Screens */
-  @media only screen and (min-width: 1201px) {
-    .prnav-mobile {
-      display: none;
-    }
-
-    .pr-header-container-mobile {
-      display: none;
-    }
-  }
-
-  /* Mobile */
-  @media only screen and (max-width: 576px) {
-
-    .prnav-web {
-      display: none;
-    }
-  
-    /* Mobile General Page Container */
-    .adminpage-container {
-      flex-direction: column;
-      height: auto;
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow-x: hidden;
-    }
-  
-    /* Mobile PR Dashboard */
-    .pr-dashboard {
-      margin-left: 0;
-      padding: 1rem;
-      height: auto;
-    }
-  
-    /* Mobile Main Content Div for PR Dashboard */
-    .adminmain-content {
-      padding: 1rem;
-      margin: 1rem auto;
-      max-width: 100%;
-    }
-  
-    /* Mobile Header */
-    .pr-header-container {
-      display: none;
-    }
-
-    .pr-header-container-mobile {
-      align-items: center;
-    }
-
-    .userloggedin-mobile {
-      margin-bottom: 1.5rem;
-    }
-
-    /* Mobile Cards */
     .admindashboard-cards {
-      margin: 2rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 0.625rem;
     }
   
     .admindashboard-card {
-      width: 46%;
-      justify-content: center;
-      align-items: center;
-      padding: 1.5rem;
-      margin: 0.4rem;
-    }
-  
-    .admindashboard-card h2,
-    .admindashboard-card h3,
-    .admindashboard-card p {
-      text-align: center;
-    }
-  
-    /* Mobile Filter Section */
-    .filter-section {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-    }
-  
-    .search {
-      margin: 0 2rem 0 2rem;
-      max-width: 26rem;
-      width: 96%;
+      flex: 1 1 calc(50% - 20px);
+      margin: 0.625rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 1.563rem;
     }
 
-    .pr-dropdown {
-      margin-top: 1rem;
-      width: 22rem;
-    }
-
-  
-    /* Mobile Tables */
-    .pr-tables {
-      margin: 2rem 0;
-    }
-  
-    .newly-assigned, 
-    .resubmission, 
-    .for-final {
-      padding: 1rem;
-    }
-  
-    .newly-assigned h1, 
-    .resubmission h1, 
-    .for-final h1 {
-      font-size: 1.5rem;
-      text-align: center;
-      padding: 0.8rem 0 0.2rem 0;
-    }
-  
-    .pr-table {
-      font-size: 0.875rem;
-      border-radius: 10px;
-      width: 100%;
-      display: block;
-      overflow-x: auto;
-      white-space: nowrap;
-    }
-  
-    th, td {
-      padding: 0.5rem 0.75rem;
-      font-size: 0.75rem;
-    }
-  
-    /* Mobile PR View Button */
-    .pr-view-btn {
-      padding: 0.25rem 1rem;
-      font-size: 0.75rem;
-    }
   }
+
+    /* Mobile */
+    @media only screen and (max-width: 576px) {
+
+      .prnav {
+        display: none;
+      }
+
+      .prnav-mobile {
+        display: block;
+      }
+
+      .adminpage-container .prnav {
+        display: none;
+      }
+    
+      /* Mobile General Page Container */
+      .adminpage-container {
+        flex-direction: column;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow-x: hidden;
+      }
+    
+      /* Mobile PR Dashboard */
+      .pr-dashboard {
+        margin-left: 0;
+        padding: 1rem;
+        height: auto;
+      }
+    
+      /* Mobile Main Content Div for PR Dashboard */
+      .adminmain-content {
+        padding: 1rem;
+        margin: 1rem auto;
+        max-width: 100%;
+      }
+    
+      /* Mobile Header */
+      .pr-header-container {
+        display: none;
+      }
+
+      .pr-header-container-mobile {
+        align-items: center;
+      }
+
+      .userloggedin-mobile {
+        margin-bottom: 1.5rem;
+      }
+
+      /* Mobile Cards */
+      .admindashboard-cards {
+        margin: 2rem 0;
+      }
+    
+      .admindashboard-card {
+        width: 46%;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem;
+        margin: 0.4rem;
+      }
+    
+      .admindashboard-card h2,
+      .admindashboard-card h3,
+      .admindashboard-card p {
+        text-align: center;
+      }
+    
+      /* Mobile Filter Section */
+      .filter-section {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+      }
+    
+      .search {
+        margin: 0 2rem 0 2rem;
+        max-width: 26rem;
+        width: 96%;
+      }
+
+      .pr-dropdown {
+        margin-top: 1rem;
+        width: 25rem;
+      }
+    
+      /* Mobile Tables */
+      .pr-tables {
+        margin: 2rem 0;
+      }
+    
+      .newly-assigned, 
+      .resubmission, 
+      .for-final {
+        padding: 1rem;
+      }
+    
+      .newly-assigned h1, 
+      .resubmission h1, 
+      .for-final h1 {
+        font-size: 1.5rem;
+        text-align: center;
+        padding: 0.8rem 0 0.2rem 0;
+      }
+    
+      .pr-table {
+        font-size: 0.875rem;
+        border-radius: 10px;
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    
+      th, td {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+      }
+    
+      /* Mobile PR View Button */
+      .pr-view-btn {
+        padding: 0.25rem 1rem;
+        font-size: 0.75rem;
+      }
+    }
