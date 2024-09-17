@@ -2,6 +2,7 @@
 
 import React from "react";
 import IrebNav from "../components/navbaradmin/IrebNav";
+import IrebNavMobile from "../components/navbaradmin/IrebNavMobile";
 import SearchBar from "../components/searchbar/SearchBar";
 import UserLoggedIn from "../components/userloggedin/UserLoggedIn";
 import "../styles/irebmanageaccounts/IrebManageAccounts.css";
@@ -13,13 +14,26 @@ function IrebManageExternal() {
 
   return (
     <div className="adminpage-container">
-      <IrebNav />
+      <div className="irebnav-web">
+        <IrebNav />
+      </div>
+      <div className="irebnav-mobile">
+        <IrebNavMobile />
+      </div>
       <div className="ireb-manageaccounts">
         <div className="adminmain-content">
 
+        <div className="ireb-header-container">
           <div className="adminheader-container">
             <UserLoggedIn className="user-loggedin"/>
           </div>
+        </div>
+
+        <div className="ireb-header-container-mobile">
+          <div className="userloggedin-mobile">
+            <UserLoggedIn />
+          </div>
+        </div>
 
           <div className="manage-external">
             <div className="me-title">

@@ -112,45 +112,25 @@
 .filter-section {
     display: flex;
     align-items: center;
-    gap: 0.625rem;
     flex-wrap: nowrap;
 }
 
 .search {
     margin-right: 2rem;
-}
-
-.search-bar {
-    max-width: 31.25rem;
-    min-width: 12.5rem;
+    max-width: 28rem;
     width: 100%;
 }
 
-.pr-button {
-    padding: 0.625rem 1.25rem;
-    margin-right: 1rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    color: #fff;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.pr-button.all {
-    background-color: var(--primary-color);
-}
-
-.pr-button.newly {
-    background-color: var(--tertiary-color);
-}
-
-.pr-button.resub {
-    background-color: #FF7A00;
-}
-
-.pr-button.forfinal {
-    background-color: #369AD2;
+.pr-dropdown {
+  padding: 0.5rem 1.5rem 0.5rem 1rem;
+  height: 2.6rem;
+  width: 13rem;
+  border-radius: 10px;
+  color: var(--primary-color);
+  font-size: 0.875rem;
+  font-weight: 600;
+  background-color: var(--tertiary-color);
+  border-right: 0.5rem solid transparent;
 }
 
 .pr-button:hover {
@@ -159,107 +139,114 @@
 
 /* Tables */
 .pr-tables {
-    margin: 3rem 0 5rem 0;
-  }
-  
-  .newly-assigned {
-    padding: 2rem 1rem 1rem 2rem;
-    background-color: var(--quaternary-color);
-    border-radius: 15px;
-    margin-bottom: 2rem;
-  }
-  
-  .newly-assigned h1 {
-    font-size: 1.75rem;
-    font-weight: bold;
-    color: var(--tertiary-color);
-    margin-bottom: 1.5rem;
-    padding: 0.5rem;
-  }
-  
-  .newly-assigned .pr-view-btn {
-    background-color: var(--tertiary-color);
-  }
-  
-  .resubmission {
-    padding: 2rem 1rem 1rem 2rem;
-    background-color: var(--quaternary-color);
-    border-radius: 15px;
-    margin-bottom: 2rem;
-  }
-  
-  .resubmission h1 {
-    font-size: 1.75rem;
-    font-weight: bold;
-    color: #FF7A00;
-    margin-bottom: 1.5rem;
-    padding: 0.5rem;
-  }
-  
-  .resubmission .pr-view-btn {
-    background-color: #FF7A00;
-  }
-  
-  .for-final {
-    padding: 2rem 1rem 1rem 2rem;
-    background-color: var(--quaternary-color);
-    border-radius: 15px;
-    margin-bottom: 2rem;
-  }
-  
-  .for-final h1 {
-    font-size: 1.75rem;
-    font-weight: bold;
-    color: #369AD2;
-    margin-bottom: 1.5rem;
-    padding: 0.5rem;
-  }
-  
-  .for-final .pr-view-btn {
-    background-color: #369AD2;
-  }
-  
-  .pr-table {
-    width: 100%;
-    margin: 1rem;
-    border-collapse: collapse;
-    font-family: var(--poppins);
-    background-color: var(--quaternary-color);
-    border-radius: 15px;
-  }
-  
-  th, td {
-    padding: 0.938rem 1.25rem;
-    text-align: left;
-    border-bottom: 0.063rem solid #ddd;
-  }
-  
-  th {
-    color: var(--primary-color);
-  }
-  
-  tr:hover {
-    background-color: #f2f2f2;
-  }
-  
-  .pr-view-btn {
-    padding: 0.375rem 1.125rem;
-    font-size: 0.875rem;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .pr-view-btn:hover {
-    transform: scale(1.05);
-  }
+  margin: 3rem 0 3rem 0;
+}
 
+/* Newly Assigned Table */
+.newly-assigned {
+  padding: 2rem;
+  background-color: var(--quaternary-color);
+  border-radius: 15px;
+  margin-bottom: 2rem;
+}
+
+.newly-assigned h1 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: var(--tertiary-color);
+  margin-bottom: 1.5rem;
+}
+
+.newly-assigned .pr-view-btn {
+  background-color: var(--tertiary-color);
+}
+
+/* Resubmission Table */
+.resubmission {
+  padding: 2rem;
+  background-color: var(--quaternary-color);
+  border-radius: 15px;
+  margin-bottom: 2rem;
+}
+
+.resubmission h1 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #FF7A00;
+  margin-bottom: 1.5rem;
+}
+
+.resubmission .pr-view-btn {
+  background-color: #FF7A00;
+}
+
+/* For Final Review Table */
+.for-final {
+  padding: 2rem;
+  background-color: var(--quaternary-color);
+  border-radius: 15px;
+  margin-bottom: 2rem;
+}
+
+.for-final h1 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #369AD2;
+  margin-bottom: 1.5rem;
+}
+
+.for-final .pr-view-btn {
+  background-color: #369AD2;
+}
+
+/* Table Styling */
+
+.pr-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--poppins);
+  background-color: var(--quaternary-color);
+  border-radius: 15px;
+}
+
+.pr-table th, td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 0.063rem solid #ddd;
+}
+
+.pr-table th {
+  color: var(--primary-color);
+}
+
+.pr-table tr:hover {
+  background-color: #f2f2f2;
+}
+
+.pr-view-btn {
+  padding: 0.375rem 1.125rem;
+  font-size: 0.875rem;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pr-view-btn:hover {
+  transform: scale(1.05);
+}
+
+
+  /* Responsiveness */
 
   /* Tablet */
   @media only screen and (min-width: 577px) and (max-width: 768px) {
     .prnav-mobile {
+      display: none;
+    }
+
+    .pr-header-container-mobile {
       display: none;
     }
   }
@@ -269,11 +256,19 @@
     .prnav-mobile {
       display: none;
     }
+
+    .pr-header-container-mobile {
+      display: none;
+    }
   }
 
   /* Larger Screens */
   @media only screen and (min-width: 1201px) {
     .prnav-mobile {
+      display: none;
+    }
+
+    .pr-header-container-mobile {
       display: none;
     }
   }
@@ -285,58 +280,54 @@
       display: none;
     }
   
-    /* General Page Container */
+    /* Mobile General Page Container */
     .adminpage-container {
       flex-direction: column;
       height: auto;
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow-x: hidden; /* Prevent horizontal scrolling */
+      overflow-x: hidden;
     }
   
-    /* Side Nav */
-    .adminnav.open ~ .pr-dashboard {
-      margin-left: 0;
-    }
-  
-    /* PR Dashboard */
+    /* Mobile PR Dashboard */
     .pr-dashboard {
       margin-left: 0;
       padding: 1rem;
       height: auto;
     }
   
-    /* Main Content Div for PR Dashboard */
+    /* Mobile Main Content Div for PR Dashboard */
     .adminmain-content {
       padding: 1rem;
       margin: 1rem auto;
       max-width: 100%;
     }
   
-    /* Header */
+    /* Mobile Header */
     .pr-header-container {
-      flex-direction: column;
-      align-items: flex-start;
+      display: none;
     }
-  
-    .pr-header h1 {
-      font-size: 1.5rem;
+
+    .pr-header-container-mobile {
+      align-items: center;
     }
-  
-    .pr-header p {
-      font-size: 0.875rem;
+
+    .userloggedin-mobile {
+      margin-bottom: 1.5rem;
     }
-  
-    /* Cards */
+
+    /* Mobile Cards */
     .admindashboard-cards {
       margin: 2rem 0;
-      text-align: center;
     }
   
     .admindashboard-card {
-      width: 100%;
-      margin-bottom: 1.5rem;
+      width: 46%;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      margin: 0.4rem;
     }
   
     .admindashboard-card h2,
@@ -345,25 +336,27 @@
       text-align: center;
     }
   
-    /* Filter Section */
+    /* Mobile Filter Section */
     .filter-section {
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
+      justify-content: center;
       gap: 1rem;
     }
   
-    .search-bar {
-      max-width: 100%;
-      min-width: unset;
+    .search {
+      margin: 0 2rem 0 2rem;
+      max-width: 26rem;
+      width: 96%;
     }
-  
-    .pr-button {
-      margin-right: 0;
-      width: 100%;
-      margin-bottom: 0.5rem;
+
+    .pr-dropdown {
+      margin-top: 1rem;
+      width: 22rem;
     }
+
   
-    /* Tables */
+    /* Mobile Tables */
     .pr-tables {
       margin: 2rem 0;
     }
@@ -379,11 +372,16 @@
     .for-final h1 {
       font-size: 1.5rem;
       text-align: center;
+      padding: 0.8rem 0 0.2rem 0;
     }
   
     .pr-table {
       font-size: 0.875rem;
       border-radius: 10px;
+      width: 100%;
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
     }
   
     th, td {
@@ -391,7 +389,7 @@
       font-size: 0.75rem;
     }
   
-    /* PR View Button */
+    /* Mobile PR View Button */
     .pr-view-btn {
       padding: 0.25rem 1rem;
       font-size: 0.75rem;

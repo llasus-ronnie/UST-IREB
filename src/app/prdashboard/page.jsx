@@ -16,6 +16,10 @@ function PrDashboard() {
     console.log('Button clicked');
   };
 
+  const handleDropDown = (event) => {
+    const selectedOption = event.target.value;
+  };
+
   return (
     <div className="adminpage-container">
       <div className="prnav-web">
@@ -32,7 +36,19 @@ function PrDashboard() {
             <h1>Primary Reviewer Dashboard</h1>
             <p>Overview of UST-IREB Submissions and RECs.</p>
           </div>
-          <UserLoggedIn />
+          <div className="userloggedin">
+            <UserLoggedIn />
+          </div>
+        </div>
+
+        <div className="pr-header-container-mobile">
+          <div className="userloggedin-mobile">
+            <UserLoggedIn />
+          </div>
+          <div className="pr-header">
+            <h1>Primary Reviewer Dashboard</h1>
+            <p>Overview of UST-IREB Submissions and RECs.</p>
+          </div>
         </div>
 
           <div className="admindashboard-cards">
@@ -62,25 +78,14 @@ function PrDashboard() {
             <div className="search">
               <SearchBar onSearch={handleSearch} className="search-bar" />
             </div>
-            <button
-              className="pr-button all"
-              onClick={handleButtonClick}
-            > All Submissions </button>
-
-            <button
-              className="pr-button newly"
-              onClick={handleButtonClick}
-            > Newly Assigned </button>
-
-            <button
-              className="pr-button resub"
-              onClick={handleButtonClick}
-            > Resubmissions </button>
-
-            <button
-              className="pr-button forfinal"
-              onClick={handleButtonClick}
-            > For Final Review </button>
+            <div className="dropdown-filter">
+              <select className="pr-dropdown" onChange={handleDropDown}>
+                <option value="all">All Submissions</option>
+                <option value="newly">Newly Assigned</option>
+                <option value="resub">Resubmissions</option>
+                <option value="forfinal">For Final Review</option>
+              </select>
+            </div>
           </div>
 
           <div className="pr-tables">

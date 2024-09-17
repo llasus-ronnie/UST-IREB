@@ -3,6 +3,7 @@
 // dependencies
 import React, { useState } from "react";
 import IrebNav from "../components/navbaradmin/IrebNav";
+import IrebNavMobile from "../components/navbaradmin/IrebNavMobile";
 import UserLoggedIn from "../components/userloggedin/UserLoggedIn";
 import { Bar } from "react-chartjs-2";
 import {
@@ -73,7 +74,12 @@ function IrebDashboard() {
   return (
     <>
       <div className="adminpage-container">
-        <IrebNav />
+        <div className="irebnav-web">
+          <IrebNav />
+        </div>
+        <div className="irebnav-mobile">
+          <IrebNavMobile />
+        </div>
         <div className="ireb-dashboard">
           <div className="adminmain-content">
 

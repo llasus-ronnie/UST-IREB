@@ -177,3 +177,59 @@
 .view-button:hover {
     background-color: #0056b3; 
 }
+
+  /* Responsiveness */
+
+  /* Tablet */
+  @media only screen and (min-width: 577px) and (max-width: 768px) {
+    .irebnav-mobile {
+      display: none;
+    }
+  }
+
+  /* Laptops & Desktops */
+  @media only screen and (min-width: 769px) and (max-width: 1200px) {
+    .irebnav-mobile {
+      display: none;
+    }
+  }
+
+  /* Larger Screens */
+  @media only screen and (min-width: 1201px) {
+    .irebnav-mobile {
+      display: none;
+    }
+  }
+
+  /* Mobile */
+  @media only screen and (max-width: 576px) {
+
+    .irebnav-web {
+      display: none;
+    }
+
+    /* General Page Container */
+    .adminpage-container {
+        flex-direction: column;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow-x: hidden;
+    }
+
+    /* PR Dashboard */
+    .ireb-dashboard {
+        margin-left: 0;
+        padding: 1rem;
+        height: auto;
+        }
+    
+    /* Main Content Div for PR Dashboard */
+    .adminmain-content {
+        padding: 1rem;
+        margin: 1rem auto;
+        max-width: 100%;
+    }
+
+  }
