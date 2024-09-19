@@ -10,8 +10,8 @@ import {
   Button,
 } from "react-bootstrap";
 import React, { useState } from "react";
-import StepBar from "../components/stepbar/StepBar";
-import Navbar from "../components/navbar/Navbar";
+import StepBar from "../../components/stepbar/StepBar";
+import Navbar from "../../components/navbar/Navbar";
 
 function SubmissionFormsP1() {
   const [institution, setInstitution] = useState("");
@@ -37,7 +37,7 @@ function SubmissionFormsP1() {
       event.stopPropagation();
     } else {
       event.preventDefault();
-      window.location.href = "/form2";
+      window.location.href = "/PrimaryInvestigator/form2";
     }
     setValidated(true);
   };

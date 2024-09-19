@@ -46,19 +46,15 @@
   font-size: var(--heading-1-size);
   font-weight: bold;
   line-height: 120%;
+  z-index: 1;
+  position: relative;
 }
 
-.accheader .accordion-button:not(.collapsed) {
-  background-color: #fcbf15;
-}
-
-.accheader .accordion-button:focus {
-  box-shadow: none;
-  background-color: #fcbf15;
-}
-
+.accheader .accordion-button:not(.collapsed),
+.accheader .accordion-button:focus,
 .accheader .accordion-button:active {
   background-color: #fcbf15;
+  z-index: 1;
 }
 
 .accbody {
@@ -68,6 +64,7 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  z-index: 1;
 }
 
 /* scroll design  */

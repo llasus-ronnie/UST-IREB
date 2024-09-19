@@ -11,8 +11,8 @@ import {
   Table,
 } from "react-bootstrap";
 import React, { use, useState } from "react";
-import StepBar from "../components/stepbar/StepBar";
-import Navbar from "../components/navbar/Navbar";
+import StepBar from "../../components/stepbar/StepBar";
+import Navbar from "../../components/navbar/Navbar";
 
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -94,7 +94,7 @@ function SubmissionFormsP2() {
       };
       alert("Data Saved");
       localStorage.setItem("researcherData", JSON.stringify(researcherData));
-      window.location.href = "/form3";
+      window.location.href = "/PrimaryInvestigator/form3";
     }
     setValidated(true);
   };

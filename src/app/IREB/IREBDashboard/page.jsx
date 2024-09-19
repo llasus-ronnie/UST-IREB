@@ -2,9 +2,9 @@
 
 // dependencies
 import React, { useState } from "react";
-import IrebNav from "../components/navbaradmin/IrebNav";
-import IrebNavMobile from "../components/navbaradmin/IrebNavMobile";
-import UserLoggedIn from "../components/userloggedin/UserLoggedIn";
+import IrebNav from "../../components/navbaradmin/IrebNav";
+import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
+import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -18,7 +18,7 @@ import {
 import "chartjs-plugin-dragdata"; // Import drag plugin
 
 // css
-import styles from '../styles/ireb/dashboard.css';
+import styles from "../../styles/ireb/dashboard.css";
 
 ChartJS.register(
   CategoryScale,
@@ -31,7 +31,20 @@ ChartJS.register(
 
 function IrebDashboard() {
   const [chartData, setChartData] = useState({
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
     datasets: [
       {
         label: "Submitted",
@@ -80,7 +93,6 @@ function IrebDashboard() {
         <IrebNav />
         <div className="ireb-dashboard">
           <div className="adminmain-content">
-
             <div className="ireb-header-container">
               <div className="ireb-header">
                 <h1>IREB Dashboard</h1>
@@ -91,14 +103,14 @@ function IrebDashboard() {
 
             <br />
             <br />
-            
+
             {/* Chart */}
             <div className="twocol-container">
               <div className="ireb-chart-container">
                 <Bar data={chartData} options={options} />
               </div>
 
-            {/* Submission Cards */}
+              {/* Submission Cards */}
               <div className="admindashboard-cards">
                 <div className="admindashboard-card">
                   <h2>Newly Assigned</h2>
@@ -121,7 +133,6 @@ function IrebDashboard() {
                   <p>Tasks</p>
                 </div>
               </div>
-
             </div>
 
             <br />
@@ -146,7 +157,7 @@ function IrebDashboard() {
                     <td>1</td>
                     <td>Juan Miguel Dela Cruz</td>
                     <td>
-                      <button className= "view-button">View</button>
+                      <button className="view-button">View</button>
                     </td>
                   </tr>
                   <tr>
@@ -155,7 +166,7 @@ function IrebDashboard() {
                     <td>2</td>
                     <td>Juan Miguel Dela Cruz</td>
                     <td>
-                    <button className= "view-button">View</button>
+                      <button className="view-button">View</button>
                     </td>
                   </tr>
                   <tr>
@@ -164,14 +175,13 @@ function IrebDashboard() {
                     <td>3</td>
                     <td>Juan Miguel Dela Cruz</td>
                     <td>
-                    <button className= "view-button">View</button>                    </td>
+                      <button className="view-button">View</button>{" "}
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <br />
-
-
           </div>
         </div>
       </div>
