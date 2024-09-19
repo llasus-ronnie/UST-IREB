@@ -53,7 +53,7 @@ export default function SignIn() {
 
               <div className="thomasian-recap">
                 <button
-                  onClick={() => signIn("google")}
+                  onClick={() => signIn("google", { callbackUrl: "/" })}
                   className="thomasian-google"
                   disabled={!isRecaptchaVerified}
                 >
