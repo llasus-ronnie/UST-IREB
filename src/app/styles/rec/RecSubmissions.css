@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --primary-color: #121212;
+    --secondary-color: #ecf0f1;
+    --tertiary-color: #fcbf15;
+    --quaternary-color: #ffffff;
+    --poppins: "Poppins", sans-serif;
+    --title-size: 1.875rem;
+    --heading-1-size: 1.5rem;
+    --paragraph-size: 1rem;
+}
+
+/* General Page Container */
+.adminpage-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Side Nav */
+.adminnav.open ~ .rec-submissions {
+    margin-left: 18.75rem;
+}
+
+/* REC Submissions */
+.rec-submissions {
+    flex-grow: 1;
+    transition: margin-left 0.3s ease;
+    background-color: var(--secondary-color);
+    height: 100vh;
+    margin-left: 5.625rem;
+}
+
+/* Main Content Div for REC Submissions */
+.adminmain-content {
+    font-family: var(--poppins);
+    color: var(--primary-color);
+    max-width: 81.25rem;
+    height: 100%;
+    margin: 2rem auto;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+/* Header */
+
+.rec-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.UserLoggedIn {
+  flex-shrink: 0;
+}
+
+.rec-header {
+    margin-top: 0.2rem;
+    flex-grow: 1;
+}
+
+.rec-header h1 {
+    color: var(--primary-color);
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+
+.rec-header p {
+    font-size: 1rem;
+    color: var(--primary-color);
+    padding-top: 0.4rem;
+}
+
+/* Tables */
+.rec-tables {
+  margin: 3rem 0 3rem 0;
+}
+
+/* Newly Assigned Table */
+.newly-assigned {
+  padding: 2rem;
+  background-color: var(--quaternary-color);
+  border-radius: 15px;
+  margin-bottom: 2rem;
+}
+
+.newly-assigned h1 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: var(--tertiary-color);
+  margin-bottom: 1.5rem;
+}
+
+.newly-assigned .rec-view-btn {
+  background-color: var(--tertiary-color);
+}
+
+/* Table Styling */
+
+.rec-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--poppins);
+  background-color: var(--quaternary-color);
+  border-radius: 15px;
+}
+
+.rec-table th, td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 0.063rem solid #ddd;
+}
+
+.rec-table th {
+  color: var(--primary-color);
+}
+
+.rec-table tr:hover {
+  background-color: #f2f2f2;
+}
+
+.rec-view-btn {
+  padding: 0.375rem 1.125rem;
+  font-size: 0.875rem;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.rec-view-btn:hover {
+  transform: scale(1.05);
+}

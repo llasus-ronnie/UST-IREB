@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import PrNav from "../components/navbaradmin/PrNav";
-import PrNavMobile from "../components/navbaradmin/PrNavMobile";
+import RecNav from "../components/navbaradmin/RecNav";
+import RecNavMobile from "../components/navbaradmin/RecNavMobile";
 import SearchBar from "../components/searchbar/SearchBar";
 import UserLoggedIn from "../components/userloggedin/UserLoggedIn";
-import "../styles/pr/PrDashboard.css";
+import "../styles/rec/RecSubmissions.css";
 
-function PrDashboard() {
+function RecSubmissions() {
   const handleSearch = (query) => {
     console.log('Search query:', query);
   };
@@ -18,75 +18,25 @@ function PrDashboard() {
 
   return (
     <div className="adminpage-container">
-      <div className="prnav-mobile">
-        <PrNavMobile />
-      </div>
 
-      <PrNav className="prnav" />
+      <RecNav className="recnav" />
 
-      <div className="pr-dashboard">
+      <div className="rec-submissions">
        <div className="adminmain-content">
-        <div className="pr-header-container">
-          <div className="pr-header">
-            <h1>Primary Reviewer Dashboard</h1>
-            <p>Overview of UST-IREB Submissions and RECs.</p>
+        <div className="rec-header-container">
+          <div className="rec-header">
+            <h1>REC Manage Submissions</h1>
+            <p>Manage Initial Review and Principal Investigator Submissions</p>
           </div>
           <div className="userloggedin">
             <UserLoggedIn />
           </div>
         </div>
 
-        <div className="pr-header-container-mobile">
-          <div className="userloggedin-mobile">
-            <UserLoggedIn />
-          </div>
-          <div className="pr-header">
-            <h1>Primary Reviewer Dashboard</h1>
-            <p>Overview of UST-IREB Submissions and RECs.</p>
-          </div>
-        </div>
-
-          <div className="admindashboard-cards">
-            <div className="admindashboard-card">
-              <h2>Newly Assigned</h2>
-              <h3>100</h3>
-              <p>Submissions</p>
-            </div>
-            <div className="admindashboard-card">
-              <h2>Resubmission</h2>
-              <h3>100</h3>
-              <p>Entries</p>
-            </div>
-            <div className="admindashboard-card">
-              <h2>For Final Review</h2>
-              <h3>100</h3>
-              <p>Researches</p>
-            </div>
-            <div className="admindashboard-card">
-              <h2>Total Assigned</h2>
-              <h3>100</h3>
-              <p>Tasks</p>
-            </div>
-          </div>
-
-          <div className="filter-section">
-            <div className="search">
-              <SearchBar onSearch={handleSearch} className="search-bar" />
-            </div>
-            <div className="dropdown-filter">
-              <select className="pr-dropdown" onChange={handleDropDown}>
-                <option value="all">All Submissions</option>
-                <option value="newly">Newly Assigned</option>
-                <option value="resub">Resubmissions</option>
-                <option value="forfinal">For Final Review</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="pr-tables">
+          <div className="rec-tables">
             <div className="newly-assigned">
               <h1>Newly Assigned</h1>
-              <table className="pr-table">
+              <table className="rec-table">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -103,7 +53,7 @@ function PrDashboard() {
                     <td>2024-09-11</td>
                     <td>Impact of Climate Change on Marine Life</td>
                     <td>
-                      <button className="pr-view-btn">View</button>
+                      <button className="rec-view-btn">View</button>
                     </td>
                   </tr>
                   <tr>
@@ -112,7 +62,7 @@ function PrDashboard() {
                     <td>2024-09-10</td>
                     <td>Advances in Artificial Intelligence</td>
                     <td>
-                      <button className="pr-view-btn">View</button>
+                      <button className="rec-view-btn">View</button>
                     </td>
                   </tr>
                   <tr>
@@ -121,15 +71,21 @@ function PrDashboard() {
                     <td>2024-09-09</td>
                     <td>Encryption Methods in Modern Technology</td>
                     <td>
-                      <button className="pr-view-btn">View</button>
+                      <button className="rec-view-btn">View</button>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
+
+            {/*
+              Add the code below to only show the "Resubmission" and "For Final Review" sections on mobile view
+            */}
+            {window.innerWidth <= 768 && (
+              <>
                 <div className="resubmission">
                   <h1>Resubmission</h1>
-                  <table className="pr-table">
+                  <table className="rec-table">
                     <thead>
                       <tr>
                         <th>ID</th>
@@ -146,7 +102,7 @@ function PrDashboard() {
                         <td>2024-09-11</td>
                         <td>Impact of Climate Change on Marine Life</td>
                         <td>
-                          <button className="pr-view-btn">View</button>
+                          <button className="rec-view-btn">View</button>
                         </td>
                       </tr>
                       <tr>
@@ -155,7 +111,7 @@ function PrDashboard() {
                         <td>2024-09-10</td>
                         <td>Advances in Artificial Intelligence</td>
                         <td>
-                          <button className="pr-view-btn">View</button>
+                          <button className="rec-view-btn">View</button>
                         </td>
                       </tr>
                       <tr>
@@ -164,7 +120,7 @@ function PrDashboard() {
                         <td>2024-09-09</td>
                         <td>Encryption Methods in Modern Technology</td>
                         <td>
-                          <button className="pr-view-btn">View</button>
+                          <button className="rec-view-btn">View</button>
                         </td>
                       </tr>
                     </tbody>
@@ -173,7 +129,7 @@ function PrDashboard() {
 
                 <div className="for-final">
                   <h1>For Final Review</h1>
-                  <table className="pr-table">
+                  <table className="rec-table">
                     <thead>
                       <tr>
                         <th>ID</th>
@@ -190,7 +146,7 @@ function PrDashboard() {
                         <td>2024-09-11</td>
                         <td>Impact of Climate Change on Marine Life</td>
                         <td>
-                          <button className="pr-view-btn">View</button>
+                          <button className="rec-view-btn">View</button>
                         </td>
                       </tr>
                       <tr>
@@ -199,7 +155,7 @@ function PrDashboard() {
                         <td>2024-09-10</td>
                         <td>Advances in Artificial Intelligence</td>
                         <td>
-                          <button className="pr-view-btn">View</button>
+                          <button className="rec-view-btn">View</button>
                         </td>
                       </tr>
                       <tr>
@@ -208,12 +164,14 @@ function PrDashboard() {
                         <td>2024-09-09</td>
                         <td>Encryption Methods in Modern Technology</td>
                         <td>
-                          <button className="pr-view-btn">View</button>
+                          <button className="rec-view-btn">View</button>
                         </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -221,4 +179,4 @@ function PrDashboard() {
   );
 }
 
-export default PrDashboard;
+export default RecSubmissions;

@@ -6,7 +6,7 @@ import IrebNavMobile from "../components/navbaradmin/IrebNavMobile";
 import SearchBar from "../components/searchbar/SearchBar";
 import UserLoggedIn from "../components/userloggedin/UserLoggedIn";
 import AddAccModal from '../components/modals/AddAccModal';
-import "../styles/irebmanageaccounts/IrebManageAccounts.css";
+import "../styles/ireb/IrebManageAccounts.css";
 
 function IrebManageExternal() {
 
@@ -90,7 +90,6 @@ function IrebManageExternal() {
                     </button>
                     </td>
                   </tr>
-                  {/* Add more rows as needed */}
                 </tbody>
               </table>
             </div>
