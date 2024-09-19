@@ -133,6 +133,11 @@
   margin-bottom: 0.5rem;
 }
 
+.thomasian-btnlogin:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .thomasian-formtext {
   color: #121212;
   font-family: Poppins;
@@ -154,7 +159,7 @@
 .thomasian-google {
   border-radius: 20px;
   width: max-content;
-  border: 2px solid var(--primary-color);
+  border: 1px solid var(--primary-color);
 
   display: flex;
   flex-direction: row !important;
@@ -162,6 +167,11 @@
 
   padding: 1rem;
   margin-top: 0.5rem;
+}
+
+.thomasian-google:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* sign in option tablet*/

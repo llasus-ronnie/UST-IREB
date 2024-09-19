@@ -9,6 +9,7 @@ import {
   FormLabel,
   Button,
 } from "react-bootstrap";
+import { useState } from "react";
 import bg from "../../../../public/images/signin/bg.png";
 import USTLogo from "../../../../public/images/signin/USTLogo.png";
 
@@ -22,6 +23,12 @@ import "../../styles/signin/SignIn.css";
 import SignInFooter from "../../components/siginin/SignInFooter";
 
 function SignIn() {
+  const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+
+  const handleRecaptchaChange = (value) => {
+    setIsRecaptchaVerified(!!value);
+  };
+
   return (
     <div className="thomasian-cont">
       <Container>
@@ -55,6 +62,7 @@ function SignIn() {
                         className="thomasian-captchasign"
                         sitekey="6LfgAgkqAAAAAC_WvkqfnkIF-NUvwHnVOPyDkD2G"
                         size="normal"
+                        onChange={handleRecaptchaChange}
                       />
                     </div>
                   </Col>
@@ -63,6 +71,7 @@ function SignIn() {
                       variant="outline-warning"
                       href="/"
                       className="thomasian-btnlogin"
+                      disabled={!isRecaptchaVerified}
                     >
                       Log In
                     </Button>
