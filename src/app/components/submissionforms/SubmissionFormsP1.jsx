@@ -10,43 +10,70 @@ import {
   Button,
 } from "react-bootstrap";
 import React, { useState } from "react";
-import StepBar from "../components/stepbar/StepBar";
-import Navbar from "../components/navbar/Navbar";
+import StepBar from "../stepbar/StepBar";
+import Navbar from "../navbar/Navbar";
+import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from 'react-redux';
+import {updateFormData, setCurrentStep} from "../../../redux/slices/submissionFormSlice";
+
+
 
 function SubmissionFormsP1() {
-  const [institution, setInstitution] = useState("");
-  const [showTextbox, setShowTextbox] = useState(false);
-  const [researchEthicsCommittee, setResearchEthicsCommittee] = useState("");
   const [validated, setValidated] = useState(false);
-  const currentPage = 1;
+  //show textbox if other is selected
+  const [showTextbox, setShowTextbox] = useState(false);
 
-  const handleInstitutionChange = (event) => {
-    const selectedValue = event.target.value;
-    setInstitution(selectedValue);
-    setShowTextbox(selectedValue === "Other");
-  };
+  //dispatch function
+  const dispatch = useDispatch();
 
-  const handleResearchEthicsCommitteeChange = (event) => {
-    setResearchEthicsCommittee(event.target.value);
-  };
+  //initial states from store
+  const currentStep = useSelector((store)=>store.submissionForm.currentStep);
+  const formData = useSelector((store)=>store.submissionForm.formData);
+  console.log(formData, currentStep);
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      event.preventDefault();
-      window.location.href = "/form2";
+
+  //react hook form functions
+  const {
+    handleSubmit,
+    register,
+    watch
+  } = useForm({
+    defaultValues: {
+      ...formData
     }
-    setValidated(true);
-  };
+  });
 
+  //dispatching reducers from store
+  async function processForm(data){
+    dispatch (updateFormData(data));
+    dispatch(setCurrentStep(currentStep+1));
+  }
+
+  // const handleFormSubmission = async (e) => {  
+  //   // Log formData before submission
+  //   console.log('Submitting formData:', formData);
+  //   dispatch(updateFormData(formData)); 
+  
+  //   try {
+  //     const response = await fetch("/api/forms", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),  // Use the data from react-hook-form
+  //     });
+
+  //     console.log("Form submitted successfully");
+  //   } catch (error) {
+  //     console.error("Error submitting form:", error);
+  //   }
+
+  // };
+  
+  
   return (
     <div>
-      <Navbar />
       <Container className="PIforms-cont1">
-        <StepBar currentPage={currentPage} />
         <Row className="justify-content-center">
           <h1 className="PIforms-header">Research Ethics Committee</h1>
           <p className="PIforms-text">
@@ -64,18 +91,19 @@ function SubmissionFormsP1() {
           </p>
         </Row>
 
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        {/* forms */}
+        <Form noValidate validated={validated} onSubmit={handleSubmit(processForm)}>
           <Container className="PIforms-rescont">
             <Row>
               <h1 className="PIforms-resconthead">Research Classification</h1>
             </Row>
 
+        {/* institution */}
             <Row>
               <FormLabel className="PIforms-formtext">Institution</FormLabel>
               <FormSelect
+                {...register("institution")}
                 className="form-control PIforms-select"
-                value={institution}
-                onChange={handleInstitutionChange}
                 required
               >
                 <option disabled value="">
@@ -96,13 +124,13 @@ function SubmissionFormsP1() {
                 />
               )}
 
+        {/* research ethics committee */}
               <FormLabel className="PIforms-formtext">
                 Research Ethics Committee
               </FormLabel>
               <FormSelect
+                {...register("researchEthicsCommittee")}
                 className="form-control PIforms-select"
-                value={researchEthicsCommittee}
-                onChange={handleResearchEthicsCommitteeChange}
                 required
               >
                 <option disabled value="">
@@ -138,10 +166,13 @@ function SubmissionFormsP1() {
             Committee by checking off the following <br></br> (comments to the
             Secretary can be added at Step 4).
           </p>
+
+          {/* checkboxes */}
           <Container className="PIforms-checkcont">
             <Row className="justify-content-center">
               <Col md="8">
                 <FormCheck
+                {...register("agreeSoftCopies")}
                   type="checkbox"
                   className="PIforms-formcheck"
                   label="I agree to provide soft copies of the protocol and supplementary files of my research."
@@ -149,6 +180,7 @@ function SubmissionFormsP1() {
                 />
 
                 <FormCheck
+                {...register("understandSubmission")}
                   type="checkbox"
                   className="PIforms-formcheck"
                   label="I understand that this submission will be forwarded to a REC for review"
@@ -156,6 +188,7 @@ function SubmissionFormsP1() {
                 />
 
                 <FormCheck
+                {...register("understandConfidentiality")}
                   type="checkbox"
                   className="PIforms-formcheck"
                   label="I understand that my research will be monitored by UST IREB and will be treated with confidentiality."
@@ -164,6 +197,8 @@ function SubmissionFormsP1() {
               </Col>
             </Row>
           </Container>
+
+            {/* buttons */}
           <Row
             style={{ marginTop: "20px", paddingBottom: "20px" }}
             className="justify-content-evenly"

@@ -59,7 +59,7 @@ export default function Navbar() {
 
         <div className="sidenav-links">
           <a href="/">Home</a>
-          <Link href="/form1">
+          <Link href="/form">
           Submission Forms
           </Link>
           <a href="/MySubmissions">View my Submissions</a>

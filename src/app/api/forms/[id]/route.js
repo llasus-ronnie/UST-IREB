@@ -5,18 +5,24 @@ import { NextResponse } from 'next/server';
 export async function PUT (req, {params}){
     const {id} = params;
     const {
-        primaryFullName,
-        primaryEmail,
-        primaryPhoneNumber,
-        primaryInstAffil,
+        institution,
+        researchEthicsCommittee,
+        agreeSoftCopies,
+        understandSubmission,
+        understandConfidentiality,
+        fullName,
+        email,
+        phone,
+        institutionAffiliation,
         additionalFullName,
         additionalEmail,
-        additionalPhoneNumber,
-        additionalInstAffil,
+        additionalPhone,
+        additionalInstitutionAffiliation,
+        additionalResearchers,
         title,
         background,
         objectives,
-        outcomes,
+        expectedOutcomes,
         keywords,
         studyType,
         startDate,
@@ -30,28 +36,34 @@ export async function PUT (req, {params}){
         involvesHumanSubjects,
         proposalType,
         dataCollection,
-        reviewedByOtherCommittee,
+        proposalReviewedByOtherCommittee,
         monetarySource,
-        amountInPeso,
+        amountInPHP,
         otherSource,
         fileType,
-        file
+        fileInput
     }= await req.json();
 
     await connectDB();
-    await SubmissionForm.findByIdAndUpdate(id, {
-        primaryFullName,
-        primaryEmail,
-        primaryPhoneNumber,
-        primaryInstAffil,
+    const updatedSubmission = await SubmissionForm.findByIdAndUpdate(id, {
+        institution,
+        researchEthicsCommittee,
+        agreeSoftCopies,
+        understandSubmission,
+        understandConfidentiality,
+        fullName,
+        email,
+        phone,
+        institutionAffiliation,
         additionalFullName,
         additionalEmail,
-        additionalPhoneNumber,
-        additionalInstAffil,
+        additionalPhone,
+        additionalInstitutionAffiliation,
+        additionalResearchers,
         title,
         background,
         objectives,
-        outcomes,
+        expectedOutcomes,
         keywords,
         studyType,
         startDate,
@@ -65,12 +77,19 @@ export async function PUT (req, {params}){
         involvesHumanSubjects,
         proposalType,
         dataCollection,
-        reviewedByOtherCommittee,
+        proposalReviewedByOtherCommittee,
         monetarySource,
-        amountInPeso,
+        amountInPHP,
         otherSource,
         fileType,
-        file
-    });
-    return NextResponse.json({message: 'Form updated successfully'}, {status: 200});
+        fileInput
+    }, {new: true});
+    return NextResponse.json(updatedSubmission, {status: 200});
+}
+
+export async function GET (req, {params}){
+    const {id} = params;
+    await connectDB();
+    const submission= await SubmissionForm.findOne({_id: id});
+    return NextResponse.json({submission}, {status: 200});
 }
