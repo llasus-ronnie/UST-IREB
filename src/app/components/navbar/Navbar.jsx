@@ -43,16 +43,12 @@ export default function Navbar() {
 
         <div className="navbar-right">
           {session ? (
-            <>
-              <button onClick={() => signOut()} className="navbar-subtitle">
-                Logout
-              </button>
-            </>
+            <></>
           ) : (
             <>
-              <Link href="/signinoption">
-                <h1 className="navbar-subtitle">Login</h1>
-              </Link>
+              <button href="/signinoption" className="navbar-subtitle">
+                Login
+              </button>
             </>
           )}
         </div>
@@ -67,19 +63,19 @@ export default function Navbar() {
                 src={session.user.image || userIcon}
                 alt="User Icon"
                 className="logout-icon"
-                width={96}
-                height={96}
+                width={200}
+                height={200}
               />
               <p>{session.user.name}</p>
-              <button onClick={() => signOut()} className="logout-button">
-                Logout
-              </button>
+              <Link href="/" className="view-account">
+                View Account
+              </Link>
             </>
           ) : (
             <>
               <Image src={userIcon} alt="User Icon" className="logout-icon" />
               <Link href="/signinoption" className="view-account">
-                View Account
+                Login
               </Link>
             </>
           )}
@@ -87,9 +83,19 @@ export default function Navbar() {
 
         <div className="sidenav-links">
           <a href="/">Home</a>
-          <Link href="/PrincipalInvestigator/form1">Submission Forms</Link>
-          <a href="/MySubmissions">View my Submissions</a>
           <Link href="/faqs">FAQs</Link>
+
+          {session ? (
+            <>
+              <Link href="/PrincipalInvestigator/form1">Submission Forms</Link>
+              <a href="/MySubmissions">View my Submissions</a>
+              <Link href="/" onClick={() => signOut()}>
+                Logout
+              </Link>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </>
