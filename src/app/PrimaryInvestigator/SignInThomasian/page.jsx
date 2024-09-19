@@ -9,15 +9,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 //images
-import GoogleLogo from "../../../public/images/signin/signin-google-logo.png";
-import bg from "../../../public/images/signin/bg.png";
-import USTLogo from "../../../public/images/signin/USTLogo.png";
+import GoogleLogo from "../../../../public/images/signin/signin-google-logo.png";
+import bg from "../../../../public/images/signin/bg.png";
+import USTLogo from "../../../../public/images/signin/USTLogo.png";
 
 //css
-import "../styles/signin/SignIn.css";
+import "../../styles/signin/SignIn.css";
 
 //components
-import SignInFooter from "../components/siginin/SignInFooter";
+import SignInFooter from "../../components/siginin/SignInFooter";
 
 export default function SignIn() {
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);

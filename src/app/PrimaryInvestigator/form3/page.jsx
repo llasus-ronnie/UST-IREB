@@ -10,8 +10,8 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
-import StepBar from "../components/stepbar/StepBar";
-import Navbar from "../components/navbar/Navbar";
+import StepBar from "../../components/stepbar/StepBar";
+import Navbar from "../../components/navbar/Navbar";
 
 function SubmissionFormP3() {
   const [validated, setValidated] = useState(false);

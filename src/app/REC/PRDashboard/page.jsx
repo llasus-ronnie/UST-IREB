@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import PrNav from "../components/navbaradmin/PrNav";
-import PrNavMobile from "../components/navbaradmin/PrNavMobile";
-import SearchBar from "../components/searchbar/SearchBar";
-import UserLoggedIn from "../components/userloggedin/UserLoggedIn";
-import "../styles/prdashboard/PrDashboard.css";
+import PrNav from "../../components/navbaradmin/PrNav";
+import PrNavMobile from "../../components/navbaradmin/PrNavMobile";
+import SearchBar from "../../components/searchbar/SearchBar";
+import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
+import "../../styles/prdashboard/PrDashboard.css";
 
 function PrDashboard() {
   const handleSearch = (query) => {
-    console.log('Search query:', query);
+    console.log("Search query:", query);
   };
 
   const handleDropDown = (event) => {
@@ -25,26 +25,26 @@ function PrDashboard() {
       <PrNav className="prnav" />
 
       <div className="pr-dashboard">
-       <div className="adminmain-content">
-        <div className="pr-header-container">
-          <div className="pr-header">
-            <h1>Primary Reviewer Dashboard</h1>
-            <p>Overview of UST-IREB Submissions and RECs.</p>
+        <div className="adminmain-content">
+          <div className="pr-header-container">
+            <div className="pr-header">
+              <h1>Primary Reviewer Dashboard</h1>
+              <p>Overview of UST-IREB Submissions and RECs.</p>
+            </div>
+            <div className="userloggedin">
+              <UserLoggedIn />
+            </div>
           </div>
-          <div className="userloggedin">
-            <UserLoggedIn />
-          </div>
-        </div>
 
-        <div className="pr-header-container-mobile">
-          <div className="userloggedin-mobile">
-            <UserLoggedIn />
+          <div className="pr-header-container-mobile">
+            <div className="userloggedin-mobile">
+              <UserLoggedIn />
+            </div>
+            <div className="pr-header">
+              <h1>Primary Reviewer Dashboard</h1>
+              <p>Overview of UST-IREB Submissions and RECs.</p>
+            </div>
           </div>
-          <div className="pr-header">
-            <h1>Primary Reviewer Dashboard</h1>
-            <p>Overview of UST-IREB Submissions and RECs.</p>
-          </div>
-        </div>
 
           <div className="admindashboard-cards">
             <div className="admindashboard-card">

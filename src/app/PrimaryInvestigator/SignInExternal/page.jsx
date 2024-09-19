@@ -9,17 +9,17 @@ import {
   FormLabel,
   Button,
 } from "react-bootstrap";
-import bg from "../../../public/images/signin/bg.png";
-import USTLogo from "../../../public/images/signin/USTLogo.png";
+import bg from "../../../../public/images/signin/bg.png";
+import USTLogo from "../../../../public/images/signin/USTLogo.png";
 
 import ReCAPTCHA from "react-google-recaptcha";
 import Image from "next/image";
 
 //css
-import "../styles/signin/SignIn.css";
+import "../../styles/signin/SignIn.css";
 
 //components
-import SignInFooter from "../components/siginin/SignInFooter";
+import SignInFooter from "../../components/siginin/SignInFooter";
 
 function SignIn() {
   return (
