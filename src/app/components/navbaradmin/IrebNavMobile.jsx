@@ -52,7 +52,7 @@ const IrebNavMobile = () => {
           </li>
 
           <li>
-            <Link href="/home" passHref>
+            <Link href="../IREB/IREBDashboard" passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-home.png"
@@ -75,7 +75,7 @@ const IrebNavMobile = () => {
               />
               <p>Accounts</p>
             </div>
-        </li>
+          </li>
                 
           <li>
             <Link href="/reports" passHref>
@@ -109,8 +109,12 @@ const IrebNavMobile = () => {
 
       <div className={`adminnav-pop-up ${isPopupVisible ? 'show' : 'hide'}`}>
         <button className="popup-close-btn" onClick={handleClosePopup}>×</button>
-        <p>Manage REC Accounts</p>
-        <p>Manage External Accounts</p>
+        <Link href="../IREB/IREBManageREC" passHref>
+          <p>Manage REC Accounts</p>
+        </Link>
+        <Link href="../IREB/IREBManageExternal" passHref>
+          <p>Manage External Accounts</p>
+        </Link>
       </div>
     </div>
   );

@@ -94,7 +94,7 @@ function SubmissionFormsP2() {
       };
       alert("Data Saved");
       localStorage.setItem("researcherData", JSON.stringify(researcherData));
-      window.location.href = "/PrimaryInvestigator/form3";
+      window.location.href = "/../form3";
     }
     setValidated(true);
   };

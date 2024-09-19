@@ -38,13 +38,13 @@ const IrebNav = () => {
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>My Profile</span>}
               </div>
+                {isOpen && <span>My Profile</span>}
             </Link>
           </li>
 
           <li>
-            <Link href="/home" passHref>
+            <Link href="../IREB/IREBDashboard" passHref>
               <div onClick={handleImageClick}>
                 <Image
                   src="/images/adminnav/adminnav-home.png"
@@ -52,8 +52,8 @@ const IrebNav = () => {
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>Home</span>}
               </div>
+                {isOpen && <span>Home</span>}
             </Link>
           </li>
 
@@ -81,14 +81,14 @@ const IrebNav = () => {
             {isDropdownOpen && isOpen && (
               <ul className="adminnav-dropdown">
                 <li>
-                  <Link href="/manageaccounts" passHref legacyBehavior>
+                  <Link href="../IREB/IREBManageREC" passHref legacyBehavior>
                     <a>
                       <span>REC Accounts</span>
                     </a>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/manageaccounts" passHref legacyBehavior>
+                  <Link href="../IREB/IREBManageExternal" passHref legacyBehavior>
                     <a>
                       <span>External Accounts</span>
                     </a>
@@ -107,8 +107,8 @@ const IrebNav = () => {
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>Reports</span>}
               </div>
+              {isOpen && <span>Reports</span>}
             </Link>
           </li>
         </ul>
@@ -125,8 +125,8 @@ const IrebNav = () => {
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>Log Out</span>}
               </div>
+              {isOpen && <span>Log Out</span>}
             </Link>
           </li>
         </ul>

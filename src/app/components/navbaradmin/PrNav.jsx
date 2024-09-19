@@ -33,13 +33,13 @@ const PrNav = () => {
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>My Profile</span>}
               </div>
+              {isOpen && <span>My Profile</span>}
             </Link>
           </li>
 
           <li>
-            <Link href="/home" passHref>
+            <Link href="../PrimaryReviewer/PRDashboard" passHref>
               <div onClick={handleImageClick}>
                 <Image
                   src="/images/adminnav/adminnav-home.png"
@@ -47,8 +47,8 @@ const PrNav = () => {
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>Home</span>}
               </div>
+              {isOpen && <span>Home</span>}
             </Link>
           </li>
 
@@ -61,8 +61,8 @@ const PrNav = () => {
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>Submissions</span>}
               </div>
+              {isOpen && <span>Submissions</span>}
             </Link>
           </li>
         </ul>
@@ -79,8 +79,8 @@ const PrNav = () => {
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>Log Out</span>}
               </div>
+              {isOpen && <span>Log Out</span>}
             </Link>
           </li>
         </ul>

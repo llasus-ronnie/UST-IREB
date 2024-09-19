@@ -43,7 +43,7 @@ const PrNavMobile = () => {
           </li>
 
           <li>
-            <Link href="/home" passHref>
+            <Link href="../PrimaryReviewer/PRDashboard" passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-home.png"

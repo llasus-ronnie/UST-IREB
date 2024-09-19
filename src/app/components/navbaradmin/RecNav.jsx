@@ -33,13 +33,13 @@ const RecNav = () => {
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>My Profile</span>}
               </div>
+              {isOpen && <span>My Profile</span>}
             </Link>
           </li>
 
           <li>
-            <Link href="/home" passHref>
+            <Link href="../REC/RECDashboard" passHref>
               <div onClick={handleImageClick}>
                 <Image
                   src="/images/adminnav/adminnav-home.png"
@@ -47,13 +47,13 @@ const RecNav = () => {
                   width={32}
                   height={32}
                 />
-                {isOpen && <span>Home</span>}
               </div>
+              {isOpen && <span>Home</span>}
             </Link>
           </li>
 
           <li>
-            <Link href="/home" passHref>
+            <Link href="../REC/RECSubmissions" passHref>
               <div onClick={handleImageClick}>
                 <Image
                   src="/images/adminnav/adminnav-submissions.png"

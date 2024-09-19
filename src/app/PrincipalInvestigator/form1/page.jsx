@@ -37,7 +37,7 @@ function SubmissionFormsP1() {
       event.stopPropagation();
     } else {
       event.preventDefault();
-      window.location.href = "/PrimaryInvestigator/form2";
+      window.location.href = "/../form2";
     }
     setValidated(true);
   };
