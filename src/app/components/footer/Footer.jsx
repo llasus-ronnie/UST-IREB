@@ -34,14 +34,14 @@ return(
             style={{ paddingLeft: '4rem', paddingRight:'3rem' }}>
 
                 <p className='ust-ireb-address'>
-                Administration Office, Ground Floor, Thomas Aquinas Research Complex University of Santo Tomas España Boulevard, Sampaloc, Manila 1008, Philippines
+                1/F Thomas Aquinas Research Center, University of Santo Tomas España Boulevard, Sampaloc, Manila 1008, Philippines
                 </p>
             </Col>
 
             {/* column 3 */}
             <Col md={2} className='ust-ireb-contacts'>
-            <p>ustirebemailhere@domain.com</p>
-            <p>+63-2-8731-5396 <br/>+63-2-3406-1611 local 8247</p>
+            <p>ireb@ust.edu.ph</p>
+            <p>(02) 3406-1611 <br/> (02) 8553-1611 local 8919</p>
             </Col>
         </Row>
     </Container>

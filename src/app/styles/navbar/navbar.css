@@ -248,6 +248,7 @@
 /* other styles */
 .yellow-text {
   color: var(--tertiary-color);
+  font-weight: bold;
 }
 
 .logout-icon {

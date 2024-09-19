@@ -54,10 +54,33 @@ function FAQs() {
               reviewed by the UST Research Ethics Committee.
             </Accordion.Body>
           </Accordion.Item>
+
+          <Accordion.Item eventKey="3">
+            <Accordion.Header className="accheader">
+              Question 4
+            </Accordion.Header>
+            <Accordion.Body className="accbody">
+              The UST Research Ethics Online System is a platform that allows
+              researchers to submit their research proposals and have them
+              reviewed by the UST Research Ethics Committee.
+            </Accordion.Body>
+          </Accordion.Item>
+
+          <Accordion.Item eventKey="4">
+            <Accordion.Header className="accheader">
+              Question 5
+            </Accordion.Header>
+            <Accordion.Body className="accbody">
+              The UST Research Ethics Online System is a platform that allows
+              researchers to submit their research proposals and have them
+              reviewed by the UST Research Ethics Committee.
+            </Accordion.Body>
+          </Accordion.Item>
         </Accordion>
+
       </Container>
 
-      <div style={{ marginTop: "2em" }} className="footer">
+      <div style={{ marginTop: "3em"}} className="footer">
         <Footer />
       </div>
     </>
