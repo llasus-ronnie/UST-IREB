@@ -239,6 +239,10 @@
 .section-4{
     color: var(--primary-color);  
     padding: 8rem;
+
+    p{
+        color: black;
+    }
 }
 
 .section-4-faq{
