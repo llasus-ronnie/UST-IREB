@@ -1,3 +1,5 @@
+import { type } from 'os';
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -186,7 +188,15 @@ const subFormSchema = new Schema({
     otherSource: {
         type: String,
         require: true
-    }
+    },
+  fileType: {
+    type: String,
+    required: true
+  },
+  fileName:{
+    type: String,
+    required: true
+  }
 });
 
 const subForm = mongoose.models.subForm || mongoose.model('subForm', subFormSchema);

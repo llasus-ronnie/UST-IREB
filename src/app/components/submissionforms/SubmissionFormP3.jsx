@@ -16,7 +16,7 @@ import {
 
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { updateFormData, setCurrentStep } from "../../../redux/slices/submissionFormSlice";
+import { updateFormData, setCurrentStep, getFileName } from "../../../redux/slices/submissionFormSlice";
 import { useSelector } from "react-redux";
 
 import nextConnect from 'next-connect';
@@ -35,7 +35,8 @@ function SubmissionFormP3() {
 
   const {
     handleSubmit,
-    register
+    register,
+    setValue
   } = useForm({
     defaultValues: {
       ...formData
@@ -46,12 +47,24 @@ function SubmissionFormP3() {
     dispatch(setCurrentStep(currentPage - 1));
   };
 
+  function handleFileChange(event) {
+    const file = event.target.files[0];
+    const fileName = file.name;
+    console.log(fileName);
+
+    dispatch(getFileName(fileName));
+    dispatch(updateFormData({ fileName: fileName }));
+
+    setValue("fileName", fileName);  // set the value of the fileName field
+
+  }
+
   //submit the form
     //dispatching reducers from store
     async function processForm(data){
       dispatch (updateFormData(data));
-
-          try {
+      
+      try {
       const response = await fetch("/api/forms", {
         method: "POST",
         headers: {
@@ -60,12 +73,12 @@ function SubmissionFormP3() {
         body: JSON.stringify(formData),  // Use the data from react-hook-form
       });
 
-      console.log("Form submitted successfully");
+      console.log(response);
     } catch (error) {
       console.error("Error submitting form:", error);
     }
     }
-  
+
 
   return (
     <div>
@@ -94,7 +107,7 @@ function SubmissionFormP3() {
           <Row>
             <Form onSubmit={handleSubmit(processForm)}>
               <FormLabel className="formtext">File Type:</FormLabel>
-              {/* <Form.Select
+              <Form.Select
                 {...register("fileType")}
                 className="form-control formtext"
                 required>
@@ -103,21 +116,18 @@ function SubmissionFormP3() {
               </Form.Select>
               <Form.Control.Feedback type="invalid">
                 Please select a file type.
-              </Form.Control.Feedback> */}
+              </Form.Control.Feedback>
 
-              {/* <FormLabel className="formtext">Select File:</FormLabel>
+              <FormLabel className="formtext">Select File:</FormLabel>
               <FormControl
-                {...register("fileInput")}
-                type=""
-                id="fileInput"
-                accept=".pdf,.doc,.docx,.txt"
-                className="form-control formtext"
                 onChange={handleFileChange}
+                type="file"
+                className="form-control formtext"
                 required
               />
               <Form.Control.Feedback type="invalid">
                 Please upload a PDF, DOC, or DOCX file.
-              </Form.Control.Feedback> */}
+              </Form.Control.Feedback>
 
               <Row
                 style={{ marginTop: "20px", paddingBottom: "20px" }}

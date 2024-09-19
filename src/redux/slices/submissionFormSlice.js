@@ -6,7 +6,8 @@ const initialState={
     formData:{}, //form data is initially null
 
     //adiitional researcher
-    additionalResearcher: []
+    additionalResearcher: [],
+    fileName: "",
 }
 
 
@@ -37,6 +38,10 @@ const submissionFormSlice = createSlice({
             state.additionalResearcher.push(newResearcher);
         },
 
+        getFileName(state, action){
+            state.fileName = action.payload;
+        }
+
 
     }
 });
@@ -44,7 +49,8 @@ const submissionFormSlice = createSlice({
 export const {
     setCurrentStep,
     updateFormData,
-    addResearcher
+    addResearcher,
+    getFileName
 } = submissionFormSlice.actions;
 
 export default submissionFormSlice.reducer;

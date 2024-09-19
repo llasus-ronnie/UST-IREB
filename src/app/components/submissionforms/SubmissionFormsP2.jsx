@@ -48,10 +48,10 @@ function SubmissionFormsP2() {
     }
   });
 
-  // async function processForm(data){
-  //   dispatch (updateFormData(data));
-  //   dispatch(setCurrentStep(currentPage+1));
-  // }
+  async function processForm(data){
+    dispatch (updateFormData(data));
+    dispatch(setCurrentStep(currentPage+1));
+  }
 
   const handlePrevious = () => {
     dispatch(setCurrentStep(currentPage - 1));
@@ -61,24 +61,25 @@ function SubmissionFormsP2() {
   const handleAddResearcher = () => {
     dispatch(addResearcher());
   }
+  
 
     //dispatching reducers from store
-    async function processForm(data){
-      dispatch (updateFormData(data));
-      try {
-      const response = await fetch("/api/forms", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),  // Use the data from react-hook-form
-      });
+    // async function processForm(data){
+    //   dispatch (updateFormData(data));
+    //   try {
+    //   const response = await fetch("/api/forms", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(formData),  // Use the data from react-hook-form
+    //   });
 
-      console.log(response);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-    }
+    //   console.log(response);
+    // } catch (error) {
+    //   console.error("Error submitting form:", error);
+    // }
+    // }
   
   // const handleFormSubmission = async (e) => {  
 
