@@ -43,7 +43,7 @@ const RecNavMobile = () => {
           </li>
 
           <li>
-            <Link href="/home" passHref>
+            <Link href="../REC/RECDashboard" passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-home.png"
@@ -57,7 +57,7 @@ const RecNavMobile = () => {
           </li>
 
           <li>
-            <Link href="/submissions" passHref>
+            <Link href="../REC/RECSubmissions" passHref>
               <div>
                 <Image
                 src="/images/adminnav/adminnav-submissions.png"
@@ -66,6 +66,20 @@ const RecNavMobile = () => {
                   height={32}
                 />
                 <p>Submissions</p>
+              </div>
+            </Link>
+          </li>
+
+          <li>
+            <Link href="/reports" passHref>
+              <div>
+                <Image
+                  src="/images/adminnav/adminnav-reports.png"
+                  alt="Reports"
+                  width={32}
+                  height={32}
+                />
+                <p>Reports</p>
               </div>
             </Link>
           </li>
