@@ -1,132 +1,200 @@
-    const mongoose = require('mongoose');
-    const Schema = mongoose.Schema;
+import { type } from "os";
 
-    const subFormSchema = new Schema({
-    primaryFullName: {
-    type: String,
-    required: true
-    },
-    primaryEmail: {
-    type: String,
-    required: true
-    },
-    primaryPhoneNumber: {
-    type: Number,
-    required: true
-    },
-    primaryInstAffil: {
-    type: String,
-    required: true
-    },
-    additionalFullName: {
-    type: String,
-    required: true
-    },
-    additionalEmail: {
-    type: String,
-    required: true
-    },
-    additionalPhoneNumber: {
-    type: Number,
-    required: true
-    },
-    additionalInstAffil: {
-    type: String,
-    required: true
-    },
-    title: {
-    type: String,
-    required: true
-    },
-    background: {
-    type: String,
-    required: true
-    },
-    objectives: {
-    type: String,
-    required: true
-    },
-    outcomes: {
-    type: String,
-    required: true
-    },
-    keywords: {
-    type: String,
-    required: true
-    },
-    studyType: {
-    type: String,
-    required: true
-    },
-    startDate: {
-    type: Date,
-    required: true
-    },
-    endDate: {
-    type: Date,
-    required: true
-    },
-    primarySponsor: {
-    type: String,
-    required: true
-    },
-    secondarySponsor: {
-    type: String,
-    required: true
-    },
-    multiCountryResearch: {
-    type: String,
-    required: true
-    },
-    multiSiteResearch: {
-    type: String,
-    required: true
-    },
-    region: {
-    type: String,
-    required: true
-    },
-    researchField: {
-    type: String,
-    required: true
-    },
-    involvesHumanSubjects: {
-    type: String,
-    required: true
-    },
-    proposalType: {
-    type: String,
-    required: true
-    },
-    dataCollection: {
-    type: String,
-    required: true
-    },
-    reviewedByOtherCommittee: {
-    type: String,
-    required: true
-    },
-    monetarySource: {
-    type: String,
-    required: true
-    },
-    amountInPeso: {
-    type: Number,
-    required: true
-    },
-    otherSource: {
-    type: String,
-    required: true
-    },
-    fileType: {
-    type: String,
-    required: true
-    },
-    file: {
-    type: String, // or Buffer if you're storing the file directly in the database
-    required: true
-    }
-    });
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-   const subForm =mongoose.models.subForms ||mongoose.model('subForms', subFormSchema);
-   export default subForm;
+const researcherSchema = new Schema({
+  index: {
+    type: Number,
+    require: true,
+  },
+
+  additionalFullName: {
+    type: String,
+    require: false,
+  },
+
+  additionalEmail: {
+    type: String,
+    require: false,
+  },
+
+  additionalPhone: {
+    type: Number,
+    require: false,
+  },
+
+  additionalInstitutionAffiliation: {
+    type: String,
+    require: false,
+  },
+});
+
+const subFormSchema = new Schema({
+  institution: {
+    type: String,
+    require: true,
+  },
+
+  researchEthicsCommittee: {
+    type: String,
+    require: true,
+  },
+
+  agreeSoftCopies: {
+    type: Boolean,
+    require: true,
+  },
+
+  understandSubmission: {
+    type: Boolean,
+    require: true,
+  },
+
+  understandConfidentiality: {
+    type: Boolean,
+    require: true,
+  },
+
+  fullName: {
+    type: String,
+    require: true,
+  },
+
+  email: {
+    type: String,
+    require: true,
+  },
+
+  phone: {
+    type: Number,
+    require: true,
+  },
+
+  institutionAffiliation: {
+    type: String,
+    require: true,
+  },
+
+  additionalFullName: {
+    type: String,
+    require: false,
+  },
+
+  additionalEmail: {
+    type: String,
+    require: false,
+  },
+
+  additionalPhone: {
+    type: Number,
+    require: false,
+  },
+
+  additionalInstitutionAffiliation: {
+    type: String,
+    require: false,
+  },
+
+  additionalResearchers: {
+    type: [researcherSchema],
+    require: false,
+  },
+
+  title: {
+    type: String,
+    require: true,
+  },
+  background: {
+    type: String,
+    require: true,
+  },
+  objectives: {
+    type: String,
+    require: true,
+  },
+  expectedOutcomes: {
+    type: String,
+    require: true,
+  },
+  keywords: {
+    type: String,
+    require: true,
+  },
+  studyType: {
+    type: String,
+    require: true,
+  },
+  startDate: {
+    type: Date,
+    require: true,
+  },
+  endDate: {
+    type: Date,
+    require: true,
+  },
+  primarySponsor: {
+    type: String,
+    require: true,
+  },
+  secondarySponsor: {
+    type: String,
+    require: true,
+  },
+  multiCountryResearch: {
+    type: String,
+    require: true,
+  },
+  multiSiteResearch: {
+    type: String,
+    require: true,
+  },
+  region: {
+    type: String,
+    require: true,
+  },
+  researchField: {
+    type: String,
+    require: true,
+  },
+  involvesHumanSubjects: {
+    type: String,
+    require: true,
+  },
+  proposalType: {
+    type: String,
+    require: true,
+  },
+  dataCollection: {
+    type: String,
+    require: true,
+  },
+  proposalReviewedByOtherCommittee: {
+    type: String,
+    require: true,
+  },
+  monetarySource: {
+    type: String,
+    require: true,
+  },
+  amountInPHP: {
+    type: Number,
+    require: true,
+  },
+  otherSource: {
+    type: String,
+    require: true,
+  },
+  fileType: {
+    type: String,
+    required: true,
+  },
+  fileName: {
+    type: String,
+    required: true,
+  },
+});
+
+const subForm =
+  mongoose.models.subForm || mongoose.model("subForm", subFormSchema);
+export default subForm;

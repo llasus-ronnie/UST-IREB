@@ -17,6 +17,11 @@
   background-position: center;
   background-size: 150%;
   background-repeat: no-repeat;
+  height: fit-content;
+
+  position: relative;
+  top: 3rem;
+  padding: 2rem;
 }
 
 .stepbar-colpad {

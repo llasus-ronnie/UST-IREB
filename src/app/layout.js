@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import SessionProviderWrapper from "./SessionProviderWrapper";
+import Providers from "../redux/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,7 +16,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProviderWrapper>{children}</SessionProviderWrapper>
+        <Providers>
+          <SessionProviderWrapper>{children}</SessionProviderWrapper>
+        </Providers>
       </body>
     </html>
   );

@@ -43,7 +43,9 @@ export default function Navbar() {
 
         <div className="navbar-right">
           {session ? (
-            <></>
+            <>
+              <h1 className="navbar-subtitle">Welcome, {session.user.name}!</h1>
+            </>
           ) : (
             <>
               <button href="/signinoption" className="navbar-subtitle">
@@ -66,7 +68,7 @@ export default function Navbar() {
                 width={200}
                 height={200}
               />
-              <p>{session.user.name}</p>
+              <p className="navbar-subtitle">{session.user.name}</p>
               <Link href="/" className="view-account">
                 View Account
               </Link>
@@ -87,7 +89,7 @@ export default function Navbar() {
 
           {session ? (
             <>
-              <Link href="/PrincipalInvestigator/form1">Submission Forms</Link>
+              <Link href="/form">Submission Forms</Link>
               <a href="/MySubmissions">View my Submissions</a>
               <Link href="/" onClick={() => signOut()}>
                 Logout
