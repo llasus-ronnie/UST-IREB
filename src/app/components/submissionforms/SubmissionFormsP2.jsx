@@ -1,8 +1,6 @@
 "use client";
 
 import React, { use, useState, useEffect } from "react";
-import { Helmet } from "react-helmet";
-import Navbar from "../navbar/Navbar";
 import {
   Container,
   Col,
@@ -95,10 +93,6 @@ function SubmissionFormsP2() {
 
   return (
     <div>
-      <Helmet>
-        <title>Submission Forms</title>
-        <style>{"body { background-color: #ECF0F1; }"}</style>
-      </Helmet>
       <Container className="PIforms-cont1">
         <Form
           noValidate

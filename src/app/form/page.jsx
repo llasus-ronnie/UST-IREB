@@ -2,31 +2,37 @@ import React from "react";
 import Page1 from "../components/submissionforms/SubmissionFormsP1";
 import StepBar from "../components/stepbar/StepBar";
 import StepForm from "../components/stepbar/StepForm";
-import { Nav } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import Navbar from "../components/navbar/Navbar";
+
 export default function page() {
   // Define the steps
   const steps = [
     {
       number: 1,
-      title: "About the Researchers",
+      title: "Research Classification",
     },
     {
       number: 2,
-      title: "About the Research",
+      title: "Proposal Metadata",
     },
     {
       number: 3,
-      title: "File Upload",
+      title: "Supplementary Materials",
+    },
+    {
+      number: 4,
+      title: "Summary of Proposal",
     },
   ];
+
   return (
     <>
       <Navbar />
-      <div>
+      <Container className="PIforms-cont1">
         <StepBar steps={steps} />
-      </div>
-      <StepForm />
+        <StepForm />
+      </Container>
     </>
   );
 }

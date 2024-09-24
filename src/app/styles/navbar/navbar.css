@@ -52,6 +52,9 @@
   font-size: 0.95rem;
   color: var(--quaternary-color);
   padding-top: 0.5em;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 /* Hamburger Icon */

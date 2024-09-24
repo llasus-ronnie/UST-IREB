@@ -10,13 +10,12 @@ import {
   Button,
 } from "react-bootstrap";
 import React, { useState } from "react";
-import StepBar from "../stepbar/StepBar";
-import Navbar from "../navbar/Navbar";
 import { useForm } from "react-hook-form";
-import { useSelector, useDispatch } from 'react-redux';
-import {updateFormData, setCurrentStep} from "../../../redux/slices/submissionFormSlice";
-
-
+import { useSelector, useDispatch } from "react-redux";
+import {
+  updateFormData,
+  setCurrentStep,
+} from "../../../redux/slices/submissionFormSlice";
 
 function SubmissionFormsP1() {
   const [validated, setValidated] = useState(false);
@@ -27,33 +26,28 @@ function SubmissionFormsP1() {
   const dispatch = useDispatch();
 
   //initial states from store
-  const currentStep = useSelector((store)=>store.submissionForm.currentStep);
-  const formData = useSelector((store)=>store.submissionForm.formData);
+  const currentStep = useSelector((store) => store.submissionForm.currentStep);
+  const formData = useSelector((store) => store.submissionForm.formData);
   console.log(formData, currentStep);
 
-
   //react hook form functions
-  const {
-    handleSubmit,
-    register,
-    watch
-  } = useForm({
+  const { handleSubmit, register, watch } = useForm({
     defaultValues: {
-      ...formData
-    }
+      ...formData,
+    },
   });
 
   //dispatching reducers from store
-  async function processForm(data){
-    dispatch (updateFormData(data));
-    dispatch(setCurrentStep(currentStep+1));
+  async function processForm(data) {
+    dispatch(updateFormData(data));
+    dispatch(setCurrentStep(currentStep + 1));
   }
 
-  // const handleFormSubmission = async (e) => {  
+  // const handleFormSubmission = async (e) => {
   //   // Log formData before submission
   //   console.log('Submitting formData:', formData);
-  //   dispatch(updateFormData(formData)); 
-  
+  //   dispatch(updateFormData(formData));
+
   //   try {
   //     const response = await fetch("/api/forms", {
   //       method: "POST",
@@ -69,8 +63,7 @@ function SubmissionFormsP1() {
   //   }
 
   // };
-  
-  
+
   return (
     <div>
       <Container className="PIforms-cont1">
@@ -92,13 +85,17 @@ function SubmissionFormsP1() {
         </Row>
 
         {/* forms */}
-        <Form noValidate validated={validated} onSubmit={handleSubmit(processForm)}>
+        <Form
+          noValidate
+          validated={validated}
+          onSubmit={handleSubmit(processForm)}
+        >
           <Container className="PIforms-rescont">
             <Row>
               <h1 className="PIforms-resconthead">Research Classification</h1>
             </Row>
 
-        {/* institution */}
+            {/* institution */}
             <Row>
               <FormLabel className="PIforms-formtext">Institution</FormLabel>
               <FormSelect
@@ -124,7 +121,7 @@ function SubmissionFormsP1() {
                 />
               )}
 
-        {/* research ethics committee */}
+              {/* research ethics committee */}
               <FormLabel className="PIforms-formtext">
                 Research Ethics Committee
               </FormLabel>
@@ -172,7 +169,7 @@ function SubmissionFormsP1() {
             <Row className="justify-content-center">
               <Col md="8">
                 <FormCheck
-                {...register("agreeSoftCopies")}
+                  {...register("agreeSoftCopies")}
                   type="checkbox"
                   className="PIforms-formcheck"
                   label="I agree to provide soft copies of the protocol and supplementary files of my research."
@@ -180,7 +177,7 @@ function SubmissionFormsP1() {
                 />
 
                 <FormCheck
-                {...register("understandSubmission")}
+                  {...register("understandSubmission")}
                   type="checkbox"
                   className="PIforms-formcheck"
                   label="I understand that this submission will be forwarded to a REC for review"
@@ -188,7 +185,7 @@ function SubmissionFormsP1() {
                 />
 
                 <FormCheck
-                {...register("understandConfidentiality")}
+                  {...register("understandConfidentiality")}
                   type="checkbox"
                   className="PIforms-formcheck"
                   label="I understand that my research will be monitored by UST IREB and will be treated with confidentiality."
@@ -198,7 +195,7 @@ function SubmissionFormsP1() {
             </Row>
           </Container>
 
-            {/* buttons */}
+          {/* buttons */}
           <Row
             style={{ marginTop: "20px", paddingBottom: "20px" }}
             className="justify-content-evenly"

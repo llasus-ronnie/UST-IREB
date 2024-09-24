@@ -1,9 +1,6 @@
 "use client";
 
 import React, { use, useState } from "react";
-import { Helmet } from "react-helmet";
-import StepBar from "../stepbar/StepBar";
-import Navbar from "../navbar/Navbar";
 import {
   Container,
   Row,
@@ -78,10 +75,6 @@ function SubmissionFormP3() {
 
   return (
     <div>
-      <Helmet>
-        <title>Submission Forms</title>
-        <style>{"body { background-color: #ECF0F1; }"}</style>
-      </Helmet>
       <Container className="PIforms-cont1">
         <Row className="justify-content-center">
           <h1 className="PIforms-header">
@@ -120,7 +113,6 @@ function SubmissionFormP3() {
                 type="file"
                 // accept=".pdf,.doc,.docx,.txt"
                 className="form-control PIforms-formtext"
-                required
               />
               <Form.Control.Feedback type="invalid">
                 Please upload a PDF, DOC, or DOCX file.

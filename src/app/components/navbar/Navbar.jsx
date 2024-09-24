@@ -48,9 +48,9 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <button href="/signinoption" className="navbar-subtitle">
+              <Link href="/signinoption" className="navbar-subtitle">
                 Login
-              </button>
+              </Link>
             </>
           )}
         </div>
@@ -92,7 +92,7 @@ export default function Navbar() {
 
           {session ? (
             <>
-              <Link href="/form">Submission Forms</Link>
+              <Link href="/form">Submit Proposal</Link>
               <a href="/MySubmissions">View my Submissions</a>
               <Link href="/" onClick={() => signOut()}>
                 Logout

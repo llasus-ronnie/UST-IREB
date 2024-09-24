@@ -20,8 +20,10 @@
   height: fit-content;
 
   position: relative;
-  top: 3rem;
-  padding: 2rem;
+  top: 2.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .stepbar-colpad {
@@ -33,13 +35,13 @@
   font-family: Poppins;
   font-size: 15px;
   font-style: normal;
-  margin-bottom: 20px;
 }
 
 .PIforms-cont1 {
   background-color: white;
   border-radius: 5px;
-  padding-top: 70px;
+  padding-top: 30px;
+  padding-bottom: 20px;
 }
 
 .PIforms-header {

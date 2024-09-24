@@ -1,11 +1,11 @@
 "use client";
+import { Row, Col } from "react-bootstrap";
+import "../../styles/userprofile/UserProfile.css";
+
 import React from "react";
 import Navbar from "../../components/navbar/Navbar";
 
-import "../../styles/userprofile/UserProfile.css";
 import { useSession } from "next-auth/react";
-
-import { Row } from "react-bootstrap";
 
 function UserProfile() {
   const { data: session } = useSession();
@@ -21,8 +21,8 @@ function UserProfile() {
 
       <Row className="profile-divider" />
 
-      <div className="row profile-container">
-        <div className="col profile-left">
+      <Row className="profile-container">
+        <Col className="profile-left">
           <div className="profile-cardleft">
             <div className="profile-card-body">
               <img
@@ -40,18 +40,18 @@ function UserProfile() {
               <p>Principal Investigator</p>
             </div>
           </div>
-        </div>
+        </Col>
 
-        <div className="col profile-right">
+        <Col className="profile-right">
           <div className="profile-cardright-title"> User Information </div>
           <div className="profile-cardright">
-            <div className="row profile-cardright-body">
-              <div className="col profile-cardright-labels">
+            <Row className="profile-cardright-body">
+              <Col className="profile-cardright-labels">
                 <p>Name</p>
                 <p>Email Address</p>
                 <p>Category</p>
-              </div>
-              <div className="col profile-cardright-content">
+              </Col>
+              <Col className="profile-cardright-content">
                 <p>
                   {session && session.user.name ? session.user.name : "N/A"}
                 </p>
@@ -59,15 +59,15 @@ function UserProfile() {
                   {session && session.user.email ? session.user.email : "N/A"}
                 </p>
                 <p>Thomasian Principal Investigator</p>
-              </div>
-            </div>
+              </Col>
+            </Row>
           </div>
           <div className="check-status">
             <p>Want to check the status of your submissions?</p>
             <button className="check-status">View My Submissions</button>
           </div>
-        </div>
-      </div>
+        </Col>
+      </Row>
     </>
   );
 }

@@ -6,11 +6,17 @@ import Step from "../stepbar/Step";
 export default function StepBar({ steps = [] }) {
   console.log(steps);
   return (
-    <div className='stepbar-nav flex flex-row items-center gap-3 justify-center'>
-      {steps.map((step, i) => {
-        return <Step key={i} step={step} />;
-      })}
-    </div>
-  )
+    <Container>
+      <Row className="stepbar-nav">
+        {steps.map((step, i) => (
+          <Col
+            key={i}
+            className="d-flex flex-column align-items-center text-center stepbar-colpad"
+          >
+            <Step step={step} />
+          </Col>
+        ))}
+      </Row>
+    </Container>
+  );
 }
-
