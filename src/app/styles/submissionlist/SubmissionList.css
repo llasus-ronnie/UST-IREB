@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+  --primary-color: #121212;
+  --secondary-color: #ecf0f1;
+  --tertiary-color: #fcbf15;
+  --quaternary-color: #ffffff;
+  --full-board-color: #2ecc71; /* Green for Full Board */
+  --expedited-color: #e74c3c; /* Red for Expedited */
+  --poppins: "Poppins", sans-serif;
+  --title-size: 32px;
+  --heading-1-size: 24px;
+  --paragraph-size: 13.6px;
+}
+
+body {
+  font-family: var(--poppins);
+}
+
+.submission_header {
+  background-image: url("/images/userprofile/profile-header.png");
+  background-size: 100%;
+  background-position: 50%;
+  width: 100%;
+  height: 12rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.submission_header h1 {
+  color: var(--tertiary-color);
+  font-family: var(--poppins);
+  font-size: var(--title-size);
+  font-weight: 700;
+}
+
+.submission-list-container {
+  width: 85%;
+  margin: 2em auto;
+  background-color: var(--quaternary-color);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.submission-list-header {
+  background-color: var(--primary-color);
+  color: var(--quaternary-color);
+  padding: 0.8em;
+  text-align: center;
+}
+
+.submission-list-header h2 {
+  margin: 0;
+  font-size: 1.8rem; 
+  font-weight: 700; 
+}
+
+.profile-divider {
+    width: 100%;
+    height: 0.938rem;
+    background-color: var(--tertiary-color);
+    margin: 0;
+    padding: 0;
+}
+
+
+.submission-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+}
+
+.submission-table th, .submission-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  font-size: var(--paragraph-size);
+}
+
+.submission-table th {
+  background-color: var(--secondary-color);
+  font-weight: bold;
+}
+
+.submission-table td {
+  background-color: var(--quaternary-color);
+}
+
+.submission-table .review-classification {
+  font-weight: bold;
+}
+
+.submission-table .full-board {
+  color: var(--full-board-color);
+}
+
+.submission-table .expedited {
+  color: var(--expedited-color);
+}
+
+.view-btn-cell {
+  text-align: center;
+}
+
+.view-btn {
+  background-color: var(--tertiary-color);
+  color: var(--quaternary-color);
+  border: none;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.view-btn:hover {
+  background-color: #f0a500;
+}
+
+.submission-footer {
+  text-align: center;
+  padding: 1em;
+  background-color: #f8f9fa;
+  font-size: var(--paragraph-size);
+  color: #555;
+}
+
+.submission-footer p {
+  margin: 0;
+  font-style: italic;
+}
