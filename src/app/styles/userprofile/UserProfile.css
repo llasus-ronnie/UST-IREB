@@ -66,8 +66,9 @@
 .profile-cardleft {
   background-color: var(--quaternary-color);
   border-radius: 10px;
-  width: fit-content;
-  padding: 4rem 4.5rem 4rem 4.5rem;
+  width: 80%;
+  max-width: 400px;
+  padding: 3.2rem 0.5rem;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -82,7 +83,7 @@
 }
 
 .profile-cardleft h5 {
-  margin-top: 2rem;
+  padding: 1rem 2rem;
   font-size: var(--heading-1-size);
   font-weight: bold;
 }
@@ -122,19 +123,13 @@
 
 .profile-cardright-body {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 1rem 1.5rem 5rem;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
 }
 
-.profile-cardright-labels,
-.profile-cardright-content {
-  flex: 1;
-  padding: 0.625rem;
-}
-
-.profile-cardright-labels p,
-.profile-cardright-content p {
+.profile-cardright-row {
+  display: flex;
+  width: 100%;
   margin-bottom: 0.5rem;
 }
 
@@ -142,19 +137,28 @@
   max-width: 30%;
   color: gray;
   font-weight: bold;
+  text-align: right;
+  padding-right: 1rem;
 }
 
 .profile-cardright-content {
   max-width: 70%;
+  flex: 1;
+  padding-left: 1rem;
+}
+
+.profile-cardright-labels p,
+.profile-cardright-content p {
+  margin: 0;
 }
 
 .check-status {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: flex-start;
   text-align: left;
-  margin-top: 3.5rem;
+  margin-top: auto;
 }
 
 .check-status button {
@@ -179,3 +183,174 @@
   background-color: var(--tertiary-color);
   border-radius: 10px;
 }
+
+/* Responsiveness */
+
+/* Mobile */
+@media only screen and (max-width: 576px) {
+  .profileheader {
+    height: 8rem;
+    background-size: cover;
+  }
+
+  .profileheader h1 {
+    font-size: 1.5rem;
+  }
+
+  .profile-container {
+    flex-direction: column;
+    margin: 1rem;
+  }
+
+  .profile-left {
+    margin: 1rem auto;
+    max-width: 100%;
+    align-items: center;
+  }
+
+  .profile-cardleft {
+    padding: 2rem 1rem;
+    width: 100%;
+    max-width: none;
+  }
+
+  .profile-cardleft img {
+    width: 6.25rem;
+    height: 6.25rem;
+  }
+
+  .profile-right {
+    margin: 1rem auto;
+    width: 100%;
+  }
+
+  .profile-cardright {
+    width: 100%;
+  }
+
+  .profile-cardright-body {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .profile-cardright-row {
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .profile-cardright-labels {
+    max-width: 100%;
+    text-align: center;
+    padding-right: 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .profile-cardright-content {
+    max-width: 100%;
+    padding-left: 0;
+  }
+
+  .profile-cardright-labels p,
+  .profile-cardright-content p {
+    margin: 0;
+  }
+
+  .check-status {
+    align-items: center;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .check-status button {
+    padding: 0.5rem 2.5rem;
+    font-size: 0.9rem;
+  }
+
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+}
+
+
+
+    /* Tablet */
+    @media only screen and (min-width: 577px) and (max-width: 768px) {
+      .profileheader {
+        height: 10rem;
+        background-size: cover;
+      }
+    
+      .profileheader h1 {
+        font-size: 1.75rem;
+      }
+    
+      .profile-container {
+        flex-direction: column;
+        margin: 1rem;
+      }
+    
+      .profile-left {
+        margin: 2rem auto;
+        max-width: 100%;
+        align-items: center;
+      }
+    
+      .profile-cardleft {
+        padding: 2rem 1rem;
+        width: 120%;
+        max-width: none;
+      }
+    
+      .profile-cardleft img {
+        width: 8rem;
+        height: 8rem;
+      }
+    
+      .profile-right {
+        margin: 2rem auto;
+        width: 90%;
+      }
+    
+      .profile-cardright {
+        width: 100%;
+      }
+    
+      .profile-cardright-body {
+        padding: 1rem;
+        text-align: center;
+      }
+    
+      .profile-cardright-row {
+        flex-direction: column;
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+    
+      .profile-cardright-labels {
+        max-width: 100%;
+        text-align: center;
+        padding-right: 0;
+        padding-bottom: 0.5rem;
+      }
+    
+      .profile-cardright-content {
+        max-width: 100%;
+        padding-left: 0;
+      }
+    
+      .check-status {
+        align-items: center;
+        text-align: center;
+        margin-top: 2rem;
+      }
+    
+      .check-status button {
+        padding: 0.5rem 2.5rem;
+        font-size: 1rem;
+      }
+    
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+    }

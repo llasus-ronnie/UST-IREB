@@ -1,14 +1,13 @@
 "use client";
 import { Row, Col } from "react-bootstrap";
 import "../../styles/userprofile/UserProfile.css";
-
 import React from "react";
 import Navbar from "../../components/navbar/Navbar";
-
 import { useSession } from "next-auth/react";
 
 function UserProfile() {
   const { data: session } = useSession();
+  
   return (
     <>
       <div className="header">
@@ -43,24 +42,36 @@ function UserProfile() {
         </Col>
 
         <Col className="profile-right">
-          <div className="profile-cardright-title"> User Information </div>
+          <div className="profile-cardright-title">User Information</div>
           <div className="profile-cardright">
-            <Row className="profile-cardright-body">
+          <Row className="profile-cardright-body">
+            <div className="profile-cardright-row">
               <Col className="profile-cardright-labels">
                 <p>Name</p>
+              </Col>
+              <Col className="profile-cardright-content">
+                <p>{session && session.user.name ? session.user.name : "N/A"}</p>
+              </Col>
+            </div>
+
+            <div className="profile-cardright-row">
+              <Col className="profile-cardright-labels">
                 <p>Email Address</p>
+              </Col>
+              <Col className="profile-cardright-content">
+                <p>{session && session.user.email ? session.user.email : "N/A"}</p>
+              </Col>
+            </div>
+
+            <div className="profile-cardright-row">
+              <Col className="profile-cardright-labels">
                 <p>Category</p>
               </Col>
               <Col className="profile-cardright-content">
-                <p>
-                  {session && session.user.name ? session.user.name : "N/A"}
-                </p>
-                <p>
-                  {session && session.user.email ? session.user.email : "N/A"}
-                </p>
                 <p>Thomasian Principal Investigator</p>
               </Col>
-            </Row>
+            </div>
+          </Row>
           </div>
           <div className="check-status">
             <p>Want to check the status of your submissions?</p>
