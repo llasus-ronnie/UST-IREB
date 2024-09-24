@@ -57,6 +57,18 @@
   display: flex;
 }
 
+.navbar-user-session {
+  font-family: var(--poppins);
+  font-size: 0.95rem;
+  color: var(--primary-color) !important;
+  padding-top: 0.5em;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  text-align: center;
+  font-weight: bold;
+}
+
 /* Hamburger Icon */
 .hamburger {
   width: 30px;
@@ -209,6 +221,7 @@
   position: relative;
 
   gap: 1em;
+  margin-top: 1em;
   margin-bottom: 1em;
 
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.581);
