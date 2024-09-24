@@ -164,7 +164,7 @@ function SummaryForm() {
               <strong>File Type:</strong> {formData.fileType}
             </p>
             <p className="PIforms-formtext">
-              <strong>File Input:</strong> {formData.fileInput}
+              <strong>File Input:</strong> {formData.fileName}
             </p>
           </Col>
         </Container>

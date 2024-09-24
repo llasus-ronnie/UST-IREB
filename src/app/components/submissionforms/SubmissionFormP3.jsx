@@ -96,14 +96,17 @@ function SubmissionFormP3() {
           <Row>
             <Form onSubmit={handleSubmit(processForm)}>
               <FormLabel className="PIforms-formtext">File Type:</FormLabel>
-              <Form.Select
+              <FormSelect
                 {...register("fileType")}
                 className="form-control PIforms-formtext"
                 required
               >
-                <option>Protocol</option>
-                <option>Supplementary Files</option>
-              </Form.Select>
+                <option value="" disabled>
+                  Choose...
+                </option>{" "}
+                <option value="Protocol">Protocol</option>
+                <option value="Supplementary Files">Supplementary Files</option>
+              </FormSelect>
               <Form.Control.Feedback type="invalid">
                 Please select a file type.
               </Form.Control.Feedback>
@@ -112,7 +115,7 @@ function SubmissionFormP3() {
               <FormControl
                 onChange={handleFileChange}
                 type="file"
-                // accept=".pdf,.doc,.docx,.txt"
+                accept=".pdf,.doc,.docx,.txt"
                 className="form-control PIforms-formtext"
               />
               <Form.Control.Feedback type="invalid">

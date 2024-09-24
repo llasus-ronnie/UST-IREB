@@ -139,7 +139,7 @@ function SubmissionFormsP2() {
                 </FormLabel>
                 <FormControl
                   {...register("phone")}
-                  type="tel"
+                  type="number"
                   className="form-control PIforms-formtext2"
                   required
                 />
@@ -544,7 +544,7 @@ function SubmissionFormsP2() {
                   </FormLabel>
                   <FormControl
                     {...register("amountInPHP")}
-                    type="text"
+                    type="number"
                     className="form-control PIforms-formtext2"
                     required
                   />
