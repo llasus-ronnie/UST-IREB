@@ -69,7 +69,10 @@ export default function Navbar() {
                 height={200}
               />
               <p className="navbar-subtitle">{session.user.name}</p>
-              <Link href="/" className="view-account">
+              <Link
+                href="/PrincipalInvestigator/UserProfile"
+                className="view-account"
+              >
                 View Account
               </Link>
             </>

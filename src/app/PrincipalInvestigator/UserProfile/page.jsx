@@ -3,10 +3,12 @@ import React from "react";
 import Navbar from "../../components/navbar/Navbar";
 
 import "../../styles/userprofile/UserProfile.css";
+import { useSession } from "next-auth/react";
 
 import { Row } from "react-bootstrap";
 
 function UserProfile() {
+  const { data: session } = useSession();
   return (
     <>
       <div className="header">
@@ -20,16 +22,21 @@ function UserProfile() {
       <Row className="profile-divider" />
 
       <div className="row profile-container">
-
         <div className="col profile-left">
           <div className="profile-cardleft">
             <div className="profile-card-body">
-              <img 
-                src="/images/userloggedin/user-placeholder2.png" 
-                alt="Profile" 
-                className="profile-image rounded-circle" 
+              <img
+                src={
+                  session && session.user.image
+                    ? session.user.image
+                    : "/images/userloggedin/user-placeholder2.png"
+                }
+                alt="Profile"
+                className="profile-image rounded-circle"
               />
-              <h5>Juan Dela Cruz</h5>
+              <h5>
+                {session && session.user.name ? session.user.name : "Guest"}
+              </h5>
               <p>Principal Investigator</p>
             </div>
           </div>
@@ -37,29 +44,32 @@ function UserProfile() {
 
         <div className="col profile-right">
           <div className="profile-cardright-title"> User Information </div>
-            <div className="profile-cardright">
-                <div className="row profile-cardright-body">
-                  <div className="col profile-cardright-labels">
-                    <p>Name</p>
-                    <p>Email Address</p>
-                    <p>Category</p>
-                  </div>
-                  <div className="col profile-cardright-content">
-                    <p>Juan Dela Cruz</p>
-                    <p>jmdelacruz@ust.edu.ph</p>
-                    <p>Thomasian Principal Investigator</p>
-                  </div>
-                </div>
-            </div>
-            <div className="check-status">
-              <p>Want to check the status of your submissions?</p>
-              <button className="check-status">View My Submissions</button>
+          <div className="profile-cardright">
+            <div className="row profile-cardright-body">
+              <div className="col profile-cardright-labels">
+                <p>Name</p>
+                <p>Email Address</p>
+                <p>Category</p>
+              </div>
+              <div className="col profile-cardright-content">
+                <p>
+                  {session && session.user.name ? session.user.name : "N/A"}
+                </p>
+                <p>
+                  {session && session.user.email ? session.user.email : "N/A"}
+                </p>
+                <p>Thomasian Principal Investigator</p>
+              </div>
             </div>
           </div>
+          <div className="check-status">
+            <p>Want to check the status of your submissions?</p>
+            <button className="check-status">View My Submissions</button>
+          </div>
         </div>
-
+      </div>
     </>
   );
 }
 
-export default UserProfile ;
+export default UserProfile;
