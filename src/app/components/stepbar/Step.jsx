@@ -10,11 +10,11 @@ export default function Step({ step }) {
   const isCurrentStep = number === currentStep;
   return (
     <>
-      <div className="flex flex-col text-white items-center">
+      <div className="flex flex-col items-center">
         <div
           className={`w-12 h-12 border
         rounded-full flex items-center justify-center font-bold
-        ${number === currentStep ? "bg-yellow-300" : ""}`}
+        ${number === currentStep ? "bg-[#FCBF15ED]" : "bg-white"}`}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="52">
             <text
@@ -22,7 +22,7 @@ export default function Step({ step }) {
               y="50%"
               dominantBaseline="middle"
               textAnchor="middle"
-              fill={isCurrentStep ? "black" : "white"}
+              fill={isCurrentStep ? "black" : "black"}
             >
               {number}
             </text>
