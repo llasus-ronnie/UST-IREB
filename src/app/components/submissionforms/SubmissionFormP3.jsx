@@ -57,6 +57,7 @@ function SubmissionFormP3() {
   //dispatching reducers from store
   async function processForm(data) {
     dispatch(updateFormData(data));
+    dispatch(setCurrentStep(currentPage + 1));
 
     try {
       const response = await fetch("/api/forms", {
