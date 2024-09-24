@@ -9,6 +9,8 @@ const IrebNavMobile = () => {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startY, setStartY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,8 +31,22 @@ const IrebNavMobile = () => {
     setIsPopupVisible(!isPopupVisible);
   };
 
-  const handleClosePopup = () => {
-    setIsPopupVisible(false);
+  const handleDragStart = (e) => {
+    setIsDragging(true);
+    setStartY(e.clientY || e.touches[0].clientY);
+  };
+
+  const handleDragMove = (e) => {
+    if (!isDragging) return;
+    const currentY = e.clientY || e.touches[0].clientY;
+    if (currentY - startY > 50) {
+      setIsPopupVisible(false);
+      setIsDragging(false);
+    }
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
   };
 
   return (
@@ -40,66 +56,37 @@ const IrebNavMobile = () => {
           <li>
             <Link href="/account" passHref>
               <div>
-                <Image
-                  src="/images/adminnav/adminnav-account.png"
-                  alt="Account"
-                  width={32}
-                  height={32}
-                />
+                <Image src="/images/adminnav/adminnav-account.png" alt="Account" width={32} height={32} />
                 <p>Profile</p>
               </div>
             </Link>
           </li>
-
           <li>
             <Link href="../IREB/IREBDashboard" passHref>
               <div>
-                <Image
-                  src="/images/adminnav/adminnav-home.png"
-                  alt="Home"
-                  width={32}
-                  height={32}
-                />
+                <Image src="/images/adminnav/adminnav-home.png" alt="Home" width={32} height={32} />
                 <p>Home</p>
               </div>
             </Link>
           </li>
-
           <li>
             <div className="accounts-icon" onClick={handlePopupToggle}>
-              <Image
-                src="/images/adminnav/adminnav-manageaccounts.png"
-                alt="Manage Accounts"
-                width={32}
-                height={32}
-              />
+              <Image src="/images/adminnav/adminnav-manageaccounts.png" alt="Manage Accounts" width={32} height={32} />
               <p>Accounts</p>
             </div>
           </li>
-                
           <li>
             <Link href="/reports" passHref>
               <div>
-                <Image
-                  src="/images/adminnav/adminnav-reports.png"
-                  alt="Reports"
-                  width={32}
-                  height={32}
-                />
+                <Image src="/images/adminnav/adminnav-reports.png" alt="Reports" width={32} height={32} />
                 <p>Reports</p>
               </div>
             </Link>
           </li>
-
           <li>
             <Link href="/logout" passHref>
               <div>
-                <Image
-                  src="/images/adminnav/adminnav-logout.png"
-                  alt="Log Out"
-                  width={32}
-                  height={32}
-                />
+                <Image src="/images/adminnav/adminnav-logout.png" alt="Log Out" width={32} height={32} />
                 <p>Log Out</p>
               </div>
             </Link>
@@ -107,8 +94,16 @@ const IrebNavMobile = () => {
         </ul>
       </div>
 
-      <div className={`adminnav-pop-up ${isPopupVisible ? 'show' : 'hide'}`}>
-        <button className="popup-close-btn" onClick={handleClosePopup}>×</button>
+      <div 
+        className={`adminnav-pop-up ${isPopupVisible ? 'show' : 'hide'}`} 
+        onMouseDown={handleDragStart}
+        onTouchStart={handleDragStart}
+        onMouseMove={handleDragMove}
+        onTouchMove={handleDragMove}
+        onMouseUp={handleDragEnd}
+        onTouchEnd={handleDragEnd}
+      >
+        <div className="grab-handle"></div>
         <Link href="../IREB/IREBManageREC" passHref>
           <p>Manage REC Accounts</p>
         </Link>
