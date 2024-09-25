@@ -185,7 +185,7 @@ const subFormSchema = new Schema({
     type: String,
     require: true,
   },
-  fileType: {
+  mainFile: {
     type: String,
     required: true,
   },

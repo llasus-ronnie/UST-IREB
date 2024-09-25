@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Row,
@@ -11,17 +11,13 @@ import {
   Button,
 } from "react-bootstrap";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import {
   updateFormData,
   setCurrentStep,
   getFileName,
 } from "../../../redux/slices/submissionFormSlice";
-import { useSelector } from "react-redux";
-
-import nextConnect from "next-connect";
-import cors from "cors";
 
 function SubmissionFormP3() {
   const [validated, setValidated] = useState(false);
@@ -32,7 +28,12 @@ function SubmissionFormP3() {
   //dispatch function
   const dispatch = useDispatch();
 
-  const { handleSubmit, register, setValue } = useForm({
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       ...formData,
     },
@@ -50,7 +51,7 @@ function SubmissionFormP3() {
     dispatch(getFileName(fileName));
     dispatch(updateFormData({ fileName: fileName }));
 
-    setValue("fileName", fileName); // set the value of the fileName field
+    setValue("fileName", fileName);
   }
 
   //submit the form
@@ -65,7 +66,7 @@ function SubmissionFormP3() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData), // Use the data from react-hook-form
+        body: JSON.stringify(data),
       });
 
       console.log(response);
@@ -97,19 +98,20 @@ function SubmissionFormP3() {
             <Form onSubmit={handleSubmit(processForm)}>
               <FormLabel className="PIforms-formtext">File Type:</FormLabel>
               <FormSelect
-                {...register("fileType")}
+                {...register("mainFile", { required: true })}
                 className="form-control PIforms-formtext"
-                required
+                name="mainFile"
               >
-                <option value="" disabled>
+                <option disabled value="">
                   Choose...
-                </option>{" "}
+                </option>
                 <option value="Protocol">Protocol</option>
-                <option value="Supplementary Files">Supplementary Files</option>
               </FormSelect>
-              <Form.Control.Feedback type="invalid">
-                Please select a file type.
-              </Form.Control.Feedback>
+              {errors.mainFile && (
+                <Form.Control.Feedback type="invalid">
+                  Please select a file type.
+                </Form.Control.Feedback>
+              )}
 
               <FormLabel className="PIforms-formtext">Select File:</FormLabel>
               <FormControl
@@ -125,44 +127,51 @@ function SubmissionFormP3() {
               {/* additional field */}
 
               {/* <Row className="justify-content-center">
-            <h1 className="PIforms-header">
-              Uploading of Supplementary Materials
-            </h1>
-            <p className="PIforms-text">
-              Please upload the supplementary files for your research
-              submission. Ensure that the file type matches the <br /> required
-              format and that all necessary information is included before
-              submitting.
-            </p>
-          </Row>
+                <h1 className="PIforms-header">
+                  Uploading of Supplementary Materials
+                </h1>
+                <p className="PIforms-text">
+                  Please upload the supplementary files for your research
+                  submission. Ensure that the file type matches the <br />{" "}
+                  required format and that all necessary information is included
+                  before submitting.
+                </p>
+              </Row>
 
-          <Container className="PIforms-rescont3">
-            <Row>
-              <h1 className="PIforms-resconthead">Upload Submission Here:</h1>
-            </Row>
-            <Row>
-              <FormLabel className="PIforms-formtext">File Type:</FormLabel>
-              <Form.Select className="form-control PIforms-formtext" required>
-                <option>Protocol</option>
-                <option>Supplementary Files</option>
-              </Form.Select>
-              <Form.Control.Feedback type="invalid">
-                Please select a file type.
-              </Form.Control.Feedback>
+              <Container className="PIforms-rescont3">
+                <Row>
+                  <h1 className="PIforms-resconthead">
+                    Upload Submission Here:
+                  </h1>
+                </Row>
+                <Row>
+                  <FormLabel className="PIforms-formtext">File Type:</FormLabel>
+                  <Form.Select
+                    className="form-control PIforms-formtext"
+                    required
+                  >
+                    <option>Protocol</option>
+                    <option>Supplementary Files</option>
+                  </Form.Select>
+                  <Form.Control.Feedback type="invalid">
+                    Please select a file type.
+                  </Form.Control.Feedback>
 
-              <FormLabel className="PIforms-formtext">Select File:</FormLabel>
-              <FormControl
-                type="file"
-                id="fileInput"
-                accept=".pdf,.doc,.docx,.txt"
-                className="form-control PIforms-formtext PIforms-file"
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Please upload a PDF, DOC, or DOCX file.
-              </Form.Control.Feedback>
-            </Row>
-          </Container> */}
+                  <FormLabel className="PIforms-formtext">
+                    Select File:
+                  </FormLabel>
+                  <FormControl
+                    type="file"
+                    id="fileInput"
+                    accept=".pdf,.doc,.docx,.txt"
+                    className="form-control PIforms-formtext PIforms-file"
+                    required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please upload a PDF, DOC, or DOCX file.
+                  </Form.Control.Feedback>
+                </Row>
+              </Container> */}
 
               <Row
                 style={{ marginTop: "20px", paddingBottom: "20px" }}
