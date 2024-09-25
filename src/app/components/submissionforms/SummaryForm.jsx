@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 function SummaryForm() {
@@ -168,6 +168,26 @@ function SummaryForm() {
             </p>
           </Col>
         </Container>
+
+        <Row
+          style={{ marginTop: "20px", paddingBottom: "20px" }}
+          className="justify-content-around"
+        >
+          <Button
+            variant="outline-secondary"
+            className="PIforms-formbtn"
+            href="/"
+          >
+            Back to Home
+          </Button>
+          <Button
+            href="../PrincipalInvestigator/SubmissionList"
+            variant="outline-warning"
+            className="PIforms-formbtn"
+          >
+            View Submission
+          </Button>
+        </Row>
       </Container>
     </div>
   );

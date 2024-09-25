@@ -200,7 +200,11 @@ function SubmissionFormsP1() {
             style={{ marginTop: "20px", paddingBottom: "20px" }}
             className="justify-content-evenly"
           >
-            <Button variant="outline-secondary" className="PIforms-formbtn">
+            <Button
+              href="/"
+              variant="outline-secondary"
+              className="PIforms-formbtn"
+            >
               Close
             </Button>
             <Button
