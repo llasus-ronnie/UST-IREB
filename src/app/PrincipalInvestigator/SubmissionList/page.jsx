@@ -2,12 +2,26 @@
 
 //components
 import "../../styles/submissionlist/SubmissionList.css";
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // You can use any library for HTTP requests
 import Navbar from "../../components/navbar/Navbar";
 import { Row } from "react-bootstrap";
 
 function SubmissionList() { 
+    const [forms, setForms] = useState([]);
 
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          const response = await axios.get('/api/forms'); // Replace with your actual API endpoint
+          setForms(response.data.forms);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+  
+      fetchData();
+    }, []);
     return (
     <>
     <div className="header">
@@ -36,21 +50,16 @@ function SubmissionList() {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>UST IREB: Research Portal for UST</td>
-                    <td>July 31, 2024</td>
-                    <td>UST CICS</td>
-                    <td className="review-classification full-board">Full Board</td>
-                    <td className="view-btn-cell"><button className="view-btn">View</button></td>
-                </tr>
-                <tr>
-                    <td>UST IREB: Research Portal for Another Institution</td>
-                    <td>August 10, 2024</td>
-                    <td>UST CICS</td>
-                    <td className="review-classification expedited">Expedited</td>
-                    <td className="view-btn-cell"><button className="view-btn">View</button></td>
-                </tr>
-            </tbody>
+        {forms.map((form, index) => (
+          <tr key={index}>
+            <td>{form.title}</td>
+            <td>{form.date}</td>
+            <td>{form.researchEthicsCommittee}</td>
+            <td className={`review-classification ${form.reviewClassification}`}>{form.reviewClassification}</td>
+            <td className="view-btn-cell"><button className="view-btn">View</button></td>
+          </tr>
+        ))}
+      </tbody>
         </table>
         <div className="submission-footer">
             <p><i>Click to see further details of your submission</i></p>
