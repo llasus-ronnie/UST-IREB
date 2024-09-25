@@ -96,33 +96,52 @@ function SubmissionFormP3() {
           </Row>
           <Row>
             <Form onSubmit={handleSubmit(processForm)}>
-              <FormLabel className="PIforms-formtext">File Type:</FormLabel>
-              <FormSelect
-                {...register("mainFile", { required: true })}
-                className="form-control PIforms-formtext"
-                name="mainFile"
-              >
-                <option disabled value="">
-                  Choose...
-                </option>
-                <option value="Protocol">Protocol</option>
-              </FormSelect>
-              {errors.mainFile && (
+              <Form.Group controlId="mainFile">
+                <FormLabel className="PIforms-formtext">File Type</FormLabel>
+                <FormSelect
+                  {...register("mainFile", {
+                    required: "Please select a file type.",
+                  })}
+                  className="form-control PIforms-formtext"
+                  isInvalid={!!errors.mainFile}
+                >
+                  <option disabled value="">
+                    Choose...
+                  </option>
+                  <option value="Protocol">Protocol</option>
+                </FormSelect>
                 <Form.Control.Feedback type="invalid">
-                  Please select a file type.
+                  {errors.mainFile?.message}
                 </Form.Control.Feedback>
-              )}
+              </Form.Group>
 
-              <FormLabel className="PIforms-formtext">Select File:</FormLabel>
-              <FormControl
-                onChange={handleFileChange}
-                type="file"
-                accept=".pdf,.doc,.docx,.txt"
-                className="form-control PIforms-formtext"
-              />
-              <Form.Control.Feedback type="invalid">
-                Please upload a PDF, DOC, or DOCX file.
-              </Form.Control.Feedback>
+              <Form.Group controlId="fileUpload">
+                <FormLabel className="PIforms-formtext">Select File:</FormLabel>
+                <FormControl
+                  {...register("fileUpload", {
+                    required: "Please upload a PDF, DOC, or DOCX file.",
+                    validate: {
+                      acceptedFormats: (files) =>
+                        (files[0] &&
+                          [
+                            "application/pdf",
+                            "application/msword",
+                            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                            "text/plain",
+                          ].includes(files[0].type)) ||
+                        "Please upload a PDF, DOC, DOCX, or TXT file.",
+                    },
+                  })}
+                  onChange={handleFileChange}
+                  type="file"
+                  accept=".pdf,.doc,.docx,.txt"
+                  className="form-control PIforms-formtext"
+                  isInvalid={!!errors.fileUpload}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.fileUpload?.message}
+                </Form.Control.Feedback>
+              </Form.Group>
 
               {/* additional field */}
 
