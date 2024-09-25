@@ -18,6 +18,9 @@ function RecSubmissions() {
 
   return (
     <div className="adminpage-container">
+      <div className="recnav-mobile">
+        <RecNavMobile />
+      </div>
 
       <RecNav className="recnav" />
 
@@ -33,25 +36,35 @@ function RecSubmissions() {
           </div>
         </div>
 
+        <div className="rec-header-container-mobile">
+            <div className="userloggedin-mobile">
+              <UserLoggedIn />
+            </div>
+            <div className="rec-header">
+            <h1>REC Manage Submissions</h1>
+            <p>Manage Initial Review and Principal Investigator Submissions</p>
+            </div>
+          </div>
+
         <div className="rec-submissions-tabs">
           <div className="rec-buttons-container">
             <button onClick={() => handleTableChange('initialSubmission')}>
-              <span>2</span> Initial Submission
+              <span>2</span> <p>Initial Submission</p>
             </button>
             <button onClick={() => handleTableChange('pendingPayment')}>
-              <span>17</span> Pending Payment
+              <span>17</span> <p>Pending Payment</p>
             </button>
             <button onClick={() => handleTableChange('forClassification')}>
-              <span>8</span> For Classification
+              <span>8</span> <p>For Classification</p>
             </button>
             <button onClick={() => handleTableChange('inProgress')}>
-              <span>100</span> In Progress
+              <span>100</span> <p>In Progress</p>
             </button>
             <button onClick={() => handleTableChange('finalReview')}>
-              <span>21</span> Final Review
+              <span>21</span> <p>Final Review</p>
             </button>
             <button onClick={() => handleTableChange('approved')}>
-            <span>100</span> Approved
+            <span>100</span> <p>Approved</p>
             </button>
           </div>
 

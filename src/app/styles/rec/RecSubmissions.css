@@ -206,3 +206,127 @@ gap: 10px;
   background-color: var(--tertiary-color);
   border-radius: 10px;
 }
+
+/* Responsiveness */
+
+/* Laptops & Desktops */
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
+  .recnav-mobile {
+    display: none;
+  }
+
+  .rec-header-container-mobile {
+    display: none;
+  }
+}
+
+/* Larger Screens */
+@media only screen and (min-width: 1201px) {
+  .recnav-mobile {
+    display: none;
+  }
+
+  .rec-header-container-mobile {
+    display: none;
+  }
+}
+
+  /* Tablet */
+  @media only screen and (min-width: 577px) and (max-width: 768px) {
+    .recnav-mobile {
+      display: none;
+    }
+
+    .rec-header-container-mobile {
+      display: none;
+    }
+  }
+
+    /* Mobile */
+    @media only screen and (max-width: 576px) {
+      .recnav {
+        display: none;
+      }
+
+      .recnav-mobile {
+        display: block;
+      }
+
+      .adminpage-container .recnav {
+        display: none;
+      }
+    
+      /* Mobile General Page Container */
+      .adminpage-container {
+        flex-direction: column;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow-x: hidden;
+      }
+    
+      /* Mobile REC Submission */
+      .rec-submissions {
+        margin-left: 0;
+        padding: 1rem;
+        height: auto;
+      }
+    
+      /* Mobile Main Content Div for REC Submission */
+      .adminmain-content {
+        padding: 1rem;
+        margin: 1rem auto;
+        max-width: 100%;
+      }
+    
+      /* Mobile Header */
+      .rec-header-container {
+        display: none;
+      }
+
+      .rec-header-container-mobile {
+        align-items: center;
+      }
+
+      .rec-header-container-mobile h1 {
+        font-size: 1.5rem;
+      }
+
+      .userloggedin-mobile {
+        margin-bottom: 1.5rem;
+      }
+
+      /* Mobile Tables */
+
+      .rec-submissions-tabs {
+        margin: 2rem 0;
+      }
+
+      .rec-buttons-container p {
+        display: none;
+        padding: 0;
+        margin: 0;
+        gap: 5px;
+      }
+
+      .rec-buttons-container button {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.7rem;
+        transition: background-color 0.3s ease;
+        text-align: left;
+      }
+
+      .rec-table {
+        font-size: 0.875rem;
+        border-radius: 10px;
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+    }
