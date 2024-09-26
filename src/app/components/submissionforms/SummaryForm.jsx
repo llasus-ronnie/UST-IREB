@@ -157,6 +157,40 @@ function SummaryForm() {
 
         <Container className="PIforms-rescont">
           <Row>
+            <h1 className="PIforms-resconthead">
+              Sources of Monetary or Material Support
+            </h1>
+          </Row>
+          <Col>
+            <p className="PIforms-formtext">
+              <strong>Monetary Source:</strong> {formData.monetarySource}
+            </p>
+            <p className="PIforms-formtext">
+              <strong>Amount in Philippines Peso (Php):</strong>{" "}
+              {formData.amountInPHP}
+            </p>
+          </Col>
+        </Container>
+
+        <Container className="PIforms-rescont">
+          <Row>
+            <h1 className="PIforms-resconthead">Assessment Questionnaire</h1>
+          </Row>
+          <Col>
+            {/* <p className="PIforms-formtext">
+              <strong>File Type:</strong> {formData.mainFile}
+            </p>
+            <p className="PIforms-formtext">
+              <strong>File Input:</strong> {formData.fileName}
+            </p> 
+            
+            yung mahabang questionnaire here
+            */}
+          </Col>
+        </Container>
+
+        <Container className="PIforms-rescont">
+          <Row>
             <h1 className="PIforms-resconthead">Uploaded Files</h1>
           </Row>
           <Col>

@@ -193,10 +193,134 @@ const subFormSchema = new Schema({
     type: String,
     required: true,
   },
-  date:{
+  date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
+  monetarySource: {
+    type: String,
+    require: true,
+  },
+  amountInPHP: {
+    type: Number,
+    require: true,
+  },
+  identity: {
+    type: String,
+    require: true,
+  },
+  consent: {
+    type: String,
+    require: true,
+  },
+  under18: {
+    type: String,
+    require: true,
+  },
+  dependent: {
+    type: String,
+    require: true,
+  },
+  ethnic: {
+    type: String,
+    require: true,
+  },
+  intellectual: {
+    type: String,
+    require: true,
+  },
+  pregnant: {
+    type: String,
+    require: true,
+  },
+  treatment: {
+    type: String,
+    require: true,
+  },
+  biological: {
+    type: String,
+    require: true,
+  },
+  radiation: {
+    type: String,
+    require: true,
+  },
+  distress: {
+    type: String,
+    require: true,
+  },
+  inducements: {
+    type: String,
+    require: true,
+  },
+  sensitive: {
+    type: String,
+    require: true,
+  },
+  deception: {
+    type: String,
+    require: true,
+  },
+  reproductive: {
+    type: String,
+    require: true,
+  },
+  genetic: {
+    type: String,
+    require: true,
+  },
+  stemcell: {
+    type: String,
+    require: true,
+  },
+  biosafety: {
+    type: String,
+    require: true,
+  },
+  // risklevel:{
+  //   type: String,
+  //   require: true,
+  // },
+  researchTeam: {
+    type: String,
+    require: true,
+  },
+  researchSubjects: {
+    type: String,
+    require: true,
+  },
+  widerCommunity: {
+    type: String,
+    require: true,
+  },
+  multiInstitutional: {
+    type: String,
+    require: true,
+  },
+  conflictInterest: {
+    type: String,
+    require: true,
+  },
+  benefitParticipants: {
+    type: String,
+    require: true,
+  },
+  generalizableKnowledge: {
+    type: String,
+    require: true,
+  },
+  generalizableKnowledgeDisease: {
+    type: String,
+    require: true,
+  },
+  supplementaryFileType: {
+    type: String,
+    require: true,
+  },
+  supplementaryFileName: {
+    type: String,
+    require: true,
+  },
 });
 
 const subForm =

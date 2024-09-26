@@ -10,6 +10,7 @@ import {
   FormSelect,
   FormControl,
   Button,
+  Table,
 } from "react-bootstrap";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -189,83 +190,84 @@ function SubmissionFormsP2() {
                 </Form.Control.Feedback>
               </Col>
             </Row>
+          </Container>
 
-            {/* additional researcher  */}
-            <Container className="PIforms-rescont2">
-              <Row>
-                <h1 className="PIforms-resconthead">Additional Researcher</h1>
-              </Row>
+          {/* additional researcher  */}
+          <Container className="PIforms-rescont2">
+            <Row>
+              <h1 className="PIforms-resconthead">Additional Researcher</h1>
+            </Row>
 
-              <Row>
-                <Col xs={12} md={6}>
-                  <FormLabel className="PIforms-formtext2">Full Name</FormLabel>
-                  <FormControl
-                    {...register("additionalFullName")}
-                    type="text"
-                    className="form-control PIforms-formtext2"
-                  />
-                </Col>
+            <Row>
+              <Col xs={12} md={6}>
+                <FormLabel className="PIforms-formtext2">Full Name</FormLabel>
+                <FormControl
+                  {...register("additionalFullName")}
+                  type="text"
+                  className="form-control PIforms-formtext2"
+                />
+              </Col>
 
-                <Col xs={12} md={6}>
-                  <FormLabel className="PIforms-formtext2">Email</FormLabel>
-                  <FormControl
-                    {...register("additionalEmail")}
-                    type="email"
-                    className="form-control PIforms-formtext2"
-                  />
-                </Col>
+              <Col xs={12} md={6}>
+                <FormLabel className="PIforms-formtext2">Email</FormLabel>
+                <FormControl
+                  {...register("additionalEmail")}
+                  type="email"
+                  className="form-control PIforms-formtext2"
+                />
+              </Col>
 
-                <Col xs={12} md={6}>
-                  <FormLabel className="PIforms-formtext2">
-                    Phone Number
-                  </FormLabel>
-                  <FormControl
-                    {...register("additionalPhone")}
-                    type="number"
-                    className="form-control PIforms-formtext2"
-                  />
-                </Col>
+              <Col xs={12} md={6}>
+                <FormLabel className="PIforms-formtext2">
+                  Phone Number
+                </FormLabel>
+                <FormControl
+                  {...register("additionalPhone")}
+                  type="number"
+                  className="form-control PIforms-formtext2"
+                />
+              </Col>
 
-                <Col xs={12} md={6}>
-                  <FormLabel className="PIforms-formtext2">
-                    Institutional Affiliation
-                  </FormLabel>
-                  <FormControl
-                    {...register("additionalInstitutionAffiliation")}
-                    type="text"
-                    className="form-control PIforms-formtext2"
-                  />
-                </Col>
-              </Row>
+              <Col xs={12} md={6}>
+                <FormLabel className="PIforms-formtext2">
+                  Institutional Affiliation
+                </FormLabel>
+                <FormControl
+                  {...register("additionalInstitutionAffiliation")}
+                  type="text"
+                  className="form-control PIforms-formtext2"
+                />
+              </Col>
+            </Row>
 
-              <Row
-                style={{ marginTop: "20px", paddingBottom: "20px" }}
-                className="justify-content-around"
+            <Row
+              style={{ marginTop: "20px", paddingBottom: "20px" }}
+              className="justify-content-around"
+            >
+              {additionalResearcher.map((_, index) => (
+                <AdditionalResearcher
+                  register={register} // Pass the register method here
+                  index={index} // Pass the index to register unique inputs
+                  key={index}
+                  addResearcher={addResearcher}
+                />
+              ))}
+
+              <Button variant="outline-secondary" className="PIforms-formbtn">
+                Cancel
+              </Button>
+              <Button
+                variant="outline-warning"
+                className="PIforms-formbtn"
+                onClick={handleAddResearcher}
               >
-                {additionalResearcher.map((_, index) => (
-                  <AdditionalResearcher
-                    register={register} // Pass the register method here
-                    index={index} // Pass the index to register unique inputs
-                    key={index}
-                    addResearcher={addResearcher}
-                  />
-                ))}
+                Add Researcher
+              </Button>
+            </Row>
+          </Container>
 
-                <Button variant="outline-secondary" className="PIforms-formbtn">
-                  Cancel
-                </Button>
-                <Button
-                  variant="outline-warning"
-                  className="PIforms-formbtn"
-                  onClick={handleAddResearcher}
-                >
-                  Add Researcher
-                </Button>
-              </Row>
-            </Container>
-
-            {/* if required additional researcher */}
-            {/* <Container className="PIforms-rescont2">
+          {/* if required additional researcher */}
+          {/* <Container className="PIforms-rescont2">
   <Row>
     <h1 className="PIforms-resconthead">Additional Researcher</h1>
   </Row>
@@ -376,456 +378,429 @@ function SubmissionFormsP2() {
   </Row>
 </Container> */}
 
-            <hr></hr>
-            <h1 className="PIforms-headtext">2. Title and Summary Proposal</h1>
+          <hr></hr>
+          <h1 className="PIforms-headtext">2. Title and Summary Proposal</h1>
 
-            <Container className="PIforms-rescont2">
-              <Row>
-                <h1 className="PIforms-resconthead">Research Proposal</h1>
-              </Row>
-              <Row>
-                <Col xs={12}>
-                  <Form.Group controlId="title">
-                    <FormLabel className="PIforms-formtext3">Title</FormLabel>
-                    <FormControl
-                      {...register("title", {
-                        required: "Please provide a title.",
-                      })}
-                      type="text"
-                      className="form-control PIforms-formtext3"
-                      isInvalid={!!errors.title}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.title?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
+          <Container className="PIforms-rescont2">
+            <Row>
+              <h1 className="PIforms-resconthead">Research Proposal</h1>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <Form.Group controlId="title">
+                  <FormLabel className="PIforms-formtext3">Title</FormLabel>
+                  <FormControl
+                    {...register("title", {
+                      required: "Please provide a title.",
+                    })}
+                    type="text"
+                    className="form-control PIforms-formtext3"
+                    isInvalid={!!errors.title}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.title?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
 
-                <Col xs={12}>
-                  <Form.Group controlId="background">
-                    <FormLabel className="PIforms-formtext3">
-                      Background
-                    </FormLabel>
-                    <FormControl
-                      {...register("background", {
-                        required: "Please provide a background.",
-                      })}
-                      as="textarea"
-                      className="form-control PIforms-formtext3"
-                      isInvalid={!!errors.background}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.background?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
+              <Col xs={12}>
+                <Form.Group controlId="background">
+                  <FormLabel className="PIforms-formtext3">
+                    Background
+                  </FormLabel>
+                  <FormControl
+                    {...register("background", {
+                      required: "Please provide a background.",
+                    })}
+                    as="textarea"
+                    className="form-control PIforms-formtext3"
+                    isInvalid={!!errors.background}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.background?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
 
-                <Col xs={12}>
-                  <Form.Group controlId="objectives">
-                    <FormLabel className="PIforms-formtext3">
-                      Objectives
-                    </FormLabel>
-                    <FormControl
-                      {...register("objectives", {
-                        required: "Please provide objectives.",
-                      })}
-                      as="textarea"
-                      className="form-control PIforms-formtext3"
-                      isInvalid={!!errors.objectives}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.objectives?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
+              <Col xs={12}>
+                <Form.Group controlId="objectives">
+                  <FormLabel className="PIforms-formtext3">
+                    Objectives
+                  </FormLabel>
+                  <FormControl
+                    {...register("objectives", {
+                      required: "Please provide objectives.",
+                    })}
+                    as="textarea"
+                    className="form-control PIforms-formtext3"
+                    isInvalid={!!errors.objectives}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.objectives?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
 
-                <Col xs={12}>
-                  <Form.Group controlId="expectedOutcomes">
-                    <FormLabel className="PIforms-formtext3">
-                      Expected Outcomes and Use of Result
-                    </FormLabel>
-                    <FormControl
-                      {...register("expectedOutcomes", {
-                        required:
-                          "Please provide expected outcomes and use of result.",
-                      })}
-                      as="textarea"
-                      className="form-control PIforms-formtext3"
-                      isInvalid={!!errors.expectedOutcomes}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.expectedOutcomes?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
+              <Col xs={12}>
+                <Form.Group controlId="expectedOutcomes">
+                  <FormLabel className="PIforms-formtext3">
+                    Expected Outcomes and Use of Result
+                  </FormLabel>
+                  <FormControl
+                    {...register("expectedOutcomes", {
+                      required:
+                        "Please provide expected outcomes and use of result.",
+                    })}
+                    as="textarea"
+                    className="form-control PIforms-formtext3"
+                    isInvalid={!!errors.expectedOutcomes}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.expectedOutcomes?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
 
-                <Col xs={12}>
-                  <Form.Group controlId="keywords">
-                    <FormLabel className="PIforms-formtext3">
-                      Keywords
-                    </FormLabel>
-                    <FormControl
-                      {...register("keywords", {
-                        required: "Please provide keywords.",
-                      })}
-                      type="text"
-                      className="form-control PIforms-formtext3"
-                      isInvalid={!!errors.keywords}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.keywords?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-              </Row>
-            </Container>
-
-            <hr></hr>
-            <h1 className="PIforms-headtext">3. Proposal Details</h1>
-
-            <Container className="PIforms-rescont2">
-              <Row>
-                <h1 className="PIforms-resconthead">Proposal Details</h1>
-              </Row>
-              <Row>
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="studyType">
-                    <FormLabel className="PIforms-formtext2">
-                      Study Type
-                    </FormLabel>
-                    <FormSelect
-                      {...register("studyType", {
-                        required: "Please select a study type.",
-                      })}
-                      className="PIforms-formtext2"
-                      isInvalid={!!errors.studyType}
-                    >
-                      <option value="">Select...</option>
-                      <option>Qualitative</option>
-                      <option>Quantitative</option>
-                      <option>Mixed Methods</option>
-                    </FormSelect>
-                    <Form.Control.Feedback type="invalid">
-                      {errors.studyType?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="startDate">
-                    <FormLabel className="PIforms-formtext2">
-                      Start Date
-                    </FormLabel>
-                    <FormControl
-                      {...register("startDate", {
-                        required: "Please provide a start date.",
-                      })}
-                      type="date"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.startDate}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.startDate?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="endDate">
-                    <FormLabel className="PIforms-formtext2">
-                      End Date
-                    </FormLabel>
-                    <FormControl
-                      {...register("endDate", {
-                        required: "Please provide an end date.",
-                      })}
-                      type="date"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.endDate}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.endDate?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="primarySponsor">
-                    <FormLabel className="PIforms-formtext2">
-                      Primary Sponsor
-                    </FormLabel>
-                    <FormControl
-                      {...register("primarySponsor", {
-                        required: "Please provide a primary sponsor.",
-                      })}
-                      type="text"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.primarySponsor}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.primarySponsor?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="secondarySponsor">
-                    <FormLabel className="PIforms-formtext2">
-                      Secondary Sponsor
-                    </FormLabel>
-                    <FormControl
-                      {...register("secondarySponsor", {
-                        required: "Please provide a secondary sponsor.",
-                      })}
-                      type="text"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.secondarySponsor}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.secondarySponsor?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="multiCountryResearch">
-                    <FormLabel className="PIforms-formtext2">
-                      Multi-country Research
-                    </FormLabel>
-                    <FormControl
-                      {...register("multiCountryResearch", {
-                        required:
-                          "Please specify if it involves multi-country research.",
-                      })}
-                      type="text"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.multiCountryResearch}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.multiCountryResearch?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="multiSiteResearch">
-                    <FormLabel className="PIforms-formtext2">
-                      Multi-site Research
-                    </FormLabel>
-                    <FormControl
-                      {...register("multiSiteResearch", {
-                        required:
-                          "Please specify if it involves multi-site research.",
-                      })}
-                      type="text"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.multiSiteResearch}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.multiSiteResearch?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="region">
-                    <FormLabel className="PIforms-formtext2">Region</FormLabel>
-                    <FormControl
-                      {...register("region", {
-                        required: "Please provide a region.",
-                      })}
-                      type="text"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.region}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.region?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="researchField">
-                    <FormLabel className="PIforms-formtext2">
-                      Research Field
-                    </FormLabel>
-                    <FormControl
-                      {...register("researchField", {
-                        required: "Please provide a research field.",
-                      })}
-                      type="text"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.researchField}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.researchField?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="involvesHumanSubjects">
-                    <FormLabel className="PIforms-formtext2">
-                      Involves Human Subjects
-                    </FormLabel>
-                    <FormControl
-                      {...register("involvesHumanSubjects", {
-                        required:
-                          "Please specify if it involves human subjects.",
-                      })}
-                      type="text"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.involvesHumanSubjects}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.involvesHumanSubjects?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="proposalType">
-                    <FormLabel className="PIforms-formtext2">
-                      Proposal Type
-                    </FormLabel>
-                    <FormControl
-                      {...register("proposalType", {
-                        required: "Please provide a proposal type.",
-                      })}
-                      type="text"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.proposalType}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.proposalType?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="dataCollection">
-                    <FormLabel className="PIforms-formtext2">
-                      Data Collection
-                    </FormLabel>
-                    <FormControl
-                      {...register("dataCollection", {
-                        required: "Please specify the data collection method.",
-                      })}
-                      type="text"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.dataCollection}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.dataCollection?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="proposalReviewedByOtherCommittee">
-                    <FormLabel className="PIforms-formtext2">
-                      Proposal Reviewed by Other Committee?
-                    </FormLabel>
-                    <FormSelect
-                      {...register("proposalReviewedByOtherCommittee", {
-                        required:
-                          "Please specify if the proposal has been reviewed by another committee.",
-                      })}
-                      className="PIforms-formtext2"
-                      isInvalid={!!errors.proposalReviewedByOtherCommittee}
-                    >
-                      <option value="">Select...</option>
-                      <option>Yes</option>
-                      <option>No</option>
-                    </FormSelect>
-                    <Form.Control.Feedback type="invalid">
-                      {errors.proposalReviewedByOtherCommittee?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="monetarySource">
-                    <FormLabel className="PIforms-formtext2">
-                      Monetary Source
-                    </FormLabel>
-                    <FormControl
-                      {...register("monetarySource", {
-                        required: "Please provide a monetary source.",
-                      })}
-                      type="text"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.monetarySource}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.monetarySource?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="amountInPHP">
-                    <FormLabel className="PIforms-formtext2">
-                      Amount in Philippine Peso
-                    </FormLabel>
-                    <FormControl
-                      {...register("amountInPHP", {
-                        required:
-                          "Please provide the amount in Philippine Peso.",
-                      })}
-                      type="number"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.amountInPHP}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.amountInPHP?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group controlId="otherSource">
-                    <FormLabel className="PIforms-formtext2">
-                      Other Source
-                    </FormLabel>
-                    <FormControl
-                      {...register("otherSource", {
-                        required: "Please provide another source of funding.",
-                      })}
-                      type="text"
-                      className="form-control PIforms-formtext2"
-                      isInvalid={!!errors.otherSource}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.otherSource?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-              </Row>
-            </Container>
-
-            <Row
-              style={{ marginTop: "20px", paddingBottom: "20px" }}
-              className="justify-content-around"
-            >
-              <Button
-                variant="outline-secondary"
-                className="PIforms-formbtn"
-                onClick={handlePrevious}
-              >
-                Back
-              </Button>
-              <Button
-                type="submit"
-                variant="outline-warning"
-                className="PIforms-formbtn"
-              >
-                Save & Continue
-              </Button>
+              <Col xs={12}>
+                <Form.Group controlId="keywords">
+                  <FormLabel className="PIforms-formtext3">Keywords</FormLabel>
+                  <FormControl
+                    {...register("keywords", {
+                      required: "Please provide keywords.",
+                    })}
+                    type="text"
+                    className="form-control PIforms-formtext3"
+                    isInvalid={!!errors.keywords}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.keywords?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
             </Row>
           </Container>
 
-          {/* <hr />
+          <hr></hr>
+          <h1 className="PIforms-headtext">3. Proposal Details</h1>
+
+          <Container className="PIforms-rescont2">
+            <Row>
+              <h1 className="PIforms-resconthead">Proposal Details</h1>
+            </Row>
+            <Row>
+              <Col xs={12} md={6}>
+                <Form.Group controlId="studyType">
+                  <FormLabel className="PIforms-formtext2">
+                    Study Type
+                  </FormLabel>
+                  <FormSelect
+                    {...register("studyType", {
+                      required: "Please select a study type.",
+                    })}
+                    className="PIforms-formtext2"
+                    isInvalid={!!errors.studyType}
+                  >
+                    <option value="">Select...</option>
+                    <option>Qualitative</option>
+                    <option>Quantitative</option>
+                    <option>Mixed Methods</option>
+                  </FormSelect>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.studyType?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="startDate">
+                  <FormLabel className="PIforms-formtext2">
+                    Start Date
+                  </FormLabel>
+                  <FormControl
+                    {...register("startDate", {
+                      required: "Please provide a start date.",
+                    })}
+                    type="date"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.startDate}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.startDate?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="endDate">
+                  <FormLabel className="PIforms-formtext2">End Date</FormLabel>
+                  <FormControl
+                    {...register("endDate", {
+                      required: "Please provide an end date.",
+                    })}
+                    type="date"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.endDate}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.endDate?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="primarySponsor">
+                  <FormLabel className="PIforms-formtext2">
+                    Primary Sponsor
+                  </FormLabel>
+                  <FormControl
+                    {...register("primarySponsor", {
+                      required: "Please provide a primary sponsor.",
+                    })}
+                    type="text"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.primarySponsor}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.primarySponsor?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="secondarySponsor">
+                  <FormLabel className="PIforms-formtext2">
+                    Secondary Sponsor
+                  </FormLabel>
+                  <FormControl
+                    {...register("secondarySponsor", {
+                      required: "Please provide a secondary sponsor.",
+                    })}
+                    type="text"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.secondarySponsor}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.secondarySponsor?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="multiCountryResearch">
+                  <FormLabel className="PIforms-formtext2">
+                    Multi-country Research
+                  </FormLabel>
+                  <FormControl
+                    {...register("multiCountryResearch", {
+                      required:
+                        "Please specify if it involves multi-country research.",
+                    })}
+                    type="text"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.multiCountryResearch}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.multiCountryResearch?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="multiSiteResearch">
+                  <FormLabel className="PIforms-formtext2">
+                    Multi-site Research
+                  </FormLabel>
+                  <FormControl
+                    {...register("multiSiteResearch", {
+                      required:
+                        "Please specify if it involves multi-site research.",
+                    })}
+                    type="text"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.multiSiteResearch}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.multiSiteResearch?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="region">
+                  <FormLabel className="PIforms-formtext2">Region</FormLabel>
+                  <FormControl
+                    {...register("region", {
+                      required: "Please provide a region.",
+                    })}
+                    type="text"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.region}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.region?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="researchField">
+                  <FormLabel className="PIforms-formtext2">
+                    Research Field
+                  </FormLabel>
+                  <FormControl
+                    {...register("researchField", {
+                      required: "Please provide a research field.",
+                    })}
+                    type="text"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.researchField}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.researchField?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="involvesHumanSubjects">
+                  <FormLabel className="PIforms-formtext2">
+                    Involves Human Subjects
+                  </FormLabel>
+                  <FormControl
+                    {...register("involvesHumanSubjects", {
+                      required: "Please specify if it involves human subjects.",
+                    })}
+                    type="text"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.involvesHumanSubjects}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.involvesHumanSubjects?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="proposalType">
+                  <FormLabel className="PIforms-formtext2">
+                    Proposal Type
+                  </FormLabel>
+                  <FormControl
+                    {...register("proposalType", {
+                      required: "Please provide a proposal type.",
+                    })}
+                    type="text"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.proposalType}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.proposalType?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="dataCollection">
+                  <FormLabel className="PIforms-formtext2">
+                    Data Collection
+                  </FormLabel>
+                  <FormControl
+                    {...register("dataCollection", {
+                      required: "Please specify the data collection method.",
+                    })}
+                    type="text"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.dataCollection}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.dataCollection?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="proposalReviewedByOtherCommittee">
+                  <FormLabel className="PIforms-formtext2">
+                    Proposal Reviewed by Other Committee?
+                  </FormLabel>
+                  <FormSelect
+                    {...register("proposalReviewedByOtherCommittee", {
+                      required:
+                        "Please specify if the proposal has been reviewed by another committee.",
+                    })}
+                    className="PIforms-formtext2"
+                    isInvalid={!!errors.proposalReviewedByOtherCommittee}
+                  >
+                    <option value="">Select...</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                  </FormSelect>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.proposalReviewedByOtherCommittee?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="monetarySource">
+                  <FormLabel className="PIforms-formtext2">
+                    Monetary Source
+                  </FormLabel>
+                  <FormControl
+                    {...register("monetarySource", {
+                      required: "Please provide a monetary source.",
+                    })}
+                    type="text"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.monetarySource}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.monetarySource?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="amountInPHP">
+                  <FormLabel className="PIforms-formtext2">
+                    Amount in Philippine Peso
+                  </FormLabel>
+                  <FormControl
+                    {...register("amountInPHP", {
+                      required: "Please provide the amount in Philippine Peso.",
+                    })}
+                    type="number"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.amountInPHP}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.amountInPHP?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group controlId="otherSource">
+                  <FormLabel className="PIforms-formtext2">
+                    Other Source
+                  </FormLabel>
+                  <FormControl
+                    {...register("otherSource", {
+                      required: "Please provide another source of funding.",
+                    })}
+                    type="text"
+                    className="form-control PIforms-formtext2"
+                    isInvalid={!!errors.otherSource}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.otherSource?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+          </Container>
+
+          <hr />
 
           <h1 className="PIforms-headtext">
             4. Sources of Monetary or Material Support
@@ -843,12 +818,15 @@ function SubmissionFormsP2() {
                   Monetary Source
                 </FormLabel>
                 <FormControl
+                  {...register("monetarySource", {
+                    required: "Please provide a monetary source.",
+                  })}
                   type="text"
                   className="form-control PIforms-formtext2"
-                  required
+                  isInvalid={!!errors.monetarySource}
                 />
                 <Form.Control.Feedback type="invalid">
-                  Please provide a monetary source.
+                  {errors.monetarySource?.message}
                 </Form.Control.Feedback>
               </Col>
 
@@ -857,15 +835,19 @@ function SubmissionFormsP2() {
                   Amount in Philippine Peso (Php)
                 </FormLabel>
                 <FormControl
+                  {...register("amountInPHP", {
+                    required: "Please provide an amount.",
+                  })}
                   type="number"
                   className="form-control PIforms-formtext2"
-                  required
+                  isInvalid={!!errors.amountInPHP}
                 />
                 <Form.Control.Feedback type="invalid">
-                  Please provide an amount.
+                  {errors.amountInPHP?.message}
                 </Form.Control.Feedback>
               </Col>
 
+              {/* tbf */}
               <Row
                 style={{ marginTop: "20px" }}
                 className="justify-content-around"
@@ -908,18 +890,26 @@ function SubmissionFormsP2() {
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("identity", {
+                        required:
+                          "Please specify if the identity may be revealed.",
+                      })}
                       type="radio"
                       name="identity"
                       value="yes"
+                      isInvalid={!!errors.identity}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("identity", {
+                        required:
+                          "Please specify if the identity may be revealed.",
+                      })}
                       type="radio"
                       name="identity"
                       value="no"
+                      isInvalid={!!errors.identity}
                     />
                   </td>
                 </tr>
@@ -927,18 +917,26 @@ function SubmissionFormsP2() {
                   <td>Unable to consent?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("consent", {
+                        required:
+                          "Please specify if the subject is unable to consent.",
+                      })}
                       type="radio"
                       name="consent"
                       value="yes"
+                      isInvalid={!!errors.consent}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("consent", {
+                        required:
+                          "Please specify if the subject is unable to consent.",
+                      })}
                       type="radio"
                       name="consent"
                       value="no"
+                      isInvalid={!!errors.consent}
                     />
                   </td>
                 </tr>
@@ -946,18 +944,26 @@ function SubmissionFormsP2() {
                   <td>Under 18 years old?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("under18", {
+                        required:
+                          "Please specify if the subject is under 18 years old.",
+                      })}
                       type="radio"
                       name="under18"
                       value="yes"
+                      isInvalid={!!errors.under18}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("under18", {
+                        required:
+                          "Please specify if the subject is under 18 years old.",
+                      })}
                       type="radio"
                       name="under18"
                       value="no"
+                      isInvalid={!!errors.under18}
                     />
                   </td>
                 </tr>
@@ -970,18 +976,26 @@ function SubmissionFormsP2() {
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("dependent", {
+                        required:
+                          "Please specify if the subject is in a dependent relationship.",
+                      })}
                       type="radio"
                       name="dependent"
                       value="yes"
+                      isInvalid={!!errors.dependent}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("dependent", {
+                        required:
+                          "Please specify if the subject is in a dependent relationship.",
+                      })}
                       type="radio"
                       name="dependent"
                       value="no"
+                      isInvalid={!!errors.dependent}
                     />
                   </td>
                 </tr>
@@ -989,18 +1003,24 @@ function SubmissionFormsP2() {
                   <td>From an ethnic minority group?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("ethnic", {
+                        required: "Please specify if the subject is from.",
+                      })}
                       type="radio"
                       name="ethnic"
                       value="yes"
+                      isInvalid={!!errors.ethnic}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("ethnic", {
+                        required: "Please specify if the subject is from.",
+                      })}
                       type="radio"
                       name="ethnic"
                       value="no"
+                      isInvalid={!!errors.ethnic}
                     />
                   </td>
                 </tr>
@@ -1008,18 +1028,26 @@ function SubmissionFormsP2() {
                   <td>Wtih intellectual or mental impairment?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("intellectual", {
+                        required:
+                          "Please specify if the subject has an impairment.",
+                      })}
                       type="radio"
                       name="intellectual"
                       value="yes"
+                      isInvalid={!!errors.intellectual}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("intellectual", {
+                        required:
+                          "Please specify if the subject has an impairment.",
+                      })}
                       type="radio"
                       name="intellectual"
                       value="no"
+                      isInvalid={!!errors.intellectual}
                     />
                   </td>
                 </tr>
@@ -1027,18 +1055,24 @@ function SubmissionFormsP2() {
                   <td>Who are pregnant?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("pregnant", {
+                        required: "Please specify if the subject is pregnant.",
+                      })}
                       type="radio"
                       name="pregnant"
                       value="yes"
+                      isInvalid={!!errors.pregnant}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("pregnant", {
+                        required: "Please specify if the subject is pregnant.",
+                      })}
                       type="radio"
                       name="pregnant"
                       value="no"
+                      isInvalid={!!errors.pregnant}
                     />
                   </td>
                 </tr>
@@ -1057,18 +1091,26 @@ function SubmissionFormsP2() {
                   <td>A new treatment, medical procedure or test?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("treatment", {
+                        required:
+                          "Please specify if it includes a new treatment.",
+                      })}
                       type="radio"
                       name="treatment"
                       value="yes"
+                      isInvalid={!!errors.treatment}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("treatment", {
+                        required:
+                          "Please specify if it includes a new treatment.",
+                      })}
                       type="radio"
                       name="treatment"
                       value="no"
+                      isInvalid={!!errors.treatment}
                     />
                   </td>
                 </tr>
@@ -1079,18 +1121,26 @@ function SubmissionFormsP2() {
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("biological", {
+                        required:
+                          "Please specify if it includes collection of biological samples.",
+                      })}
                       type="radio"
                       name="biological"
                       value="yes"
+                      isInvalid={!!errors.biological}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("biological", {
+                        required:
+                          "Please specify if it includes collection of biological samples.",
+                      })}
                       type="radio"
                       name="biological"
                       value="no"
+                      isInvalid={!!errors.biological}
                     />
                   </td>
                 </tr>
@@ -1098,18 +1148,26 @@ function SubmissionFormsP2() {
                   <td>Use of ionizing radiation?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("radiation", {
+                        required:
+                          "Please specify if it uses ionizing radiation.",
+                      })}
                       type="radio"
                       name="radiation"
                       value="yes"
+                      isInvalid={!!errors.radiation}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("radiation", {
+                        required:
+                          "Please specify if it uses ionizing radiation.",
+                      })}
                       type="radio"
                       name="radiation"
                       value="no"
+                      isInvalid={!!errors.radiation}
                     />
                   </td>
                 </tr>
@@ -1117,18 +1175,24 @@ function SubmissionFormsP2() {
                   <td>Pain or psychological distress?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("distress", {
+                        required: "Please specify if it causes distress.",
+                      })}
                       type="radio"
                       name="distress"
                       value="yes"
+                      isInvalid={!!errors.distress}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("distress", {
+                        required: "Please specify if it causes distress.",
+                      })}
                       type="radio"
                       name="distress"
                       value="no"
+                      isInvalid={!!errors.distress}
                     />
                   </td>
                 </tr>
@@ -1136,18 +1200,24 @@ function SubmissionFormsP2() {
                   <td>Inducements?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("inducements", {
+                        required: "Please specify if it includes inducements.",
+                      })}
                       type="radio"
                       name="inducements"
                       value="yes"
+                      isInvalid={!!errors.inducements}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("inducements", {
+                        required: "Please specify if it includes inducements.",
+                      })}
                       type="radio"
                       name="inducements"
                       value="no"
+                      isInvalid={!!errors.inducements}
                     />
                   </td>
                 </tr>
@@ -1155,18 +1225,26 @@ function SubmissionFormsP2() {
                   <td>Collection of sensitive information?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("sensitive", {
+                        required:
+                          "Please specify if it includes collection of sensitive information.",
+                      })}
                       type="radio"
                       name="sensitive"
                       value="yes"
+                      isInvalid={!!errors.sensitive}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("sensitive", {
+                        required:
+                          "Please specify if it includes collection of sensitive information.",
+                      })}
                       type="radio"
                       name="sensitive"
                       value="no"
+                      isInvalid={!!errors.sensitive}
                     />
                   </td>
                 </tr>
@@ -1174,18 +1252,24 @@ function SubmissionFormsP2() {
                   <td>Deception?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("deception", {
+                        required: "Please specify if it includes deception.",
+                      })}
                       type="radio"
                       name="deception"
                       value="yes"
+                      isInvalid={!!errors.deception}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("deception", {
+                        required: "Please specify if it includes deception.",
+                      })}
                       type="radio"
                       name="deception"
                       value="no"
+                      isInvalid={!!errors.deception}
                     />
                   </td>
                 </tr>
@@ -1193,18 +1277,26 @@ function SubmissionFormsP2() {
                   <td>Assisted reproductive technology?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("reproductive", {
+                        required:
+                          "Please specify if it includes assisted reproductive technology.",
+                      })}
                       type="radio"
                       name="reproductive"
                       value="yes"
+                      isInvalid={!!errors.reproductive}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("reproductive", {
+                        required:
+                          "Please specify if it includes assisted reproductive technology.",
+                      })}
                       type="radio"
                       name="reproductive"
                       value="no"
+                      isInvalid={!!errors.reproductive}
                     />
                   </td>
                 </tr>
@@ -1212,18 +1304,26 @@ function SubmissionFormsP2() {
                   <td>Human genetic or genomic studies?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("genetic", {
+                        required:
+                          "Please specify if it includes genetic studies.",
+                      })}
                       type="radio"
                       name="genetic"
                       value="yes"
+                      isInvalid={!!errors.genetic}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("genetic", {
+                        required:
+                          "Please specify if it includes genetic studies.",
+                      })}
                       type="radio"
                       name="genetic"
                       value="no"
+                      isInvalid={!!errors.genetic}
                     />
                   </td>
                 </tr>
@@ -1231,18 +1331,26 @@ function SubmissionFormsP2() {
                   <td>Stemcell research?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("stemcell", {
+                        required:
+                          "Please specify if it includes stemcell research.",
+                      })}
                       type="radio"
                       name="stemcell"
                       value="yes"
+                      isInvalid={!!errors.stemcell}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("stemcell", {
+                        required:
+                          "Please specify if it includes stemcell research.",
+                      })}
                       type="radio"
                       name="stemcell"
                       value="no"
+                      isInvalid={!!errors.stemcell}
                     />
                   </td>
                 </tr>
@@ -1250,18 +1358,26 @@ function SubmissionFormsP2() {
                   <td>Biosafety issue?</td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("biosafety", {
+                        required:
+                          "Please specify if it includes biosafety issues.",
+                      })}
                       type="radio"
                       name="biosafety"
                       value="yes"
+                      isInvalid={!!errors.biosafety}
                     />
                   </td>
                   <td>
                     <Form.Check
-                      required
+                      {...register("biosafety", {
+                        required:
+                          "Please specify if it includes biosafety issues.",
+                      })}
                       type="radio"
                       name="biosafety"
                       value="no"
+                      isInvalid={!!errors.biosafety}
                     />
                   </td>
                 </tr>
@@ -1274,7 +1390,7 @@ function SubmissionFormsP2() {
                 <FormLabel className="PIforms-formtext2">
                   Level of Risk involved in the Research
                 </FormLabel>
-                <FormSelect className="PIforms-select2" required />
+                <FormSelect className="PIforms-select2" />
                 <Form.Control.Feedback type="invalid">
                   Please select the level of risk.
                 </Form.Control.Feedback>
@@ -1282,9 +1398,24 @@ function SubmissionFormsP2() {
                 <br />
 
                 <p>Risks apply to</p>
-                <Form.Check type="checkbox" label="Research Team" />
-                <Form.Check type="checkbox" label="Research Subjects" />
-                <Form.Check type="checkbox" label="Wider Community" />
+                <Form.Check
+                  type="checkbox"
+                  label="Research Team"
+                  {...register("researchTeam")}
+                  value="Yes"
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Research Subjects"
+                  {...register("researchSubjects")}
+                  value="Yes"
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Wider Community"
+                  {...register("widerCommunity")}
+                  value="Yes"
+                />
               </Col>
 
               <Col>
@@ -1303,7 +1434,11 @@ function SubmissionFormsP2() {
                           type="radio"
                           label="Yes"
                           name="multi"
-                          required
+                          {...register("multiInstitutional", {
+                            required:
+                              "Please specify if it is a multi-institutional project.",
+                          })}
+                          isInvalid={!!errors.multiInstitutional}
                         />
                       </td>
                       <td>
@@ -1312,7 +1447,11 @@ function SubmissionFormsP2() {
                           type="radio"
                           label="No"
                           name="multi"
-                          required
+                          {...register("multiInstitutional", {
+                            required:
+                              "Please specify if it is a multi-institutional project.",
+                          })}
+                          isInvalid={!!errors.multiInstitutional}
                         />
                       </td>
                     </tr>
@@ -1325,7 +1464,11 @@ function SubmissionFormsP2() {
                           type="radio"
                           label="Yes"
                           name="interest"
-                          required
+                          {...register("conflictInterest", {
+                            required:
+                              "Please specify if there is a conflict of interest.",
+                          })}
+                          isInvalid={!!errors.conflictInterest}
                         />
                       </td>
                       <td>
@@ -1334,7 +1477,11 @@ function SubmissionFormsP2() {
                           type="radio"
                           label="No"
                           name="interest"
-                          required
+                          {...register("conflictInterest", {
+                            required:
+                              "Please specify if there is a conflict of interest.",
+                          })}
+                          isInvalid={!!errors.conflictInterest}
                         />
                       </td>
                     </tr>
@@ -1344,14 +1491,20 @@ function SubmissionFormsP2() {
                 <Form.Check
                   type="checkbox"
                   label="Direct benefit from participants"
+                  {...register("benefitParticipants")}
+                  value="Yes"
                 />
                 <Form.Check
                   type="checkbox"
                   label="Generalizable knowledge about participants’ condition or disorder"
+                  {...register("generalizableKnowledge")}
+                  value="Yes"
                 />
                 <Form.Check
                   type="checkbox"
                   label="Generalizable knowledge about diseases or condition under study"
+                  {...register("generalizableKnowledgeDisease")}
+                  value="Yes"
                 />
               </Col>
             </Row>
@@ -1361,18 +1514,21 @@ function SubmissionFormsP2() {
             style={{ marginTop: "20px", paddingBottom: "20px" }}
             className="justify-content-around"
           >
-            <Button variant="outline-secondary" className="PIforms-formbtn">
+            <Button
+              variant="outline-secondary"
+              className="PIforms-formbtn"
+              onClick={handlePrevious}
+            >
               Back
             </Button>
             <Button
               type="submit"
               variant="outline-warning"
               className="PIforms-formbtn"
-              onClick={handleForms}
             >
               Save & Continue
             </Button>
-          </Row> */}
+          </Row>
         </Form>
       </Container>
     </div>
