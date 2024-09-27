@@ -218,6 +218,10 @@ gap: 10px;
   .rec-header-container-mobile {
     display: none;
   }
+
+  .rec-dropdown-mobile {
+    display: none;
+  }
 }
 
 /* Larger Screens */
@@ -229,6 +233,10 @@ gap: 10px;
   .rec-header-container-mobile {
     display: none;
   }
+
+  .rec-dropdown-mobile {
+    display: none;
+  }
 }
 
   /* Tablet */
@@ -237,10 +245,79 @@ gap: 10px;
       display: none;
     }
 
-    .rec-header-container-mobile {
+    .rec-table {
+      font-size: 0.875rem;
+      border-radius: 10px;
+      width: 100%;
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .rec-header-container {
       display: none;
     }
+
+    .rec-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .rec-header p {
+      font-size: 1rem;
+      padding-top: 0.4rem;
+    }
+
+    .adminmain-content {
+      padding: 1.5rem;
+      margin: 1.5rem;
+      max-width: 80%;
+    }
+
+    .rec-submissions {
+      margin-left: 5.625rem;
+      padding: 2rem;
+    }
+
+    .rec-dropdown-mobile {
+      display: none;
+    }
+
+    .rec-buttons-container {
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .rec-buttons-container button {
+      padding: 0.5rem 0.8rem;
+      font-size: 0.7rem;
+    }
+
+    .rec-buttons-container span {
+      font-size: 0.9rem;
+    }
+
+    .rec-table {
+      font-size: 0.9rem;
+      width: 100%;
+      display: block;
+      overflow-x: auto;
+    }
+
+    .rec-table th, .rec-table td {
+      padding: 0.5rem;
+    }
+
+    .initial-submission h1 {
+      font-size: 1.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .rec-buttons-container button:hover {
+      transform: scale(1.02);
+    }
+
   }
+
 
     /* Mobile */
     @media only screen and (max-width: 576px) {
@@ -299,8 +376,31 @@ gap: 10px;
 
       /* Mobile Tables */
 
-      .rec-submissions-tabs {
-        margin: 2rem 0;
+      .rec-buttons-container {
+        display: none;
+      }
+
+      .rec-dropdown-mobile select {
+        padding: 0.5rem 1.5rem 0.5rem 1rem;
+        height: 2.6rem;
+        width: 100%;
+        border-radius: 10px;
+        color: var(--primary-color);
+        font-size: 0.875rem;
+        font-weight: 600;
+        background-color: var(--tertiary-color);
+        border-right: 0.5rem solid transparent;
+        margin: 1rem 0;
+        box-sizing: border-box;
+      }
+
+      .rec-dropdown-mobile select:focus {
+        outline: none;
+        border-color: var(--tertiary-color);
+      }
+
+      .rec-dropdown-mobile select option {
+        box-sizing: border-box;
       }
 
       .rec-buttons-container p {
@@ -318,6 +418,10 @@ gap: 10px;
         font-size: 0.7rem;
         transition: background-color 0.3s ease;
         text-align: left;
+      }
+
+      .initial-submission {
+        border-radius: 10px;
       }
 
       .rec-table {

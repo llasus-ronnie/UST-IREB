@@ -68,6 +68,17 @@ function RecSubmissions() {
             </button>
           </div>
 
+          <div className="rec-dropdown-mobile">
+            <select onChange={handleDropDown}>
+              <option value="initialSubmission">Initial Submission</option>
+              <option value="pendingPayment">Pending Payment</option>
+              <option value="forClassification">For Classification</option>
+              <option value="inProgress">In Progress</option>
+              <option value="finalReview">Final Review</option>
+              <option value="approved">Approved</option>
+            </select>
+          </div>
+
             <div className="rec-tables">
 
               <div className="initial-submission">
