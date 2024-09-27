@@ -22,7 +22,6 @@ return (
         <div className="adminmain-content">
         <div className="rec-header-container">
             <div className="rec-header">
-              {/* Correct path to the logo inside public > images > rec logos */}
             <img src="/images/rec logos/CICS-Logo.png" alt="CICS Logo" className="cics-logo" />
             <div className="rec-header-text">
                 <h1>CICS REC Dashboard</h1>
@@ -62,10 +61,12 @@ return (
             <h3>0</h3>
         </div>
     </div>
+    <br />
   {/* Submission Overview Table */}
 
+
 <div className="rec-overview-table">
-<h2>Submission Overview</h2>
+<h1>Submission Overview</h1>
         <table>
         <thead>
             <tr>

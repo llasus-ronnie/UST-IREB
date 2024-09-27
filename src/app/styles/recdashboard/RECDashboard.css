@@ -137,6 +137,7 @@
     font-family: var(--poppins); /* Apply Poppins font */
 }
 
+
 /* Submission Overview Table */
 .rec-overview-table {
     background-color: white; /* White background for the table */
@@ -149,6 +150,7 @@
     box-sizing: border-box; /* Ensure padding does not affect width */
     font-family: var(--poppins); /* Apply Poppins font */
 }
+
 
 .submission-header {
     display: flex;
@@ -163,7 +165,8 @@
 /* Table Styling */
 .rec-overview-table h1 {
     font-size: 1.75rem; /* Match size with CICS REC Dashboard */
-    color: var(--primary-color);
+    font-weight: bold;
+    color: var(--tertiary-color);
     margin-bottom: 1rem;
     font-family: var(--poppins); /* Apply Poppins font */
 }
@@ -202,16 +205,16 @@
 }
 
 .status-ongoing {
-    background-color: #ffe082;
-    color: #333;
+    background-color: #FFD433;
+    color: white;
 }
 
 .status-release {
-    background-color: #80cbc4;
+    background-color: #FCCC1A;
     color: white;
 }
 
 .status-complete {
-    background-color: #81c784;
+    background-color: #FCBF15;
     color: white;
 }
