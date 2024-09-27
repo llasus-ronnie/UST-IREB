@@ -93,7 +93,9 @@ export default function Navbar() {
           {session ? (
             <>
               <Link href="/form">Submit Proposal</Link>
-              <a href="/MySubmissions">View my Submissions</a>
+              <a href="/PrincipalInvestigator/SubmissionList">
+                View my Submissions
+              </a>
               <Link href="/" onClick={() => signOut()}>
                 Logout
               </Link>

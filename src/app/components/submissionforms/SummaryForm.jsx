@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 function SummaryForm() {
@@ -157,17 +157,71 @@ function SummaryForm() {
 
         <Container className="PIforms-rescont">
           <Row>
+            <h1 className="PIforms-resconthead">
+              Sources of Monetary or Material Support
+            </h1>
+          </Row>
+          <Col>
+            <p className="PIforms-formtext">
+              <strong>Monetary Source:</strong> {formData.monetarySource}
+            </p>
+            <p className="PIforms-formtext">
+              <strong>Amount in Philippines Peso (Php):</strong>{" "}
+              {formData.amountInPHP}
+            </p>
+          </Col>
+        </Container>
+
+        <Container className="PIforms-rescont">
+          <Row>
+            <h1 className="PIforms-resconthead">Assessment Questionnaire</h1>
+          </Row>
+          <Col>
+            {/* <p className="PIforms-formtext">
+              <strong>File Type:</strong> {formData.mainFile}
+            </p>
+            <p className="PIforms-formtext">
+              <strong>File Input:</strong> {formData.fileName}
+            </p> 
+            
+            yung mahabang questionnaire here
+            */}
+          </Col>
+        </Container>
+
+        <Container className="PIforms-rescont">
+          <Row>
             <h1 className="PIforms-resconthead">Uploaded Files</h1>
           </Row>
           <Col>
             <p className="PIforms-formtext">
-              <strong>File Type:</strong> {formData.fileType}
+              <strong>File Type:</strong> {formData.mainFile}
             </p>
             <p className="PIforms-formtext">
-              <strong>File Input:</strong> {formData.fileInput}
+              <strong>File Input:</strong> {formData.fileName}
             </p>
           </Col>
         </Container>
+
+        <Row
+          style={{ marginTop: "20px", paddingBottom: "20px" }}
+          className="justify-content-around"
+        >
+          <Button
+            variant="outline-secondary"
+            className="PIforms-formbtn"
+            href="/"
+          >
+            Back to Home
+          </Button>
+          <Button
+            href="../PrincipalInvestigator/SubmissionList"
+            variant="outline-warning"
+            className="PIforms-formbtn"
+          >
+            View Submission
+          </Button>
+        </Row>
       </Container>
     </div>
   );

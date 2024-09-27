@@ -19,25 +19,25 @@ import {
 
 function SubmissionFormsP1() {
   const [validated, setValidated] = useState(false);
-  //show textbox if other is selected
   const [showTextbox, setShowTextbox] = useState(false);
 
-  //dispatch function
   const dispatch = useDispatch();
 
-  //initial states from store
   const currentStep = useSelector((store) => store.submissionForm.currentStep);
   const formData = useSelector((store) => store.submissionForm.formData);
   console.log(formData, currentStep);
 
-  //react hook form functions
-  const { handleSubmit, register, watch } = useForm({
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       ...formData,
     },
   });
 
-  //dispatching reducers from store
   async function processForm(data) {
     dispatch(updateFormData(data));
     dispatch(setCurrentStep(currentStep + 1));
@@ -168,29 +168,51 @@ function SubmissionFormsP1() {
           <Container className="PIforms-checkcont">
             <Row className="justify-content-center">
               <Col md="8">
-                <FormCheck
-                  {...register("agreeSoftCopies")}
-                  type="checkbox"
-                  className="PIforms-formcheck"
-                  label="I agree to provide soft copies of the protocol and supplementary files of my research."
-                  required
-                />
+                <Form.Group controlId="agreeSoftCopies">
+                  <FormCheck
+                    {...register("agreeSoftCopies", {
+                      required: "You must agree to provide soft copies.",
+                    })}
+                    type="checkbox"
+                    className="PIforms-formcheck"
+                    label="I agree to provide soft copies of the protocol and supplementary files of my research."
+                    isInvalid={!!errors.agreeSoftCopies}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.agreeSoftCopies?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
 
-                <FormCheck
-                  {...register("understandSubmission")}
-                  type="checkbox"
-                  className="PIforms-formcheck"
-                  label="I understand that this submission will be forwarded to a REC for review"
-                  required
-                />
+                <Form.Group controlId="understandSubmission">
+                  <FormCheck
+                    {...register("understandSubmission", {
+                      required: "You must understand the submission process.",
+                    })}
+                    type="checkbox"
+                    className="PIforms-formcheck"
+                    label="I understand that this submission will be forwarded to a REC for review"
+                    isInvalid={!!errors.understandSubmission}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.understandSubmission?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
 
-                <FormCheck
-                  {...register("understandConfidentiality")}
-                  type="checkbox"
-                  className="PIforms-formcheck"
-                  label="I understand that my research will be monitored by UST IREB and will be treated with confidentiality."
-                  required
-                />
+                <Form.Group controlId="understandConfidentiality">
+                  <FormCheck
+                    {...register("understandConfidentiality", {
+                      required:
+                        "You must understand the confidentiality terms.",
+                    })}
+                    type="checkbox"
+                    className="PIforms-formcheck"
+                    label="I understand that my research will be monitored by UST IREB and will be treated with confidentiality."
+                    isInvalid={!!errors.understandConfidentiality}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.understandConfidentiality?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
               </Col>
             </Row>
           </Container>
@@ -200,7 +222,11 @@ function SubmissionFormsP1() {
             style={{ marginTop: "20px", paddingBottom: "20px" }}
             className="justify-content-evenly"
           >
-            <Button variant="outline-secondary" className="PIforms-formbtn">
+            <Button
+              href="/"
+              variant="outline-secondary"
+              className="PIforms-formbtn"
+            >
               Close
             </Button>
             <Button
