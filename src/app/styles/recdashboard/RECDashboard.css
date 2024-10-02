@@ -15,7 +15,6 @@
 .adminpage-container {
     display: flex;
     height: 100vh; /* Adjusted to ensure full viewport height */
-    overflow: hidden; /* Hide overflow to prevent unwanted scroll */
 }
 
 /* REC Dashboard */
@@ -218,3 +217,29 @@
     background-color: #FCBF15;
     color: white;
 }
+
+/* Responsiveness */
+
+/* Laptops & Desktops */
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
+    .recnav-mobile {
+      display: none;
+    }
+  
+    .rec-header-container-mobile {
+      display: none;
+    }
+
+  }
+  
+  /* Larger Screens */
+  @media only screen and (min-width: 1201px) {
+    .recnav-mobile {
+      display: none;
+    }
+  
+    .rec-header-container-mobile {
+      display: none;
+    }
+  
+  }
