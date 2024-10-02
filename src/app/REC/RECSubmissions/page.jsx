@@ -125,9 +125,7 @@ function RecSubmissions() {
                 </table>
               </div>
             </div>
-
         </div>
-
         </div>
       </div>
     </div>

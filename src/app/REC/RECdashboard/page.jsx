@@ -12,9 +12,9 @@ import "../../styles/recdashboard/RECDashboard.css";
 function RECDashboard() {
 return (
     <div className="adminpage-container">
-    {/* <div className="recnav-mobile">
+    <div className="recnav-mobile">
         <RecNavMobile />
-      </div> */}
+      </div>
 
     <RecNav className="recnav" />
 
