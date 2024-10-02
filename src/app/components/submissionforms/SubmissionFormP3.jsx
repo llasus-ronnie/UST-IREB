@@ -10,7 +10,6 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
-
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import {
@@ -19,13 +18,14 @@ import {
   getFileName,
 } from "../../../redux/slices/submissionFormSlice";
 
+import ConfirmSubmissionModal from "../../components/modals/ConfirmSubmissionModal";
+
 function SubmissionFormP3() {
   const [validated, setValidated] = useState(false);
   const currentPage = useSelector((store) => store.submissionForm.currentStep);
   const formData = useSelector((store) => store.submissionForm.formData);
-  console.log(formData, currentPage);
 
-  //dispatch function
+  // Dispatch function
   const dispatch = useDispatch();
 
   const {
@@ -39,27 +39,29 @@ function SubmissionFormP3() {
     },
   });
 
+  // Modal state
+  const [modalShow, setModalShow] = useState(false);
+  const handleShowModal = () => setModalShow(true);
+  const handleCloseModal = () => setModalShow(false);
+
+  // Handle file change
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const fileName = file.name;
+      dispatch(getFileName(fileName));
+      dispatch(updateFormData({ fileName }));
+      setValue("fileName", fileName);
+    }
+  };
+
+  // Function to handle previous button click
   const handlePrevious = () => {
     dispatch(setCurrentStep(currentPage - 1));
   };
 
-  function handleFileChange(event) {
-    const file = event.target.files[0];
-    const fileName = file.name;
-    console.log(fileName);
-
-    dispatch(getFileName(fileName));
-    dispatch(updateFormData({ fileName: fileName }));
-
-    setValue("fileName", fileName);
-  }
-
-  //submit the form
-  //dispatching reducers from store
-  async function processForm(data) {
-    dispatch(updateFormData(data));
-    dispatch(setCurrentStep(currentPage + 1));
-
+  // Submit data to the server
+  async function submitDataToServer(data) {
     try {
       const response = await fetch("/api/forms", {
         method: "POST",
@@ -69,11 +71,27 @@ function SubmissionFormP3() {
         body: JSON.stringify(data),
       });
 
-      console.log(response);
+      if (response.ok) {
+        dispatch(setCurrentStep(currentPage + 1));
+      } else {
+        console.error("Form submission failed");
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   }
+
+  // Process form submission
+  const processForm = (data) => {
+    dispatch(updateFormData(data));
+    handleShowModal();
+  };
+
+  // Confirm submission
+  const handleConfirmSubmission = () => {
+    submitDataToServer(formData); // Use formData from Redux
+    handleCloseModal();
+  };
 
   return (
     <div>
@@ -83,9 +101,9 @@ function SubmissionFormP3() {
             <h1 className="PIforms-header">Uploading of Main Proposal File</h1>
             <p className="PIforms-text">
               Please upload the main proposal file for your research submission.
-              Ensure that the file type matches the required format <br /> and
-              that all necessary information is included before proceeding to
-              the next step.
+              Ensure that the file type matches the required format and that all
+              necessary information is included before proceeding to the next
+              step.
             </p>
           </Row>
 
@@ -125,7 +143,7 @@ function SubmissionFormP3() {
                           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                           "text/plain",
                         ].includes(files[0].type)) ||
-                      "Please upload a PDF, DOC, DOCX, or TXT file.",
+                      "Please upload a valid PDF, DOC, DOCX, or TXT file.",
                   },
                 })}
                 onChange={handleFileChange}
@@ -140,17 +158,14 @@ function SubmissionFormP3() {
             </Row>
           </Container>
 
-          {/* additional field */}
-
+          {/* Supplementary Materials Section */}
           <Row className="justify-content-center">
             <h1 className="PIforms-header">
               Uploading of Supplementary Materials
             </h1>
             <p className="PIforms-text">
               Please upload the supplementary files for your research
-              submission. Ensure that the file type matches the <br /> required
-              format and that all necessary information is included before
-              submitting.
+              submission.
             </p>
           </Row>
 
@@ -168,8 +183,10 @@ function SubmissionFormP3() {
                 })}
                 isInvalid={!!errors.supplementaryFileType}
               >
-                {/* <option>Protocol</option> */}
-                <option>Supplementary Files</option>
+                <option disabled value="">
+                  Choose...
+                </option>
+                <option value="Supplementary Files">Supplementary Files</option>
               </FormSelect>
               <Form.Control.Feedback type="invalid">
                 {errors.supplementaryFileType?.message}
@@ -178,19 +195,14 @@ function SubmissionFormP3() {
               <FormLabel className="PIforms-formtext">Select File:</FormLabel>
               <FormControl
                 type="file"
-                id="fileInput"
+                id="supplementaryFile"
                 accept=".pdf,.doc,.docx,.txt"
-                className="form-control PIforms-formtext PIforms-file"
-                required
+                className="form-control PIforms-formtext"
               />
-              <Form.Control.Feedback type="invalid">
-                Please upload a PDF, DOC, or DOCX file.
-              </Form.Control.Feedback>
             </Row>
           </Container>
 
-          {/* create button to add more files */}
-
+          {/* Buttons */}
           <Row
             style={{ marginTop: "20px", paddingBottom: "20px" }}
             className="justify-content-around"
@@ -212,6 +224,12 @@ function SubmissionFormP3() {
           </Row>
         </Form>
       </Container>
+
+      <ConfirmSubmissionModal
+        show={modalShow}
+        onHide={handleCloseModal}
+        onConfirm={handleConfirmSubmission}
+      />
     </div>
   );
 }

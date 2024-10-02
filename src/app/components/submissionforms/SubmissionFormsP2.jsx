@@ -896,7 +896,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="identity"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.identity}
                     />
                   </td>
@@ -908,7 +908,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="identity"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.identity}
                     />
                   </td>
@@ -923,7 +923,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="consent"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.consent}
                     />
                   </td>
@@ -935,7 +935,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="consent"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.consent}
                     />
                   </td>
@@ -950,7 +950,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="under18"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.under18}
                     />
                   </td>
@@ -962,7 +962,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="under18"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.under18}
                     />
                   </td>
@@ -982,7 +982,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="dependent"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.dependent}
                     />
                   </td>
@@ -994,7 +994,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="dependent"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.dependent}
                     />
                   </td>
@@ -1008,7 +1008,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="ethnic"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.ethnic}
                     />
                   </td>
@@ -1019,7 +1019,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="ethnic"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.ethnic}
                     />
                   </td>
@@ -1034,7 +1034,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="intellectual"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.intellectual}
                     />
                   </td>
@@ -1046,7 +1046,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="intellectual"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.intellectual}
                     />
                   </td>
@@ -1060,7 +1060,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="pregnant"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.pregnant}
                     />
                   </td>
@@ -1071,7 +1071,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="pregnant"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.pregnant}
                     />
                   </td>
@@ -1097,7 +1097,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="treatment"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.treatment}
                     />
                   </td>
@@ -1109,7 +1109,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="treatment"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.treatment}
                     />
                   </td>
@@ -1127,7 +1127,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="biological"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.biological}
                     />
                   </td>
@@ -1139,7 +1139,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="biological"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.biological}
                     />
                   </td>
@@ -1154,7 +1154,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="radiation"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.radiation}
                     />
                   </td>
@@ -1166,7 +1166,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="radiation"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.radiation}
                     />
                   </td>
@@ -1180,7 +1180,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="distress"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.distress}
                     />
                   </td>
@@ -1191,7 +1191,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="distress"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.distress}
                     />
                   </td>
@@ -1205,7 +1205,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="inducements"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.inducements}
                     />
                   </td>
@@ -1216,7 +1216,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="inducements"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.inducements}
                     />
                   </td>
@@ -1231,7 +1231,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="sensitive"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.sensitive}
                     />
                   </td>
@@ -1243,7 +1243,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="sensitive"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.sensitive}
                     />
                   </td>
@@ -1257,7 +1257,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="deception"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.deception}
                     />
                   </td>
@@ -1268,7 +1268,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="deception"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.deception}
                     />
                   </td>
@@ -1283,7 +1283,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="reproductive"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.reproductive}
                     />
                   </td>
@@ -1295,7 +1295,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="reproductive"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.reproductive}
                     />
                   </td>
@@ -1310,7 +1310,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="genetic"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.genetic}
                     />
                   </td>
@@ -1322,7 +1322,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="genetic"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.genetic}
                     />
                   </td>
@@ -1337,7 +1337,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="stemcell"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.stemcell}
                     />
                   </td>
@@ -1349,7 +1349,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="stemcell"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.stemcell}
                     />
                   </td>
@@ -1364,7 +1364,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="biosafety"
-                      value="yes"
+                      value="Yes"
                       isInvalid={!!errors.biosafety}
                     />
                   </td>
@@ -1376,7 +1376,7 @@ function SubmissionFormsP2() {
                       })}
                       type="radio"
                       name="biosafety"
-                      value="no"
+                      value="No"
                       isInvalid={!!errors.biosafety}
                     />
                   </td>

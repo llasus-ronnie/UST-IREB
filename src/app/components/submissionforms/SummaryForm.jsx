@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 function SummaryForm() {
@@ -177,15 +177,111 @@ function SummaryForm() {
             <h1 className="PIforms-resconthead">Assessment Questionnaire</h1>
           </Row>
           <Col>
-            {/* <p className="PIforms-formtext">
-              <strong>File Type:</strong> {formData.mainFile}
-            </p>
-            <p className="PIforms-formtext">
-              <strong>File Input:</strong> {formData.fileName}
-            </p> 
-            
-            yung mahabang questionnaire here
-            */}
+            <Table className="PIforms-table" striped>
+              <thead>
+                <tr>
+                  <th>Question</th>
+                  <th>Response</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    Does the proposed research include research subjects whose
+                    identity may be revealed?
+                  </td>
+                  <td>{formData.identity}</td>
+                </tr>
+                <tr>
+                  <td>Is the subject unable to consent?</td>
+                  <td>{formData.consent}</td>
+                </tr>
+                <tr>
+                  <td>Is the subject under 18 years old?</td>
+                  <td>{formData.under18}</td>
+                </tr>
+                <tr>
+                  <td>
+                    Is the subject in a dependent relationship with any of the
+                    research team?
+                  </td>
+                  <td>{formData.dependent}</td>
+                </tr>
+                <tr>
+                  <td>Is the subject from an ethnic minority group?</td>
+                  <td>{formData.ethnic}</td>
+                </tr>
+                <tr>
+                  <td>
+                    Does the subject have an intellectual or mental impairment?
+                  </td>
+                  <td>{formData.intellectual}</td>
+                </tr>
+                <tr>
+                  <td>Is the subject pregnant?</td>
+                  <td>{formData.pregnant}</td>
+                </tr>
+                <tr>
+                  <td>
+                    Does the research include a new treatment, medical procedure
+                    or test?
+                  </td>
+                  <td>{formData.treatment}</td>
+                </tr>
+                <tr>
+                  <td>
+                    Does the research involve the collection of biological
+                    samples including tissue extraction?
+                  </td>
+                  <td>{formData.biological}</td>
+                </tr>
+                <tr>
+                  <td>Does the research use ionizing radiation?</td>
+                  <td>{formData.radiation}</td>
+                </tr>
+                <tr>
+                  <td>
+                    Does the research cause pain or psychological distress?
+                  </td>
+                  <td>{formData.distress}</td>
+                </tr>
+                <tr>
+                  <td>Does the research include inducements?</td>
+                  <td>{formData.inducements}</td>
+                </tr>
+                <tr>
+                  <td>
+                    Does the research involve the collection of sensitive
+                    information?
+                  </td>
+                  <td>{formData.sensitive}</td>
+                </tr>
+                <tr>
+                  <td>Does the research include deception?</td>
+                  <td>{formData.deception}</td>
+                </tr>
+                <tr>
+                  <td>
+                    Does the research involve assisted reproductive technology?
+                  </td>
+                  <td>{formData.reproductive}</td>
+                </tr>
+                <tr>
+                  <td>
+                    Does the research involve human genetic or genomic studies?
+                  </td>
+                  <td>{formData.genetic}</td>
+                </tr>
+                <tr>
+                  <td>Does the research involve stem cell research?</td>
+                  <td>{formData.stemcell}</td>
+                </tr>
+                <tr>
+                  <td>Are there any biosafety issues?</td>
+                  <td>{formData.biosafety}</td>
+                </tr>
+              </tbody>
+            </Table>
           </Col>
         </Container>
 
