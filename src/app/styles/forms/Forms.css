@@ -30,6 +30,54 @@
   padding-top: 15px;
 }
 
+.step-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.step-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  z-index: 2;
+  position: relative;
+}
+
+.current-step {
+  background-color: #fcbf15ed;
+}
+
+.completed-step {
+  background-color: #fcbf15;
+  border-color: #fcbf15;
+}
+
+.step-line {
+  width: 300px;
+  height: 5px;
+  background-color: #dcdcdc;
+  position: absolute;
+  top: 24px;
+  right: -230px;
+  z-index: 1;
+}
+
+.line-completed {
+  background-color: #fcbf15;
+}
+
+.stepbar-navtext {
+  font-size: 16px;
+  color: #000;
+}
+
 .stepbar-navtext {
   color: #fff;
   font-family: Poppins;
