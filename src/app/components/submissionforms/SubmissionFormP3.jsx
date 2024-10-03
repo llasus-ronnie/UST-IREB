@@ -18,6 +18,9 @@ import {
   setCurrentStep,
   getFileName,
 } from "../../../redux/slices/submissionFormSlice";
+import axios from "axios";
+import { CldUploadWidget } from 'next-cloudinary';
+import "../../styles/forms/Forms.css"
 
 function SubmissionFormP3() {
   const [validated, setValidated] = useState(false);
@@ -42,17 +45,6 @@ function SubmissionFormP3() {
   const handlePrevious = () => {
     dispatch(setCurrentStep(currentPage - 1));
   };
-
-  function handleFileChange(event) {
-    const file = event.target.files[0];
-    const fileName = file.name;
-    console.log(fileName);
-
-    dispatch(getFileName(fileName));
-    dispatch(updateFormData({ fileName: fileName }));
-
-    setValue("fileName", fileName);
-  }
 
   //submit the form
   //dispatching reducers from store
@@ -113,30 +105,21 @@ function SubmissionFormP3() {
               </Form.Control.Feedback>
 
               <FormLabel className="PIforms-formtext">Select File:</FormLabel>
-              <FormControl
-                {...register("fileUpload", {
-                  required: "Please upload a PDF, DOC, or DOCX file.",
-                  validate: {
-                    acceptedFormats: (files) =>
-                      (files[0] &&
-                        [
-                          "application/pdf",
-                          "application/msword",
-                          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                          "text/plain",
-                        ].includes(files[0].type)) ||
-                      "Please upload a PDF, DOC, DOCX, or TXT file.",
-                  },
-                })}
-                onChange={handleFileChange}
-                type="file"
-                accept=".pdf,.doc,.docx,.txt"
-                className="form-control PIforms-formtext"
-                isInvalid={!!errors.fileUpload}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors.fileUpload?.message}
-              </Form.Control.Feedback>
+              <CldUploadWidget 
+              signatureEndpoint="/api/sign-cloudinary-params"
+              onSuccess={(res) => {
+                console.log(res); // This will log the entire response
+                console.log(res.info.secure_url); 
+                setValue('mainFileLink', res.info.secure_url); // This will log the public ID of the uploaded file
+              }}>
+                {({ open }) => {
+                  return (
+                    <button type="button" onClick={() => open()} className="form-control PIforms-formtext PIforms-file">
+                      Upload file
+                    </button>
+                  );
+                }}
+              </CldUploadWidget>
             </Row>
           </Container>
 
@@ -176,16 +159,21 @@ function SubmissionFormP3() {
               </Form.Control.Feedback>
 
               <FormLabel className="PIforms-formtext">Select File:</FormLabel>
-              <FormControl
-                type="file"
-                id="fileInput"
-                accept=".pdf,.doc,.docx,.txt"
-                className="form-control PIforms-formtext PIforms-file"
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Please upload a PDF, DOC, or DOCX file.
-              </Form.Control.Feedback>
+              <CldUploadWidget 
+              signatureEndpoint="/api/sign-cloudinary-params"
+              onSuccess={(res) => {
+                console.log(res); // This will log the entire response
+                console.log(res.info.secure_url); 
+                setValue('supplementaryFileLink', res.info.secure_url); // This will log the public ID of the uploaded file
+              }}>
+                {({ open }) => {
+                  return (
+                    <button type="button" onClick={() => open()} className="form-control PIforms-formtext PIforms-file">
+                      Upload file
+                    </button>
+                  );
+                }}
+              </CldUploadWidget>
             </Row>
           </Container>
 
