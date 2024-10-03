@@ -185,14 +185,6 @@ const subFormSchema = new Schema({
     type: String,
     require: true,
   },
-  mainFile: {
-    type: String,
-    required: true,
-  },
-  fileName: {
-    type: String,
-    required: true,
-  },
   date: {
     type: Date,
     default: Date.now,
@@ -313,13 +305,13 @@ const subFormSchema = new Schema({
     type: String,
     require: true,
   },
-  supplementaryFileType: {
+  mainFileLink: {
     type: String,
-    require: true,
+    required: true,
   },
-  supplementaryFileName: {
+  supplementaryFileLink: {
     type: String,
-    require: true,
+    require: false,
   },
 });
 

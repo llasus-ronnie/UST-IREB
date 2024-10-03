@@ -1,10 +1,10 @@
 import connectDB from "../../../../utils/database";
 import SubmissionForm from "../../../../models/subFormModel";
 import { NextRequest, NextResponse } from "next/server";
+import express from "express";
+import cors from "cors";
 
 //cors
-const express = require("express");
-const cors = require("cors");
 const app = express();
 app.use(cors());
 

@@ -269,6 +269,11 @@ hr {
   margin-bottom: 20px;
 }
 
+.PIforms-file:hover {
+  background-color: var(--tertiary-color);
+  transition: 0.5s;
+}
+
 /* scroll design  */
 ::-webkit-scrollbar {
   background-color: var(--primary-color);

@@ -2,7 +2,12 @@
 
 import React from "react";
 import { Container, Row, Col, Button, Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  updateFormData,
+  setCurrentStep,
+  getFileName,
+} from "../../../redux/slices/submissionFormSlice";
 
 function SummaryForm() {
   // Access form data from the Redux store
@@ -10,6 +15,12 @@ function SummaryForm() {
   const additionalResearchers = useSelector(
     (store) => store.submissionForm.additionalResearchers
   );
+
+  const dispatch = useDispatch();
+
+  const handlePrevious = () => {
+    dispatch(setCurrentStep(currentPage - 1));
+  };
 
   return (
     <div>
@@ -306,7 +317,8 @@ function SummaryForm() {
           <Button
             variant="outline-secondary"
             className="PIforms-formbtn"
-            href="/"
+            // href="/"
+            onClick={handlePrevious}
           >
             Back to Home
           </Button>
