@@ -14,24 +14,26 @@ return (
     <div className="adminpage-container">
     <div className="recnav-mobile">
         <RecNavMobile />
-      </div>
+    </div>
 
     <RecNav className="recnav" />
 
     <div className="rec-dashboard">
         <div className="adminmain-content">
         <div className="rec-header-container">
-            <div className="rec-header">
-            <img src="/images/rec logos/CICS-Logo.png" alt="CICS Logo" className="cics-logo" />
-            <div className="rec-header-text">
-                <h1>CICS REC Dashboard</h1>
-                <p>Overview of UST CICS REC Submissions</p>
-            </div>
-            </div>
-            <div className="userloggedin">
-            <UserLoggedIn />
-            </div>
+
+        <div className="rec-header">
+        <img src="/images/rec logos/CICS-Logo.png" alt="CICS Logo" className="cics-logo" />
+        <div className="rec-header-text">
+            <h1>CICS REC Dashboard</h1>
+            <p>Overview of UST CICS REC Submissions</p>
         </div>
+    </div>
+    <div className="userloggedin">
+        <UserLoggedIn />
+    </div>
+</div>
+
         </div>
 
          {/* Submission Cards */}
