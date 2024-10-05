@@ -10,6 +10,7 @@
     align-items: flex-start;
     justify-content: center;
     margin: 2rem 0;
+    z-index: 1;
 }
 
 .breadcrumbs-step-container {
@@ -17,6 +18,7 @@
     align-items: center;
     position: relative;
     margin-bottom: 4rem;
+    z-index: 0;
 }
 
 .breadcrumbs-step-line {

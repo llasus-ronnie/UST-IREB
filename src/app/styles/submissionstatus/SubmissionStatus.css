@@ -17,6 +17,10 @@ body {
   font-family: var(--poppins);
 }
 
+.header {
+    z-index: 10;
+}
+
 .submission_header {
   background-image: url("/images/userprofile/profile-header.png");
   background-size: cover;
@@ -156,4 +160,98 @@ body {
 ::-webkit-scrollbar-thumb {
     background-color: var(--tertiary-color);
     border-radius: 10px;
+}
+
+/* Responsiveness */
+
+/* Mobile */
+@media only screen and (max-width: 576px) {
+    .submissionstatus-container {
+        flex-direction: column;
+        align-items: center;
+        margin: 1rem;
+    }
+
+    .submissionstatus-left,
+    .submissionstatus-right {
+        margin: 1rem 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .submissionstatus-card-details,
+    .submissionstatus-card-breadcrumbs {
+        padding: 2rem;
+    }
+
+    .submissionstatus-view-sub,
+    .submissionstatus-edit-sub {
+        padding: 0.8rem 2rem;
+    }
+
+    .submissionstatus-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .submission_header {
+        height: 160px;
+    }
+
+    .submission_header h1 {
+        font-size: 24px;
+    }
+
+    .submission-divider {
+        height: 0.5rem;
+    }
+
+    .submissionstatus-left h1,
+    .submissionstatus-right h1 {
+        font-size: 20px;
+    }
+}
+
+/* Tablet */
+@media only screen and (min-width: 577px) and (max-width: 768px) {
+    .submissionstatus-container {
+        flex-direction: column;
+        align-items: center;
+        margin: 1.5rem;
+    }
+
+    .submissionstatus-left {
+        margin: 2rem 0 0 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .submissionstatus-right {
+        margin: 1rem 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .submissionstatus-view-sub,
+    .submissionstatus-edit-sub {
+        padding: 0.8rem 4rem;
+    }
+
+    .submissionstatus-buttons {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .submissionstatus-view-sub,
+    .submissionstatus-edit-sub {
+        width: 48%;
+    }
+
+    .submission_header {
+        height: 180px;
+    }
+
+    .submission_header h1 {
+        font-size: 28px;
+    }
 }
