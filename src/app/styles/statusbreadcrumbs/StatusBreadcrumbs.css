@@ -50,8 +50,9 @@
 
 .breadcrumbs-step-title {
     margin-left: 1.25rem;
-    font-size: 1rem;
-    color: #000;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ECF0F1;
 }
 
 .breadcrumbs-line-completed {
