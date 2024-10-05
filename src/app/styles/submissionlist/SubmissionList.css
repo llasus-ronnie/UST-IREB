@@ -19,14 +19,15 @@ body {
 
 .submission_header {
   background-image: url("/images/userprofile/profile-header.png");
-  background-size: 100%;
+  background-size: cover;
   background-position: 50%;
   width: 100%;
-  height: 12rem;
+  height: 220px;
+  overflow-x: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0;
+  background-repeat: no-repeat;
 }
 
 .submission_header h1 {
@@ -58,7 +59,7 @@ body {
   font-weight: 700; 
 }
 
-.profile-divider {
+.submission-divider {
     width: 100%;
     height: 0.938rem;
     background-color: var(--tertiary-color);
