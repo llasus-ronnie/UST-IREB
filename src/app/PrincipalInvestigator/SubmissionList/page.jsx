@@ -32,7 +32,7 @@ function SubmissionList() {
         <h1 className="text-center">My Submissions</h1>
     </div>
 
-    <Row className="profile-divider" />
+    <Row className="submission-divider" />
 
 
     <div className="submission-list-container">
