@@ -195,7 +195,6 @@
 .sidenav.open {
   width: 200px;
   transform: translateX(0); 
-  position: relative;
   z-index: 0;
 }
 
