@@ -31,7 +31,7 @@ const IrebNav = () => {
         <ul>
           <li>
             <Link href="/account" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-account.png"
                   alt="Account"
@@ -45,7 +45,7 @@ const IrebNav = () => {
 
           <li>
             <Link href="../IREB/IREBDashboard" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-home.png"
                   alt="Home"
@@ -69,10 +69,10 @@ const IrebNav = () => {
               />
               {isOpen && (
                 <>
+                <div className="dropdown-div" onClick={toggleDropdown}>
                   <span>Manage Accounts</span>
-                  <span onClick={toggleDropdown} className="dropdown-toggle">
-                    {/* Dropdown toggle icon or text */}
-                  </span>
+                  <span className="dropdown-toggle" />
+                </div>
                 </>
               )}
             </div>
@@ -100,7 +100,7 @@ const IrebNav = () => {
 
           <li>
             <Link href="/reports" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-reports.png"
                   alt="Reports"
@@ -118,7 +118,7 @@ const IrebNav = () => {
         <ul>
           <li>
             <Link href="/logout" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-logout.png"
                   alt="Log Out"

@@ -12,10 +12,10 @@ const RecNav = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleImageClick = (event) => {
-    event.preventDefault();
-    toggleNav();
-  };
+  // const handleImageClick = (event) => {
+  //   event.preventDefault();
+  //   toggleNav();
+  // };
 
   return (
     <div className={`recnav adminnav ${isOpen ? 'open' : ''}`}>
@@ -26,7 +26,7 @@ const RecNav = () => {
         <ul>
           <li>
             <Link href="/account" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-account.png"
                   alt="Account"
@@ -39,8 +39,8 @@ const RecNav = () => {
           </li>
 
           <li>
-            <Link href="../REC/RECDashboard" passHref>
-              <div onClick={handleImageClick}>
+            <Link href="../REC/RECdashboard" passHref>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-home.png"
                   alt="Home"
@@ -54,7 +54,7 @@ const RecNav = () => {
 
           <li>
             <Link href="../REC/RECSubmissions" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-submissions.png"
                   alt="Submissions"
@@ -68,7 +68,7 @@ const RecNav = () => {
 
           <li>
             <Link href="/reports" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-reports.png"
                   alt="Reports"
@@ -86,7 +86,7 @@ const RecNav = () => {
         <ul>
           <li>
             <Link href="/logout" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-logout.png"
                   alt="Log Out"

@@ -105,6 +105,11 @@
     color: var(--quaternary-color);
 }
 
+.dropdown-div:hover {
+    color: var(--tertiary-color);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
 .dropdown-div span {
     margin-left: 0.5625rem;
 }

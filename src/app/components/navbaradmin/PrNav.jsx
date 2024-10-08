@@ -12,10 +12,10 @@ const PrNav = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleImageClick = (event) => {
-    event.preventDefault();
-    toggleNav();
-  };
+  // const handleImageClick = (event) => {
+  //   event.preventDefault();
+  //   toggleNav();
+  // };
 
   return (
     <div className={`prnav adminnav ${isOpen ? 'open' : ''}`}>
@@ -26,7 +26,7 @@ const PrNav = () => {
         <ul>
           <li>
             <Link href="/account" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-account.png"
                   alt="Account"
@@ -40,7 +40,7 @@ const PrNav = () => {
 
           <li>
             <Link href="../PrimaryReviewer/PRDashboard" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-home.png"
                   alt="Home"
@@ -54,7 +54,7 @@ const PrNav = () => {
 
           <li>
             <Link href="/submissions" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-submissions.png"
                   alt="Submissions"
@@ -72,7 +72,7 @@ const PrNav = () => {
         <ul>
           <li>
             <Link href="/logout" passHref>
-              <div onClick={handleImageClick}>
+              <div>
                 <Image
                   src="/images/adminnav/adminnav-logout.png"
                   alt="Log Out"

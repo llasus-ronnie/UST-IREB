@@ -69,20 +69,6 @@ const PrNavMobile = () => {
               </div>
             </Link>
           </li>
-        
-          <li>
-            <Link href="/reports" passHref>
-              <div>
-                <Image
-                    src="/images/adminnav/adminnav-reports.png"
-                    alt="Reports"
-                    width={32}
-                    height={32}
-                />
-                <p>Reports</p>
-              </div>
-            </Link>
-          </li>
 
           <li>
             <Link href="/logout" passHref>
