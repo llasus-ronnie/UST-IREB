@@ -170,7 +170,7 @@
 
 /* Button Styles */
 .view-button {
-    background-color: #007bff; 
+    background-color: #FFD433; 
     border: none;
     color: #fff;
     padding: 0.5rem 1rem;
@@ -180,7 +180,7 @@
 }
 
 .view-button:hover {
-    background-color: #0056b3; 
+    background-color: #FCBF15; 
 }
 
   /* Responsiveness */
