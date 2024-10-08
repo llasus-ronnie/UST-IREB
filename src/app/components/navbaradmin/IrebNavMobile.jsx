@@ -54,7 +54,7 @@ const IrebNavMobile = () => {
       <div className="adminnav-content">
         <ul>
           <li>
-            <Link href="/account" passHref>
+            <Link href="../IREB/IREBUserProfile" passHref>
               <div>
                 <Image src="/images/adminnav/adminnav-account.png" alt="Account" width={32} height={32} />
                 <p>Profile</p>

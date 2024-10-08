@@ -25,7 +25,7 @@ const PrNav = () => {
       <div className="adminnav-content">
         <ul>
           <li>
-            <Link href="/account" passHref>
+            <Link href="../PrimaryReviewer/PRUserProfile" passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-account.png"
