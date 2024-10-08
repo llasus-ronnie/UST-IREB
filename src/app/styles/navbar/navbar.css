@@ -195,8 +195,6 @@
 .sidenav.open {
   width: 200px;
   transform: translateX(0); 
-  position: relative;
-  z-index: 0;
 }
 
 .sidenav-links a {
@@ -297,8 +295,9 @@
   }
 
   .sidenav.open {
-    width: 100vw;
+    width: 100%;
     position: fixed;
+    z-index: 0;
   }
 
   .sidenav-account {
