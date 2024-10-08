@@ -54,6 +54,10 @@
   background-color: #fcbf15ed;
 }
 
+/* .current-step-title {
+  color: #fcbf15 !important;
+} */
+
 .completed-step {
   background-color: #fcbf15;
   border-color: #fcbf15;
@@ -69,20 +73,64 @@
   z-index: 1;
 }
 
+@media screen and (max-width: 1024px) {
+  .step-line {
+    width: 240px;
+    right: -150px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .step-line {
+    width: 180px;
+    right: -90px;
+  }
+}
+
 .line-completed {
   background-color: #fcbf15;
 }
 
-.stepbar-navtext {
+/* .stepbar-navtext {
   font-size: 16px;
   color: #000;
-}
+} */
 
 .stepbar-navtext {
   color: #fff;
   font-family: Poppins;
   font-size: 15px;
   font-style: normal;
+}
+
+@media screen and (max-width: 426px) {
+  .stepbar-navtext {
+    display: none;
+  }
+
+  .step-line {
+    width: 150px;
+    right: -100px;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .step-line {
+    width: 120px;
+    right: -80px;
+  }
+}
+
+@media screen and (max-width: 321px) {
+  .step-line {
+    width: 80px;
+    right: -60px;
+  }
+
+  .step-circle {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 .PIforms-cont1 {
