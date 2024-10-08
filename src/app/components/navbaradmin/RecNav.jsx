@@ -25,7 +25,7 @@ const RecNav = () => {
       <div className="adminnav-content">
         <ul>
           <li>
-            <Link href="/account" passHref>
+            <Link href="../REC/RECUserProfile" passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-account.png"
