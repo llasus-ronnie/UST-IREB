@@ -29,6 +29,7 @@
 .section-1{
     background-image: url('/images/home/section-1-bg.png');
     background-size: cover;
+    background-position: 50%;
 
     width: 100%; 
     height: 100vh;
