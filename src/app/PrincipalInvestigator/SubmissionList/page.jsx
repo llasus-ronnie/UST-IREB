@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"; // You can use any library for HTTP requests
 import Navbar from "../../components/navbar/Navbar";
 import { Row } from "react-bootstrap";
+import Link from "next/link";
 
 function SubmissionList() {
   const [forms, setForms] = useState([]);
@@ -60,7 +61,9 @@ function SubmissionList() {
                   {form.reviewClassification}
                 </td>
                 <td className="view-btn-cell">
-                  <button className="view-btn">View</button>
+                <Link href={`/PrincipalInvestigator/SubmissionStatus/${form._id}`} className="view-btn">
+                View
+              </Link>
                 </td>
               </tr>
             ))}
