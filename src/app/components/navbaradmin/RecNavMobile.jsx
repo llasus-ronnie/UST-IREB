@@ -29,7 +29,7 @@ const RecNavMobile = () => {
       <div className="adminnav-content">
         <ul>
           <li>
-            <Link href="../REC/RECUserProfile" passHref>
+            <Link href="../" passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-account.png"

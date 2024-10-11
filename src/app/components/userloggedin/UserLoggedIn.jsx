@@ -5,7 +5,7 @@ import Image from "next/image";
 import "../../styles/userloggedin/UserLoggedIn.css";
 
 const UserInfo = () => {
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -18,13 +18,13 @@ const UserInfo = () => {
   const userName = "IREB Chair";
   const profileImage = "/images/userloggedin/user-placeholder.png";
 
-  const formattedDate = currentTime.toLocaleDateString("en-US"); // For MM/DD/YYYY format
-  const formattedTime = currentTime.toLocaleTimeString("en-US", {
+  const formattedDate = currentTime ? currentTime.toLocaleDateString("en-US") : ''; // For MM/DD/YYYY format
+  const formattedTime = currentTime ? currentTime.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "numeric",
     second: "numeric",
     hour12: true, // For 12-hour format with AM/PM
-  });
+  }): '';
 
   return (
     <div className="uli-container">

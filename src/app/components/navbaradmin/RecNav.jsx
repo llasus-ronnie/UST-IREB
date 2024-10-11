@@ -25,7 +25,7 @@ const RecNav = () => {
       <div className="adminnav-content">
         <ul>
           <li>
-            <Link href="../REC/RECUserProfile" passHref>
+            <Link href="../../REC/RECUserProfile" passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-account.png"
@@ -39,7 +39,7 @@ const RecNav = () => {
           </li>
 
           <li>
-            <Link href="../REC/RECdashboard" passHref>
+            <Link href="../../REC/RECdashboard" passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-home.png"
@@ -53,7 +53,7 @@ const RecNav = () => {
           </li>
 
           <li>
-            <Link href="../REC/RECSubmissions" passHref>
+            <Link href="../../REC/RECSubmissions" passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-submissions.png"

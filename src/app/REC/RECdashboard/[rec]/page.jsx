@@ -2,12 +2,12 @@
 
 //components
 import React from "react";
-import RecNav from "../../components/navbaradmin/RecNav";
-import RecNavMobile from "../../components/navbaradmin/RecNavMobile";
-import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
+import RecNav from "../../../components/navbaradmin/RecNav";
+import RecNavMobile from "../../../components/navbaradmin/RecNavMobile";
+import UserLoggedIn from "../../../components/userloggedin/UserLoggedIn";
 
 //css
-import "../../styles/recdashboard/RECDashboard.css";
+import "../../../styles/recdashboard/RECDashboard.css";
 
 function RECDashboard() {
 return (
