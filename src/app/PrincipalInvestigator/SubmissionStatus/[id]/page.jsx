@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { PropagateLoader } from 'react-spinners';
 
 
-function SubmissionStatus() {
+function SubmissionStatus({params}) {
     const [loading, setLoading] = useState(false);
 
 
@@ -30,16 +30,12 @@ function SubmissionStatus() {
     const [error, setError] = useState(null); // Initialize error state
 
     useEffect(() => {
-        if (router.isReady) {
-            const { id } = router.query;
-
-            if (id) {
                 async function fetchData() {
                     setLoading(true); 
                     try {
-                        const response = await axios.get(`/api/forms/${id}`);
-                        console.log(response.data); 
-                        setForm(response.data);
+                        const response = await axios.get(`/api/forms/${params.id}`);
+                        console.log("Working on URlID:"+ `${params.id}`); 
+                        setForm(response.data.submission);
                     } catch (error) {
                         console.error(error);
                         setError("Failed to fetch form details.");
@@ -48,9 +44,7 @@ function SubmissionStatus() {
                     }
                 }
                 fetchData(); 
-            }
-        }
-    }, [router.isReady, router.query]);
+            },[]);
 
     if (loading) {
         return (
@@ -76,7 +70,7 @@ function SubmissionStatus() {
                             <h1>Submission Details</h1>
 
                             <span>Research Title:</span>
-                            <p>{form?.title || "No title available"}</p> {/* Optional chaining with fallback */}
+                            <p>{form?.title || "No title available"}</p>
 
                             <span>Date of Submission:</span>
                             <p>{form?.date ? new Date(form.date).toLocaleDateString("en-US") : "No date available"}</p>
