@@ -21,15 +21,13 @@ export default function SignIn() {
 
   useEffect(() => {
     if (status === "authenticated") {
-      const userRole = session.user.role; // Assuming role is stored in session
+      const userRole = session.user.role;
       if (userRole === "IREB") {
         router.push("/IREB/IREBDashboard");
       } else if (userRole === "PrimaryReviewer") {
-        router.push("/PrimaryReviewer/PrimaryReviewerDashboard");
+        router.push("/PrimaryReviewer/PRDashboard");
       } else if (userRole === "REC") {
-        router.push("/REC/RECDashboard");
-      } else if (userRole === "PrimaryInvestigator") {
-        router.push("/PrimaryInvestigator/PrimaryInvestigatorDashboard");
+        router.push("/REC/RECdashboard");
       } else {
         router.push("../Unauthorized");
       }
@@ -38,6 +36,10 @@ export default function SignIn() {
 
   const handleRecaptchaChange = (value) => {
     setIsRecaptchaVerified(!!value);
+  };
+
+  const handleSignIn = () => {
+    signIn("google");
   };
 
   return (
@@ -68,9 +70,7 @@ export default function SignIn() {
           </p>
 
           <button
-            onClick={() =>
-              signIn("google", { callbackUrl: "/IREB/IREBDashboard" })
-            }
+            onClick={handleSignIn}
             className="admin-google-btn"
             disabled={!isRecaptchaVerified}
           >

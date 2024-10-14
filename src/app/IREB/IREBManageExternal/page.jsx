@@ -8,6 +8,8 @@ import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
 import AddAccModal from "../../components/modals/AddAccModal";
 import "../../styles/ireb/IrebManageAccounts.css";
 
+import withAuthorization from "../../../hoc/withAuthorization";
+
 function IrebManageExternal() {
   const [modalShow, setModalShow] = useState(false);
 
@@ -118,4 +120,4 @@ function IrebManageExternal() {
   );
 }
 
-export default IrebManageExternal;
+export default withAuthorization(IrebManageExternal, "IREB");

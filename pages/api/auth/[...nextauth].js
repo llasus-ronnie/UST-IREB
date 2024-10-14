@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import connectDB from "../../../utils/database";
 import User from "../../../models/users/user";
+import roles from "../../../src/app/api/roles/roles"; // Import predefined roles
 
 const handler = NextAuth({
   providers: [
@@ -11,7 +12,18 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async session({ session }) {
+    async jwt({ token, user }) {
+      // Add user role to the token right after sign-in
+      if (user) {
+        await connectDB();
+        const userFromDB = await User.findOne({ email: user.email });
+        token.role = userFromDB ? userFromDB.role : null;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Add role to session
+      session.user.role = token.role;
       return session;
     },
     async signIn({ profile }) {
@@ -31,6 +43,7 @@ const handler = NextAuth({
             email: profile.email,
             name: profile.name,
             image: profile.picture,
+            role: "PrincipalInvestigator",
           });
         }
 

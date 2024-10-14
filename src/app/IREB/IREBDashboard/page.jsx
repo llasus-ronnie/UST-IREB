@@ -18,7 +18,7 @@ import {
 import "chartjs-plugin-dragdata"; // Import drag plugin
 
 // css
-import styles from "../../styles/ireb/dashboard.css";
+import "../../styles/ireb/dashboard.css";
 
 // Import the withAuthorization HOC
 import withAuthorization from "../../../hoc/withAuthorization";

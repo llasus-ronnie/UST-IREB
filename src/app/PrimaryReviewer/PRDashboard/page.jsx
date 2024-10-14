@@ -7,6 +7,8 @@ import SearchBar from "../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
 import "../../styles/pr/PrDashboard.css";
 
+import withAuthorization from "../../../hoc/withAuthorization";
+
 function PrDashboard() {
   const handleSearch = (query) => {
     console.log("Search query:", query);
@@ -221,4 +223,4 @@ function PrDashboard() {
   );
 }
 
-export default PrDashboard;
+export default withAuthorization(PrDashboard, "PrimaryReviewer");

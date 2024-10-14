@@ -74,7 +74,7 @@ const PrNav = () => {
           <li>
             <Link
               href="/#"
-              onClick={() => signOut({ callbackUrl: "/signinadmin" })}
+              onClick={() => signOut({ callbackUrl: "/SignInAdmin" })}
             >
               <div>
                 <Image

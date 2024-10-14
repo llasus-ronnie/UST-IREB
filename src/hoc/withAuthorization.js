@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import roles from "../app/api/roles";
+import roles from "../app/api/roles/roles";
 
 const withAuthorization = (Component, requiredRole) => {
   return (props) => {
@@ -17,9 +17,8 @@ const withAuthorization = (Component, requiredRole) => {
     }
 
     const userRole = session.user.role; // Assuming role is stored in session
-    const allowedPages = roles[userRole] || [];
 
-    if (!allowedPages.includes(router.pathname)) {
+    if (userRole !== requiredRole) {
       router.push("../Unauthorized");
       return null;
     }
