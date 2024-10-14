@@ -8,6 +8,8 @@ import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
 import "../../styles/rec/RecSubmissions.css";
 import axios from "axios";
 
+import withAuthorization from "../../../hoc/withAuthorization";
+
 function RecSubmissions() {
   const handleSearch = (query) => {
     console.log("Search query:", query);
@@ -137,4 +139,4 @@ function RecSubmissions() {
   );
 }
 
-export default RecSubmissions;
+export default withAuthorization(RecSubmissions, "REC");

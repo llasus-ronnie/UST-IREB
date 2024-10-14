@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+import React, { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import "../../styles/adminnav/adminnav.css";
+import { useSession, signOut } from "next-auth/react";
 
-const PrNav = () => { 
+const PrNav = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleNav = () => {
@@ -18,9 +19,9 @@ const PrNav = () => {
   // };
 
   return (
-    <div className={`prnav adminnav ${isOpen ? 'open' : ''}`}>
+    <div className={`prnav adminnav ${isOpen ? "open" : ""}`}>
       <div className="adminnav-toggle" onClick={toggleNav}>
-        <span>{isOpen ? '◄' : '►'}</span>
+        <span>{isOpen ? "◄" : "►"}</span>
       </div>
       <div className="adminnav-content">
         <ul>
@@ -71,7 +72,10 @@ const PrNav = () => {
       <div className="adminnav-logout">
         <ul>
           <li>
-            <Link href="/logout" passHref>
+            <Link
+              href="/#"
+              onClick={() => signOut({ callbackUrl: "/SignInAdmin" })}
+            >
               <div>
                 <Image
                   src="/images/adminnav/adminnav-logout.png"

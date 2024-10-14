@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Page1 from "../components/submissionforms/SubmissionFormsP1";
 import StepBar from "../components/stepbar/StepBar";
@@ -5,7 +7,9 @@ import StepForm from "../components/stepbar/StepForm";
 import { Container } from "react-bootstrap";
 import Navbar from "../components/navbar/Navbar";
 
-export default function page() {
+import withAuthorization from "../../hoc/withAuthorization";
+
+function page() {
   // Define the steps
   const steps = [
     {
@@ -36,3 +40,5 @@ export default function page() {
     </>
   );
 }
+
+export default withAuthorization(page, "PrincipalInvestigator");

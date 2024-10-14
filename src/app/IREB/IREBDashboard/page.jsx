@@ -18,7 +18,10 @@ import {
 import "chartjs-plugin-dragdata"; // Import drag plugin
 
 // css
-import styles from "../../styles/ireb/dashboard.css";
+import "../../styles/ireb/dashboard.css";
+
+// Import the withAuthorization HOC
+import withAuthorization from "../../../hoc/withAuthorization";
 
 ChartJS.register(
   CategoryScale,
@@ -189,4 +192,5 @@ function IrebDashboard() {
   );
 }
 
-export default IrebDashboard;
+// Wrap the IrebDashboard component with withAuthorization HOC
+export default withAuthorization(IrebDashboard, "IREB");
