@@ -10,7 +10,7 @@ import axios from "axios"; // You can use any library for HTTP requests
 import Link from "next/link";
 
 //css
-import "../../styles/recdashboard/RECDashboard.css";
+import "../../../styles/recdashboard/RECDashboard.css";
 
 import withAuthorization from "../../../../hoc/withAuthorization";
 
