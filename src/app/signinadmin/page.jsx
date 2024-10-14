@@ -48,7 +48,9 @@ export default function SignIn() {
           </p>
 
           <button
-            onClick={() => signIn("google")}
+            onClick={() =>
+              signIn("google", { callbackUrl: "/IREB/IREBDashboard" })
+            }
             className="admin-google-btn"
             disabled={!isRecaptchaVerified}
           >

@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import "../../styles/adminnav/adminnav.css";
+import { useSession, signOut } from "next-auth/react";
 
 const RecNavMobile = () => {
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -11,7 +12,8 @@ const RecNavMobile = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const currentScrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
       if (currentScrollTop > lastScrollTop) {
         setIsNavVisible(false);
       } else {
@@ -20,12 +22,12 @@ const RecNavMobile = () => {
       setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollTop]);
 
   return (
-    <div className={`adminnav ${isNavVisible ? 'visible' : 'hidden'}`}>
+    <div className={`adminnav ${isNavVisible ? "visible" : "hidden"}`}>
       <div className="adminnav-content">
         <ul>
           <li>
@@ -60,8 +62,8 @@ const RecNavMobile = () => {
             <Link href="../REC/RECSubmissions" passHref>
               <div>
                 <Image
-                src="/images/adminnav/adminnav-submissions.png"
-                alt="Submissions"
+                  src="/images/adminnav/adminnav-submissions.png"
+                  alt="Submissions"
                   width={32}
                   height={32}
                 />
@@ -85,7 +87,10 @@ const RecNavMobile = () => {
           </li>
 
           <li>
-            <Link href="/logout" passHref>
+            <Link
+              href="/#"
+              onClick={() => signOut({ callbackUrl: "/signinadmin" })}
+            >
               <div>
                 <Image
                   src="/images/adminnav/adminnav-logout.png"

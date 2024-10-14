@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+import React, { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import "../../styles/adminnav/adminnav.css";
+import { useSession, signOut } from "next-auth/react";
 
-const IrebNav = () => { 
+const IrebNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -23,9 +24,9 @@ const IrebNav = () => {
   };
 
   return (
-    <div className={`irebnav adminnav ${isOpen ? 'open' : ''}`}>
+    <div className={`irebnav adminnav ${isOpen ? "open" : ""}`}>
       <div className="adminnav-toggle" onClick={toggleNav}>
-        <span>{isOpen ? '◄' : '►'}</span>
+        <span>{isOpen ? "◄" : "►"}</span>
       </div>
       <div className="adminnav-content">
         <ul>
@@ -39,7 +40,7 @@ const IrebNav = () => {
                   height={32}
                 />
               </div>
-                {isOpen && <span>My Profile</span>}
+              {isOpen && <span>My Profile</span>}
             </Link>
           </li>
 
@@ -53,13 +54,13 @@ const IrebNav = () => {
                   height={32}
                 />
               </div>
-                {isOpen && <span>Home</span>}
+              {isOpen && <span>Home</span>}
             </Link>
           </li>
 
           {/* Manage Accounts */}
           <li className="dropdown">
-            <div className="dropdown-div" >
+            <div className="dropdown-div">
               <Image
                 src="/images/adminnav/adminnav-manageaccounts.png"
                 alt="Manage Accounts"
@@ -69,10 +70,10 @@ const IrebNav = () => {
               />
               {isOpen && (
                 <>
-                <div className="dropdown-div" onClick={toggleDropdown}>
-                  <span>Manage Accounts</span>
-                  <span className="dropdown-toggle" />
-                </div>
+                  <div className="dropdown-div" onClick={toggleDropdown}>
+                    <span>Manage Accounts</span>
+                    <span className="dropdown-toggle" />
+                  </div>
                 </>
               )}
             </div>
@@ -88,7 +89,11 @@ const IrebNav = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="../IREB/IREBManageExternal" passHref legacyBehavior>
+                  <Link
+                    href="../IREB/IREBManageExternal"
+                    passHref
+                    legacyBehavior
+                  >
                     <a>
                       <span>External Accounts</span>
                     </a>
@@ -117,7 +122,10 @@ const IrebNav = () => {
       <div className="adminnav-logout">
         <ul>
           <li>
-            <Link href="/logout" passHref>
+            <Link
+              href="/#"
+              onClick={() => signOut({ callbackUrl: "/signinadmin" })}
+            >
               <div>
                 <Image
                   src="/images/adminnav/adminnav-logout.png"
