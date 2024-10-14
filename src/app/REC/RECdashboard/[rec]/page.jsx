@@ -2,9 +2,9 @@
 
 //components
 import React from "react";
-import RecNav from "../../components/navbaradmin/RecNav";
-import RecNavMobile from "../../components/navbaradmin/RecNavMobile";
-import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
+import RecNav from "../../../components/navbaradmin/RecNav";
+import RecNavMobile from "../../../components/navbaradmin/RecNavMobile";
+import UserLoggedIn from "../../../components/userloggedin/UserLoggedIn";
 import { useState, useEffect } from "react";
 import axios from "axios"; // You can use any library for HTTP requests
 import Link from "next/link";
@@ -12,7 +12,7 @@ import Link from "next/link";
 //css
 import "../../styles/recdashboard/RECDashboard.css";
 
-import withAuthorization from "../../../hoc/withAuthorization";
+import withAuthorization from "../../../../hoc/withAuthorization";
 
 function RECDashboard() {
   const [forms, setForms] = useState([]);
