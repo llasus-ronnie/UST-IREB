@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --primary-color: #121212;
+    --secondary-color: #ecf0f1;
+    --tertiary-color: #fcbf15;
+    --quaternary-color: #ffffff;
+    --poppins: "Poppins", sans-serif;
+    --title-size: 1.875rem;
+    --heading-1-size: 1.5rem;
+    --paragraph-size: 1rem;
+}
+
+/* General Page Container */
+.adminpage-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Side Nav */
+.adminnav.open ~ .rec-submissions {
+    margin-left: 18.75rem;
+}
+
+/* REC Submissions */
+.rec-submissions {
+    flex-grow: 1;
+    transition: margin-left 0.3s ease;
+    background-color: var(--secondary-color);
+    height: 100vh;
+    margin-left: 5.625rem;
+}
+
+/* Main Content Div for REC Submissions */
+.adminmain-content {
+    font-family: var(--poppins);
+    color: var(--primary-color);
+    max-width: 81.25rem;
+    height: 100%;
+    margin: 2rem auto;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* Header */
+
+.rec-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.UserLoggedIn {
+  flex-shrink: 0;
+}
+
+.rec-header {
+    margin-top: 0.2rem;
+    flex-grow: 1;
+}
+
+.rec-header h1 {
+    color: var(--primary-color);
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+
+.rec-header p {
+    font-size: 1rem;
+    color: var(--primary-color);
+    padding-top: 0.4rem;
+}
+
+/* View Submission */
+
+.viewsubmission-container {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    margin: 3rem 0;
+}
+
+/* Left Col */
+.viewsub-content-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--quaternary-color);
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+/* Right Col */
+.viewsub-details-container {
+    font-family: var(--poppins);
+    padding-left: 3rem;
+}
+
+.viewsub-details-container h1 {
+    color: var(--tertiary-color);
+    font-size: var(--heading-1-size);
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+}
+
+.viewsub-details-container span {
+    color: var(--primary-color);
+    font-size: var(--paragraph-size);
+    font-weight: bold;
+    margin: 1rem 0 0.2rem 0;
+}
+
+.viewsub-details-container p {
+    color: var(--primary-color);
+    font-size: var(--paragraph-size);
+    margin: 0.3rem 0;
+}
+
+.viewsub-changestatus {
+    font-family: var(--poppins);
+    font-size: var(--paragraph-size);
+    color: var(--primary-color);
+    background-color: var(--quaternary-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    width: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.viewsub-proofofpayment {
+    background-color: var(--quaternary-color);
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    margin: 1rem 0;
+    display: flex; 
+    flex-direction: column;
+}
+
+.viewsub-proofofpayment button {
+    font-family: var(--poppins);
+    color: var(--quaternary-color);
+    background-color: var(--tertiary-color);
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+}
+
+.viewsub-proofofpayment button:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+.viewsub-buttons button {
+    font-family: var(--poppins);
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    margin: 1rem 0.5rem;
+    color: var(--quaternary-color);
+    transition: background-color 0.3s ease;
+}
+
+.viewsub-buttons .viewsub-save {
+    background-color: var(--tertiary-color);
+}
+
+.viewsub-buttons .viewsub-back {
+    background-color: gray;
+}
+
+.viewsub-buttons .viewsub-save:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.viewsub-buttons .viewsub-back:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+
+/* scroll design  */
+::-webkit-scrollbar {
+  background-color: var(--primary-color);
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--tertiary-color);
+  border-radius: 10px;
+}
+
+/* Responsiveness */
+
+/* Laptops & Desktops */
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
+  .recnav-mobile {
+    display: none;
+  }
+
+  .rec-header-container-mobile {
+    display: none;
+  }
+
+  .rec-dropdown-mobile {
+    display: none;
+  }
+}
+
+/* Larger Screens */
+@media only screen and (min-width: 1201px) {
+  .recnav-mobile {
+    display: none;
+  }
+
+  .rec-header-container-mobile {
+    display: none;
+  }
+
+  .rec-dropdown-mobile {
+    display: none;
+  }
+}
+
+  /* Tablet */
+  @media only screen and (min-width: 577px) and (max-width: 768px) {
+    .recnav-mobile {
+      display: none;
+    }
+
+    .rec-header-container {
+      display: none;
+    }
+
+    .rec-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .rec-header p {
+      font-size: 1rem;
+      padding-top: 0.4rem;
+    }
+
+    .adminmain-content {
+      padding: 1.5rem;
+      margin: 1.5rem;
+      max-width: 80%;
+    }
+
+    .rec-submissions {
+      margin-left: 5.625rem;
+      padding: 2rem;
+    }
+    
+    .viewsubmission-container {
+        flex-direction: column; 
+    }
+
+    .viewsub-content-container,
+    .viewsub-details-container {
+        width: 100%;
+        padding: 0;
+    }
+
+    .viewsub-details-container {
+        padding-left: 0;
+        margin-top: 1rem;
+    }
+  }
+
+
+    /* Mobile */
+    @media only screen and (max-width: 576px) {
+      .recnav {
+        display: none;
+      }
+
+      .recnav-mobile {
+        display: block;
+      }
+
+      .adminpage-container .recnav {
+        display: none;
+      }
+    
+      /* Mobile General Page Container */
+      .adminpage-container {
+        flex-direction: column;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow-x: hidden;
+      }
+    
+      /* Mobile REC Submission */
+      .rec-submissions {
+        margin-left: 0;
+        padding: 1rem;
+        height: auto;
+      }
+    
+      /* Mobile Main Content Div for REC Submission */
+      .adminmain-content {
+        padding: 1rem;
+        margin: 1rem auto;
+        max-width: 100%;
+      }
+    
+      /* Mobile Header */
+      .rec-header-container {
+        display: none;
+      }
+
+      .rec-header-container-mobile {
+        align-items: center;
+      }
+
+      .rec-header-container-mobile h1 {
+        font-size: 1.5rem;
+      }
+
+      .userloggedin-mobile {
+        margin-bottom: 1.5rem;
+      }
+
+        /* Mobile Content */
+        .viewsubmission-container {
+            flex-direction: column;
+        }
+
+        .viewsub-content-container,
+        .viewsub-details-container {
+            width: 100%;
+            padding: 0;
+        }
+
+        .viewsub-details-container {
+            padding-left: 0;
+            margin-top: 1rem;
+        }
+    }

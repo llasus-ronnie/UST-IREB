@@ -1,15 +1,16 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { Row, Col } from "react-bootstrap";
 import RecNav from "../../components/navbaradmin/RecNav";
 import RecNavMobile from "../../components/navbaradmin/RecNavMobile";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
-import "../../styles/rec/RecSubmissions.css";
+import "../../styles/rec/RECViewSubmission.css";
 import axios from "axios";
 
 import withAuthorization from "../../../hoc/withAuthorization";
 
-function RecSubmissions() {
+function RECViewSubmission() {
   const [forms, setForms] = useState([]);
 
   useEffect(() => {
@@ -56,10 +57,46 @@ function RecSubmissions() {
             </div>
           </div>
 
+            <Row className="viewsubmission-container">
+              <Col xs={12} lg={8} className="viewsub-content-container">
+              </Col>
+              <Col xs={12} lg={4} className="viewsub-details-container">
+                  <h1>Submission Details</h1>
+
+                  <span>Research Title:</span>
+                  <p>text</p>
+
+                  <span>Date of Submission:</span>
+                  <p>text</p>
+
+                  <span>Review Classification:</span>
+                  <p>text</p>
+
+
+                  <span>Status:</span>
+                  <select className="viewsub-changestatus">
+                    <option value="status-1">Status 1</option>
+                    <option value="status-2">Status 2</option>
+                    <option value="status-3">Status 3</option>
+                  </select>
+
+                  <div className="viewsub-proofofpayment">
+                    <span>Proof of Payment:</span>
+
+                    <button>Proof of Payment Button</button>
+                  </div>
+
+                  <div className="viewsub-buttons">
+                  <button className="viewsub-save">Save Changes</button>
+                  <button className="viewsub-back">Back</button>
+                  </div>
+
+              </Col>
+            </Row>
         </div>
       </div>
     </div>
   );
 }
 
-export default withAuthorization(RecSubmissions, "REC");
+export default withAuthorization(RECViewSubmission, "REC");
