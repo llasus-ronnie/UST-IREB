@@ -1,8 +1,9 @@
 "use client";
 // Dependencies
-import { signIn } from "next-auth/react";
-import React, { useState } from "react";
+import { signIn, useSession } from "next-auth/react";
+import React, { useState, useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useRouter } from "next/navigation";
 
 // Images
 import Image from "next/image";
@@ -15,6 +16,25 @@ import "../styles/signin/SignInAdmin.css";
 
 export default function SignIn() {
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      const userRole = session.user.role; // Assuming role is stored in session
+      if (userRole === "IREB") {
+        router.push("/IREB/IREBDashboard");
+      } else if (userRole === "PrimaryReviewer") {
+        router.push("/PrimaryReviewer/PrimaryReviewerDashboard");
+      } else if (userRole === "REC") {
+        router.push("/REC/RECDashboard");
+      } else if (userRole === "PrimaryInvestigator") {
+        router.push("/PrimaryInvestigator/PrimaryInvestigatorDashboard");
+      } else {
+        router.push("../Unauthorized");
+      }
+    }
+  }, [session, status, router]);
 
   const handleRecaptchaChange = (value) => {
     setIsRecaptchaVerified(!!value);
