@@ -29,7 +29,7 @@ const IrebNav = () => {
       </div>
       <div className="adminnav-content">
         <ul>
-          <li>
+          <li> 
             <Link href="../IREB/IREBUserProfile" passHref>
               <div>
                 <Image
