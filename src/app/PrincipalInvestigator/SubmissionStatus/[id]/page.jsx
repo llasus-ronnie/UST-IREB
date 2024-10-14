@@ -10,7 +10,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { PropagateLoader } from "react-spinners";
 
-import withAuthorization from "../../../hoc/withAuthorization";
+import withAuthorization from "../../../../hoc/withAuthorization";
 
 function SubmissionStatus({ params }) {
   const [loading, setLoading] = useState(false);
