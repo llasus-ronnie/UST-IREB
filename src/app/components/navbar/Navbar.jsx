@@ -48,7 +48,7 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <Link href="/SignInOption" className="navbar-subtitle">
+              <Link href="/signinoption" className="navbar-subtitle">
                 Login
               </Link>
             </>
@@ -79,7 +79,7 @@ export default function Navbar() {
           ) : (
             <>
               <Image src={userIcon} alt="User Icon" className="logout-icon" />
-              <Link href="/SignInOption" className="view-account">
+              <Link href="/signinoption" className="view-account">
                 Login
               </Link>
             </>
