@@ -40,7 +40,7 @@ const RecNav = () => {
           </li>
 
           <li>
-            <Link href="../../REC/RECdashboard" passHref>
+            <Link href="../../REC/RECdashboard/rec" passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-home.png"

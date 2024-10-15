@@ -4,8 +4,8 @@ import "../../styles/navbar/navbar.css";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { useSession, signOut } from "next-auth/react";
 
 //images
@@ -51,7 +51,10 @@ export default function Navbar() {
           ) : (
             <>
               <Link href="/SignInOption" className="navbar-subtitle">
-              <FontAwesomeIcon icon={faRightToBracket} className="navsignin-icon" />
+                <FontAwesomeIcon
+                  icon={faRightToBracket}
+                  className="navsignin-icon"
+                />
                 Sign In
               </Link>
             </>
@@ -83,7 +86,11 @@ export default function Navbar() {
             <>
               <Image src={userIcon} alt="User Icon" className="logout-icon" />
               <Link href="/SignInOption" className="view-account">
+<<<<<<< HEAD
                 Sign In
+=======
+                Login
+>>>>>>> fc0afd1abaeb74071b0ce545349feb16709fa057
               </Link>
             </>
           )}
