@@ -70,7 +70,7 @@ export default function SignIn() {
                 <div className="captchasign-container">
                   <ReCAPTCHA
                     className="thomasian-captchasign"
-                    sitekey="6LfgAgkqAAAAAC_WvkqfnkIF-NUvwHnVOPyDkD2G"
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
                     size="normal"
                     onChange={handleRecaptchaChange}
                   />
