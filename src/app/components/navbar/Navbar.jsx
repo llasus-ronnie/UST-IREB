@@ -86,11 +86,7 @@ export default function Navbar() {
             <>
               <Image src={userIcon} alt="User Icon" className="logout-icon" />
               <Link href="/SignInOption" className="view-account">
-<<<<<<< HEAD
                 Sign In
-=======
-                Login
->>>>>>> fc0afd1abaeb74071b0ce545349feb16709fa057
               </Link>
             </>
           )}
