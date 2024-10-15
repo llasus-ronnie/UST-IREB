@@ -48,14 +48,22 @@
   padding-top: 0.5em;
 }
 
+.navsignin-icon {
+  font-size: 0.95rem;
+  color: var(--tertiary-color);
+  margin: 0 10px;
+}
+
 .navbar-subtitle {
   font-family: var(--poppins);
   font-size: 0.95rem;
-  color: var(--quaternary-color);
+  color: var(--tertiary-color);
   padding-top: 0.5em;
   justify-content: center;
   align-items: center;
   display: flex;
+  margin-right: 1rem;
+  text-decoration: none;
 }
 
 .navbar-user-session {
