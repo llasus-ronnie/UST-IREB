@@ -53,19 +53,19 @@
 }
 
 .rec-header {
-    display: flex; /* Ensure the logo and text are in a row */
-    align-items: center; /* Align items vertically center */
+    display: flex; 
+    align-items: center; 
     margin-top: 0.2rem;
 }
 
 /* User Logged In Section */
 .userloggedin {
-    flex-shrink: 0; /* Prevent shrinking */
+    flex-shrink: 0; 
 }
 
 .cics-logo {
     height: 4rem;
-    margin-right: 15px; /* Space between logo and text */
+    margin-right: 15px; 
 }
 
 /* Header Title */
@@ -100,30 +100,34 @@
   font-family: var(--poppins);
 }
 
-
+/* Parent Container */
+.cards-container {
+  display: flex;
+  gap: 15px;
+}
 
 /* Admin Dashboard Cards */
 .admindashboard-cards {
-  display: flex;
-  justify-content: space-evenly;
-  gap: 15px;
-  margin-top: 1rem;
-  padding: 1rem;
-  flex-wrap: wrap;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns for a 3x3 grid */
+  gap: 10px;
 }
 
 .recdashboard-card {
-    background-color: var(--quaternary-color);
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 14%; /* Adjusted width for a smaller card */
-    padding: 1rem;
-    box-sizing: border-box;
+  background-color: var(--quaternary-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-left: 40px;
+  padding: 1rem;
+  height: 170px;
+  width: 200px;
+  box-sizing: border-box;
   }
   
 
@@ -149,6 +153,37 @@
   font-family: var(--poppins);
 }
 
+/* Deadline */
+
+
+.deadline-card {
+  flex: 2;
+  background-color: var(--quaternary-color);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 350px; 
+  margin-right: 40px;
+  display: flex;
+  align-items: flex-start; /* Change to flex-start for alignment */
+  justify-content: center;
+  position: relative; /* Add this for positioning context */
+}
+
+.deadline-card h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin: 0; /* Remove bottom margin */
+  font-family: var(--poppins);
+  position: absolute; /* Use absolute positioning */
+  top: 1.5rem; /* Adjust to your desired spacing from the top */
+  left: 1.5rem; /* Adjust to your desired spacing from the left */
+}
+
+
+
+
 .rec-overview-table {
     background-color: white;
     border-radius: 10px;
@@ -162,10 +197,13 @@
 }
 
 
+/* ------------------------- */
+
 .dashboard-header {
   display: flex;
   flex-direction: column;
 }
+
 
 .dashboard-header h2 {
   color: var(--primary-color);

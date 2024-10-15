@@ -66,6 +66,9 @@ function RECDashboard({ params }) {
           </div>
         </div>
 
+        {/* Parent of the Cards */}
+        <div className="cards-container">
+
         {/* Submission Cards */}
         <div className="admindashboard-cards">
           <div className="recdashboard-card">
@@ -94,8 +97,16 @@ function RECDashboard({ params }) {
           </div>
         </div>
         <br />
-        {/* Submission Overview Table */}
 
+        {/* Deadline Cards */}
+        <div className="deadline-card">
+          <h2>Needs Attention</h2>
+        </div>
+        </div>
+
+
+
+        {/* Submission Overview Table */}
         <div className="rec-overview-table">
           <h1>Submission Overview</h1>
           <table>
