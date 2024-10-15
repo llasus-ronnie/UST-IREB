@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import "../../styles/modals/AddAccModal.css";
+import CancelConfirmationModal from "../../components/modals/CancelConfirmationModal.jsx";
 import axios from "axios";
 
 export default function AddAccModal(props) {
@@ -86,7 +87,7 @@ export default function AddAccModal(props) {
             <img
               src="/images/modals/addacc-email.png"
               alt="Email Icon"
-              className="form-icon"
+              className="form-icon-email"
             />
             <Form.Control
               type="email"
@@ -97,6 +98,7 @@ export default function AddAccModal(props) {
               className="form-control-with-icon"
             />
           </Form.Group>
+
           <Form.Group
             className="mb-3 form-group-with-icon access-token-group"
             controlId="formAccessToken"
@@ -104,7 +106,7 @@ export default function AddAccModal(props) {
             <img
               src="/images/modals/addacc-key.png"
               alt="Token Icon"
-              className="form-icon"
+              className="form-icon-token"
             />
             <Form.Control
               type="text"
@@ -121,14 +123,18 @@ export default function AddAccModal(props) {
             >
               Generate Token
             </Button>
-            <Button
+          
+            {/* <Button
               onClick={handleSendEmail}
               className="btn send-email-btn"
               disabled={!isEmailValid || !accessToken}
             >
               Send Email
-            </Button>
+            </Button> */}
+
           </Form.Group>
+
+
         </Form>
       </Modal.Body>
       <Modal.Footer className="addacc-modal-footer">
