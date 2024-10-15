@@ -50,14 +50,9 @@ export default function Navbar() {
             </>
           ) : (
             <>
-<<<<<<< HEAD
               <Link href="/SignInOption" className="navbar-subtitle">
               <FontAwesomeIcon icon={faRightToBracket} className="navsignin-icon" />
                 Sign In
-=======
-              <Link href="/signinoption" className="navbar-subtitle">
-                Login
->>>>>>> 802b066d1ca74fcc600702a9c3a2db0603656f51
               </Link>
             </>
           )}
