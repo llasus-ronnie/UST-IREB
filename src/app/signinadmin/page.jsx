@@ -27,7 +27,7 @@ export default function SignIn() {
       } else if (userRole === "PrimaryReviewer") {
         router.push("/PrimaryReviewer/PRDashboard");
       } else if (userRole === "REC") {
-        router.push("/REC/RECdashboard");
+        router.push("/REC/RECdashboard/[rec]");
       } else {
         router.push("../Unauthorized");
       }

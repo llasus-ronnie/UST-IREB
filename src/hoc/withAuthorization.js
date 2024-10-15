@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import roles from "../app/api/roles/roles";
-import { Row, Col } from "react-bootstrap"; // If using React-Bootstrap for a spinner
+import { Spinner } from "react-bootstrap";
 import "../app/styles/unauthorized/unauthorized.css";
 
 const withAuthorization = (Component, requiredRole) => {
@@ -11,30 +11,13 @@ const withAuthorization = (Component, requiredRole) => {
 
     if (status === "loading") {
       return (
-        <div className="unauthorized-container">
-          <div className="unauthorized-content">
-            <Row>
-              <Col className="unauthorized-image">
-                <img
-                  src="../images/unauthorized/401.gif"
-                  alt="Unauthorized Access"
-                />
-              </Col>
-              <Col className="unauthorized-details">
-                <h1 className="unauthorized-title">
-                  Unauthorized Access Error
-                </h1>
-                <p className="unauthorized-message">
-                  You do not have permission to view this page.
-                </p>
-                <div className="unauthorized-button">
-                  <a href="/" className="unauthorized-link">
-                    Go back to Home
-                  </a>
-                </div>
-              </Col>
-            </Row>
-          </div>
+        <div style={loadingContainerStyle}>
+          <Spinner animation="border" role="status" style={spinnerStyle}>
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+          <p style={loadingTextStyle}>
+            Please wait, we are verifying your access...
+          </p>
         </div>
       );
     }
@@ -46,12 +29,36 @@ const withAuthorization = (Component, requiredRole) => {
 
     const userRole = session.user.role;
     if (userRole !== requiredRole) {
-      router.push("../Unauthorized");
+      if (requiredRole === "REC") {
+        router.push("../../Unauthorized");
+      } else {
+        router.push("../Unauthorized");
+      }
       return null;
     }
 
     return <Component {...props} />;
   };
+};
+
+const loadingContainerStyle = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100vh",
+  backgroundColor: "var(--secondary-color)",
+};
+const spinnerStyle = {
+  width: "4rem",
+  height: "4rem",
+  color: "var(--tertiary-color)",
+};
+const loadingTextStyle = {
+  fontFamily: "var(--poppins)",
+  fontSize: "var(--paragraph-size)",
+  color: "var(--primary-color)",
+  marginTop: "1rem",
 };
 
 export default withAuthorization;

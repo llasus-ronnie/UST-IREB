@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import "../../styles/userloggedin/UserLoggedIn.css";
+import { useSession } from "next-auth/react";
 
 const UserInfo = () => {
+  const { data: session } = useSession();
   const [currentTime, setCurrentTime] = useState(null);
 
   useEffect(() => {
@@ -15,16 +17,21 @@ const UserInfo = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const userName = "IREB Chair";
-  const profileImage = "/images/userloggedin/user-placeholder.png";
+  const userName = session?.user?.name || "IREB Chair";
+  const profileImage =
+    session?.user?.image || "/images/userloggedin/user-placeholder.png";
 
-  const formattedDate = currentTime ? currentTime.toLocaleDateString("en-US") : ''; // For MM/DD/YYYY format
-  const formattedTime = currentTime ? currentTime.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    hour12: true, // For 12-hour format with AM/PM
-  }): '';
+  const formattedDate = currentTime
+    ? currentTime.toLocaleDateString("en-US")
+    : ""; // For MM/DD/YYYY format
+  const formattedTime = currentTime
+    ? currentTime.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true, // For 12-hour format with AM/PM
+      })
+    : "";
 
   return (
     <div className="uli-container">
