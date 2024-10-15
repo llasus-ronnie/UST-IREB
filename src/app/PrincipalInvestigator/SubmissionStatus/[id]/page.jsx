@@ -9,11 +9,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { PropagateLoader } from "react-spinners";
+import UploadPaymentProofModal from "../../../components/modals/UploadPaymentProofModal.jsx";
 
 import withAuthorization from "../../../../hoc/withAuthorization";
 
 function SubmissionStatus({ params }) {
   const [loading, setLoading] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+
+  const handleShowModal = () => setModalShow(true);
+  const handleCloseModal = () => setModalShow(false);
 
   const router = useRouter();
 
@@ -94,6 +99,14 @@ function SubmissionStatus({ params }) {
                 Edit Submission
               </button>
             </div>
+
+            {/* this will only appear when investigator reach the specific status for payment*/}
+            <div className="submissionstatus-uploadproof-container">
+              <button className="submissionstatus-uploadproof" onClick={handleShowModal}>
+                  Upload Proof of Payment
+              </button>
+            </div>
+            
           </Col>
 
           <Col className="submissionstatus-right">
@@ -103,6 +116,9 @@ function SubmissionStatus({ params }) {
             </div>
           </Col>
         </Row>
+
+      <UploadPaymentProofModal show={modalShow} onHide={handleCloseModal} />
+
       </>
     );
   }
