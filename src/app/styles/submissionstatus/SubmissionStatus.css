@@ -96,6 +96,7 @@ body {
     background-color: var(--quaternary-color);
     border-radius: 10px;
     padding: 2.5rem 3rem;
+    width: 100%;
 }
 
 .submissionstatus-buttons {
@@ -103,7 +104,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 2rem 0;
+    margin-top: 2rem;
     width: 100%;
 }
 
@@ -128,8 +129,25 @@ body {
     color: var(--quaternary-color);
     border: none;
     border-radius: 10px;
-    padding: 0.8rem 6.8rem;
+    padding: 0.8rem;
     margin-top: 1rem;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+}
+
+.submissionstatus-uploadproof-container {
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.submissionstatus-uploadproof {
+    background-color: #369AD2;
+    color: var(--quaternary-color);
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;

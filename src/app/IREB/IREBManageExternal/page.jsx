@@ -5,7 +5,7 @@ import IrebNav from "../../components/navbaradmin/IrebNav";
 import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
 import SearchBar from "../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
-import AddAccModal from "../../components/modals/AddAccModal";
+import AddAccModal from "../../components/modals/AddExternalAccModal";
 import "../../styles/ireb/IrebManageAccounts.css";
 
 import withAuthorization from "../../../hoc/withAuthorization";

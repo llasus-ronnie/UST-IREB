@@ -1,9 +1,9 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 const fileSchema = new mongoose.Schema({
-  name: { String, required: true },
-  size: { Number, required: true },
-  type: { String, required: true },
+  name: { type: String, required: true },
+  size: { type: Number, required: true },
+  type: { type: String, required: true },
 });
 
 const File = mongoose.model("File", fileSchema);

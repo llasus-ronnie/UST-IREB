@@ -46,7 +46,7 @@ export default function Navbar() {
         <div className="navbar-right">
           {session ? (
             <>
-              <h1 className="navbar-subtitle">Welcome, {session.user.name}!</h1>
+              <h1 className="navbar-subtitle-signedin">Welcome, {session.user.name}!</h1>
             </>
           ) : (
             <>
@@ -86,7 +86,7 @@ export default function Navbar() {
             <>
               <Image src={userIcon} alt="User Icon" className="logout-icon" />
               <Link href="/SignInOption" className="view-account">
-                Login
+                Sign In
               </Link>
             </>
           )}

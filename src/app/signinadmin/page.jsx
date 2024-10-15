@@ -87,7 +87,7 @@ export default function SignIn() {
           <div className="recaptcha-wrapper">
             <ReCAPTCHA
               className="admin-recaptcha"
-              sitekey="6LfgAgkqAAAAAC_WvkqfnkIF-NUvwHnVOPyDkD2G"
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
               size="normal"
               onChange={handleRecaptchaChange}
             />
@@ -100,7 +100,7 @@ export default function SignIn() {
               Need help signing in? <a href="#">Learn More</a>
             </p>
             <p>
-              <a href="#">Return to Home</a>
+              <a href="/">Return to Home</a>
             </p>
           </div>
         </div>

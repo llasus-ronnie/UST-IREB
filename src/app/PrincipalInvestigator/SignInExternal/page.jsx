@@ -12,6 +12,8 @@ import {
 import { useState } from "react";
 import bg from "../../../../public/images/signin/bg.png";
 import USTLogo from "../../../../public/images/signin/USTLogo.png";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 import ReCAPTCHA from "react-google-recaptcha";
 import Image from "next/image";
@@ -23,10 +25,55 @@ import "../../styles/signin/SignIn.css";
 import SignInFooter from "../../components/siginin/SignInFooter";
 
 function SignIn() {
+  const [email, setEmail] = useState("");
+  const [accessToken, setAccessToken] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isTokenValid, setIsTokenValid] = useState(false);
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+  const router = useRouter();
+
+  const handleEmailChange = (e) => {
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+    setIsEmailValid(validateEmail(emailValue));
+  };
+
+  const handleAccessTokenChange = (e) => {
+    const tokenValue = e.target.value;
+    setAccessToken(tokenValue);
+    setIsTokenValid(tokenValue.length > 0);
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleRecaptchaChange = (value) => {
     setIsRecaptchaVerified(!!value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (isEmailValid && isTokenValid && isRecaptchaVerified) {
+      try {
+        const response = await axios.post("/api/auth/validate-token", {
+          email,
+          token: accessToken,
+        });
+        if (response.data.valid) {
+          alert("Sign in successful");
+          router.push("/");
+        } else {
+          alert("Invalid email or access token");
+        }
+      } catch (error) {
+        console.error("Error validating token", error);
+        alert("An error occurred. Please try again.");
+      }
+    } else {
+      alert("Please complete all fields and verify the reCAPTCHA");
+    }
   };
 
   return (
@@ -46,13 +93,24 @@ function SignIn() {
 
             <h1 className="thomasian-signin">Sign In</h1>
 
-            <Form>
+            <Form onSubmit={handleSubmit}>
               <FormGroup>
                 <div className="thomasian-formtext">
                   <FormLabel>Email</FormLabel>
-                  <input type="text" className="form-control" />
-                  <FormLabel>Password</FormLabel>
-                  <input type="password" className="form-control" />
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={email}
+                    onChange={handleEmailChange}
+                  />
+
+                  <FormLabel>Access Token</FormLabel>
+                  <input
+                    type="password"
+                    className="form-control"
+                    value={accessToken}
+                    onChange={handleAccessTokenChange}
+                  />
                 </div>
 
                 <Row className="align-items-center">
@@ -60,18 +118,21 @@ function SignIn() {
                     <div className="thomasian-captchasign-container">
                       <ReCAPTCHA
                         className="thomasian-captchasign"
-                        sitekey="6LfgAgkqAAAAAC_WvkqfnkIF-NUvwHnVOPyDkD2G"
+                        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
                         size="normal"
                         onChange={handleRecaptchaChange}
                       />
                     </div>
                   </Col>
+
                   <Col>
                     <Button
+                      type="submit"
                       variant="outline-warning"
-                      href="/"
                       className="thomasian-btnlogin"
-                      disabled={!isRecaptchaVerified}
+                      disabled={
+                        !isEmailValid || !isTokenValid || !isRecaptchaVerified
+                      }
                     >
                       Log In
                     </Button>

@@ -58,6 +58,18 @@
   font-family: var(--poppins);
   font-size: 0.95rem;
   color: var(--tertiary-color);
+  padding-top: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-right: 1rem;
+  text-decoration: none;
+}
+
+.navbar-subtitle-signedin {
+  font-family: var(--poppins);
+  font-size: 0.95rem;
+  color: var(--quaternary-color);
   padding-top: 0.5em;
   justify-content: center;
   align-items: center;
@@ -259,7 +271,7 @@
 
   background-color: var(--primary-color);
   border-radius: 10px;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
 
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.248);
   transition: 0.3s;
