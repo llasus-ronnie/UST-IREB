@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import RecNav from "../../components/navbaradmin/RecNav";
 import RecNavMobile from "../../components/navbaradmin/RecNavMobile";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
-import "../../styles/rec/RECSubmissions.css";
+import "../../styles/rec/RecSubmissions.css";
 import axios from "axios";
 
 import withAuthorization from "../../../hoc/withAuthorization";
