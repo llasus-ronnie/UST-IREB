@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import connectDB from "../../../utils/database"; // Make sure this path is correct
+import connectDB from "../../../utils/database";
 import User from "../../../models/users/user";
 
 const handler = NextAuth({
@@ -8,19 +8,33 @@ const handler = NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-      authorization: {
-        params: {
-          redirect_uri:
-            "https://main.d1nlj7e8h90os8.amplifyapp.com/api/auth/callback/google",
-        },
-      },
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  cookies: {
+    sessionToken: {
+      name: `__Secure-next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+    callbackUrl: {
+      name: `__Secure-next-auth.callback-url`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        await connectDB(); // Ensure this is called only once
+        await connectDB();
         const userFromDB = await User.findOne({ email: user.email });
         token.role = userFromDB ? userFromDB.role : null;
       }
@@ -33,13 +47,13 @@ const handler = NextAuth({
     async signIn({ profile }) {
       try {
         console.log("Profile Info:", profile);
-        await connectDB(); // Ensure this is called only once
 
         if (!profile.email.endsWith("@ust.edu.ph")) {
           console.log("Unauthorized domain:", profile.email);
           return false;
         }
 
+        await connectDB();
         const userExist = await User.findOne({ email: profile.email });
 
         if (!userExist) {
