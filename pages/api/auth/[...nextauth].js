@@ -4,6 +4,8 @@ import connectDB from "../../../utils/database";
 import User from "../../../models/users/user";
 import roles from "../../../src/app/api/roles/roles";
 
+console.log("NextAuth URL:", process.env.NEXTAUTH_URL);
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
