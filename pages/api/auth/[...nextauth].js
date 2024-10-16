@@ -1,8 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import connectDB from "../../../utils/database";
+import connectDB from "../../../utils/database"; // Make sure this path is correct
 import User from "../../../models/users/user";
-import roles from "../../../src/app/api/roles/roles";
 
 const handler = NextAuth({
   providers: [
@@ -11,10 +10,11 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_SECRET,
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        await connectDB();
+        await connectDB(); // Ensure this is called only once
         const userFromDB = await User.findOne({ email: user.email });
         token.role = userFromDB ? userFromDB.role : null;
       }
@@ -27,13 +27,13 @@ const handler = NextAuth({
     async signIn({ profile }) {
       try {
         console.log("Profile Info:", profile);
+        await connectDB(); // Ensure this is called only once
 
         if (!profile.email.endsWith("@ust.edu.ph")) {
           console.log("Unauthorized domain:", profile.email);
           return false;
         }
 
-        await connectDB();
         const userExist = await User.findOne({ email: profile.email });
 
         if (!userExist) {
@@ -52,7 +52,6 @@ const handler = NextAuth({
       }
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
 });
 
 export default handler;
