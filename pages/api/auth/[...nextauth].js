@@ -2,8 +2,10 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import connectDB from "../../../utils/database";
 import User from "../../../models/users/user";
-import roles from "../../../src/app/api/roles/roles"; // Import predefined roles
+import roles from "../../../src/app/api/roles/roles";
 
+console.log("NEXTAUTH_SECRET:", process.env.NEXTAUTH_SECRET);
+console.log("GOOGLE_ID:", process.env.GOOGLE_ID);
 const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
@@ -14,7 +16,6 @@ const handler = NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // Add user role to the token right after sign-in
       if (user) {
         await connectDB();
         const userFromDB = await User.findOne({ email: user.email });
@@ -23,16 +24,15 @@ const handler = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      // Add role to session
       session.user.role = token.role;
       return session;
     },
     async signIn({ profile }) {
       try {
-        console.log("Profile Info:", profile); // Log profile details
+        console.log("Profile Info:", profile);
 
         if (!profile.email.endsWith("@ust.edu.ph")) {
-          console.log("Unauthorized domain:", profile.email); // Log unauthorized domain
+          console.log("Unauthorized domain:", profile.email);
           return false;
         }
 
@@ -50,7 +50,7 @@ const handler = NextAuth({
 
         return true;
       } catch (error) {
-        console.log("Sign-In Error:", error); // Log any errors
+        console.log("Sign-In Error:", error);
         return false;
       }
     },
