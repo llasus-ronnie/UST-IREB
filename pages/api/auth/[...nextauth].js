@@ -5,6 +5,7 @@ import User from "../../../models/users/user";
 import roles from "../../../src/app/api/roles/roles"; // Import predefined roles
 
 const handler = NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
