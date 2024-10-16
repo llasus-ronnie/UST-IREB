@@ -2,67 +2,57 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import connectDB from "../../../utils/database";
 import User from "../../../models/users/user";
-import { SecretsManager } from "aws-sdk";
+import roles from "../../../src/app/api/roles/roles";
 
-const getSecret = async (secretName) => {
-  const client = new SecretsManager();
-  const data = await client.getSecretValue({ SecretId: secretName }).promise();
-  return data.SecretString;
-};
+const handler = NextAuth({
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+    }),
+  ],
+  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        await connectDB();
+        const userFromDB = await User.findOne({ email: user.email });
+        token.role = userFromDB ? userFromDB.role : null;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.role = token.role;
+      return session;
+    },
+    async signIn({ profile }) {
+      try {
+        console.log("Profile Info:", profile);
 
-const handler = async (req, res) => {
-  const secret = await getSecret("NEXTAUTH_SECRET"); // Replace with your secret name
-
-  return NextAuth(req, res, {
-    providers: [
-      GoogleProvider({
-        clientId: process.env.GOOGLE_ID,
-        clientSecret: process.env.GOOGLE_SECRET,
-      }),
-    ],
-    secret: secret,
-    callbacks: {
-      async jwt({ token, user }) {
-        if (user) {
-          await connectDB();
-          const userFromDB = await User.findOne({ email: user.email });
-          token.role = userFromDB ? userFromDB.role : null;
-        }
-        return token;
-      },
-      async session({ session, token }) {
-        session.user.role = token.role;
-        return session;
-      },
-      async signIn({ profile }) {
-        try {
-          console.log("Profile Info:", profile);
-
-          if (!profile.email.endsWith("@ust.edu.ph")) {
-            console.log("Unauthorized domain:", profile.email);
-            return false;
-          }
-
-          await connectDB();
-          const userExist = await User.findOne({ email: profile.email });
-
-          if (!userExist) {
-            await User.create({
-              email: profile.email,
-              name: profile.name,
-              image: profile.picture,
-              role: "PrincipalInvestigator",
-            });
-          }
-
-          return true;
-        } catch (error) {
-          console.log("Sign-In Error:", error);
+        if (!profile.email.endsWith("@ust.edu.ph")) {
+          console.log("Unauthorized domain:", profile.email);
           return false;
         }
-      },
+
+        await connectDB();
+        const userExist = await User.findOne({ email: profile.email });
+
+        if (!userExist) {
+          await User.create({
+            email: profile.email,
+            name: profile.name,
+            image: profile.picture,
+            role: "PrincipalInvestigator",
+          });
+        }
+
+        return true;
+      } catch (error) {
+        console.log("Sign-In Error:", error);
+        return false;
+      }
     },
-  });
-};
+  },
+});
 
 export default handler;
