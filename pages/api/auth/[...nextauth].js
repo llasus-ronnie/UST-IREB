@@ -8,6 +8,12 @@ const handler = NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
+      authorization: {
+        params: {
+          redirect_uri:
+            "https://main.d1nlj7e8h90os8.amplifyapp.com/api/auth/callback/google",
+        },
+      },
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
