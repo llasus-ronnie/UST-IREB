@@ -7,92 +7,6 @@ import cors from "cors";
 //cors
 const app = express();
 app.use(cors());
-
-// export async function POST (req){
-//     const {
-//             institution,
-//             researchEthicsCommittee,
-//             agreeSoftCopies,
-//             understandSubmission,
-//             understandConfidentiality,
-//             fullName,
-//             email,
-//             phone,
-//             institutionAffiliation,
-//             additionalFullName,
-//             additionalEmail,
-//             additionalPhone,
-//             additionalInstitutionAffiliation,
-//             additionalResearchers,
-//             title,
-//             background,
-//             objectives,
-//             expectedOutcomes,
-//             keywords,
-//             studyType,
-//             startDate,
-//             endDate,
-//             primarySponsor,
-//             secondarySponsor,
-//             multiCountryResearch,
-//             multiSiteResearch,
-//             region,
-//             researchField,
-//             involvesHumanSubjects,
-//             proposalType,
-//             dataCollection,
-//             proposalReviewedByOtherCommittee,
-//             monetarySource,
-//             amountInPHP,
-//             otherSource,
-//             fileType,
-//             fileInput,
-//     }= await req.json();
-
-//     await connectDB();
-//     await SubmissionForm.create({
-//         institution,
-//         researchEthicsCommittee,
-//         agreeSoftCopies,
-//         understandSubmission,
-//         understandConfidentiality,
-//         fullName,
-//         email,
-//         phone,
-//         institutionAffiliation,
-//         additionalFullName,
-//         additionalEmail,
-//         additionalPhone,
-//         additionalInstitutionAffiliation,
-//         additionalResearchers,
-//         title,
-//         background,
-//         objectives,
-//         expectedOutcomes,
-//         keywords,
-//         studyType,
-//         startDate,
-//         endDate,
-//         primarySponsor,
-//         secondarySponsor,
-//         multiCountryResearch,
-//         multiSiteResearch,
-//         region,
-//         researchField,
-//         involvesHumanSubjects,
-//         proposalType,
-//         dataCollection,
-//         proposalReviewedByOtherCommittee,
-//         monetarySource,
-//         amountInPHP,
-//         otherSource,
-//         fileType,
-//         fileInput,
-//     });
-
-//     return NextResponse.json ({message: 'Form submitted successfully!'}, {status:201});
-// }
-
 export async function POST(req, res) {
   try {
     await connectDB();
@@ -110,10 +24,23 @@ export async function POST(req, res) {
 
 export async function GET(req) {
   await connectDB();
-  const forms = await SubmissionForm.find({});
-  return NextResponse.json({ forms }, { status: 200 });
+  
+  // Extract query params from the request URL
+  const { searchParams } = new URL(req.url);
+  const rec = searchParams.get('rec'); // Get 'rec' from query params
+  console.log("REC: ", rec);
+  
+  try {
+    // If 'rec' is provided, filter forms by 'rec', otherwise return all forms
+    const forms = rec
+      ? await SubmissionForm.find({ researchEthicsCommittee: rec.trim() })
+      : await SubmissionForm.find({}); // Return all forms if no 'rec'
+    
+    return NextResponse.json({ forms }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch forms' }, { status: 500 });
+  }
 }
-
 export async function DELETE(req) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");

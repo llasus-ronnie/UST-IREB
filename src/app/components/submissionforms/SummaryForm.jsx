@@ -22,6 +22,28 @@ function SummaryForm() {
     dispatch(setCurrentStep(currentPage - 1));
   };
 
+  const formatResearchEthicsCommittee = (value) => {
+    const replacements = {
+        'USTHospital': 'UST Hospital',
+        'FacultyofPharmacy': 'Faculty of Pharmacy',
+        'GraduateSchool': 'Graduate School',
+        'CollegeofNursing': 'College of Nursing',
+        'CollegeofRehabilitationSciences': 'College of Rehabilitation Sciences',
+        'FacultyofMedicineandSurgery': 'Faculty of Medicine and Surgery',
+        'SeniorHighSchool': 'Senior High School',
+        'CollegeofEducation': 'College of Education',
+        'FacultyofEngineering': 'Faculty of Engineering',
+        'CollegeofInformationandComputingSciences': 'College of Information and Computing Sciences',
+    };
+
+    return replacements[value] || value
+        .replace(/([A-Z])([A-Z][a-z])/g, '$1 $2')
+        .replace(/([a-z])([A-Z])/g, '$1 $2')
+        .replace(/\bof\b/g, 'of')
+        .replace(/\s+/g, ' ')
+        .trim();
+};
+
   return (
     <div>
       <Container className="PIforms-cont1">
@@ -39,7 +61,7 @@ function SummaryForm() {
             </p>
             <p className="PIforms-formtext">
               <strong>Research Ethics Committee:</strong>{" "}
-              {formData.researchEthicsCommittee}
+              {formatResearchEthicsCommittee(formData.researchEthicsCommittee)}
             </p>
           </Col>
         </Container>

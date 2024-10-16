@@ -9,7 +9,7 @@ import {
   FormCheck,
   Button,
 } from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -26,43 +26,31 @@ function SubmissionFormsP1() {
   const currentStep = useSelector((store) => store.submissionForm.currentStep);
   const formData = useSelector((store) => store.submissionForm.formData);
   console.log(formData, currentStep);
+  
 
   const {
     handleSubmit,
     register,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
       ...formData,
+      researchEthicsCommittee: formData.researchEthicsCommittee ? formData.researchEthicsCommittee.replace(/\s+/g, '') : '',
     },
   });
 
   async function processForm(data) {
-    dispatch(updateFormData(data));
+
+    const sanitizedData = {
+      ...data,
+      researchEthicsCommittee: data.researchEthicsCommittee.replace(/\s+/g, ''),
+  };
+
+  dispatch(updateFormData(sanitizedData));
     dispatch(setCurrentStep(currentStep + 1));
   }
-
-  // const handleFormSubmission = async (e) => {
-  //   // Log formData before submission
-  //   console.log('Submitting formData:', formData);
-  //   dispatch(updateFormData(formData));
-
-  //   try {
-  //     const response = await fetch("/api/forms", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),  // Use the data from react-hook-form
-  //     });
-
-  //     console.log("Form submitted successfully");
-  //   } catch (error) {
-  //     console.error("Error submitting form:", error);
-  //   }
-
-  // };
 
   return (
     <div>
