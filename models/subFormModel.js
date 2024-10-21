@@ -4,6 +4,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const researcherSchema = new Schema({
+
+  userId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'User',
+    require: true,
+  },
   index: {
     type: Number,
     require: true,

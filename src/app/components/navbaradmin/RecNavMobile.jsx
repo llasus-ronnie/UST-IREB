@@ -45,7 +45,7 @@ const RecNavMobile = () => {
           </li>
 
           <li>
-            <Link href="../REC/RECdashboard/rec" passHref>
+            <Link href="../REC/RECdashboard/" passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-home.png"
