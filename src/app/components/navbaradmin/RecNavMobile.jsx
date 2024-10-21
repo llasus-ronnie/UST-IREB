@@ -6,7 +6,7 @@ import Image from "next/image";
 import "../../styles/adminnav/adminnav.css";
 import { useSession, signOut } from "next-auth/react";
 
-const RecNavMobile = () => {
+const RecNavMobile = ({params}) => {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollTop, setLastScrollTop] = useState(0);
 
@@ -59,7 +59,7 @@ const RecNavMobile = () => {
           </li>
 
           <li>
-            <Link href="../REC/RECSubmissions" passHref>
+            <Link href={`../REC/RECSubmissions/${params}` } passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-submissions.png"

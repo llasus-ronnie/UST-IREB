@@ -17,6 +17,7 @@ function RecSubmissions({params}) {
     console.log("Search query:", query);
   };
 
+  const [selectedOption, setSelectedOption] = useState("initialSubmission");
   const handleDropDown = (event) => {
     const selectedOption = event.target.value;
   };
@@ -38,6 +39,8 @@ function RecSubmissions({params}) {
   
       fetchData();
     }, [rec]);
+
+    const formCount = forms.length;
 
   return (
     <div className="adminpage-container">
@@ -76,7 +79,7 @@ function RecSubmissions({params}) {
           <div className="rec-submissions-tabs">
             <div className="rec-buttons-container">
               <button onClick={() => handleTableChange("initialSubmission")}>
-                <span>2</span> <p>Initial Submission</p>
+                <span>{formCount} </span> <p>Initial Submission</p>
               </button>
               <button onClick={() => handleTableChange("pendingPayment")}>
                 <span>17</span> <p>Pending Payment</p>
@@ -106,6 +109,8 @@ function RecSubmissions({params}) {
               </select>
             </div>
 
+            {selectedOption === "initialSubmission" && (
+              
             <div className="rec-tables">
               <div className="initial-submission">
                 <h1>Initial Submission</h1>
@@ -142,6 +147,7 @@ function RecSubmissions({params}) {
                 </table>
               </div>
             </div>
+)};
           </div>
         </div>
       </div>
