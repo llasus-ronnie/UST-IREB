@@ -7,6 +7,7 @@ import UserLoggedIn from "../../../components/userloggedin/UserLoggedIn";
 import "../../../styles/rec/RecSubmissions.css";
 import axios from "axios";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 
 
 import withAuthorization from "../../../../hoc/withAuthorization";
@@ -27,9 +28,9 @@ function RecSubmissions({params}) {
       async function fetchData() {
         try {
           const response = await axios.get("/api/forms", {
-            params: { rec: rec.trim() }, // Include rec in the query params
+            params: { rec: rec.trim() },
           });
-          setForms(response.data.forms); // Access the forms
+          setForms(response.data.forms); 
         } catch (error) {
           console.error("Error fetching forms:", error);
         }
@@ -128,7 +129,12 @@ function RecSubmissions({params}) {
                         </td>
                         <td>{form.title}</td>
                         <td>
-                          <button className="rec-view-btn">View</button>
+                          <Link 
+                          href={`/REC/RECViewSubmission/${params.rec}/${form._id}`}
+                          className="rec-view-btn"
+                        >
+                          View
+                          </Link>
                         </td>
                       </tr>
                     ))}

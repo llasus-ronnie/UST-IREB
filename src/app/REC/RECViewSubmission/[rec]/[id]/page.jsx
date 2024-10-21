@@ -2,29 +2,30 @@
 
 import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
-import RecNav from "../../components/navbaradmin/RecNav";
-import RecNavMobile from "../../components/navbaradmin/RecNavMobile";
-import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
-import "../../styles/rec/RECViewSubmission.css";
+import RecNav from "../../../../components/navbaradmin/RecNav";
+import RecNavMobile from "../../../../components/navbaradmin/RecNavMobile";
+import UserLoggedIn from "../../../../components/userloggedin/UserLoggedIn";
+import "../../../../styles/rec/RECViewSubmission.css";
 import axios from "axios";
 
-import withAuthorization from "../../../hoc/withAuthorization";
+import withAuthorization from "../../../../../hoc/withAuthorization";
 
-function RECViewSubmission() {
+function RECViewSubmission({ params }) {
   const [forms, setForms] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get("/api/forms"); // Replace with your actual API endpoint
-        setForms(response.data.forms);
+        const response = await axios.get(`/api/forms/${params.id}`);
+        console.log("Working on URlID:" + `${params.id}`);
+        setForms(response.data.submission);
       } catch (error) {
         console.error(error);
       }
     }
-
     fetchData();
   }, []);
+
 
   return (
     <div className="adminpage-container">
@@ -64,13 +65,15 @@ function RECViewSubmission() {
                   <h1>Submission Details</h1>
 
                   <span>Research Title:</span>
-                  <p>text</p>
+                  <p>{forms?.title || "No title available"}</p>
 
                   <span>Date of Submission:</span>
-                  <p>text</p>
+                  <p>{forms?.date
+                  ? new Date(forms.date).toLocaleDateString("en-US")
+                  : "No date available"}</p>
 
                   <span>Review Classification:</span>
-                  <p>text</p>
+                  <p>{forms?.classification || "No classification available"}</p>
 
 
                   <span>Status:</span>

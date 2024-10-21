@@ -31,7 +31,6 @@ export async function GET(req) {
   console.log("REC: ", rec);
   
   try {
-    // If 'rec' is provided, filter forms by 'rec', otherwise return all forms
     const forms = rec
       ? await SubmissionForm.find({ researchEthicsCommittee: rec.trim() })
       : await SubmissionForm.find({}); // Return all forms if no 'rec'
@@ -41,6 +40,7 @@ export async function GET(req) {
     return NextResponse.json({ error: 'Failed to fetch forms' }, { status: 500 });
   }
 }
+
 export async function DELETE(req) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");

@@ -319,6 +319,11 @@ const subFormSchema = new Schema({
     type: String,
     require: false,
   },
+  status:{
+    type: String,
+    require: true,
+    default:'Initial Submission'
+  },
 });
 
 const subForm =
