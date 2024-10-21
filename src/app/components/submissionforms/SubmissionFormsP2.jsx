@@ -1390,7 +1390,18 @@ function SubmissionFormsP2() {
                 <FormLabel className="PIforms-formtext2">
                   Level of Risk involved in the Research
                 </FormLabel>
-                <FormSelect className="PIforms-select2" />
+                <FormSelect
+                  className="PIforms-select2"
+                  {...register("riskLevel", {
+                    required: "Please select the level of risk.",
+                  })}
+                  isInvalid={!!errors.riskLevel}
+                >
+                  <option>Minimal</option>
+                  <option>Low</option>
+                  <option>Moderate</option>
+                  <option>High</option>
+                </FormSelect>
                 <Form.Control.Feedback type="invalid">
                   Please select the level of risk.
                 </Form.Control.Feedback>

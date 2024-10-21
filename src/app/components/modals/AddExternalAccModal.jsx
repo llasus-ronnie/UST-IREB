@@ -5,6 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import "../../styles/modals/AddAccModal.css";
 import CancelConfirmationModal from "../../components/modals/CancelConfirmationModal.jsx";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid"; // Import UUID library
 
 export default function AddAccModal(props) {
   const [email, setEmail] = useState("");
@@ -20,28 +21,41 @@ export default function AddAccModal(props) {
 
   const handleAccessTokenChange = (e) => setAccessToken(e.target.value);
 
-  const handleAddAccount = () => {
-    console.log("Email:", email);
-    console.log("Access Token:", accessToken);
-    props.onHide();
-  };
-
-  const handleGenerateToken = async () => {
-    try {
-      const response = await axios.post("/api/auth/generate-token", { email });
-      setAccessToken(response.data.token);
-    } catch (error) {
-      console.error("Error generating token", error);
+  const handleAddAccount = async () => {
+    if (!isEmailValid) {
+      alert("Please enter a valid email.");
+      return;
     }
-  };
 
-  const handleSendEmail = async () => {
     try {
+      await axios.post("/api/addExternalInvestigator", {
+        email,
+        token: accessToken,
+      });
+      console.log("Account added to database");
+
+      // Send email after adding the account
       await axios.post("/api/auth/send-email", { email, token: accessToken });
       alert("Email sent successfully");
+
+      props.onHide();
     } catch (error) {
-      console.error("Error sending email", error);
+      console.error(
+        "Error adding account to database or sending email:",
+        error
+      );
+      alert("An error occurred. Please try again.");
     }
+  };
+
+  const handleGenerateToken = () => {
+    if (!isEmailValid) {
+      alert("Please enter a valid email.");
+      return;
+    }
+
+    const token = uuidv4(); // Generate a unique token
+    setAccessToken(token);
   };
 
   const formatToken = (token) => {

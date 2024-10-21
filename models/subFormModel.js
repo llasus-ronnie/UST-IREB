@@ -4,10 +4,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const researcherSchema = new Schema({
-
-  userId:{
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:'User',
+    ref: "User",
     require: true,
   },
   index: {
@@ -275,10 +274,10 @@ const subFormSchema = new Schema({
     type: String,
     require: true,
   },
-  // risklevel:{
-  //   type: String,
-  //   require: true,
-  // },
+  risklevel: {
+    type: String,
+    require: true,
+  },
   researchTeam: {
     type: String,
     require: true,
@@ -319,10 +318,10 @@ const subFormSchema = new Schema({
     type: String,
     require: false,
   },
-  status:{
+  status: {
     type: String,
     require: true,
-    default:'Initial Submission'
+    default: "Initial Submission",
   },
 });
 
