@@ -7,7 +7,6 @@ import RecNavMobile from "../../../../components/navbaradmin/RecNavMobile";
 import UserLoggedIn from "../../../../components/userloggedin/UserLoggedIn";
 import "../../../../styles/rec/RECViewSubmission.css";
 import axios from "axios";
-
 import withAuthorization from "../../../../../hoc/withAuthorization";
 
 function RECViewSubmission({ params }) {
@@ -26,6 +25,22 @@ function RECViewSubmission({ params }) {
     fetchData();
   }, []);
 
+  const [status, setStatus] = useState('');
+
+  const updateData = async (newStatus) => {
+    try {
+      await axios.put(`/api/forms/${params.id}`, { status: newStatus });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleStatusChange = (event) => {
+    const newStatus = event.target.value;
+    setStatus(newStatus);
+    updateData(newStatus);
+    console.log(newStatus)
+  };
 
   return (
     <div className="adminpage-container">
@@ -77,10 +92,13 @@ function RECViewSubmission({ params }) {
 
 
                   <span>Status:</span>
-                  <select className="viewsub-changestatus">
-                    <option value="status-1">Status 1</option>
-                    <option value="status-2">Status 2</option>
-                    <option value="status-3">Status 3</option>
+                  <select className="viewsub-changestatus" value={status} onChange={handleStatusChange}>
+                  <option value="default">Choose Status</option>
+                    <option value="Pending-Payment">Pending Payment</option>
+                    <option value="For-Classification">For Classification</option>
+                    <option value="In-Progress">In Progress</option>
+                    <option value="Final-Review">Final Review</option>
+                    <option value="Approved">Approved</option>
                   </select>
 
                   <div className="viewsub-proofofpayment">
