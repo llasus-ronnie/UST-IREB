@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import RecNav from "../../components/navbaradmin/RecNav";
-import RecNavMobile from "../../components/navbaradmin/RecNavMobile";
-import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
-import "../../styles/rec/RecSubmissions.css";
+import RecNav from "../../../components/navbaradmin/RecNav";
+import RecNavMobile from "../../../components/navbaradmin/RecNavMobile";
+import UserLoggedIn from "../../../components/userloggedin/UserLoggedIn";
+import "../../../styles/rec/RecSubmissions.css";
 import axios from "axios";
+import { useParams } from "next/navigation";
 
-import withAuthorization from "../../../hoc/withAuthorization";
 
-function RecSubmissions() {
+import withAuthorization from "../../../../hoc/withAuthorization";
+
+function RecSubmissions({params}) {
   const handleSearch = (query) => {
     console.log("Search query:", query);
   };
@@ -18,20 +20,23 @@ function RecSubmissions() {
     const selectedOption = event.target.value;
   };
 
-  const [forms, setForms] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get("/api/forms"); // Replace with your actual API endpoint
-        setForms(response.data.forms);
-      } catch (error) {
-        console.error(error);
+    const [forms, setForms] = useState([]);
+    const { rec } = useParams(); // Get the current route parameter
+  
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          const response = await axios.get("/api/forms", {
+            params: { rec: rec.trim() }, // Include rec in the query params
+          });
+          setForms(response.data.forms); // Access the forms
+        } catch (error) {
+          console.error("Error fetching forms:", error);
+        }
       }
-    }
-
-    fetchData();
-  }, []);
+  
+      fetchData();
+    }, [rec]);
 
   return (
     <div className="adminpage-container">
