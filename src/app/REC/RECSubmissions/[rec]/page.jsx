@@ -144,7 +144,7 @@ function RecSubmissions({params}) {
                         <tbody>
                           {filterFormsByStatus(status).map((form, index) => (
                             <tr key={index}>
-                              <td>{form?.id || "no forms"}</td>
+                              <td>{form?._id || "no forms"}</td>
                               <td>{form.fullName}</td>
                               <td>{new Date(form.date).toLocaleDateString("en-US")}</td>
                               <td>{form.title}</td>
