@@ -1,12 +1,14 @@
 import mongoose from "mongoose";
 
-const externalInvestigatorSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
+const { Schema } = mongoose;
+
+const externalInvestigatorSchema = new Schema({
+  email: { type: String, required: true },
   accessToken: { type: String, required: true },
 });
 
 const ExternalInvestigator =
-  mongoose.model.externalInvestigator ||
-  mongoose.model("externalInvestigator", externalInvestigatorSchema);
+  mongoose.models.ExternalInvestigator ||
+  mongoose.model("ExternalInvestigator", externalInvestigatorSchema);
 
 export default ExternalInvestigator;
