@@ -65,7 +65,10 @@ function RECDashboard({ params }) {
         <RecNavMobile />
       </div>
 
-      <RecNav className="recnav" />
+      <RecNav 
+      className="recnav"
+      rec= {params.rec}
+      />
 
       <div className="rec-dashboard">
         <div className="adminmain-content">

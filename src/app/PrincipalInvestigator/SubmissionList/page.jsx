@@ -57,10 +57,8 @@ function SubmissionList() {
                 <td>{form.title}</td>
                 <td>{new Date(form.date).toLocaleDateString("en-US")}</td>
                 <td>{form.researchEthicsCommittee}</td>
-                <td
-                  className={`review-classification ${form.reviewClassification}`}
-                >
-                  {form.reviewClassification}
+                <td>
+                  {form.status}
                 </td>
                 <td className="view-btn-cell">
                   <Link

@@ -6,7 +6,7 @@ import Image from "next/image";
 import "../../styles/adminnav/adminnav.css";
 import { useSession, signOut } from "next-auth/react";
 
-const RecNav = ({params}) => {
+const RecNav = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleNav = () => {
@@ -41,7 +41,7 @@ const RecNav = ({params}) => {
           </li>
 
           <li>
-            <Link href="../../REC/RECdashboard/rec" passHref>
+            <Link href="../REC/RECdashboard/rec" passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-home.png"
@@ -55,7 +55,7 @@ const RecNav = ({params}) => {
           </li>
 
           <li>
-            <Link href={`../REC/RECSubmissions`} passHref>
+            <Link href={`/REC/RECSubmissions/${props.rec}`} passHref>
               <div>
                 <Image
                   src="/images/adminnav/adminnav-submissions.png"

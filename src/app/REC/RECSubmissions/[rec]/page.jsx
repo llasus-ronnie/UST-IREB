@@ -64,7 +64,10 @@ function RecSubmissions({params}) {
         <RecNavMobile />
       </div>
 
-      <RecNav className="recnav" />
+      <RecNav 
+      className="recnav"
+      rec= {params.rec}
+      />
 
       <div className="rec-submissions">
         <div className="adminmain-content">

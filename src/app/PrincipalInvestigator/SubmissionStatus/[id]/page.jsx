@@ -85,7 +85,7 @@ function SubmissionStatus({ params }) {
               </p>
 
               <span>Review Classification:</span>
-              <p>{form?.classification || "No classification available"}</p>
+              <p>{form?.status || "No classification available"}</p>
             </div>
 
             <div className="submissionstatus-buttons">
