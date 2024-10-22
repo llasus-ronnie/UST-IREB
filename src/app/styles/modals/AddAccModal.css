@@ -137,22 +137,13 @@
     position: relative;
 }
 
-.form-icon-email {
+.form-icon {
     position: absolute;
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
     width: 1.25rem;
     height: 1.25rem;
-}
-
-.form-icon-token {
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1.25rem;
-  height: 1.25rem;
 }
 
 .form-control-with-icon {
