@@ -1,13 +1,26 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import "../../styles/userprofile/UserProfile.css";
-import React from "react";
+
 import Navbar from "../../components/navbar/Navbar";
-import { useSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import Link from "next/link";
 
+import withAuthorization from "../../../hoc/withAuthorization";
+
 function UserProfile() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  // useEffect(() => {
+  //   const refreshSession = async () => {
+  //     await getSession();
+  //   };
+
+  //   if (status === "authenticated" && session) {
+  //     refreshSession();
+  //   }
+  // }, [session, status]);
 
   return (
     <>
@@ -26,17 +39,11 @@ function UserProfile() {
           <div className="profile-cardleft">
             <div className="profile-card-body">
               <img
-                src={
-                  session && session.user.image
-                    ? session.user.image
-                    : "/images/userloggedin/user-placeholder2.png"
-                }
+                src={session && session.user.image}
                 alt="Profile"
                 className="profile-image rounded-circle"
               />
-              <h5>
-                {session && session.user.name ? session.user.name : "Guest"}
-              </h5>
+              <h5>{session && session.user.name}</h5>
               <p>Principal Investigator</p>
             </div>
           </div>
@@ -51,9 +58,7 @@ function UserProfile() {
                   <p>Name</p>
                 </Col>
                 <Col className="profile-cardright-content">
-                  <p>
-                    {session && session.user.name ? session.user.name : "N/A"}
-                  </p>
+                  <p>{session && session.user.name}</p>
                 </Col>
               </div>
 
@@ -62,9 +67,7 @@ function UserProfile() {
                   <p>Email Address</p>
                 </Col>
                 <Col className="profile-cardright-content">
-                  <p>
-                    {session && session.user.email ? session.user.email : "N/A"}
-                  </p>
+                  <p>{session && session.user.email}</p>
                 </Col>
               </div>
 
@@ -90,4 +93,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile;
+export default withAuthorization(UserProfile, "PrincipalInvestigator");

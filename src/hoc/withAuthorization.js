@@ -6,8 +6,15 @@ import "../app/styles/unauthorized/unauthorized.css";
 
 const withAuthorization = (Component, requiredRole) => {
   return (props) => {
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
     const router = useRouter();
+
+    const { status } = useSession({
+      required: true,
+      onUnauthenticated() {
+        router.push("../SignInOption");
+      },
+    });
 
     if (status === "loading") {
       return (

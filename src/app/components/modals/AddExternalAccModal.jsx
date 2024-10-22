@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import "../../styles/modals/AddAccModal.css";
 import CancelConfirmationModal from "../../components/modals/CancelConfirmationModal.jsx";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid"; // Import UUID library
+import { v4 as uuidv4 } from "uuid";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -50,7 +50,6 @@ export default function AddAccModal(props) {
       });
       console.log("Account added to database");
 
-      // Send email after adding the account
       await axios.post("/api/auth/send-email", { email, token: accessToken });
       toast.success("Email sent successfully");
 
@@ -70,13 +69,13 @@ export default function AddAccModal(props) {
       return;
     }
 
-    const token = uuidv4(); // Generate a unique token
+    const token = uuidv4();
     setAccessToken(token);
   };
 
   const formatToken = (token) => {
     if (!token) return "";
-    const visibleChars = 6; // Number of characters to show
+    const visibleChars = 6;
     const maskedChars = token.length - visibleChars;
     return token.substring(0, visibleChars) + "*".repeat(maskedChars);
   };

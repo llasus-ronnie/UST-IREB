@@ -14,11 +14,15 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         await connectDB();
         const userFromDB = await User.findOne({ email: user.email });
         token.role = userFromDB ? userFromDB.role : null;
+      }
+
+      if (trigger === "update" && session?.name) {
+        token.name = session.name;
       }
       return token;
     },

@@ -15,12 +15,11 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import "chartjs-plugin-dragdata"; // Import drag plugin
+import "chartjs-plugin-dragdata";
 
 // css
 import "../../styles/ireb/dashboard.css";
 
-// Import the withAuthorization HOC
 import withAuthorization from "../../../hoc/withAuthorization";
 
 ChartJS.register(
@@ -192,5 +191,4 @@ function IrebDashboard() {
   );
 }
 
-// Wrap the IrebDashboard component with withAuthorization HOC
 export default withAuthorization(IrebDashboard, "IREB");

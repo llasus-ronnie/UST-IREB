@@ -26,9 +26,9 @@ function IrebManageExternal() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get("/api/addExternalInvestigator"); // Check your API endpoint
-        console.log("API Response:", response.data); // Log the API response
-        setExternal(response.data.data); // Ensure you access the 'data' key
+        const response = await axios.get("/api/addExternalInvestigator");
+        console.log("API Response:", response.data);
+        setExternal(response.data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

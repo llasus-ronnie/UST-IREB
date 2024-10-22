@@ -14,6 +14,8 @@ import bg from "../../../../public/images/signin/bg.png";
 import USTLogo from "../../../../public/images/signin/USTLogo.png";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import ReCAPTCHA from "react-google-recaptcha";
 import Image from "next/image";
@@ -62,17 +64,17 @@ function SignIn() {
           token: accessToken,
         });
         if (response.data.valid) {
-          alert("Sign in successful");
+          toast.success("Sign in successful");
           router.push("/");
         } else {
-          alert("Invalid email or access token");
+          toast.error("Invalid email or access token");
         }
       } catch (error) {
         console.error("Error validating token", error);
-        alert("An error occurred. Please try again.");
+        toast.error("An error occurred. Please try again.");
       }
     } else {
-      alert("Please complete all fields and verify the reCAPTCHA");
+      toast.warn("Please complete all fields and verify the reCAPTCHA");
     }
   };
 
@@ -147,6 +149,7 @@ function SignIn() {
           </Col>
         </Row>
       </Container>
+      <ToastContainer position="bottom-right" />
     </div>
   );
 }

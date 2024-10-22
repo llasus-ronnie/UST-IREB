@@ -10,7 +10,6 @@ import Navbar from "../components/navbar/Navbar";
 import withAuthorization from "../../hoc/withAuthorization";
 
 function page() {
-  // Define the steps
   const steps = [
     {
       number: 1,
