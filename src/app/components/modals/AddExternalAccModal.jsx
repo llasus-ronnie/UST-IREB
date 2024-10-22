@@ -6,6 +6,8 @@ import "../../styles/modals/AddAccModal.css";
 import CancelConfirmationModal from "../../components/modals/CancelConfirmationModal.jsx";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid"; // Import UUID library
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function AddAccModal(props) {
   const [email, setEmail] = useState("");
@@ -36,7 +38,7 @@ export default function AddAccModal(props) {
 
       // Send email after adding the account
       await axios.post("/api/auth/send-email", { email, token: accessToken });
-      alert("Email sent successfully");
+      toast.success("Email sent successfully");
 
       props.onHide();
     } catch (error) {
@@ -44,13 +46,13 @@ export default function AddAccModal(props) {
         "Error adding account to database or sending email:",
         error
       );
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
   };
 
   const handleGenerateToken = () => {
     if (!isEmailValid) {
-      alert("Please enter a valid email.");
+      toast.error("Please enter a valid email.");
       return;
     }
 
@@ -162,6 +164,7 @@ export default function AddAccModal(props) {
         onHide={() => setShowCancelConfirmation(false)}
         onConfirm={handleConfirmCancel}
       />
+      <ToastContainer position="bottom-right" />
     </>
   );
 }
