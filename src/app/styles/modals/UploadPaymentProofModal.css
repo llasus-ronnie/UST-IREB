@@ -53,6 +53,8 @@
   padding: 0 5rem;
   font-family: var(--poppins);
   text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .uploadproof-modal-body h4 {
@@ -148,16 +150,32 @@
 }
 
 /* Uploading Area */
-.uploadproof-area {
-  background-color: var(--secondary-color);
+
+.upload-proof-area {
+  background-color: var(--quaternary-color);
   height: 12rem;
   width: 100%;
-  max-width: 40rem;
+  max-width: 35rem;
   border-radius: 10px;
   display: flex; 
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto;
+}
+
+.upload-proof-area:hover {
+  border: 2px solid #369AD2;
+}
+
+.upload-proof-area p {
+  color: #369AD2;
+  font-size: 0.95rem;
+  font-weight: bold;
+  margin: 0 1rem;
+  width: fit-content;
 }
 
 /* Two Buttons */
@@ -215,6 +233,7 @@
 
   .uploadproof-modal-body {
       padding: 0 2rem;
+      margin-bottom: 4rem;
   }
 
   .uploadproof-modal-body .form-control {
@@ -224,8 +243,7 @@
 
   .uploadproof-area {
       height: 8rem;
-      max-width: 100%;
-      padding: 1rem;
+      width: 100%;
   }
 
   .uploadproof-modal-footer {
@@ -236,6 +254,65 @@
 
   .uploadproof-modal-footer .btn {
     width: 47%;
+    margin-bottom: 0;
+    display: block;
+    text-align: center;
+  }
+
+  .access-token-group .form-control-with-icon {
+      width: 100%;
+  }
+
+  .access-token-group .btn.generate-token-btn {
+      width: auto;
+      position: relative;
+      margin-top: 1rem;
+  }
+}
+
+/* Tablet */
+@media only screen and (min-width: 577px) and (max-width: 768px) {
+  .modal-dialog {
+      width: 80%;
+      max-width: 500px;
+      margin: 0 auto;
+  }
+
+  .uploadproof-modal-header {
+      padding: 3rem;
+  }
+
+  .uploadproof-modal-title {
+      font-size: 1.75rem;
+  }
+
+  .uploadproof-instructions {
+      font-size: 1rem;
+  }
+
+  .uploadproof-modal-body {
+      padding: 0 3rem;
+      margin-bottom: 3rem;
+  }
+
+  .uploadproof-modal-body .form-control {
+      width: 100%;
+      padding: 0.9rem;
+  }
+
+  .uploadproof-area {
+      height: 10rem;
+      width: 100%;
+  }
+
+  .uploadproof-modal-footer {
+      padding: 3rem;
+      flex-direction: row;
+      justify-content: space-between;
+  }
+
+  .uploadproof-modal-footer .btn {
+    width: 48%;
     margin-bottom: 0;
     display: block;
     text-align: center;
