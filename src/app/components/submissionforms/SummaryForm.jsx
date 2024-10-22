@@ -336,45 +336,72 @@ function SummaryForm() {
             <h1 className="PIforms-resconthead">Risks apply to</h1>
           </Row>
           <Col>
-            <p className="PIforms-formtext">
-              <strong>Research Team:</strong> {formData.researchTeam}
-            </p>
-            <p className="PIforms-formtext">
-              <strong>Research Subjects:</strong> {formData.researchSubjects}
-            </p>
-            <p className="PIforms-formtext">
-              <strong>Wider Community:</strong> {formData.widerCommunity}
-            </p>
+            <Table className="PIforms-table" striped>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Response</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Research Team:</td>
+                  <td>{formData.researchTeam}</td>
+                </tr>
+                <tr>
+                  <td>Research Subjects:</td>
+                  <td>{formData.researchSubjects}</td>
+                </tr>
+                <tr>
+                  <td>Wider Community:</td>
+                  <td>{formData.widerCommunity}</td>
+                </tr>
+              </tbody>
+            </Table>
           </Col>
+        </Container>
 
+        <Container className="PIforms-rescont">
           <Row>
             <h1 className="PIforms-resconthead">Potential Benefits:</h1>
           </Row>
           <Col>
-            <p className="PIforms-formtext">
-              <strong>Multi-institutional Project:</strong>{" "}
-              {formData.multiInstitutional}
-            </p>
-            <p className="PIforms-formtext">
-              <strong>Conflict of Interest:</strong> {formData.conflictInterest}
-            </p>
-            <p className="PIforms-formtext">
-              <strong>Direct benefit from participants:</strong>{" "}
-              {formData.benefitParticipants}
-            </p>
-            <p className="PIforms-formtext">
-              <strong>
-                Generalizable knowledge about participants’ condition or
-                disorder:
-              </strong>{" "}
-              {formData.generalizableKnowledge}
-            </p>
-            <p className="PIforms-formtext">
-              <strong>
-                Generalizable knowledge about diseases or condition under study:
-              </strong>{" "}
-              {formData.generalizableKnowledgeDisease}
-            </p>
+            <Table className="PIforms-table" striped>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Response</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Multi-institutional Project:</td>
+                  <td>{formData.multiInstitutional}</td>
+                </tr>
+                <tr>
+                  <td>Conflict of Interest:</td>
+                  <td>{formData.conflictInterest}</td>
+                </tr>
+                <tr>
+                  <td>Direct benefit from participants:</td>
+                  <td>{formData.benefitParticipants}</td>
+                </tr>
+                <tr>
+                  <td>
+                    Generalizable knowledge about participants’ condition or
+                    disorder:
+                  </td>
+                  <td>{formData.generalizableKnowledge}</td>
+                </tr>
+                <tr>
+                  <td>
+                    Generalizable knowledge about diseases or condition under
+                    study:
+                  </td>
+                  <td>{formData.generalizableKnowledgeDisease}</td>
+                </tr>
+              </tbody>
+            </Table>
           </Col>
         </Container>
 
@@ -393,6 +420,7 @@ function SummaryForm() {
                   href={formData.mainFileLink}
                   target="_blank"
                   rel="noopener noreferrer"
+                  style={{ textDecoration: "underline" }}
                 >
                   View File
                 </a>
@@ -411,6 +439,7 @@ function SummaryForm() {
                   href={formData.supplementaryFileLink}
                   target="_blank"
                   rel="noopener noreferrer"
+                  style={{ textDecoration: "underline" }}
                 >
                   View File
                 </a>

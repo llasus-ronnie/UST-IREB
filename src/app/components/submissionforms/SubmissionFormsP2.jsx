@@ -43,6 +43,7 @@ function SubmissionFormsP2() {
     handleSubmit,
     register,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -265,118 +266,6 @@ function SubmissionFormsP2() {
               </Button>
             </Row>
           </Container>
-
-          {/* if required additional researcher */}
-          {/* <Container className="PIforms-rescont2">
-  <Row>
-    <h1 className="PIforms-resconthead">Additional Researcher</h1>
-  </Row>
-
-  <Row>
-    <Col xs={12} md={6}>
-      <Form.Group controlId="additionalFullName">
-        <FormLabel className="PIforms-formtext2">Full Name</FormLabel>
-        <FormControl
-          {...register("additionalFullName", {
-            required: "Please provide a name.",
-          })}
-          type="text"
-          className="form-control PIforms-formtext2"
-          isInvalid={!!errors.additionalFullName}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.additionalFullName?.message}
-        </Form.Control.Feedback>
-      </Form.Group>
-    </Col>
-
-    <Col xs={12} md={6}>
-      <Form.Group controlId="additionalEmail">
-        <FormLabel className="PIforms-formtext2">Email</FormLabel>
-        <FormControl
-          {...register("additionalEmail", {
-            required: "Please provide an email.",
-            pattern: {
-              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-              message: "Please provide a valid email address.",
-            },
-          })}
-          type="email"
-          className="form-control PIforms-formtext2"
-          isInvalid={!!errors.additionalEmail}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.additionalEmail?.message}
-        </Form.Control.Feedback>
-      </Form.Group>
-    </Col>
-
-    <Col xs={12} md={6}>
-      <Form.Group controlId="additionalPhone">
-        <FormLabel className="PIforms-formtext2">Phone Number</FormLabel>
-        <FormControl
-          {...register("additionalPhone", {
-            required: "Please provide a valid phone number.",
-            pattern: {
-              value: /^[0-9]{10}$/, // Adjust the regex pattern as needed
-              message: "Please provide a valid phone number.",
-            },
-          })}
-          type="text"
-          className="form-control PIforms-formtext2"
-          isInvalid={!!errors.additionalPhone}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.additionalPhone?.message}
-        </Form.Control.Feedback>
-      </Form.Group>
-    </Col>
-
-    <Col xs={12} md={6}>
-      <Form.Group controlId="additionalInstitutionAffiliation">
-        <FormLabel className="PIforms-formtext2">
-          Institutional Affiliation
-        </FormLabel>
-        <FormControl
-          {...register("additionalInstitutionAffiliation", {
-            required: "Please provide your institutional affiliation.",
-          })}
-          type="text"
-          className="form-control PIforms-formtext2"
-          isInvalid={!!errors.additionalInstitutionAffiliation}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.additionalInstitutionAffiliation?.message}
-        </Form.Control.Feedback>
-      </Form.Group>
-    </Col>
-  </Row>
-
-  <Row
-    style={{ marginTop: "20px", paddingBottom: "20px" }}
-    className="justify-content-around"
-  >
-    {additionalResearcher.map((_, index) => (
-      <AdditionalResearcher
-        register={register} // Pass the register method here
-        index={index} // Pass the index to register unique inputs
-        key={index}
-        addResearcher={addResearcher}
-      />
-    ))}
-
-    <Button variant="outline-secondary" className="PIforms-formbtn">
-      Cancel
-    </Button>
-    <Button
-      variant="outline-warning"
-      className="PIforms-formbtn"
-      onClick={handleAddResearcher}
-    >
-      Add Researcher
-    </Button>
-  </Row>
-</Container> */}
 
           <hr></hr>
           <h1 className="PIforms-headtext">2. Title and Summary Proposal</h1>
@@ -1397,10 +1286,10 @@ function SubmissionFormsP2() {
                   })}
                   isInvalid={!!errors.riskLevel}
                 >
-                  <option>Minimal</option>
-                  <option>Low</option>
-                  <option>Moderate</option>
-                  <option>High</option>
+                  <option value="Minimal">Minimal</option>
+                  <option value="Low">Low</option>
+                  <option value="Moderate">Moderate</option>
+                  <option value="High">High</option>
                 </FormSelect>
                 <Form.Control.Feedback type="invalid">
                   Please select the level of risk.
@@ -1413,19 +1302,31 @@ function SubmissionFormsP2() {
                   type="checkbox"
                   label="Research Team"
                   {...register("researchTeam")}
-                  value="Yes"
+                  value={watch("researchTeam") === "Yes" ? "Yes" : "No"}
+                  onChange={(e) =>
+                    setValue("researchTeam", e.target.checked ? "Yes" : "No")
+                  }
                 />
                 <Form.Check
                   type="checkbox"
                   label="Research Subjects"
                   {...register("researchSubjects")}
-                  value="Yes"
+                  value={watch("researchSubjects") === "Yes" ? "Yes" : "No"}
+                  onChange={(e) =>
+                    setValue(
+                      "researchSubjects",
+                      e.target.checked ? "Yes" : "No"
+                    )
+                  }
                 />
                 <Form.Check
                   type="checkbox"
                   label="Wider Community"
                   {...register("widerCommunity")}
-                  value="Yes"
+                  value={watch("widerCommunity") === "Yes" ? "Yes" : "No"}
+                  onChange={(e) =>
+                    setValue("widerCommunity", e.target.checked ? "Yes" : "No")
+                  }
                 />
               </Col>
 
@@ -1445,6 +1346,7 @@ function SubmissionFormsP2() {
                           type="radio"
                           label="Yes"
                           name="multi"
+                          value="Yes"
                           {...register("multiInstitutional", {
                             required:
                               "Please specify if it is a multi-institutional project.",
@@ -1458,6 +1360,7 @@ function SubmissionFormsP2() {
                           type="radio"
                           label="No"
                           name="multi"
+                          value="No"
                           {...register("multiInstitutional", {
                             required:
                               "Please specify if it is a multi-institutional project.",
@@ -1475,6 +1378,7 @@ function SubmissionFormsP2() {
                           type="radio"
                           label="Yes"
                           name="interest"
+                          value="Yes"
                           {...register("conflictInterest", {
                             required:
                               "Please specify if there is a conflict of interest.",
@@ -1488,6 +1392,7 @@ function SubmissionFormsP2() {
                           type="radio"
                           label="No"
                           name="interest"
+                          value="No"
                           {...register("conflictInterest", {
                             required:
                               "Please specify if there is a conflict of interest.",
@@ -1503,19 +1408,45 @@ function SubmissionFormsP2() {
                   type="checkbox"
                   label="Direct benefit from participants"
                   {...register("benefitParticipants")}
-                  value="Yes"
+                  value={watch("benefitParticipants") === "Yes" ? "Yes" : "No"}
+                  onChange={(e) =>
+                    setValue(
+                      "benefitParticipants",
+                      e.target.checked ? "Yes" : "No"
+                    )
+                  }
                 />
+
                 <Form.Check
                   type="checkbox"
                   label="Generalizable knowledge about participants’ condition or disorder"
                   {...register("generalizableKnowledge")}
-                  value="Yes"
+                  value={
+                    watch("generalizableKnowledge") === "Yes" ? "Yes" : "No"
+                  }
+                  onChange={(e) =>
+                    setValue(
+                      "generalizableKnowledge",
+                      e.target.checked ? "Yes" : "No"
+                    )
+                  }
                 />
+
                 <Form.Check
                   type="checkbox"
                   label="Generalizable knowledge about diseases or condition under study"
                   {...register("generalizableKnowledgeDisease")}
-                  value="Yes"
+                  value={
+                    watch("generalizableKnowledgeDisease") === "Yes"
+                      ? "Yes"
+                      : "No"
+                  }
+                  onChange={(e) =>
+                    setValue(
+                      "generalizableKnowledgeDisease",
+                      e.target.checked ? "Yes" : "No"
+                    )
+                  }
                 />
               </Col>
             </Row>

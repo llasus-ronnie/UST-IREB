@@ -274,7 +274,7 @@ const subFormSchema = new Schema({
     type: String,
     require: true,
   },
-  risklevel: {
+  riskLevel: {
     type: String,
     require: true,
   },
