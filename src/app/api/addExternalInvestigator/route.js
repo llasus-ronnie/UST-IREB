@@ -1,20 +1,17 @@
 import connectDB from "../../../../utils/database";
 import ExternalInvestigator from "../../../../models/externalInvestigatorModel";
-import { NextRequest, NextResponse } from "next/server";
-import express from "express";
-import cors from "cors";
+import { NextResponse } from "next/server";
 
-// Initialize express app and use CORS
-const app = express();
-app.use(cors());
-
-export async function POST(req, res) {
+// POST method for adding an external investigator
+export async function POST(req) {
   await connectDB();
 
-  const { email, token } = await req.json();
+  const { name, affiliation, email, token } = await req.json();
 
   try {
     const newInvestigator = new ExternalInvestigator({
+      name,
+      affiliation,
       email,
       accessToken: token,
     });
@@ -27,6 +24,24 @@ export async function POST(req, res) {
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 400 }
+    );
+  }
+}
+
+// GET method for fetching external investigators
+export async function GET() {
+  await connectDB();
+
+  try {
+    const externalInvestigators = await ExternalInvestigator.find({});
+    return NextResponse.json(
+      { success: true, data: externalInvestigators },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
     );
   }
 }
