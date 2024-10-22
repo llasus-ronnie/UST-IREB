@@ -32,9 +32,9 @@
 
 .admin-signin-logo-container {
   position: absolute;
-  top: 50%; /* Center vertically */
-  left: calc(15%); /* Move a little more to the left */
-  transform: translate(-10%, -50%); /* Fine-tune positioning */
+  top: 50%; 
+  left: calc(15%); 
+  transform: translate(-10%, -50%); 
   display: flex;
   align-items: center;
   gap: 10px;
@@ -48,11 +48,11 @@
   font-size: 60px;
   font-weight: bold;
   color: #ffbf00;
-  margin-right: 0; /* Remove large margins */
+  margin-right: 0; 
 }
 
 .research-portal-text {
-  color: white; /* Make the text white */
+  color: white; 
 }
 
 .admin-signin-box {
@@ -63,8 +63,8 @@
   width: 100%;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   text-align: center;
-  margin-right: 10%; /* Keep it close to the right side */
-  margin-left: 0; /* Align right */
+  margin-right: 10%; 
+  margin-left: 0; 
 }
 
 .admin-signin-title {
@@ -129,11 +129,27 @@ hr {
   margin-bottom: 20px;
 }
 
+@media screen and (max-width: 1000px) {
+  .admin-signin-logo-container {
+    top: 40%;
+    left: 10%;
+    transform: translate(-10%, -50%);
+  }
+
+  .admin-title {
+    font-size: 40px;
+  }
+
+  .admin-signin-box {
+    max-width: 70%;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .admin-signin-logo-container {
-    top: 50%; /* Center vertically */
-    left: calc(10%); /* Adjusted space from the left edge for smaller screens */
-    transform: translate(-10%, -50%); /* Fine-tune positioning */
+    top: 30%; 
+    left: 10%; 
+    transform: translate(-10%, -50%); 
     gap: 5px;
   }
 
@@ -148,10 +164,36 @@ hr {
   }
 
   .admin-title {
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .admin-signin-title {
     font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .admin-signin-container {
+    justify-content: center;
+  }
+
+  .admin-signin-logo-container {
+    position: static;
+    transform: none;
+    margin-bottom: 20px;
+  }
+
+  .admin-title {
+    font-size: 18px;
+  }
+
+  .admin-signin-box {
+    padding: 15px;
+    max-width: 95%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .admin-signin-title {
+    font-size: 20px;
   }
 }

@@ -11,6 +11,10 @@
   --paragraph-size: 1rem;
 }
 
+html {
+  height: 100%;
+}
+
 /* General Page Container */
 .adminpage-container {
   display: flex;
@@ -24,12 +28,12 @@
 
 /* REC Dashboard */
 .rec-dashboard {
+  /* display: flex; */
   flex-grow: 1;
   transition: margin-left 0.3s ease;
   background-color: var(--secondary-color);
   height: 100vh;
   margin-left: 5.625rem;
-  overflow-y: auto;
   padding: 1rem;
   font-family: var(--poppins);
 }
@@ -126,6 +130,7 @@
   margin-left: 40px;
   padding: 1rem;
   height: 170px;
+  flex-shrink: 0;
   width: 200px;
   box-sizing: border-box;
   }
@@ -194,6 +199,7 @@
     overflow-x: auto;
     box-sizing: border-box;
     font-family: var(--poppins);
+    width: 100%;
 }
 
 
@@ -230,6 +236,7 @@
   text-align: left;
   border-bottom: 1px solid #ddd;
   font-family: var(--poppins);
+  word-wrap: break-word;
 }
 
 .rec-overview-table th {
@@ -305,6 +312,7 @@
   .rec-dashboard {
     margin-left: 0;
     padding: 1.5rem;
+    width: 100%;
   }
 
   .admindashboard-cards {
@@ -313,8 +321,21 @@
   }
 
   .recdashboard-card {
-    width: 45%; /* Adjust card width for tablets */
+    width: 100%;
+    padding: 5rem;
     margin-bottom: 10px;
+    margin-left: 0;
+  }
+
+  .deadline-card {
+    width: 100%;
+    padding: 3rem;
+    margin-bottom: 10px;
+    margin-left: 10px;
+  }
+
+  .deadline-card h2 {
+    left: 4rem;
   }
 
   .rec-header-container {
@@ -329,10 +350,34 @@
   .rec-header p {
     font-size: 0.875rem;
   }
+
+  .admindashboard-cards{
+    display: flex;
+    flex-direction: column;
+    flex: 0;
+  }
+
+  .cards-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .rec-overview-table {
+    display: block;
+    width: 100%;
+  }
+
+  
 }
 
 /* Mobile Screens */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 576x) {
+  .cards-container {
+    flex-direction: column; /* Stack the admin cards and deadline card vertically */
+    align-items: center; /* Center-align the content */
+  }
+
   .admindashboard-cards {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -344,10 +389,28 @@
     width: 100%;
   }
 
-  .rec-overview-table table,
+  .deadline-card {
+    width: 95%; /* Adjust width for mobile */
+    margin: 15px auto; /* Center the card */
+    padding: 1rem; /* Adjust padding */
+    height: auto; /* Allow height to adjust automatically */
+  }
+
+  .rec-overview-table {
+    padding: 1rem;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .rec-overview-table table{
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+  }
   .rec-overview-table th,
   .rec-overview-table td {
     font-size: 0.8rem;
+
   }
 
   .rec-header-container {
@@ -363,7 +426,9 @@
     font-size: 0.875rem;
   }
 
+  
   /* Mobile Navigation */
+
   .mobile-nav {
     display: flex;
     justify-content: space-between;
