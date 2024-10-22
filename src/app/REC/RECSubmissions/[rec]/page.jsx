@@ -49,12 +49,13 @@ function RecSubmissions({params}) {
       fetchData();
     }, [rec]);
 
-    const formCount = forms.length;
 
     const filterFormsByStatus = (status) => {
       console.log("Status:", status);
       return forms.filter((form) => form.status === status);
     };
+
+    const formCount = forms.length;
   
     
   return (
@@ -97,18 +98,18 @@ function RecSubmissions({params}) {
                 <span>{formCount} </span> <p>Initial Submission</p>
               </button>
               <button onClick={() => handleTableChange("Pending-Payment")}>
-                <span>17</span> <p>Pending Payment</p>
+                <span>{formCount}</span> <p>Pending Payment</p>
               </button>
-              <button onClick={() => handleTableChange("forClassification")}>
-                <span>8</span> <p>For Classification</p>
+              <button onClick={() => handleTableChange("For-Classification")}>
+                <span>{formCount}</span> <p>For Classification</p>
               </button>
-              <button onClick={() => handleTableChange("inProgress")}>
+              <button onClick={() => handleTableChange("In-Progress")}>
                 <span>100</span> <p>In Progress</p>
               </button>
-              <button onClick={() => handleTableChange("finalReview")}>
+              <button onClick={() => handleTableChange("Final-Review")}>
                 <span>21</span> <p>Final Review</p>
               </button>
-              <button onClick={() => handleTableChange("approved")}>
+              <button onClick={() => handleTableChange("Approved")}>
                 <span>100</span> <p>Approved</p>
               </button>
             </div>
@@ -116,8 +117,8 @@ function RecSubmissions({params}) {
             <div className="rec-dropdown-mobile">
               <select onChange={handleDropDown}>
                 <option value="Initial-Submission">Initial Submission</option>
-                <option value="pendingPayment">Pending Payment</option>
-                <option value="forClassification">For Classification</option>
+                <option value="Pending-Payment">Pending Payment</option>
+                <option value="For-Classification">For Classification</option>
                 <option value="inProgress">In Progress</option>
                 <option value="finalReview">Final Review</option>
                 <option value="approved">Approved</option>
