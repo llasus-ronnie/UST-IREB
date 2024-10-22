@@ -50,6 +50,10 @@ function RECViewSubmission({ params }) {
     router.push(`/REC/RECSubmissions/${params.rec}`);
   }
 
+  const handleBack = () => {
+    router.push(`/REC/RECSubmissions/${params.rec}`);
+  }
+
   return (
     <div className="adminpage-container">
       <div className="recnav-mobile">
@@ -117,9 +121,7 @@ function RECViewSubmission({ params }) {
 
                   <div className="viewsub-buttons">
                   <button className="viewsub-save" onClick={updateStatus}>Save Changes</button>
-                  <Link href="/REC/RECdashboard"  className="viewsub-back">
-                  Back
-                  </Link>
+                  <button className="viewsub-back" onClick={handleBack}>Back</button>
                   </div>
 
               </Col>
