@@ -1,20 +1,12 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import roles from "../app/api/roles/roles";
 import { Spinner } from "react-bootstrap";
 import "../app/styles/unauthorized/unauthorized.css";
 
 const withAuthorization = (Component, requiredRole) => {
   return (props) => {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const router = useRouter();
-
-    const { status } = useSession({
-      required: true,
-      onUnauthenticated() {
-        router.push("../SignInOption");
-      },
-    });
 
     if (status === "loading") {
       return (
@@ -29,7 +21,7 @@ const withAuthorization = (Component, requiredRole) => {
       );
     }
 
-    if (!session) {
+    if (status === "unauthenticated" || !session) {
       router.push("../SignInOption");
       return null;
     }

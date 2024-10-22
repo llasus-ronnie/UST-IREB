@@ -3,7 +3,6 @@
 import "../../styles/navbar/navbar.css";
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { useSession, signOut } from "next-auth/react";
@@ -46,17 +45,19 @@ export default function Navbar() {
         <div className="navbar-right">
           {session ? (
             <>
-              <h1 className="navbar-subtitle-signedin">Welcome, {session.user.name}!</h1>
+              <h1 className="navbar-subtitle-signedin">
+                Welcome, {session.user.name}!
+              </h1>
             </>
           ) : (
             <>
-              <Link href="/SignInOption" className="navbar-subtitle">
+              <a href="/SignInOption" className="navbar-subtitle">
                 <FontAwesomeIcon
                   icon={faRightToBracket}
                   className="navsignin-icon"
                 />
                 Sign In
-              </Link>
+              </a>
             </>
           )}
         </div>
@@ -75,36 +76,36 @@ export default function Navbar() {
                 height={200}
               />
               <p className="navbar-user-session">{session.user.name}</p>
-              <Link
+              <a
                 href="/PrincipalInvestigator/UserProfile"
                 className="view-account"
               >
                 View Account
-              </Link>
+              </a>
             </>
           ) : (
             <>
               <Image src={userIcon} alt="User Icon" className="logout-icon" />
-              <Link href="/SignInOption" className="view-account">
+              <a href="/SignInOption" className="view-account">
                 Sign In
-              </Link>
+              </a>
             </>
           )}
         </div>
 
         <div className="sidenav-links">
           <a href="/">Home</a>
-          <Link href="/faqs">FAQs</Link>
+          <a href="/faqs">FAQs</a>
 
           {session ? (
             <>
-              <Link href="/form">Submit Proposal</Link>
+              <a href="/form">Submit Proposal</a>
               <a href="/PrincipalInvestigator/SubmissionList">
                 View my Submissions
               </a>
-              <Link href="/" onClick={() => signOut()}>
+              <a href="/" onClick={() => signOut()}>
                 Logout
-              </Link>
+              </a>
             </>
           ) : (
             <></>
