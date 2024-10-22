@@ -17,10 +17,19 @@ function RecSubmissions({params}) {
     console.log("Search query:", query);
   };
 
-  const [selectedOption, setSelectedOption] = useState("initialSubmission");
+  const [selectedOption, setSelectedOption] = useState("Initial-Submission");
+
   const handleDropDown = (event) => {
-    const selectedOption = event.target.value;
+    setSelectedOption(event.target.value);
+  }
+
+  const handleTableChange = (option) => {
+    selectedOption === option ? setSelectedOption("") :
+    setSelectedOption(option);
+    console.log("Selected Option:", selectedOption);
   };
+
+
 
     const [forms, setForms] = useState([]);
     const { rec } = useParams(); // Get the current route parameter
@@ -42,6 +51,12 @@ function RecSubmissions({params}) {
 
     const formCount = forms.length;
 
+    const filterFormsByStatus = (status) => {
+      console.log("Status:", status);
+      return forms.filter((form) => form.status === status);
+    };
+  
+    
   return (
     <div className="adminpage-container">
       <div className="recnav-mobile">
@@ -78,10 +93,10 @@ function RecSubmissions({params}) {
 
           <div className="rec-submissions-tabs">
             <div className="rec-buttons-container">
-              <button onClick={() => handleTableChange("initialSubmission")}>
+              <button onClick={() => handleTableChange("Initial-Submission")}>
                 <span>{formCount} </span> <p>Initial Submission</p>
               </button>
-              <button onClick={() => handleTableChange("pendingPayment")}>
+              <button onClick={() => handleTableChange("Pending-Payment")}>
                 <span>17</span> <p>Pending Payment</p>
               </button>
               <button onClick={() => handleTableChange("forClassification")}>
@@ -100,7 +115,7 @@ function RecSubmissions({params}) {
 
             <div className="rec-dropdown-mobile">
               <select onChange={handleDropDown}>
-                <option value="initialSubmission">Initial Submission</option>
+                <option value="Initial-Submission">Initial Submission</option>
                 <option value="pendingPayment">Pending Payment</option>
                 <option value="forClassification">For Classification</option>
                 <option value="inProgress">In Progress</option>
@@ -109,45 +124,42 @@ function RecSubmissions({params}) {
               </select>
             </div>
 
-            {selectedOption === "initialSubmission" && (
-              
-            <div className="rec-tables">
-              <div className="initial-submission">
-                <h1>Initial Submission</h1>
-                <table className="rec-table">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Author</th>
-                      <th>Date of Submission</th>
-                      <th>Name of Research</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {forms.map((form, index) => (
-                      <tr key={index}>
-                        <td>{form.id}</td>
-                        <td>{form.fullName}</td>
-                        <td>
-                          {new Date(form.date).toLocaleDateString("en-US")}
-                        </td>
-                        <td>{form.title}</td>
-                        <td>
-                          <Link 
-                          href={`/REC/RECViewSubmission/${params.rec}/${form._id}`}
-                          className="rec-view-btn"
-                        >
-                          View
-                          </Link>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-)};
+            {["Initial-Submission", "Pending-Payment", "For-Classification", "In-Progress", "Final-Review", "Approved"].map(
+  (status) =>
+    selectedOption=== status && (
+      <div className="rec-tables" key={status}>
+        <div className={status}>
+          <h1>{status.replace(/([A-Z])/g, " $1").trim()}</h1>
+          <table className="rec-table">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Author</th>
+                            <th>Date of Submission</th>
+                            <th>Name of Research</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filterFormsByStatus(status).map((form, index) => (
+                            <tr key={index}>
+                              <td>{form?.id || "no forms"}</td>
+                              <td>{form.fullName}</td>
+                              <td>{new Date(form.date).toLocaleDateString("en-US")}</td>
+                              <td>{form.title}</td>
+                              <td>
+                                <Link href={`/REC/RECViewSubmission/${params.rec}/${form._id}`} className="rec-view-btn">
+                                  View
+                                </Link>
+                              </td>
+                            </tr>
+                          ))}
+                          </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )
+            )}
           </div>
         </div>
       </div>

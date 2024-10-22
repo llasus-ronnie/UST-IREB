@@ -8,9 +8,13 @@ import UserLoggedIn from "../../../../components/userloggedin/UserLoggedIn";
 import "../../../../styles/rec/RECViewSubmission.css";
 import axios from "axios";
 import withAuthorization from "../../../../../hoc/withAuthorization";
+import {useRouter} from "next/navigation";
+import Link from "next/link";
+
 
 function RECViewSubmission({ params }) {
   const [forms, setForms] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchData() {
@@ -38,9 +42,13 @@ function RECViewSubmission({ params }) {
   const handleStatusChange = (event) => {
     const newStatus = event.target.value;
     setStatus(newStatus);
-    updateData(newStatus);
     console.log(newStatus)
   };
+
+  const updateStatus = () => {
+    updateData(status);
+    router.push(`/REC/RECSubmissions/${params.rec}`);
+  }
 
   return (
     <div className="adminpage-container">
@@ -108,8 +116,10 @@ function RECViewSubmission({ params }) {
                   </div>
 
                   <div className="viewsub-buttons">
-                  <button className="viewsub-save">Save Changes</button>
-                  <button className="viewsub-back">Back</button>
+                  <button className="viewsub-save" onClick={updateStatus}>Save Changes</button>
+                  <Link href="/REC/RECdashboard"  className="viewsub-back">
+                  Back
+                  </Link>
                   </div>
 
               </Col>
