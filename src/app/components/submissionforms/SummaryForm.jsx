@@ -346,15 +346,27 @@ function SummaryForm() {
               <tbody>
                 <tr>
                   <td>Research Team:</td>
-                  <td>{formData.researchTeam}</td>
+                  <td>
+                    {formData.researchTeam === false
+                      ? "No"
+                      : formData.researchTeam}
+                  </td>
                 </tr>
                 <tr>
                   <td>Research Subjects:</td>
-                  <td>{formData.researchSubjects}</td>
+                  <td>
+                    {formData.researchSubjects === false
+                      ? "No"
+                      : formData.researchSubjects}
+                  </td>
                 </tr>
                 <tr>
                   <td>Wider Community:</td>
-                  <td>{formData.widerCommunity}</td>
+                  <td>
+                    {formData.widerCommunity === false
+                      ? "No"
+                      : formData.widerCommunity}
+                  </td>
                 </tr>
               </tbody>
             </Table>
@@ -384,21 +396,33 @@ function SummaryForm() {
                 </tr>
                 <tr>
                   <td>Direct benefit from participants:</td>
-                  <td>{formData.benefitParticipants}</td>
+                  <td>
+                    {formData.benefitParticipants === false
+                      ? "No"
+                      : formData.benefitParticipants}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     Generalizable knowledge about participants’ condition or
                     disorder:
                   </td>
-                  <td>{formData.generalizableKnowledge}</td>
+                  <td>
+                    {formData.generalizableKnowledge === false
+                      ? "No"
+                      : formData.generalizableKnowledge}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     Generalizable knowledge about diseases or condition under
                     study:
                   </td>
-                  <td>{formData.generalizableKnowledgeDisease}</td>
+                  <td>
+                    {formData.generalizableKnowledgeDisease === false
+                      ? "No"
+                      : formData.generalizableKnowledgeDisease}
+                  </td>
                 </tr>
               </tbody>
             </Table>

@@ -1302,31 +1302,19 @@ function SubmissionFormsP2() {
                   type="checkbox"
                   label="Research Team"
                   {...register("researchTeam")}
-                  value={watch("researchTeam") === "Yes" ? "Yes" : "No"}
-                  onChange={(e) =>
-                    setValue("researchTeam", e.target.checked ? "Yes" : "No")
-                  }
+                  value="Yes"
                 />
                 <Form.Check
                   type="checkbox"
                   label="Research Subjects"
                   {...register("researchSubjects")}
-                  value={watch("researchSubjects") === "Yes" ? "Yes" : "No"}
-                  onChange={(e) =>
-                    setValue(
-                      "researchSubjects",
-                      e.target.checked ? "Yes" : "No"
-                    )
-                  }
+                  value="Yes"
                 />
                 <Form.Check
                   type="checkbox"
                   label="Wider Community"
                   {...register("widerCommunity")}
-                  value={watch("widerCommunity") === "Yes" ? "Yes" : "No"}
-                  onChange={(e) =>
-                    setValue("widerCommunity", e.target.checked ? "Yes" : "No")
-                  }
+                  value="Yes"
                 />
               </Col>
 
@@ -1408,45 +1396,19 @@ function SubmissionFormsP2() {
                   type="checkbox"
                   label="Direct benefit from participants"
                   {...register("benefitParticipants")}
-                  value={watch("benefitParticipants") === "Yes" ? "Yes" : "No"}
-                  onChange={(e) =>
-                    setValue(
-                      "benefitParticipants",
-                      e.target.checked ? "Yes" : "No"
-                    )
-                  }
+                  value="Yes"
                 />
-
                 <Form.Check
                   type="checkbox"
                   label="Generalizable knowledge about participants’ condition or disorder"
                   {...register("generalizableKnowledge")}
-                  value={
-                    watch("generalizableKnowledge") === "Yes" ? "Yes" : "No"
-                  }
-                  onChange={(e) =>
-                    setValue(
-                      "generalizableKnowledge",
-                      e.target.checked ? "Yes" : "No"
-                    )
-                  }
+                  value="Yes"
                 />
-
                 <Form.Check
                   type="checkbox"
                   label="Generalizable knowledge about diseases or condition under study"
                   {...register("generalizableKnowledgeDisease")}
-                  value={
-                    watch("generalizableKnowledgeDisease") === "Yes"
-                      ? "Yes"
-                      : "No"
-                  }
-                  onChange={(e) =>
-                    setValue(
-                      "generalizableKnowledgeDisease",
-                      e.target.checked ? "Yes" : "No"
-                    )
-                  }
+                  value="Yes"
                 />
               </Col>
             </Row>
