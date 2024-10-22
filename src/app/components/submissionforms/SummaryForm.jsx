@@ -24,25 +24,29 @@ function SummaryForm() {
 
   const formatResearchEthicsCommittee = (value) => {
     const replacements = {
-        'USTHospital': 'UST Hospital',
-        'FacultyofPharmacy': 'Faculty of Pharmacy',
-        'GraduateSchool': 'Graduate School',
-        'CollegeofNursing': 'College of Nursing',
-        'CollegeofRehabilitationSciences': 'College of Rehabilitation Sciences',
-        'FacultyofMedicineandSurgery': 'Faculty of Medicine and Surgery',
-        'SeniorHighSchool': 'Senior High School',
-        'CollegeofEducation': 'College of Education',
-        'FacultyofEngineering': 'Faculty of Engineering',
-        'CollegeofInformationandComputingSciences': 'College of Information and Computing Sciences',
+      USTHospital: "UST Hospital",
+      FacultyofPharmacy: "Faculty of Pharmacy",
+      GraduateSchool: "Graduate School",
+      CollegeofNursing: "College of Nursing",
+      CollegeofRehabilitationSciences: "College of Rehabilitation Sciences",
+      FacultyofMedicineandSurgery: "Faculty of Medicine and Surgery",
+      SeniorHighSchool: "Senior High School",
+      CollegeofEducation: "College of Education",
+      FacultyofEngineering: "Faculty of Engineering",
+      CollegeofInformationandComputingSciences:
+        "College of Information and Computing Sciences",
     };
 
-    return replacements[value] || value
-        .replace(/([A-Z])([A-Z][a-z])/g, '$1 $2')
-        .replace(/([a-z])([A-Z])/g, '$1 $2')
-        .replace(/\bof\b/g, 'of')
-        .replace(/\s+/g, ' ')
-        .trim();
-};
+    return (
+      replacements[value] ||
+      value
+        .replace(/([A-Z])([A-Z][a-z])/g, "$1 $2")
+        .replace(/([a-z])([A-Z])/g, "$1 $2")
+        .replace(/\bof\b/g, "of")
+        .replace(/\s+/g, " ")
+        .trim()
+    );
+  };
 
   return (
     <div>
@@ -320,15 +324,151 @@ function SummaryForm() {
 
         <Container className="PIforms-rescont">
           <Row>
+            <h1 className="PIforms-resconthead">Potential Risks</h1>
+          </Row>
+          <Col>
+            <p className="PIforms-formtext">
+              <strong>Level of Risk Involved:</strong> {formData.riskLevel}
+            </p>
+          </Col>
+
+          <Row>
+            <h1 className="PIforms-resconthead">Risks apply to</h1>
+          </Row>
+          <Col>
+            <Table className="PIforms-table" striped>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Response</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Research Team:</td>
+                  <td>
+                    {formData.researchTeam === false
+                      ? "No"
+                      : formData.researchTeam}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Research Subjects:</td>
+                  <td>
+                    {formData.researchSubjects === false
+                      ? "No"
+                      : formData.researchSubjects}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Wider Community:</td>
+                  <td>
+                    {formData.widerCommunity === false
+                      ? "No"
+                      : formData.widerCommunity}
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+          </Col>
+        </Container>
+
+        <Container className="PIforms-rescont">
+          <Row>
+            <h1 className="PIforms-resconthead">Potential Benefits:</h1>
+          </Row>
+          <Col>
+            <Table className="PIforms-table" striped>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Response</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Multi-institutional Project:</td>
+                  <td>{formData.multiInstitutional}</td>
+                </tr>
+                <tr>
+                  <td>Conflict of Interest:</td>
+                  <td>{formData.conflictInterest}</td>
+                </tr>
+                <tr>
+                  <td>Direct benefit from participants:</td>
+                  <td>
+                    {formData.benefitParticipants === false
+                      ? "No"
+                      : formData.benefitParticipants}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Generalizable knowledge about participants’ condition or
+                    disorder:
+                  </td>
+                  <td>
+                    {formData.generalizableKnowledge === false
+                      ? "No"
+                      : formData.generalizableKnowledge}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Generalizable knowledge about diseases or condition under
+                    study:
+                  </td>
+                  <td>
+                    {formData.generalizableKnowledgeDisease === false
+                      ? "No"
+                      : formData.generalizableKnowledgeDisease}
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+          </Col>
+        </Container>
+
+        <Container className="PIforms-rescont">
+          <Row>
             <h1 className="PIforms-resconthead">Uploaded Files</h1>
           </Row>
           <Col>
             <p className="PIforms-formtext">
               <strong>File Type:</strong> {formData.mainFile}
             </p>
+            {formData.mainFileLink && (
+              <p className="PIforms-formtext">
+                <strong>Uploaded File:</strong>{" "}
+                <a
+                  href={formData.mainFileLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "underline" }}
+                >
+                  View File
+                </a>
+              </p>
+            )}
+          </Col>
+          <Col>
             <p className="PIforms-formtext">
-              <strong>File Input:</strong> {formData.fileName}
+              <strong>Supplementary File Type:</strong>{" "}
+              {formData.supplementaryFileType}
             </p>
+            {formData.supplementaryFileLink && (
+              <p className="PIforms-formtext">
+                <strong>Uploaded File:</strong>{" "}
+                <a
+                  href={formData.supplementaryFileLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "underline" }}
+                >
+                  View File
+                </a>
+              </p>
+            )}
           </Col>
         </Container>
 
