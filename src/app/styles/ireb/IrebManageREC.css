@@ -27,7 +27,7 @@
     flex-grow: 1;
     transition: margin-left 0.3s ease;
     background-color: var(--secondary-color);
-    height: 100vh;
+    height: fit-content;
     margin-left: 5.625rem;
 }
 
@@ -148,59 +148,43 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Manage Accounts Table */
+/* Manage Accounts Cards */
 
-.manageaccounts-table {
-    background-color: var(--quaternary-color);
-    justify-content: left;
-    align-items: center;
+.managerec-cards-container {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
     margin: 1.5rem 2rem 2rem 2rem;
-    border-radius: 0.938rem;
 }
 
-.me-table {
-    width: 100%;
-    margin: 1.5rem 2rem 2rem 2rem;
-    border-collapse: collapse;
-    font-family: var(--poppins);
+.managerec-card {
     background-color: var(--quaternary-color);
+    padding: 2rem 2rem;
     border-radius: 0.938rem;
+    width: 18rem;
+    text-align: center;
+    justify-content: center;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-th, td {
-    padding: 0.625rem 0.313rem 0.625rem 1.25rem;
-    text-align: left;
-    border-bottom: 0.063rem solid #ddd;
-}
-
-th {
+.managerec-card h2 {
     color: var(--primary-color);
-}
-
-tr:hover {
-    background-color: #f2f2f2;
-}
-
-/* Action Column */
-.me-table td .edit-icon, 
-.me-table td .archive-icon {
-    cursor: pointer;
-    background: none;
-    border: none;
     font-size: 1.2rem;
-    margin-right: 0.5rem;
-    color: var(--primary-color);
-    transition: color 0.2s ease;
+    font-weight: bold;
+    margin: 0.5rem 0;
 }
 
-.me-table td .edit-icon {
-    color: var(--tertiary-color);
+.managerec-card-logo {
+    width: 5rem;
+    height: fit-content;
+    margin-bottom: 1rem;
+    display: block;
 }
 
-.me-table td .archive-icon {
-    color: #e74c3c;
-}
 
 /* scroll design  */
 ::-webkit-scrollbar {
@@ -313,19 +297,6 @@ tr:hover {
         margin-top: 1rem;
     }
 
-    .manageaccounts-table {
-        margin: 2rem 0;
-    }
-
-    .me-table {
-        font-size: 0.875rem;
-        border-radius: 10px;
-        width: 100%;
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
   }
 
     /* Tablet */
@@ -414,17 +385,5 @@ tr:hover {
             margin-top: 1rem;
         }
 
-        .manageaccounts-table {
-            margin: 2rem 0;
-        }
-
-        .me-table {
-            font-size: 0.875rem;
-            border-radius: 10px;
-            width: 100%;
-            display: block;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
 
     }

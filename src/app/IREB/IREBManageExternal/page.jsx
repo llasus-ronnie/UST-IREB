@@ -57,7 +57,7 @@ function IrebManageExternal() {
             </div>
           </div>
 
-          <div className="manage-external">
+          <div className="manage-accounts">
             <div className="me-title">
               <h1>Manage Accounts</h1>
             </div>
@@ -80,7 +80,7 @@ function IrebManageExternal() {
               </div>
             </div>
 
-            <div className="manageexternal-table">
+            <div className="manageaccounts-table">
               <table className="me-table">
                 <thead>
                   <tr>
