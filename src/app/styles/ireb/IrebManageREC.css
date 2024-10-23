@@ -72,7 +72,7 @@
     position: relative;
 }
 
-.me-title {
+.ma-title {
     background-color: var(--tertiary-color);
     color: #121212;
     justify-content: center;
@@ -238,12 +238,12 @@
         overflow-x: hidden;
     }
 
-    /* Mobile PR Dashboard */
+    /* Mobile Manage Accounts */
     .ireb-manageaccounts {
         margin-left: 0;
         padding: 1rem;
         height: auto;
-        }
+    }
     
     /* Mobile Main Content Div for IREB Manage Accounts */
     .adminmain-content {
@@ -266,12 +266,12 @@
         margin-bottom: 1.5rem;
     }
 
-    .me-title {
-        margin: 2rem 0;
+    .ma-title {
+        margin: 0;
     }
 
     .acctype-container {
-        margin: 2rem 0;
+        margin: 0;
         width: 100%;
         flex-direction: column;
         padding: 1rem;
@@ -297,13 +297,21 @@
         margin-top: 1rem;
     }
 
+    .managerec-cards-container {
+        margin: 2rem 0;
+    }
+
+    .managerec-card {
+        width: 100%;
+    }
+
   }
 
     /* Tablet */
     @media only screen and (min-width: 577px) and (max-width: 768px) {
-        .irebnav-mobile {
+    .irebnav-mobile {
         display: none;
-        }
+    }
         
     .ireb-header-container-mobile {
         display: none;
@@ -311,6 +319,7 @@
     
     .ireb-manageaccounts {
         margin-left: 5.625rem;
+        height: 100%;
     }
 
         /* Tablet General Page Container */
@@ -329,13 +338,13 @@
             transition: margin-left 0.3s ease;
             }
 
-        /* Tablet PR Dashboard */
+        /* Tablet Manage Accounts */
         .ireb-manageaccounts {
             padding: 1rem;
             flex-grow: 1;
             transition: margin-left 0.3s ease;
             background-color: var(--secondary-color);
-            height: 100vh;
+            height: 100%;
             margin-left: 5.625rem;
         }
         
@@ -350,12 +359,12 @@
             padding: 0;
         }
 
-        .me-title {
-            margin: 2rem 0;
+        .ma-title {
+            margin: 2rem 0 0 0;
         }
-
+    
         .acctype-container {
-            margin: 2rem 0;
+            margin: 0;
             width: 100%;
             flex-direction: column;
             padding: 1rem;
@@ -385,5 +394,8 @@
             margin-top: 1rem;
         }
 
-
+        .managerec-cards-container {
+            margin: 2rem 0;
+        }
+    
     }

@@ -41,7 +41,7 @@ function IrebManageExternal() {
           </div>
 
           <div className="manage-accounts">
-            <div className="me-title">
+            <div className="ma-title">
               <h1>Manage Accounts</h1>
             </div>
 
