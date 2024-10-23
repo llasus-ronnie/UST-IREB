@@ -5,7 +5,7 @@ import IrebNav from "../../components/navbaradmin/IrebNav";
 import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
 import SearchBar from "../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
-import AddAccModal from "../../components/modals/AddExternalAccModal";
+import AddRECMemberModal from "../../components/modals/AddRECMemberModal";
 import "../../styles/ireb/IrebManageAccounts.css";
 
 import withAuthorization from "../../../hoc/withAuthorization";
@@ -114,7 +114,7 @@ function IrebManageRECRoles() {
         </div>
       </div>
 
-      <AddAccModal show={modalShow} onHide={handleCloseModal} />
+      <AddRECMemberModal show={modalShow} onHide={handleCloseModal} />
     </div>
   );
 }
