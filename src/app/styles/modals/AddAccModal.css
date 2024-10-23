@@ -240,7 +240,7 @@
   }
 
   /* Adjust icon positioning */
-  .form-icon-email {
+  .form-icon {
     position: absolute;
     left: 15px;
     top: 50%;
@@ -248,16 +248,7 @@
     width: 1rem;
     height: 1rem;
   }
-
-  .form-icon-token {
-    position: absolute;
-    left: 15px;
-    top: 20%;
-    transform: translateY(-50%);
-    width: 1rem;
-    height: 1rem;
-  }
-
+  
   .addacc-modal-footer .btn {
     font-size: 0.8rem;
     width: 100%;
