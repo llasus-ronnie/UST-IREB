@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-right: 20px;
+  padding-right: 0 20px;
 }
 
 .admin-bg {
@@ -180,7 +180,7 @@ hr {
 
 @media screen and (max-width: 480px) {
   .admin-signin-container {
-    justify-content: center;
+    padding: 0%;
   }
 
   .admin-signin-logo-container {
@@ -191,12 +191,13 @@ hr {
 
   .admin-title {
     font-size: 18px;
+    justify-content: center;
   }
 
   .admin-signin-box {
-    padding: 15px;
-    max-width: 95%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    max-width: 100%;
+
   }
 
   .admin-signin-title {
