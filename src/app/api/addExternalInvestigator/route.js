@@ -2,7 +2,6 @@ import connectDB from "../../../../utils/database";
 import ExternalInvestigator from "../../../../models/externalInvestigatorModel";
 import { NextResponse } from "next/server";
 
-// POST method for adding an external investigator
 export async function POST(req) {
   await connectDB();
 
@@ -28,7 +27,6 @@ export async function POST(req) {
   }
 }
 
-// GET method for fetching external investigators
 export async function GET() {
   await connectDB();
 

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import "../../styles/adminnav/adminnav.css";
 import { useSession, signOut } from "next-auth/react";
@@ -30,8 +29,8 @@ const IrebNav = () => {
       </div>
       <div className="adminnav-content">
         <ul>
-          <li> 
-            <Link href="../IREB/IREBUserProfile" passHref>
+          <li>
+            <a href="../IREB/IREBUserProfile">
               <div>
                 <Image
                   src="/images/adminnav/adminnav-account.png"
@@ -41,11 +40,11 @@ const IrebNav = () => {
                 />
               </div>
               {isOpen && <span>My Profile</span>}
-            </Link>
+            </a>
           </li>
 
           <li>
-            <Link href="../IREB/IREBDashboard" passHref>
+            <a href="../IREB/IREBDashboard">
               <div>
                 <Image
                   src="/images/adminnav/adminnav-home.png"
@@ -55,7 +54,7 @@ const IrebNav = () => {
                 />
               </div>
               {isOpen && <span>Home</span>}
-            </Link>
+            </a>
           </li>
 
           {/* Manage Accounts */}
@@ -82,29 +81,25 @@ const IrebNav = () => {
             {isDropdownOpen && isOpen && (
               <ul className="adminnav-dropdown">
                 <li>
-                  <Link href="../IREB/IREBManageREC" passHref legacyBehavior>
+                  <a href="../IREB/IREBManageREC" legacyBehavior>
                     <a>
                       <span>REC Accounts</span>
                     </a>
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link
-                    href="../IREB/IREBManageExternal"
-                    passHref
-                    legacyBehavior
-                  >
+                  <a href="../IREB/IREBManageExternal" legacyBehavior>
                     <a>
                       <span>External Accounts</span>
                     </a>
-                  </Link>
+                  </a>
                 </li>
               </ul>
             )}
           </li>
 
           <li>
-            <Link href="/reports" passHref>
+            <a href="/reports">
               <div>
                 <Image
                   src="/images/adminnav/adminnav-reports.png"
@@ -114,7 +109,7 @@ const IrebNav = () => {
                 />
               </div>
               {isOpen && <span>Reports</span>}
-            </Link>
+            </a>
           </li>
         </ul>
       </div>
@@ -122,7 +117,7 @@ const IrebNav = () => {
       <div className="adminnav-logout">
         <ul>
           <li>
-            <Link
+            <a
               href="/#"
               onClick={() => signOut({ callbackUrl: "/SignInAdmin" })}
             >
@@ -135,7 +130,7 @@ const IrebNav = () => {
                 />
               </div>
               {isOpen && <span>Log Out</span>}
-            </Link>
+            </a>
           </li>
         </ul>
       </div>

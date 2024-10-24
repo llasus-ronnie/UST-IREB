@@ -48,6 +48,7 @@
     "readable-stream": "^4.5.2",
     "redux": "^5.0.1",
     "sharp": "^0.33.5",
+    "swr": "^2.2.5",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

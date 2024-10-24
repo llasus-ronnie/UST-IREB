@@ -5,7 +5,6 @@ import Modal from "react-bootstrap/Modal";
 import "../../styles/modals/AddAccModal.css";
 import CancelConfirmationModal from "../../components/modals/CancelConfirmationModal.jsx";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -13,7 +12,6 @@ export default function AddRECModal(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
-  const [accessToken, setAccessToken] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
 
@@ -33,8 +31,6 @@ export default function AddRECModal(props) {
     setStatus(statusValue);
   };
 
-  const handleAccessTokenChange = (e) => setAccessToken(e.target.value);
-
   const handleAddAccount = async () => {
     if (!isEmailValid) {
       alert("Please enter a valid email.");
@@ -42,16 +38,13 @@ export default function AddRECModal(props) {
     }
 
     try {
-      await axios.post("/api/addExternalInvestigator", {
+      await axios.post("/api/REC", {
         name,
-        affiliation,
         email,
-        token: accessToken,
+        status,
       });
       console.log("Account added to database");
-
-      await axios.post("/api/auth/send-email", { email, token: accessToken });
-      toast.success("Email sent successfully");
+      toast.success("REC added successfully");
 
       props.onHide();
     } catch (error) {
@@ -61,23 +54,6 @@ export default function AddRECModal(props) {
       );
       toast.error("An error occurred. Please try again.");
     }
-  };
-
-  const handleGenerateToken = () => {
-    if (!isEmailValid) {
-      toast.error("Please enter a valid email.");
-      return;
-    }
-
-    const token = uuidv4();
-    setAccessToken(token);
-  };
-
-  const formatToken = (token) => {
-    if (!token) return "";
-    const visibleChars = 6;
-    const maskedChars = token.length - visibleChars;
-    return token.substring(0, visibleChars) + "*".repeat(maskedChars);
   };
 
   const validateEmail = (email) => {
@@ -91,9 +67,8 @@ export default function AddRECModal(props) {
 
   const handleConfirmCancel = () => {
     setName("");
-    setAffiliation("");
     setEmail("");
-    setAccessToken("");
+    setStatus("");
     setIsEmailValid(false);
     setShowCancelConfirmation(false);
     props.onHide();
@@ -118,7 +93,6 @@ export default function AddRECModal(props) {
         </Modal.Header>
         <Modal.Body className="addacc-modal-body rounded-body">
           <Form>
-
             {/* REC Name */}
             <Form.Group
               className="mb-3 form-group-with-icon"
@@ -193,26 +167,37 @@ export default function AddRECModal(props) {
               className="mb-3 form-group-with-icon"
               controlId="formStatus"
             >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#5c5c5c" class="bi bi-clipboard form-icon" viewBox="0 0 16 16">
-            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"
-            stroke="#5c5c5c"
-            strokeWidth="0.5"/>
-            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"
-            stroke="#5c5c5c"
-            strokeWidth="0.5"
-            />
-            </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="#5c5c5c"
+                class="bi bi-clipboard form-icon"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"
+                  stroke="#5c5c5c"
+                  strokeWidth="0.5"
+                />
+                <path
+                  d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"
+                  stroke="#5c5c5c"
+                  strokeWidth="0.5"
+                />
+              </svg>
               <Form.Select
                 value={status}
                 onChange={handleStatusChange}
                 className="form-control form-control-with-icon rounded-input "
-            >
-                <option value="" disabled>Select REC Status</option>
+              >
+                <option value="" disabled>
+                  Select REC Status
+                </option>
                 <option value="PHREB Accredited">PHREB Accredited</option>
                 <option value="IREB Member">IREB Member</option>
-            </Form.Select>
+              </Form.Select>
             </Form.Group>
-
           </Form>
         </Modal.Body>
         <Modal.Footer className="addacc-modal-footer rounded-footer">

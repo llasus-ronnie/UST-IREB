@@ -1,15 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IrebNav from "../../components/navbaradmin/IrebNav";
 import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
 import SearchBar from "../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
 import AddRECModal from "../../components/modals/AddRECModal";
 import "../../styles/ireb/IrebManageREC.css";
+import axios from "axios";
+import useSWR from "swr";
 
 import withAuthorization from "../../../hoc/withAuthorization";
 
+const fetcher = (url) => axios.get(url).then((res) => res.data);
 function IrebManageExternal() {
   const [modalShow, setModalShow] = useState(false);
 
@@ -19,6 +22,13 @@ function IrebManageExternal() {
   const handleSearch = (query) => {
     console.log("Search query:", query);
   };
+
+  const { data, error } = useSWR("/api/REC", fetcher);
+
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
+
+  const REC = data.data;
 
   return (
     <div className="adminpage-container">
@@ -64,49 +74,37 @@ function IrebManageExternal() {
             </div>
 
             <div className="managerec-cards-container">
-              <div className="managerec-card">
-                <img src="/images/rec logos/PHARMA-Logo.png" alt="icon" className="managerec-card-logo" />
+              <a className="managerec-card" href="../IREB/IREBManageRECRoles">
+                <img
+                  src="/images/rec logos/PHARMA-Logo.png"
+                  alt="icon"
+                  className="managerec-card-logo"
+                />
                 <h2>Faculty of Pharmacy</h2>
                 <p>pharmacy@ust.edu.ph</p>
                 <p>PHREB Accredited</p>
-              </div>
-              <div className="managerec-card">
-                <img src="/images/rec logos/NUR-Logo.png" alt="icon" className="managerec-card-logo" />
-                <h2>College of Nursing</h2>
-                <p>nursing@ust.edu.ph</p>
-                <p>PHREB Accredited</p>
-              </div>
-              <div className="managerec-card">
-                <img src="/images/rec logos/SHS-Logo.png" alt="icon" className="managerec-card-logo" />
-                <h2>Senior High School</h2>
-                <p>shs@ust.edu.ph</p>
-                <p>IREB Member</p>
-              </div>
-              <div className="managerec-card">
-                <img src="/images/rec logos/CICS-Logo.png" alt="icon" className="managerec-card-logo" />
-                <h2>College of Information and Computing Sciences</h2>
-                <p>cics@ust.edu.ph</p>
-                <p>IREB Member (next time)</p>
-              </div>
-              <div className="managerec-card">
-                <img src="/images/rec logos/CICS-Logo.png" alt="icon" className="managerec-card-logo" />
-                <h2>College of Information and Computing Sciences</h2>
-                <p>cics@ust.edu.ph</p>
-                <p>IREB Member</p>
-              </div>
-              <div className="managerec-card">
-                <img src="/images/rec logos/CICS-Logo.png" alt="icon" className="managerec-card-logo" />
-                <h2>College of Information and Computing Sciences</h2>
-                <p>cics@ust.edu.ph</p>
-                <p>IREB Member</p>
-              </div>
-              <div className="managerec-card">
-                <img src="/images/rec logos/CICS-Logo.png" alt="icon" className="managerec-card-logo" />
-                <h2>College of Information and Computing Sciences</h2>
-                <p>cics@ust.edu.ph</p>
-                <p>IREB Member</p>
-              </div>
-              
+              </a>
+
+              {REC && REC.length > 0 ? (
+                REC.map((form, index) => (
+                  <a
+                    key={index}
+                    className="managerec-card"
+                    href="../IREB/IREBManageRECRoles"
+                  >
+                    <img
+                      src="/images/rec logos/PHARMA-Logo.png"
+                      alt="icon"
+                      className="managerec-card-logo"
+                    />
+                    <h2>{form.name}</h2>
+                    <p>{form.email}</p>
+                    <p>{form.status}</p>
+                  </a>
+                ))
+              ) : (
+                <h2>fallback kung walang data</h2>
+              )}
             </div>
           </div>
         </div>
