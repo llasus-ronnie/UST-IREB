@@ -87,46 +87,46 @@
 
 .admin-input {
     width: 100%;
-    padding: 10px; /* Adjusted for better touch interaction */
-    margin-bottom: 15px; /* Space between fields */
-    border: 1px solid #ccc; /* Light border for input */
-    border-radius: 5px; /* Rounded corners */
-    font-family: var(--poppins); /* Font family from your root */
-    font-size: 14px; /* Base font size */
-    color: #333; /* Text color */
-    transition: border-color 0.3s ease; /* Smooth border color change */
+    padding: 10px; 
+    margin-bottom: 15px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    font-family: var(--poppins); 
+    font-size: 14px; 
+    color: #333; 
+    transition: border-color 0.3s ease; 
   }
   
   .admin-input:focus {
-    border-color: var(--tertiary-color); /* Change border color on focus */
-    outline: none; /* Remove default outline */
+    border-color: var(--tertiary-color); 
+    outline: none; 
   }
   
   .admin-signin-button {
-    background-color: var(--tertiary-color); /* Primary button color */
-    color: var(--quaternary-color); /* Button text color */
-    padding: 10px 20px; /* Vertical and horizontal padding */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Font size */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-family: var(--poppins); /* Font family from your root */
-    transition: background-color 0.3s ease; /* Smooth background color change */
-    width: 100%; /* Full width button */
+    background-color: var(--tertiary-color); 
+    color: var(--quaternary-color); 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    font-family: var(--poppins); 
+    transition: background-color 0.3s ease; 
+    width: 100%; 
   }
   
   .admin-signin-button:disabled {
-    background-color: #ccc; /* Disabled button color */
-    cursor: not-allowed; /* Not allowed cursor on hover */
+    background-color: #ccc; 
+    cursor: not-allowed; 
   }
   
   .admin-signin-button:hover:not(:disabled) {
-    background-color: #f0a500; /* Darker shade of the primary color for hover */
+    background-color: #f0a500; 
   }
   
   .admin-recaptcha {
-    display: inline-block; /* Ensure proper alignment */
-    margin-top: 10px; /* Space above ReCAPTCHA */
+    display: inline-block; 
+    margin-top: 10px; 
   }
   
   .recaptcha-wrapper {

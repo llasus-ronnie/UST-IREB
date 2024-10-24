@@ -100,7 +100,7 @@
 .signin-options {
   display: flex;
   justify-content: center;
-  gap: 20px; /* Adjust the gap between the buttons as needed */
+  gap: 20px; 
   margin-bottom: 20px;
 }
 
@@ -118,10 +118,10 @@
   line-height: normal;
   width: 15rem;
   height: 3rem;
-  border: 1px solid grey; /* Ensure the border is set and visible */
+  border: 1px solid grey; 
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  transition: background-color 0.3s ease; /* Smooth transition */
+  transition: background-color 0.3s ease; 
 }
 
 .btn-thomasian:hover, .btn-external:hover {

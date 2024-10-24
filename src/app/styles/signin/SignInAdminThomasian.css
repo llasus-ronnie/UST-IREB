@@ -152,20 +152,20 @@ hr {
 }
 
 .admin-google-btn {
-    width: 100%; /* Full width to match the other elements */
-    padding: 10px 20px; /* Padding for better spacing */
-    background-color: #ffffff; /* Google Blue */
+    width: 100%; 
+    padding: 10px 20px; 
+    background-color: #ffffff; 
     color: #121212; 
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    display: flex; /* Flexbox for alignment */
-    align-items: center; /* Center align items vertically */
-    justify-content: center; /* Center align items horizontally */
-    gap: 10px; /* Space between logo and text */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-    font-family: var(--poppins); /* Use Poppins font */
-    font-weight: 400; /* Font weight */
+    border: none; 
+    border-radius: 5px; 
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    gap: 10px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+    font-family: var(--poppins); 
+    font-weight: 400; 
     margin-bottom: 10px;
   }
   
@@ -174,8 +174,8 @@ hr {
   }
   
   .google-logo {
-    width: 20px; /* Adjust logo size */
-    height: 20px; /* Maintain aspect ratio */
+    width: 20px; 
+    height: 20px; 
   }
 
 @media screen and (max-width: 480px) {
