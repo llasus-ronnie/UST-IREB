@@ -37,7 +37,7 @@
 }
 
 .adminnav-content {
-    padding-top: 6rem;
+    padding-top: 3rem;
 }
 
 .adminnav-logout {
@@ -191,7 +191,7 @@
 
 
 /* Responsiveness */
-/* Mobile View (max-width: 576px) */
+/* Mobile View */
 @media only screen and (max-width: 576px) {
     .adminnav {
         position: fixed;
@@ -225,7 +225,9 @@
 
     .adminnav ul {
         display: flex;
+        flex-direction: row;
         justify-content: space-around;
+        align-items: center;
         width: 100%;
         list-style: none;
         padding: 0;
@@ -257,6 +259,7 @@
         font-family: var(--poppins);
         font-size: 0.75rem;
         transition: color 0.1s ease;
+        padding: 1rem 0.3rem;
     }
     
     .adminnav ul li a img,
