@@ -12,14 +12,34 @@ import bgAdmin from "../../../public/images/signin/AdminBg.jpg";
 import USTLogo from "../../../public/images/signin/USTLogo.png";
 
 // CSS
-import "../styles/signin/SignInAdmin.css";
+import "../styles/signin/SignInAdminThomasian.css";
 
-const SignInAdmin = () => {
+export default function SignIn() {
+  const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+  const { data: session, status } = useSession();
   const router = useRouter();
-  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      const userRole = session.user.role;
+      if (userRole === "IREB") {
+        router.push("/IREB/IREBDashboard");
+      } else if (userRole === "PrimaryReviewer") {
+        router.push("/PrimaryReviewer/PRDashboard");
+      } else if (userRole === "REC") {
+        router.push("/REC/RECdashboard/[rec]");
+      } else {
+        router.push("../Unauthorized");
+      }
+    }
+  }, [session, status, router]);
+
+  const handleRecaptchaChange = (value) => {
+    setIsRecaptchaVerified(!!value);
+  };
 
   const handleSignIn = () => {
-    signIn("google", { callbackUrl: "/admin-dashboard" });
+    signIn("google");
   };
 
   return (
@@ -42,18 +62,23 @@ const SignInAdmin = () => {
         </div>
 
         <div className="admin-signin-box">
-          <h1 className="admin-signin-title">Sign In</h1>
+          <h1 className="admin-signin-title">Thomasian Admin Sign In</h1>
           <p className="admin-signin-text">
-            Welcome, Admin! To access role features in the web portal, kindly select your category to login.
-          </p>
+          Welcome, Thomasian Admin! To access your account, please sign in using your UST Google Account.</p>
 
-          <div className="signin-options">
-            <button className="btn-thomasian">Thomasian Admin</button>
-            <button className="btn-external">External Reviewer</button>
+          <button className="admin-google-btn" onClick={handleSignIn}>
+            <Image src={GoogleLogo} alt="Google Logo" className="google-logo" />
+            Sign in with Google
+          </button>
+
+          <div className="recaptcha-wrapper">
+            <ReCAPTCHA
+              className="admin-recaptcha"
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+              size="normal"
+              onChange={handleRecaptchaChange}
+            />
           </div>
-
-  
-
 
           <hr />
 
@@ -69,6 +94,4 @@ const SignInAdmin = () => {
       </div>
     </>
   );
-};
-
-export default SignInAdmin;
+}

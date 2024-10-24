@@ -84,6 +84,56 @@
   text-align: justify;
 }
 
+
+.admin-input {
+    width: 100%;
+    padding: 10px; 
+    margin-bottom: 15px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    font-family: var(--poppins); 
+    font-size: 14px; 
+    color: #333; 
+    transition: border-color 0.3s ease; 
+  }
+  
+  .admin-input:focus {
+    border-color: var(--tertiary-color); 
+    outline: none; 
+  }
+  
+  .admin-signin-button {
+    background-color: var(--tertiary-color); 
+    color: var(--quaternary-color); 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    font-family: var(--poppins); 
+    transition: background-color 0.3s ease; 
+    width: 100%; 
+  }
+  
+  .admin-signin-button:disabled {
+    background-color: #ccc; 
+    cursor: not-allowed; 
+  }
+  
+  .admin-signin-button:hover:not(:disabled) {
+    background-color: #f0a500; 
+  }
+  
+  .admin-recaptcha {
+    display: inline-block; 
+    margin-top: 10px; 
+  }
+  
+  .recaptcha-wrapper {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
 .admin-signin-footer {
   text-align: center;
 }
@@ -95,39 +145,6 @@
 
 .admin-signin-footer p {
   margin: 5px 0;
-}
-
-.signin-options {
-  display: flex;
-  justify-content: center;
-  gap: 20px; 
-  margin-bottom: 20px;
-}
-
-.btn-thomasian, .btn-external {
-  justify-content: center;
-  align-items: center;
-  padding: 0.5rem 0.5rem;
-  border-radius: 0.625rem;
-  color: #121212;
-  font-family: var(--poppins);
-  font-size: var(--paragraph-size);
-  font-style: normal;
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: normal;
-  width: 15rem;
-  height: 3rem;
-  border: 1px solid grey; 
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  transition: background-color 0.3s ease; 
-}
-
-.btn-thomasian:hover, .btn-external:hover {
-  background-color: #fcbf15; 
-  color: var(--quaternary-color);
-  cursor: pointer;
 }
 
 hr {
@@ -197,7 +214,7 @@ hr {
 
   .admin-signin-logo-container {
     position: absolute;
-        top: 12rem;
+        top: 6rem;
         transform: none;
   }
 
@@ -217,4 +234,3 @@ hr {
     font-size: 20px;
   }
 }
-
