@@ -14,7 +14,7 @@
 /* General Page Container */
 .adminpage-container {
     display: flex;
-    height: 100vh;
+    height: 100%;
 }
 
 /* Side Nav */
@@ -27,7 +27,7 @@
     flex-grow: 1;
     transition: margin-left 0.3s ease;
     background-color: var(--secondary-color);
-    height: fit-content;
+    height: 100vh;
     margin-left: 5.625rem;
 }
 
@@ -317,18 +317,12 @@
         display: none;
     }
     
-    .ireb-manageaccounts {
-        margin-left: 5.625rem;
-        height: 100%;
-    }
-
         /* Tablet General Page Container */
         .adminpage-container {
             flex-direction: column;
             height: auto;
             margin: 0;
             padding: 0;
-            height: 100%;
             overflow-x: hidden;
         }
 
@@ -344,7 +338,6 @@
             flex-grow: 1;
             transition: margin-left 0.3s ease;
             background-color: var(--secondary-color);
-            height: 100%;
             margin-left: 5.625rem;
         }
         

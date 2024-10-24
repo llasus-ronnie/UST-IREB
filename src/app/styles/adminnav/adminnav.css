@@ -110,9 +110,6 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.dropdown-div span {
-    margin-left: 0.5625rem;
-}
 .adminnav-dropdown {
     list-style: none;
     padding: 0;
@@ -132,7 +129,7 @@
     font-family: var(--poppins);
     font-size: 1rem;
     text-decoration: none;
-    padding: 0.2rem 0.3125rem 0.2rem 3.9rem !important;
+    padding: 0.1rem 0.3125rem 0.1rem 2rem !important;
     transition: color 0.1s ease, background-color 0.1s ease;
 }
 
