@@ -10,6 +10,18 @@ import withAuthorization from "../../../hoc/withAuthorization";
 function UserProfile() {
   const { data: session } = useSession();
 
+  const userImage =
+    session && session.user.role === "ExternalInvestigator"
+      ? "/images/navbar/sidenav-user.png"
+      : session && session.user.image;
+
+  const roleLabel =
+    session && session.user.role === "ExternalInvestigator"
+      ? "External Principal Investigator"
+      : session && session.user.role === "PrincipalInvestigator"
+      ? "Thomasian Principal Investigator"
+      : "";
+
   return (
     <>
       <div className="header">
@@ -24,7 +36,7 @@ function UserProfile() {
           <div className="profile-cardleft">
             <div className="profile-card-body">
               <img
-                src={session && session.user.image}
+                src={userImage}
                 alt="Profile"
                 className="profile-image rounded-circle"
               />
@@ -58,16 +70,16 @@ function UserProfile() {
                   <p>Category</p>
                 </Col>
                 <Col className="profile-cardright-content">
-                  <p>Thomasian Principal Investigator</p>
+                  <p>{roleLabel}</p>
                 </Col>
               </div>
             </Row>
           </div>
           <div className="check-status">
             <p>Want to check the status of your submissions?</p>
-            <Link href="./SubmissionList">
+            <a href="./SubmissionList">
               <button className="check-status">View My Submissions</button>
-            </Link>
+            </a>
           </div>
         </Col>
       </Row>
@@ -75,4 +87,7 @@ function UserProfile() {
   );
 }
 
-export default withAuthorization(UserProfile, "PrincipalInvestigator");
+export default withAuthorization(UserProfile, [
+  "PrincipalInvestigator",
+  "ExternalInvestigator",
+]);

@@ -16,6 +16,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { signIn } from "next-auth/react"; // Import signIn method
 
 import ReCAPTCHA from "react-google-recaptcha";
 import Image from "next/image";
@@ -58,20 +59,17 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isEmailValid && isTokenValid && isRecaptchaVerified) {
-      try {
-        const response = await axios.post("/api/auth/validate-token", {
-          email,
-          token: accessToken,
-        });
-        if (response.data.valid) {
-          toast.success("Sign in successful");
-          router.push("/");
-        } else {
-          toast.error("Invalid email or access token");
-        }
-      } catch (error) {
-        console.error("Error validating token", error);
-        toast.error("An error occurred. Please try again.");
+      const result = await signIn("credentials", {
+        redirect: false,
+        email,
+        password: accessToken,
+      });
+
+      if (result.error) {
+        toast.error("Invalid email or access token");
+      } else {
+        toast.success("Sign in successful");
+        router.push("/");
       }
     } else {
       toast.warn("Please complete all fields and verify the reCAPTCHA");

@@ -17,6 +17,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "aws-amplify": "^6.6.5",
     "axios": "^1.7.7",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.4",
     "chartjs-plugin-dragdata": "^2.3.1",

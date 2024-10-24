@@ -1,12 +1,12 @@
 "use client";
-//css
-import "../styles/signin/SignInOption.css";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
+import React from "react";
 import { Container, Col, Row, Button } from "react-bootstrap";
 import Head from "next/head";
 import SignInFooter from "../components/siginin/SignInFooter";
+
+//css
+import "../styles/signin/SignInOption.css";
 
 function SignInOption() {
   return (
@@ -43,17 +43,17 @@ function SignInOption() {
               </Container>
 
               <Container className="signin-options">
-                <Link href="../PrincipalInvestigator/SignInThomasian" passHref>
+                <a href="../PrincipalInvestigator/SignInThomasian" passHref>
                   <Button className="signin-option">
                     Thomasian <br /> Primary Investigator
                   </Button>
-                </Link>
+                </a>
 
-                <Link href="../PrincipalInvestigator/SignInExternal" passHref>
+                <a href="../PrincipalInvestigator/SignInExternal" passHref>
                   <Button className="signin-option">
                     External <br /> Primary Investigator
                   </Button>
-                </Link>
+                </a>
               </Container>
 
               <Row className="signin-hr">

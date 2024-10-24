@@ -103,7 +103,13 @@ export default function Navbar() {
               <a href="/PrincipalInvestigator/SubmissionList">
                 View my Submissions
               </a>
-              <a href="/" onClick={() => signOut()}>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  signOut({ callbackUrl: "/" });
+                }}
+              >
                 Logout
               </a>
             </>
