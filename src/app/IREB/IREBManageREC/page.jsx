@@ -90,7 +90,7 @@ function IrebManageExternal() {
                   <a
                     key={index}
                     className="managerec-card"
-                    href="../IREB/IREBManageRECRoles"
+                    href={`../IREB/IREBManageRECRoles/${form._id}`}
                   >
                     <img
                       src="/images/rec logos/PHARMA-Logo.png"

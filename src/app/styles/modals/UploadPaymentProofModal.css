@@ -83,7 +83,6 @@
     padding: 1rem;
     font-family: var(--poppins);
     width: 34rem;
-    padding-left: 3.5rem;
 }
 
 .uploadproof-modal-body .form-control:focus {
