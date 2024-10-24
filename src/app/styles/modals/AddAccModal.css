@@ -151,6 +151,32 @@
     flex-grow: 1;
 }
 
+/* Upload Logo */
+.upload-logo-area {
+  background-color: #F4F4F4;
+  border: 1px solid #e5e7eb;
+  width: 100%;
+  border-radius: 10px;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  padding: 2rem;
+}
+
+.upload-logo-area:hover {
+  border: 2px solid var(--tertiary-color);
+}
+
+.upload-logo-area p {
+  color: var(--primary-color);
+  font-size: 0.95rem;
+  margin: 0 1rem;
+  width: fit-content;
+}
+
 /* Two Buttons */
 .addacc-modal-footer {
   border-top: none;
@@ -182,8 +208,6 @@
   font-size: 0.9rem;
   padding: 0.7rem 2rem;
 }
-
-
 
 
 /* Mobile */
