@@ -108,11 +108,13 @@ hr {
   margin-bottom: 20px;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1500px) {
   .admin-signin-logo-container {
-    top: 40%;
+    position: absolute;
+    top: 25rem;
     left: 10%;
     transform: translate(-10%, -50%);
+    gap: 5px;
   }
 
   .admin-title {
@@ -120,22 +122,29 @@ hr {
   }
 
   .admin-signin-box {
-    max-width: 70%;
+    padding: 1rem;
+    max-width: 100%;
+    width: 90%;
+    margin-left: 0%;
+    margin-right: 5%;
   }
 }
 
 @media screen and (max-width: 768px) {
   .admin-signin-logo-container {
-    top: 30%; 
-    left: 10%; 
-    transform: translate(-10%, -50%); 
+    position: absolute;
+    top: 15rem;
+    left: 10%;
+    transform: translate(-10%, -50%);
     gap: 5px;
   }
 
   .admin-signin-box {
-    padding: 20px;
-    max-width: 90%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    max-width: 100%;
+    width: 85%;
+    margin-left: 0%;
+    margin-right: 10%;
   }
 
   .admin-logo {
@@ -180,23 +189,27 @@ hr {
 
 @media screen and (max-width: 480px) {
   .admin-signin-container {
-    padding: 0%;
+    padding: 0;
+    margin-right: 0;
+    display: flex;
   }
 
   .admin-signin-logo-container {
-    position: static;
-    transform: none;
-    margin-bottom: 20px;
+    position: absolute;
+        top: 9rem;
+        transform: none;
   }
 
   .admin-title {
     font-size: 18px;
-    justify-content: center;
   }
 
   .admin-signin-box {
-    padding: 2rem;
+    padding: 1rem;
     max-width: 100%;
+    width: 85%;
+    margin-left: 0%;
+    margin-right: 10%;
 
   }
 

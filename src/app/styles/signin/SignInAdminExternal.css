@@ -152,10 +152,10 @@ hr {
   margin-bottom: 20px;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1500px) {
   .admin-signin-logo-container {
     position: absolute;
-    top: 15rem;
+    top: 5rem;
     left: 10%;
     transform: translate(-10%, -50%);
     gap: 5px;
@@ -214,7 +214,7 @@ hr {
 
   .admin-signin-logo-container {
     position: absolute;
-        top: 1rem;
+        top: 6rem;
         transform: none;
   }
 
