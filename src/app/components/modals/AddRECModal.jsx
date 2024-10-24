@@ -7,7 +7,7 @@ import CancelConfirmationModal from "../../components/modals/CancelConfirmationM
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { CldUploadWidget } from 'next-cloudinary';
+import { CldUploadWidget } from "next-cloudinary";
 
 export default function AddRECModal(props) {
   const [name, setName] = useState("");
@@ -205,12 +205,12 @@ export default function AddRECModal(props) {
               className="mb-3 form-group-with-icon"
               controlId="formUploadLogo"
             >
-            <CldUploadWidget
+              <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
                 onSuccess={(res) => {
-                  console.log(res); // This will log the entire response
+                  console.log(res);
                   console.log(res.info.secure_url);
-                  setValue("supplementaryFileLink", res.info.secure_url); // This will log the public ID of the uploaded file
+                  setValue("recLogo", res.info.secure_url);
                 }}
               >
                 {({ open }) => {
@@ -220,9 +220,16 @@ export default function AddRECModal(props) {
                       onClick={() => open()}
                       className="upload-logo-area"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#121212" class="bi bi-upload" viewBox="0 0 16 16">
-                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
-                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="#121212"
+                        class="bi bi-upload"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
                       </svg>
                       <p className="upload-logo-img">Upload REC Logo</p>
                     </button>
@@ -230,9 +237,6 @@ export default function AddRECModal(props) {
                 }}
               </CldUploadWidget>
             </Form.Group>
-
-
-
           </Form>
         </Modal.Body>
         <Modal.Footer className="addacc-modal-footer rounded-footer">

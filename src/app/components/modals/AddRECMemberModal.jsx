@@ -5,15 +5,13 @@ import Modal from "react-bootstrap/Modal";
 import "../../styles/modals/AddAccModal.css";
 import CancelConfirmationModal from "../../components/modals/CancelConfirmationModal.jsx";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function AddRECMemberModal(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
-  const [accessToken, setAccessToken] = useState("");
+  const [recRole, setrecRole] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
 
@@ -24,7 +22,7 @@ export default function AddRECMemberModal(props) {
 
   const handleRoleChange = (e) => {
     const roleValue = e.target.value;
-    setRole(roleValue);
+    setrecRole(roleValue);
   };
 
   const handleEmailChange = (e) => {
@@ -33,8 +31,6 @@ export default function AddRECMemberModal(props) {
     setIsEmailValid(validateEmail(emailValue));
   };
 
-  const handleAccessTokenChange = (e) => setAccessToken(e.target.value);
-
   const handleAddAccount = async () => {
     if (!isEmailValid) {
       alert("Please enter a valid email.");
@@ -42,16 +38,17 @@ export default function AddRECMemberModal(props) {
     }
 
     try {
-      await axios.post("/api/addExternalInvestigator", {
+      await axios.post("/api/RECMembers", {
         name,
-        role,
         email,
-        token: accessToken,
+        rec: props.REC?.name,
+        recRole,
       });
       console.log("Account added to database");
+      toast.success("REC Member added successfully");
 
-      await axios.post("/api/auth/send-email", { email, token: accessToken });
-      toast.success("Email sent successfully");
+      // await axios.post("/api/auth/send-email", { email, token: accessToken });
+      // toast.success("Email sent successfully");
 
       props.onHide();
     } catch (error) {
@@ -59,25 +56,10 @@ export default function AddRECMemberModal(props) {
         "Error adding account to database or sending email:",
         error
       );
-      toast.error("An error occurred. Please try again.");
+      toast.error(
+        `An error occurred: ${error.response?.data?.error || error.message}`
+      );
     }
-  };
-
-  const handleGenerateToken = () => {
-    if (!isEmailValid) {
-      toast.error("Please enter a valid email.");
-      return;
-    }
-
-    const token = uuidv4();
-    setAccessToken(token);
-  };
-
-  const formatToken = (token) => {
-    if (!token) return "";
-    const visibleChars = 6;
-    const maskedChars = token.length - visibleChars;
-    return token.substring(0, visibleChars) + "*".repeat(maskedChars);
   };
 
   const validateEmail = (email) => {
@@ -93,7 +75,6 @@ export default function AddRECMemberModal(props) {
     setName("");
     setRole("");
     setEmail("");
-    setAccessToken("");
     setIsEmailValid(false);
     setShowCancelConfirmation(false);
     props.onHide();
@@ -207,17 +188,19 @@ export default function AddRECMemberModal(props) {
                   strokeWidth="0.5"
                 />
               </svg>
-                <Form.Select
-                    value={role}
-                    onChange={handleRoleChange}
-                    className="form-control form-control-with-icon rounded-input "
-                >
-                    <option value="" disabled>Select REC Role</option>
-                    <option value="REC Chair">REC Chair</option>
-                    <option value="REC Vice Chair">REC Vice Chair</option>
-                    <option value="REC Secretary">REC Secretary</option>
-                    <option value="Primary Reviewer">Primary Reviewer</option>
-                </Form.Select>
+              <Form.Select
+                value={recRole}
+                onChange={handleRoleChange}
+                className="form-control form-control-with-icon rounded-input "
+              >
+                <option value="" disabled>
+                  Select REC Role
+                </option>
+                <option value="REC Chair">REC Chair</option>
+                <option value="REC Vice Chair">REC Vice Chair</option>
+                <option value="REC Secretary">REC Secretary</option>
+                <option value="Primary Reviewer">Primary Reviewer</option>
+              </Form.Select>
             </Form.Group>
           </Form>
         </Modal.Body>
