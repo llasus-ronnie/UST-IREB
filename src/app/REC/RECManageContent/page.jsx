@@ -6,7 +6,7 @@ import RecNav from "../../components/navbaradmin/RecNav";
 import RecNavMobile from "../../components/navbaradmin/RecNavMobile";
 import SearchBar from "../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
-import AddAccModal from "../../components/modals/AddExternalAccModal";
+import AddAccModal from "../../components/modals/EditRECContentModal";
 import "../../styles/rec/RECManageContent.css";
 
 import withAuthorization from "../../../hoc/withAuthorization";
