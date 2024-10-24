@@ -84,6 +84,56 @@
   text-align: justify;
 }
 
+
+.admin-input {
+    width: 100%;
+    padding: 10px; /* Adjusted for better touch interaction */
+    margin-bottom: 15px; /* Space between fields */
+    border: 1px solid #ccc; /* Light border for input */
+    border-radius: 5px; /* Rounded corners */
+    font-family: var(--poppins); /* Font family from your root */
+    font-size: 14px; /* Base font size */
+    color: #333; /* Text color */
+    transition: border-color 0.3s ease; /* Smooth border color change */
+  }
+  
+  .admin-input:focus {
+    border-color: var(--tertiary-color); /* Change border color on focus */
+    outline: none; /* Remove default outline */
+  }
+  
+  .admin-signin-button {
+    background-color: var(--tertiary-color); /* Primary button color */
+    color: var(--quaternary-color); /* Button text color */
+    padding: 10px 20px; /* Vertical and horizontal padding */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-family: var(--poppins); /* Font family from your root */
+    transition: background-color 0.3s ease; /* Smooth background color change */
+    width: 100%; /* Full width button */
+  }
+  
+  .admin-signin-button:disabled {
+    background-color: #ccc; /* Disabled button color */
+    cursor: not-allowed; /* Not allowed cursor on hover */
+  }
+  
+  .admin-signin-button:hover:not(:disabled) {
+    background-color: #f0a500; /* Darker shade of the primary color for hover */
+  }
+  
+  .admin-recaptcha {
+    display: inline-block; /* Ensure proper alignment */
+    margin-top: 10px; /* Space above ReCAPTCHA */
+  }
+  
+  .recaptcha-wrapper {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
 .admin-signin-footer {
   text-align: center;
 }
@@ -95,39 +145,6 @@
 
 .admin-signin-footer p {
   margin: 5px 0;
-}
-
-.signin-options {
-  display: flex;
-  justify-content: center;
-  gap: 20px; /* Adjust the gap between the buttons as needed */
-  margin-bottom: 20px;
-}
-
-.btn-thomasian, .btn-external {
-  justify-content: center;
-  align-items: center;
-  padding: 0.5rem 0.5rem;
-  border-radius: 0.625rem;
-  color: #121212;
-  font-family: var(--poppins);
-  font-size: var(--paragraph-size);
-  font-style: normal;
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: normal;
-  width: 15rem;
-  height: 3rem;
-  border: 1px solid grey; /* Ensure the border is set and visible */
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  transition: background-color 0.3s ease; /* Smooth transition */
-}
-
-.btn-thomasian:hover, .btn-external:hover {
-  background-color: #fcbf15; 
-  color: var(--quaternary-color);
-  cursor: pointer;
 }
 
 hr {
@@ -177,6 +194,7 @@ hr {
     font-size: 24px;
   }
 }
+
 
 @media screen and (max-width: 480px) {
   .admin-signin-container {
