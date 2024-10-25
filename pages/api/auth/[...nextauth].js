@@ -20,6 +20,7 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         await connectDB();
+
         const user = await User.findOne({ email: credentials.email });
         const externalInvestigator = await ExternalInvestigator.findOne({
           email: credentials.email,
@@ -28,36 +29,47 @@ const handler = NextAuth({
         console.log("User:", user);
         console.log("External Investigator:", externalInvestigator);
 
+        // Validate regular user
         if (user && bcrypt.compareSync(credentials.password, user.password)) {
           console.log("User authenticated successfully");
           return user;
-        } else if (
-          externalInvestigator &&
-          credentials.password === externalInvestigator.accessToken
-        ) {
-          console.log("Access token matches for External Investigator");
+        }
 
-          // Create a new user if not found in User table but found in ExternalInvestigator table
-          if (!user) {
-            try {
-              const newUser = await User.create({
-                email: externalInvestigator.email,
-                name: externalInvestigator.name, // Assuming name should be copied from ExternalInvestigator
-                role: "ExternalInvestigator", // Default role for external investigators
-              });
-              console.log("New user created:", newUser);
-              return newUser;
-            } catch (error) {
-              console.log("Error creating new user:", error);
-              return null;
+        // Validate external investigator
+        if (externalInvestigator) {
+          // Check if the provided password matches the hashed password
+          const isPasswordValid = bcrypt.compareSync(
+            credentials.password,
+            externalInvestigator.password
+          );
+          if (isPasswordValid) {
+            console.log("Password matches for External Investigator");
+
+            // Create a new user if not found in User table
+            if (!user) {
+              try {
+                const newUser = await User.create({
+                  email: externalInvestigator.email,
+                  name: externalInvestigator.name,
+                  role: "ExternalInvestigator",
+                });
+                console.log("New user created:", newUser);
+                return newUser;
+              } catch (error) {
+                console.error("Error creating new user:", error);
+                throw new Error("Error creating user");
+              }
+            } else {
+              return user;
             }
           } else {
-            return user;
+            console.error("Invalid password for External Investigator");
+            throw new Error("Invalid email or password");
           }
-        } else {
-          console.log("Authorization failed");
-          return null;
         }
+
+        console.error("Authorization failed");
+        throw new Error("Invalid email or password");
       },
     }),
   ],
@@ -110,7 +122,17 @@ const handler = NextAuth({
       }
     },
   },
-  // secret: process.env.NEXTAUTH_SECRET,
 });
+
+export async function hashPassword(password) {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  return hashedPassword;
+}
+
+export async function verifyPassword(password, hashedPassword) {
+  const isValid = await bcrypt.compare(password, hashedPassword);
+  return isValid;
+}
 
 export default handler;
