@@ -7,6 +7,8 @@ import SearchBar from "../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
 import AddRECModal from "../../components/modals/AddRECModal";
 import "../../styles/ireb/IrebManageREC.css";
+import { Spinner } from "react-bootstrap";
+
 import axios from "axios";
 import useSWR from "swr";
 
@@ -26,7 +28,7 @@ function IrebManageExternal() {
   const { data, error } = useSWR("/api/REC", fetcher);
 
   if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <></>;
 
   const REC = data.data;
 
@@ -74,17 +76,6 @@ function IrebManageExternal() {
             </div>
 
             <div className="managerec-cards-container">
-              <a className="managerec-card" href="../IREB/IREBManageRECRoles">
-                <img
-                  src="/images/rec logos/PHARMA-Logo.png"
-                  alt="icon"
-                  className="managerec-card-logo"
-                />
-                <h2>Faculty of Pharmacy</h2>
-                <p>pharmacy@ust.edu.ph</p>
-                <p>PHREB Accredited</p>
-              </a>
-
               {REC && REC.length > 0 ? (
                 REC.map((form, index) => (
                   <a
@@ -103,7 +94,7 @@ function IrebManageExternal() {
                   </a>
                 ))
               ) : (
-                <h2>fallback kung walang data</h2>
+                <h2>Add an REC or Academic Unit</h2>
               )}
             </div>
           </div>

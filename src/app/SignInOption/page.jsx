@@ -43,13 +43,13 @@ function SignInOption() {
               </Container>
 
               <Container className="signin-options">
-                <a href="../PrincipalInvestigator/SignInThomasian" passHref>
+                <a href="../PrincipalInvestigator/SignInThomasian">
                   <Button className="signin-option">
                     Thomasian <br /> Primary Investigator
                   </Button>
                 </a>
 
-                <a href="../PrincipalInvestigator/SignInExternal" passHref>
+                <a href="../PrincipalInvestigator/SignInExternal">
                   <Button className="signin-option">
                     External <br /> Primary Investigator
                   </Button>

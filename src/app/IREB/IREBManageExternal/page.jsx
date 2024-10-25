@@ -84,7 +84,7 @@ function IrebManageExternal() {
               <table className="me-table">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>#</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Affiliation</th>
@@ -95,7 +95,7 @@ function IrebManageExternal() {
                   {external && external.length > 0 ? (
                     external.map((form, index) => (
                       <tr key={index}>
-                        <td>{form._id}</td>
+                        <td>{index + 1}</td>
                         <td>{form.name}</td>
                         <td>{form.email}</td>
                         <td>{form.affiliation}</td>

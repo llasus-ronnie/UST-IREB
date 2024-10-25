@@ -59,6 +59,7 @@ function Home() {
             {/* card 1 */}
             <Card
               image={viewIcon}
+              alt="view icon"
               title="Ethics Review Guidelines"
               content="View an overview of the ethics review process and guidelines here."
             />
@@ -66,6 +67,7 @@ function Home() {
             {/* card 2 */}
             <Card
               image={submitIcon}
+              alt="submit icon"
               title="Submission Requirements"
               content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor "
             />
@@ -73,6 +75,7 @@ function Home() {
             {/* card 3 */}
             <Card
               image={profileIcon}
+              alt="profile icon"
               title="How to Create an Account"
               content="Learn how both Thomasian and external researchers can create an account here."
             />
@@ -80,6 +83,7 @@ function Home() {
             {/* card 4 */}
             <Card
               image={faqIcon}
+              alt="faq icon"
               title="Frequent Questions"
               content="Get answers to frequently asked questions about UST ethics review here."
             />
@@ -179,7 +183,11 @@ function Home() {
 
               {/* column 2 */}
               <Col>
-                <Image src={flowchart} alt="" className="section-4-flowchart" />
+                <Image
+                  src={flowchart}
+                  alt="flowchart"
+                  className="section-4-flowchart"
+                />
               </Col>
             </Row>
           </Container>
