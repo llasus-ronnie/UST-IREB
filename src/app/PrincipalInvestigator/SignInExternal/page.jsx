@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import { useSession, signIn, signOut } from "next-auth/react";
+import React, { useState } from "react";
 import {
   Container,
   Col,
@@ -10,30 +11,29 @@ import {
   FormLabel,
   Button,
 } from "react-bootstrap";
-import { useState } from "react";
 import bg from "../../../../public/images/signin/bg.png";
 import USTLogo from "../../../../public/images/signin/USTLogo.png";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { signIn } from "next-auth/react"; // Import signIn method
-
 import ReCAPTCHA from "react-google-recaptcha";
 import Image from "next/image";
 
-//css
+// CSS
 import "../../styles/signin/SignIn.css";
 
-//components
+// Components
 import SignInFooter from "../../components/siginin/SignInFooter";
 
 function SignIn() {
+  const { data: session } = useSession();
   const [email, setEmail] = useState("");
   const [accessToken, setAccessToken] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isTokenValid, setIsTokenValid] = useState(false);
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+  const [enterPassword, setEnterPassword] = useState(false); // Reflects whether to enter password
   const router = useRouter();
 
   const handleEmailChange = (e) => {
@@ -63,19 +63,24 @@ function SignIn() {
     try {
       const response = await axios.post("/api/externalInvestigatorLogin", {
         email,
-        accessToken,
+        accessToken, // Could be either the access token or password
       });
 
-      if (response.data.tokenUsed) {
-        // If token is used, prompt user to set a password
-        router.push("/Login");
-      } else {
-        // First time use - token works, set tokenUsed to true in the backend
+      if (response.data.message.includes("set your password")) {
         toast.success("Sign in successful, please create a password");
-        router.push("/PrincipalInvestigator/SignInExternal/SetPassword");
+        router.push(
+          `/PrincipalInvestigator/SignInExternal/SetPassword?accessToken=${accessToken}`
+        );
+      } else {
+        toast.success("Login successful");
+        router.push("/");
       }
     } catch (error) {
-      toast.error("Invalid email or access token");
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
+      toast.error("Invalid email or password");
     }
   };
 
@@ -107,7 +112,7 @@ function SignIn() {
                     onChange={handleEmailChange}
                   />
 
-                  <FormLabel>Access Token</FormLabel>
+                  <FormLabel>Password or Access Token</FormLabel>
                   <input
                     type="password"
                     className="form-control"
