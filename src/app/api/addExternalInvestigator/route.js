@@ -43,3 +43,38 @@ export async function GET() {
     );
   }
 }
+
+export async function PATCH(req) {
+  await connectDB();
+
+  const { email, password } = await req.json();
+
+  try {
+    // Hash the password before storing it
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Find the investigator by email and update the password
+    const investigator = await ExternalInvestigator.findOneAndUpdate(
+      { email },
+      { password: hashedPassword, accessToken: "", tokenUsed: true }, // Invalidate the access token
+      { new: true }
+    );
+
+    if (!investigator) {
+      return NextResponse.json(
+        { success: false, error: "Investigator not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "Password set successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
+  }
+}

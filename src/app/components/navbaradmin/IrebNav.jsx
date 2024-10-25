@@ -4,10 +4,18 @@ import React, { useState } from "react";
 import Image from "next/image";
 import "../../styles/adminnav/adminnav.css";
 import { useSession, signOut } from "next-auth/react";
+import { useLocation } from "react-router-dom";
 
 const IrebNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const isInRECRoles = location.pathname.includes("/IREBManageRECRoles");
+  const href = isInRECRoles
+    ? "../../IREB/IREBManageREC"
+    : "../IREB/IREBManageREC";
+  const hrefExternal = isInRECRoles
+    ? "../../IREB/IREBManageExternal"
+    : "../IREB/IREBManageExternal";
 
   const toggleNav = () => {
     setIsOpen(!isOpen);
@@ -32,12 +40,20 @@ const IrebNav = () => {
           <li>
             <a href="../IREB/IREBUserProfile">
               <div>
-                <Image
-                  src="/images/adminnav/adminnav-account.png"
-                  alt="Account"
-                  width={32}
-                  height={32}
-                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  fill="#fcbf15"
+                  className="bi bi-person-circle"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                  <path
+                    fill-rule="evenodd"
+                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                  />
+                </svg>
               </div>
               {isOpen && <span>My Profile</span>}
             </a>
@@ -46,12 +62,16 @@ const IrebNav = () => {
           <li>
             <a href="../IREB/IREBDashboard">
               <div>
-                <Image
-                  src="/images/adminnav/adminnav-home.png"
-                  alt="Home"
-                  width={32}
-                  height={32}
-                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  fill="#fcbf15"
+                  className="bi bi-house-door"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
+                </svg>
               </div>
               {isOpen && <span>Home</span>}
             </a>
@@ -60,13 +80,24 @@ const IrebNav = () => {
           {/* Manage Accounts */}
           <li className="dropdown">
             <div className="dropdown-div">
-              <Image
-                src="/images/adminnav/adminnav-manageaccounts.png"
-                alt="Manage Accounts"
-                width={32}
-                height={32}
-                onClick={handleImageClick}
-              />
+              <div onClick={handleImageClick}>
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8.5 21H4C4 17.134 7.13401 14 11 14C11.1681 14 11.3348 14.0059 11.5 14.0176M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7ZM12.5898 21L14.6148 20.595C14.7914 20.5597 14.8797 20.542 14.962 20.5097C15.0351 20.4811 15.1045 20.4439 15.1689 20.399C15.2414 20.3484 15.3051 20.2848 15.4324 20.1574L19.5898 16C20.1421 15.4477 20.1421 14.5523 19.5898 14C19.0376 13.4477 18.1421 13.4477 17.5898 14L13.4324 18.1574C13.3051 18.2848 13.2414 18.3484 13.1908 18.421C13.1459 18.4853 13.1088 18.5548 13.0801 18.6279C13.0478 18.7102 13.0302 18.7985 12.9948 18.975L12.5898 21Z"
+                    stroke="#fcbf15"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+
               {isOpen && (
                 <>
                   <div className="dropdown-div" onClick={toggleDropdown}>
@@ -81,14 +112,14 @@ const IrebNav = () => {
             {isDropdownOpen && isOpen && (
               <ul className="adminnav-dropdown">
                 <li>
-                  <a href="../IREB/IREBManageREC" legacyBehavior>
+                  <a href={href} legacyBehavior>
                     <a>
                       <span>REC Accounts</span>
                     </a>
                   </a>
                 </li>
                 <li>
-                  <a href="../IREB/IREBManageExternal" legacyBehavior>
+                  <a href={hrefExternal} legacyBehavior>
                     <a>
                       <span>External Accounts</span>
                     </a>
@@ -101,12 +132,16 @@ const IrebNav = () => {
           <li>
             <a href="/reports">
               <div>
-                <Image
-                  src="/images/adminnav/adminnav-reports.png"
-                  alt="Reports"
-                  width={32}
-                  height={32}
-                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  fill="#fcbf15"
+                  className="bi bi-folder2"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5zM2.5 3a.5.5 0 0 0-.5.5V6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3zM14 7H2v5.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5z" />
+                </svg>
               </div>
               {isOpen && <span>Reports</span>}
             </a>
@@ -118,16 +153,39 @@ const IrebNav = () => {
         <ul>
           <li>
             <a
-              href="/#"
+              href="#"
               onClick={() => signOut({ callbackUrl: "/SignInAdmin" })}
             >
               <div>
-                <Image
-                  src="/images/adminnav/adminnav-logout.png"
-                  alt="Log Out"
-                  width={32}
-                  height={32}
-                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M21 12L13 12"
+                    stroke="#fcbf15"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                  <path
+                    d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9"
+                    stroke="#fcbf15"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                  <path
+                    d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19"
+                    stroke="#fcbf15"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
               </div>
               {isOpen && <span>Log Out</span>}
             </a>

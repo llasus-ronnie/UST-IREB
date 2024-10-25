@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { Spinner } from "react-bootstrap";
 import "../app/styles/unauthorized/unauthorized.css";
 
-const withAuthorization = (Component, requiredRole) => {
+const withAuthorization = (Component, requiredRoles) => {
   return (props) => {
     const { data: session, status } = useSession();
     const router = useRouter();
@@ -27,8 +27,8 @@ const withAuthorization = (Component, requiredRole) => {
     }
 
     const userRole = session.user.role;
-    if (userRole !== requiredRole) {
-      if (requiredRole === "REC") {
+    if (!requiredRoles.includes(userRole)) {
+      if (requiredRoles.includes("REC")) {
         router.push("../../Unauthorized");
       } else {
         router.push("../Unauthorized");

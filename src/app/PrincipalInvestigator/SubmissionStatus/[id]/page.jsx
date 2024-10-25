@@ -23,12 +23,18 @@ function SubmissionStatus({ params }) {
   const router = useRouter();
 
   const steps = [
-    { title: "Initial Submission" },
-    { title: "Pending Payment" },
-    { title: "For Classification" },
-    { title: "In Progress" },
-    { title: "Final Review" },
-    { title: "Approved" },
+    { title: "Initial Submission", 
+      description: "Your initial submission will be reviewed to see if all requirements are complete or if any revisions are needed before proceeding." },
+    { title: "Pending Payment", 
+      description: "This is where you need to pay the Ethical Review Fees and submit proof of payment so your research can proceed to classification."},
+    { title: "For Classification",
+      description: "Once proof of payment is received, your submission will move to research classification."},
+    { title: "In Progress",
+      description: "Your submission is currently with the primary reviewer for ethical review"},
+    { title: "Final Review",
+      description: "After all revisions, your submission will be sent to the REC Chair for the final review stage."},
+    { title: "Approved",
+      description: "Your submission has been approved. You may now view and download the certificate of ethics review. Thank you!"},
   ];
 
   const [form, setForm] = useState(null); // Initialize form state

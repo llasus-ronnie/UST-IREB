@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary-color: #121212;
+  --secondary-color: #ecf0f1;
+  --tertiary-color: #fcbf15;
+  --quaternary-color: #ffffff;
+  --poppins: "Poppins", sans-serif;
+}
+
+.modal-dialog {
+    width: fit-content;
+}
+
+.editcontent-modal-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.editcontent-modal-overlay .modal-content,
+.editcontent-modal-overlay .modal-dialog,
+.editcontent-modal-overlay .modal-header,
+.editcontent-modal-overlay .modal-body,
+.editcontent-modal-overlay .modal-footer {
+    border-radius: 1.4rem;
+}
+
+/* Header */
+.editcontent-modal-header {
+  border-bottom: none;
+  font-family: var(--poppins);
+  display: flex;
+  justify-content: center;
+  padding-top: 4rem;
+}
+
+.editcontent-modal-title {
+  color: var(--primary-color);
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+/* Body */
+.editcontent-modal-body {
+  padding: 0 5rem;
+  font-family: var(--poppins);
+  text-align: center;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.editcontent-modal-body h4 {
+  color: #28255a;
+}
+
+.editcontent-modal-body p {
+  color: #6c757d;
+}
+
+/* Form Fields */
+.editcontent-modal-body .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.editcontent-modal-body .form-label {
+    font-family: var(--poppins);
+    color: var(--primary-color);
+    padding-top: 0.5rem;
+    text-align: left;
+}
+
+.editcontent-modal-body .form-control {
+    border-radius: 0.7rem;
+    background-color: #F4F4F4;
+    padding: 1rem;
+    font-family: var(--poppins);
+    width: 34rem;
+    padding-left: 2rem;
+}
+
+.editcontent-modal-body .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.editcontent-modal-overlay .modal-content {
+    border-radius: 1rem;
+}
+
+.form-group-with-icon {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    text-align: left;
+}
+
+.form-group-with-icon label {
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+    padding-left: 0;
+    margin-left: 0.5rem;
+}
+
+.form-control-with-icon {
+    padding-left: 1.5rem;
+    flex-grow: 1;
+}
+
+.mc-editcontent-body {
+    min-height: 15rem;
+}
+
+/* Two Buttons */
+.editcontent-modal-footer {
+  border-top: none;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 4rem;
+}
+
+.editcontent-modal-footer .btn {
+  border: none;
+  font-family: var(--poppins);
+  font-weight: 500;
+}
+
+.editcontent-modal-footer .btn.cancel {
+  background-color: #6c757d;
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 0.7rem 3rem;
+}
+
+.editcontent-modal-footer .btn.cancel:hover {
+  background-color: #5a6268;
+}
+
+.editcontent-modal-footer .btn.editcontent {
+  background-color: var(--tertiary-color);
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 0.7rem 5rem;
+}
+
+
+/* Mobile */
+@media only screen and (max-width: 576px) {
+  .editcontent-modal-body {
+    padding: 0 1.5rem;
+  }
+
+  .editcontent-modal-title {
+    font-size: 1.5rem;
+  }
+
+  .editcontent-modal-body .form-control {
+    width: 100%;
+    padding-left: 2.5rem;
+  }
+
+  .form-group-with-icon {
+    position: relative;
+  }
+  
+  .editcontent-modal-footer .btn {
+    font-size: 0.8rem;
+    width: 100%;
+    display: block;
+    text-align: center;
+  }
+
+  .editcontent-modal-footer {
+    padding-bottom: 2rem;
+  }
+
+  /* Modal Dialog and Content Adjustments */
+  .modal-dialog {
+    margin: 1rem;
+    width: calc(100% - 2rem);
+    max-width: 100%;
+  }
+
+  .editcontent-modal-overlay .modal-content {
+    padding: 1rem;
+    margin: 0 1rem;
+    border-radius: 1rem;
+  }
+
+  .editcontent-modal-header {
+    padding-top: 2rem;
+  }
+
+  .mc-editcontent-body {
+    min-height: 10rem;
+  }
+}
+
+  /* Tablet */
+  @media only screen and (min-width: 577px) and (max-width: 768px) {
+    .editcontent-modal-body .form-control {
+        padding: 1rem 2rem;
+        width: 100%;
+        max-width: 34rem;
+        box-sizing: border-box;
+    }
+
+    .mc-editcontent-body {
+        min-height: 10rem;
+      }
+  }

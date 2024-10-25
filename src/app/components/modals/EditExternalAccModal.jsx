@@ -5,13 +5,15 @@ import Modal from "react-bootstrap/Modal";
 import "../../styles/modals/AddAccModal.css";
 import CancelConfirmationModal from "../../components/modals/CancelConfirmationModal.jsx";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AddRECMemberModal(props) {
+export default function EditExternalAccModal(props) {
   const [name, setName] = useState("");
+  const [affiliation, setAffiliation] = useState("");
   const [email, setEmail] = useState("");
-  const [recRole, setrecRole] = useState("");
+  const [accessToken, setAccessToken] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
 
@@ -20,9 +22,9 @@ export default function AddRECMemberModal(props) {
     setName(nameValue);
   };
 
-  const handleRoleChange = (e) => {
-    const roleValue = e.target.value;
-    setrecRole(roleValue);
+  const handleAffiliationChange = (e) => {
+    const affiliationValue = e.target.value;
+    setAffiliation(affiliationValue);
   };
 
   const handleEmailChange = (e) => {
@@ -31,6 +33,8 @@ export default function AddRECMemberModal(props) {
     setIsEmailValid(validateEmail(emailValue));
   };
 
+  const handleAccessTokenChange = (e) => setAccessToken(e.target.value);
+
   const handleAddAccount = async () => {
     if (!isEmailValid) {
       alert("Please enter a valid email.");
@@ -38,17 +42,16 @@ export default function AddRECMemberModal(props) {
     }
 
     try {
-      await axios.post("/api/RECMembers", {
+      await axios.post("/api/addExternalInvestigator", {
         name,
+        affiliation,
         email,
-        rec: props.REC?.name,
-        recRole,
+        token: accessToken,
       });
       console.log("Account added to database");
-      toast.success("REC Member added successfully");
 
-      // await axios.post("/api/auth/send-email", { email, token: accessToken });
-      // toast.success("Email sent successfully");
+      await axios.post("/api/auth/send-email", { email, token: accessToken });
+      toast.success("Email sent successfully");
 
       props.onHide();
     } catch (error) {
@@ -56,10 +59,25 @@ export default function AddRECMemberModal(props) {
         "Error adding account to database or sending email:",
         error
       );
-      toast.error(
-        `An error occurred: ${error.response?.data?.error || error.message}`
-      );
+      toast.error("An error occurred. Please try again.");
     }
+  };
+
+  const handleGenerateToken = () => {
+    if (!isEmailValid) {
+      toast.error("Please enter a valid email.");
+      return;
+    }
+
+    const token = uuidv4();
+    setAccessToken(token);
+  };
+
+  const formatToken = (token) => {
+    if (!token) return "";
+    const visibleChars = 6;
+    const maskedChars = token.length - visibleChars;
+    return token.substring(0, visibleChars) + "*".repeat(maskedChars);
   };
 
   const validateEmail = (email) => {
@@ -73,8 +91,9 @@ export default function AddRECMemberModal(props) {
 
   const handleConfirmCancel = () => {
     setName("");
-    setRole("");
+    setAffiliation("");
     setEmail("");
+    setAccessToken("");
     setIsEmailValid(false);
     setShowCancelConfirmation(false);
     props.onHide();
@@ -94,7 +113,7 @@ export default function AddRECMemberModal(props) {
             id="contained-modal-title-vcenter"
             className="addacc-modal-title"
           >
-            Add REC Member
+            Edit External Account
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="addacc-modal-body rounded-body">
@@ -128,51 +147,10 @@ export default function AddRECMemberModal(props) {
               />
             </Form.Group>
 
-            {/* Email */}
+            {/* Affiliation */}
             <Form.Group
               className="mb-3 form-group-with-icon"
-              controlId="formEmail"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="16"
-                fill="#5c5c5c"
-                class="form-icon"
-                viewBox="0 0 64 64"
-              >
-                <path
-                  fill="#5c5c5c"
-                  d="M53.42 53.32H10.58a8.51 8.51 0 0 1-8.5-8.5V19.18a8.51 8.51 0 0 1 8.5-8.5h42.84a8.51 8.51 0 0 1 8.5 8.5v25.64a8.51 8.51 0 0 1-8.5 8.5ZM10.58 13.68a5.5 5.5 0 0 0-5.5 5.5v25.64a5.5 5.5 0 0 0 5.5 5.5h42.84a5.5 5.5 0 0 0 5.5-5.5V19.18a5.5 5.5 0 0 0-5.5-5.5Z"
-                  stroke="#5c5c5c"
-                  strokeWidth="2.2"
-                />
-                <path
-                  fill="#5c5c5c"
-                  d="M32 38.08a8.51 8.51 0 0 1-5.13-1.71L3.52 18.71a1.5 1.5 0 1 1 1.81-2.39L28.68 34a5.55 5.55 0 0 0 6.64 0l23.35-17.68a1.5 1.5 0 1 1 1.81 2.39L37.13 36.37A8.51 8.51 0 0 1 32 38.08Z"
-                  stroke="#5c5c5c"
-                  strokeWidth="2.2"
-                />
-                <path
-                  fill="#5c5c5c"
-                  d="M4.17 49.14a1.5 1.5 0 0 1-1-2.62l18.4-16.41a1.5 1.5 0 0 1 2 2.24L5.17 48.76a1.46 1.46 0 0 1-1 .38zm55.66 0a1.46 1.46 0 0 1-1-.38l-18.4-16.41a1.5 1.5 0 1 1 2-2.24l18.39 16.41a1.5 1.5 0 0 1-1 2.62z"
-                  stroke="#5c5c5c"
-                  strokeWidth="2.2"
-                />
-              </svg>
-              <Form.Control
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={handleEmailChange}
-                className="form-control-with-icon rounded-input"
-              />
-            </Form.Group>
-
-            {/* Role */}
-            <Form.Group
-              className="mb-3 form-group-with-icon"
-              controlId="formRole"
+              controlId="formAffiliation"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -188,19 +166,13 @@ export default function AddRECMemberModal(props) {
                   strokeWidth="0.5"
                 />
               </svg>
-              <Form.Select
-                value={recRole}
-                onChange={handleRoleChange}
-                className="form-control form-control-with-icon rounded-input "
-              >
-                <option value="" disabled>
-                  Select REC Role
-                </option>
-                <option value="REC Chair">REC Chair</option>
-                <option value="REC Vice Chair">REC Vice Chair</option>
-                <option value="REC Secretary">REC Secretary</option>
-                <option value="Primary Reviewer">Primary Reviewer</option>
-              </Form.Select>
+              <Form.Control
+                type="text"
+                placeholder="Affiliation"
+                value={affiliation}
+                onChange={handleAffiliationChange}
+                className="form-control-with-icon rounded-input"
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -209,7 +181,7 @@ export default function AddRECMemberModal(props) {
             Cancel
           </Button>
           <Button onClick={handleAddAccount} className="btn addacc rounded-btn">
-            Add Account
+            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

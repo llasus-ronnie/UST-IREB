@@ -44,16 +44,18 @@ const SignInAdmin = () => {
         <div className="admin-signin-box">
           <h1 className="admin-signin-title">Sign In</h1>
           <p className="admin-signin-text">
-            Welcome, Admin! To access role features in the web portal, kindly select your category to login.
+            Welcome, Admin! To access role features in the web portal, kindly
+            select your category to login.
           </p>
 
           <div className="signin-options">
-            <button className="btn-thomasian">Thomasian Admin</button>
-            <button className="btn-external">External Reviewer</button>
+            <a href="../SignInAdminThomasian" className="btn-thomasian">
+              Thomasian Admin
+            </a>
+            <a href="../SignInAdminExternal" className="btn-external">
+              External Reviewer
+            </a>
           </div>
-
-  
-
 
           <hr />
 

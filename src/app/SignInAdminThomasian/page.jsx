@@ -4,6 +4,7 @@ import { signIn, useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/navigation";
+import { Spinner } from "react-bootstrap";
 
 // Images
 import Image from "next/image";
@@ -16,11 +17,13 @@ import "../styles/signin/SignInAdminThomasian.css";
 
 export default function SignIn() {
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
     if (status === "authenticated") {
+      setIsLoading(true);
       const userRole = session.user.role;
       if (userRole === "IREB") {
         router.push("/IREB/IREBDashboard");
@@ -41,6 +44,18 @@ export default function SignIn() {
   const handleSignIn = () => {
     signIn("google");
   };
+
+  if (isLoading) {
+    return (
+      <div className="loading-overlay">
+        <div className="spinner-container">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -64,9 +79,15 @@ export default function SignIn() {
         <div className="admin-signin-box">
           <h1 className="admin-signin-title">Thomasian Admin Sign In</h1>
           <p className="admin-signin-text">
-          Welcome, Thomasian Admin! To access your account, please sign in using your UST Google Account.</p>
+            Welcome, Thomasian Admin! To access your account, please sign in
+            using your UST Google Account.
+          </p>
 
-          <button className="admin-google-btn" onClick={handleSignIn}>
+          <button
+            className="admin-google-btn"
+            onClick={handleSignIn}
+            disabled={!isRecaptchaVerified}
+          >
             <Image src={GoogleLogo} alt="Google Logo" className="google-logo" />
             Sign in with Google
           </button>
