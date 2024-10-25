@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "../../styles/modals/AddAccModal.css";
 
-export default function AddAccModal(props) {
+export default function ConfirmSubmissionModal(props) {
   return (
     <Modal
       {...props}

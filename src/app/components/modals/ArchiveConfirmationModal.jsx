@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "../../styles/modals/ConfirmationModal.css";
 
-export default function CancelConfirmationModal(props) {
+export default function ArchiveConfirmationModal(props) {
   return (
     <Modal
       {...props}
@@ -18,18 +18,18 @@ export default function CancelConfirmationModal(props) {
           id="contained-modal-title-vcenter"
           className="confirm-modal-title"
         >
-            Confirm Cancellation
+            Are you sure you want to archive?
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="confirm-modal-body">
-        <p>Are you sure you want to cancel? Changes will not be saved.</p>
+        <p>This action will archive the item and cannot be undone.</p>
       </Modal.Body>
       <Modal.Footer className="confirm-modal-footer">
         <Button onClick={props.onHide} className="btn cancel">
-          Continue Editing
+          Cancel
         </Button>
-        <Button onClick={props.onConfirm} className="btn confirm-cancel">
-          Confirm Cancellation
+        <Button onClick={props.onConfirm} className="btn archive">
+          Archive
         </Button>
       </Modal.Footer>
     </Modal>

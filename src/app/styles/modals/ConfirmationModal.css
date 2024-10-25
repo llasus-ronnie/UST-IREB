@@ -1,0 +1,310 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary-color: #121212;
+  --secondary-color: #ecf0f1;
+  --tertiary-color: #fcbf15;
+  --quaternary-color: #ffffff;
+  --poppins: "Poppins", sans-serif;
+}
+
+.modal-dialog {
+    width: fit-content;
+}
+
+.confirm-modal-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.confirm-modal-overlay .modal-content,
+.confirm-modal-overlay .modal-dialog,
+.confirm-modal-overlay .modal-header,
+.confirm-modal-overlay .modal-body,
+.confirm-modal-overlay .modal-footer {
+    border-radius: 1.4rem;
+}
+
+/* Header */
+.confirm-modal-header {
+  border-bottom: none;
+  font-family: var(--poppins);
+  display: flex;
+  justify-content: center;
+  padding-top: 4rem;
+}
+
+.confirm-modal-title {
+  color: var(--primary-color);
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.8rem;
+  padding: 0 2rem;
+}
+
+/* Body */
+.confirm-modal-body {
+  padding: 0 5rem;
+  font-family: var(--poppins);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.confirm-modal-body h4 {
+  color: #28255a;
+}
+
+.confirm-modal-body p {
+  color: #6c757d;
+}
+
+/* Form Fields */
+.confirm-modal-body .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.confirm-modal-body .form-label {
+    font-family: var(--poppins);
+    color: var(--primary-color);
+    padding-top: 0.5rem;
+    text-align: left;
+}
+
+.confirm-modal-body .form-control {
+    border-radius: 0.7rem;
+    background-color: #F4F4F4;
+    padding: 1rem;
+    font-family: var(--poppins);
+    width: 34rem;
+    padding-left: 3.5rem;
+}
+
+.confirm-modal-body .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.confirm-modal-overlay .modal-content {
+    border-radius: 1rem;
+}
+
+.access-token-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.access-token-group .form-control-with-icon {
+    flex-grow: 1;
+    flex-shrink: 1; 
+    width: 34rem;
+}
+
+.access-token-group .btn.generate-token-btn {
+    background-color: #369AD2;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--poppins);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.6rem 1rem;
+    white-space: nowrap;
+    position: absolute;
+    right: 2%; /* change to 20% if with send email button */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 9.375rem;
+    height: auto;
+}
+
+.btn.send-email-btn {
+  background-color: #369AD2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--poppins);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.6rem 1rem;
+  margin-left: 1rem;
+}
+
+.access-token-group .btn.generate-token-btn:hover {
+    background-color: #2b7fac;
+}
+
+.form-group-with-icon {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.form-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.form-control-with-icon {
+    padding-left: 3.5rem;
+    flex-grow: 1;
+}
+
+/* Upload Logo */
+.upload-logo-area {
+  background-color: #F4F4F4;
+  border: 1px solid #e5e7eb;
+  width: 100%;
+  border-radius: 10px;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  padding: 2rem;
+}
+
+.upload-logo-area:hover {
+  border: 2px solid var(--tertiary-color);
+}
+
+.upload-logo-area p {
+  color: var(--primary-color);
+  font-size: 0.95rem;
+  margin: 0 1rem;
+  width: fit-content;
+}
+
+/* Two Buttons */
+.confirm-modal-footer {
+  border-top: none;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 4rem;
+}
+
+.confirm-modal-footer .btn {
+  border: none;
+  font-family: var(--poppins);
+  font-weight: 500;
+}
+
+.confirm-modal-footer .btn.cancel {
+  background-color: #6c757d;
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 0.7rem 3rem;
+}
+
+.confirm-modal-footer .btn.cancel:hover {
+  background-color: #5a6268;
+}
+
+.confirm-modal-footer .btn.archive {
+  background-color: red;
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 0.7rem 3rem;
+}
+
+.btn.confirm-cancel {
+    background-color: var(--tertiary-color);
+    font-size: 0.9rem;
+    padding: 0.7rem 3rem;
+}
+
+
+/* Mobile */
+@media only screen and (max-width: 576px) {
+  .confirm-modal-body {
+    padding: 0 1.5rem;
+  }
+
+  .confirm-modal-title {
+    font-size: 1.5rem;
+  }
+
+  .confirm-modal-body .form-control {
+    width: 100%;
+    padding-left: 2.5rem;
+  }
+
+  /* Email and Access Token Fields */
+  .access-token-group,
+  .email-group {
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
+  }
+
+  .access-token-group .form-control-with-icon,
+  .email-group .form-control {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding-left: 2.5rem;
+  }
+
+  .access-token-group .btn.generate-token-btn {
+    width: 100%;
+    font-size: 0.8rem;
+    padding: 0.7rem 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem; 
+    position: static;
+    transform: none;
+    right: auto;
+    top: auto;
+  }
+
+  /* Send Email Button */
+  .btn.send-email-btn {
+    width: 100%;
+    font-size: 0.8rem;
+    padding: 0.7rem 1rem;
+  }
+
+  .form-group-with-icon {
+    position: relative;
+  }
+
+  /* Adjust icon positioning */
+  .form-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .confirm-modal-footer .btn {
+    font-size: 0.8rem;
+    width: 100%;
+    display: block;
+    text-align: center;
+  }
+
+  .confirm-modal-footer {
+    padding-bottom: 2rem;
+  }
+
+  /* Modal Dialog and Content Adjustments */
+  .modal-dialog {
+    margin: 1rem;
+    width: calc(100% - 2rem);
+    max-width: 100%;
+  }
+
+  .confirm-modal-overlay .modal-content {
+    padding: 1rem;
+    margin: 0 1rem;
+    border-radius: 1rem;
+  }
+
+  .confirm-modal-header {
+    padding-top: 2rem;
+  }
+}
