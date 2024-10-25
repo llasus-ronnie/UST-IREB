@@ -4,10 +4,18 @@ import React, { useState } from "react";
 import Image from "next/image";
 import "../../styles/adminnav/adminnav.css";
 import { useSession, signOut } from "next-auth/react";
+import { useLocation } from "react-router-dom";
 
 const IrebNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const isInRECRoles = location.pathname.includes("/IREBManageRECRoles");
+  const href = isInRECRoles
+    ? "../../IREB/IREBManageREC"
+    : "../IREB/IREBManageREC";
+  const hrefExternal = isInRECRoles
+    ? "../../IREB/IREBManageExternal"
+    : "../IREB/IREBManageExternal";
 
   const toggleNav = () => {
     setIsOpen(!isOpen);
@@ -104,14 +112,14 @@ const IrebNav = () => {
             {isDropdownOpen && isOpen && (
               <ul className="adminnav-dropdown">
                 <li>
-                  <a href="../IREB/IREBManageREC" legacyBehavior>
+                  <a href={href} legacyBehavior>
                     <a>
                       <span>REC Accounts</span>
                     </a>
                   </a>
                 </li>
                 <li>
-                  <a href="../IREB/IREBManageExternal" legacyBehavior>
+                  <a href={hrefExternal} legacyBehavior>
                     <a>
                       <span>External Accounts</span>
                     </a>

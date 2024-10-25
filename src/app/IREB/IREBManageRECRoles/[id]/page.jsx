@@ -102,7 +102,7 @@ function IrebManageRECRoles({ params }) {
               <table className="me-table">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>#</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Role</th>
@@ -113,7 +113,7 @@ function IrebManageRECRoles({ params }) {
                   {RECMembers.length > 0 ? (
                     RECMembers.map((member, index) => (
                       <tr key={index}>
-                        <td>{member._id}</td>
+                        <td>{index + 1}</td>
                         <td>{member.name}</td>
                         <td>{member.email}</td>
                         <td>{member.recRole}</td>
