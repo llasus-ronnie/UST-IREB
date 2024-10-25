@@ -41,7 +41,14 @@ export default function StatusBreadcrumbs({ steps = [] }) {
                 <CheckMarkSVG />
               )}
             </div>
+            <div className="breadcrumbs-step-content">
             <div className="breadcrumbs-step-title">{step.title}</div>
+            {step.description && (
+              <div className="breadcrumbs-step-description">
+                {step.description}
+              </div>
+            )}
+           </div>
           </div>
         );
       })}

@@ -15,7 +15,7 @@
 
 .breadcrumbs-step-container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     position: relative;
     margin-bottom: 4rem;
     z-index: 0;
@@ -23,7 +23,7 @@
 
 .breadcrumbs-step-line {
     width: 0.3125rem;
-    height: 6.25rem;
+    height: 10.25rem;
     background-color: #dcdcdc;
     position: absolute;
     top: 1.625rem;
@@ -50,11 +50,25 @@
     background-color: var(--tertiary-color);
 }
 
+.breadcrumbs-step-content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1.25rem;
+}
+
 .breadcrumbs-step-title {
     margin-left: 1.25rem;
     font-size: 1.2rem;
     font-weight: bold;
-    color: #ECF0F1;
+    color: #dcdcdc;
+}
+
+.breadcrumbs-step-description {
+    margin-left: 1.25rem;
+    font-size: 0.875rem;
+    color: #dcdcdc;
+    max-width: 250px;
+    margin-top: 0.5rem;
 }
 
 .breadcrumbs-line-completed {
