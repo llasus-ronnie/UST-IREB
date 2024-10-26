@@ -43,3 +43,38 @@ export async function GET() {
     );
   }
 }
+
+export async function PATCH(req) {
+  await connectDB();
+
+  const { id, name, affiliation } = await req.json();
+
+  console.log("Updating investigator with ID:", id); // Log the ID
+
+  try {
+    const updatedInvestigator = await ExternalInvestigator.findByIdAndUpdate(
+      id,
+      { name, affiliation },
+      { new: true }
+    );
+
+    if (!updatedInvestigator) {
+      console.error("Investigator not found for ID:", id); // Log if not found
+      return NextResponse.json(
+        { success: false, error: "Investigator not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, data: updatedInvestigator },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error in PATCH:", error);
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
+  }
+}

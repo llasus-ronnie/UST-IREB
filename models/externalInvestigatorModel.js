@@ -7,6 +7,8 @@ const externalInvestigatorSchema = new Schema({
   affiliation: { type: String, required: true },
   email: { type: String, required: true },
   accessToken: { type: String, required: true },
+  password: { type: String },
+  tokenUsed: { type: Boolean, default: false },
 });
 
 const ExternalInvestigator =

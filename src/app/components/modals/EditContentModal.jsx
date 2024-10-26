@@ -23,34 +23,20 @@ export default function EditRECContentModal(props) {
     setBody(bodyValue);
   };
 
-  const handleAddAccount = async () => {
-    if (!isEmailValid) {
-      alert("Please enter a valid email.");
-      return;
-    }
-
+  const handleSave = async () => {
     try {
-      await axios.post("/api/REC", {
-        name,
-        email,
-        status,
+      await axios.post("/api/RECContent", {
+        heading,
+        body,
       });
-      console.log("Account added to database");
-      toast.success("REC added successfully");
+      console.log("Content added to database");
+      toast.success("REC Content added successfully");
 
       props.onHide();
     } catch (error) {
-      console.error(
-        "Error adding account to database or sending email:",
-        error
-      );
+      console.error("Error saving to database:", error);
       toast.error("An error occurred. Please try again.");
     }
-  };
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
   };
 
   const handleCancel = () => {
@@ -58,10 +44,8 @@ export default function EditRECContentModal(props) {
   };
 
   const handleConfirmCancel = () => {
-    setName("");
-    setEmail("");
-    setStatus("");
-    setIsEmailValid(false);
+    setHeading("");
+    setBody("");
     setShowCancelConfirmation(false);
     props.onHide();
   };
@@ -90,7 +74,9 @@ export default function EditRECContentModal(props) {
               className="mb-3 form-group-with-icon"
               controlId="formHeading"
             >
-            <Form.Label className="mb-3 form-group-with-icon">Heading</Form.Label> 
+              <Form.Label className="mb-3 form-group-with-icon">
+                Heading
+              </Form.Label>
               <Form.Control
                 type="text"
                 value={heading}
@@ -104,7 +90,9 @@ export default function EditRECContentModal(props) {
               className="mb-3 form-group-with-icon"
               controlId="formBody"
             >
-            <Form.Label className="mb-3 form-group-with-icon">Body</Form.Label> 
+              <Form.Label className="mb-3 form-group-with-icon">
+                Body
+              </Form.Label>
               <Form.Control
                 type="text"
                 value={body}
@@ -112,15 +100,13 @@ export default function EditRECContentModal(props) {
                 className="form-control-with-icon rounded-input mc-editcontent-body"
               />
             </Form.Group>
-
-
           </Form>
         </Modal.Body>
         <Modal.Footer className="editcontent-modal-footer rounded-footer">
           <Button onClick={handleCancel} className="btn cancel rounded-btn">
             Cancel
           </Button>
-          <Button onClick={handleAddAccount} className="btn editcontent rounded-btn">
+          <Button onClick={handleSave} className="btn editcontent rounded-btn">
             Save
           </Button>
         </Modal.Footer>

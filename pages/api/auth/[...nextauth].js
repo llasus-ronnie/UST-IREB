@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectDB from "../../../utils/database";
 import User from "../../../models/users/user";
-import ExternalInvestigator from "../../../models/externalInvestigatorModel"; // Import ExternalInvestigator model
+import ExternalInvestigator from "../../../models/externalInvestigatorModel";
 import bcrypt from "bcryptjs";
 
 const handler = NextAuth({
@@ -20,97 +20,114 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         await connectDB();
+
         const user = await User.findOne({ email: credentials.email });
         const externalInvestigator = await ExternalInvestigator.findOne({
           email: credentials.email,
         });
 
-        console.log("User:", user);
-        console.log("External Investigator:", externalInvestigator);
-
+        // Validate regular user
         if (user && bcrypt.compareSync(credentials.password, user.password)) {
-          console.log("User authenticated successfully");
-          return user;
-        } else if (
-          externalInvestigator &&
-          credentials.password === externalInvestigator.accessToken
-        ) {
-          console.log("Access token matches for External Investigator");
+          console.log("User validated:", user);
+          return {
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            password: user.password, // Include password in user object
+          };
+        }
 
-          // Create a new user if not found in User table but found in ExternalInvestigator table
-          if (!user) {
-            try {
+        // Validate external investigator
+        if (externalInvestigator) {
+          const isPasswordValid = bcrypt.compareSync(
+            credentials.password,
+            externalInvestigator.password
+          );
+
+          if (isPasswordValid) {
+            console.log(
+              "External investigator validated:",
+              externalInvestigator
+            );
+            if (!user) {
               const newUser = await User.create({
                 email: externalInvestigator.email,
-                name: externalInvestigator.name, // Assuming name should be copied from ExternalInvestigator
-                role: "ExternalInvestigator", // Default role for external investigators
+                name: externalInvestigator.name,
+                role: "ExternalInvestigator",
               });
-              console.log("New user created:", newUser);
-              return newUser;
-            } catch (error) {
-              console.log("Error creating new user:", error);
-              return null;
+              return {
+                email: newUser.email,
+                name: newUser.name,
+                role: newUser.role,
+                password: newUser.password, // Include password in user object
+              };
+            } else {
+              return {
+                email: user.email,
+                name: user.name,
+                role: user.role,
+                password: user.password, // Include password in user object
+              };
             }
-          } else {
-            return user;
           }
-        } else {
-          console.log("Authorization failed");
-          return null;
         }
+
+        throw new Error("Invalid email or password");
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
+    async jwt({ token, user }) {
       if (user) {
-        await connectDB();
-        const userFromDB = await User.findOne({ email: user.email });
-        token.role = userFromDB ? userFromDB.role : null;
-      }
-
-      if (trigger === "update" && session?.name) {
-        token.name = session.name;
+        token.role = user.role || (await getRoleFromDB(user.email));
+        token.password = user.password;
+        console.log("JWT token set:", token);
       }
       return token;
     },
     async session({ session, token }) {
       session.user.role = token.role;
+      if (token.password) {
+        session.user.password = token.password;
+      }
       return session;
     },
     async signIn({ user, profile, account }) {
-      try {
-        if (account.provider === "google") {
-          console.log("Profile Info:", profile);
-
-          if (!profile.email.endsWith("@ust.edu.ph")) {
-            console.log("Unauthorized domain:", profile.email);
-            return false;
-          }
-
-          await connectDB();
-          const userExist = await User.findOne({ email: profile.email });
-
-          if (!userExist) {
-            await User.create({
-              email: profile.email,
-              name: profile.name,
-              image: profile.picture,
-              role: "PrincipalInvestigator",
-            });
-          }
-        } else if (account.provider === "credentials") {
-          console.log("User Info:", user);
+      if (account.provider === "google") {
+        if (!profile.email.endsWith("@ust.edu.ph")) {
+          return false;
         }
-
-        return true;
-      } catch (error) {
-        console.log("Sign-In Error:", error);
-        return false;
+        await connectDB();
+        const userExist = await User.findOne({ email: profile.email });
+        if (!userExist) {
+          await User.create({
+            email: profile.email,
+            name: profile.name,
+            image: profile.picture,
+            role: "PrincipalInvestigator",
+          });
+        }
       }
+      return true;
     },
   },
-  // secret: process.env.NEXTAUTH_SECRET,
 });
+
+async function getRoleFromDB(email) {
+  await connectDB();
+  const user = await User.findOne({ email });
+  return user ? user.role : null;
+}
+
+export async function hashPassword(password) {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  return hashedPassword;
+}
+
+export async function verifyPassword(password, hashedPassword) {
+  const isValid = await bcrypt.compare(password, hashedPassword);
+  return isValid;
+}
 
 export default handler;

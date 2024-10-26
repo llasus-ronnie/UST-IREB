@@ -134,3 +134,43 @@ body {
   margin: 0;
   font-style: italic;
 }
+
+@media (max-width: 768px) {
+  .submission-list-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* for smooth scrolling on iOS */
+  }
+
+  .submission-list-header {
+    background-color: var(--primary-color);
+    color: var(--quaternary-color);
+    padding: 0.8em;
+    text-align: center;
+    width: max-content; 
+    min-width: 100%; 
+    display: inline-block; 
+  }
+
+  .submission-list-header h2 {
+    margin: 0;
+    font-size: 1.8rem; 
+    font-weight: 700;
+  }
+
+  .submission-list-container::-webkit-scrollbar {
+    height: 8px; 
+  }
+
+  .submission-list-container::-webkit-scrollbar-thumb {
+    background-color: #fcbf15; 
+    border-radius: 4px; 
+  }
+
+  .submission-list-container::-webkit-scrollbar-track {
+    background-color: #ddd; 
+  }
+
+  .submission-table th, .submission-table td {
+    white-space: nowrap; 
+  }
+}

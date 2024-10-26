@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { PropagateLoader } from "react-spinners";
+import { Spinner } from "react-bootstrap";
 
 import IrebNav from "../../../components/navbaradmin/IrebNav";
 import IrebNavMobile from "../../../components/navbaradmin/IrebNavMobile";
@@ -18,22 +18,36 @@ function IrebManageRECRoles({ params }) {
   const [REC, setREC] = useState(null);
   const [RECMembers, setRECMembers] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredRECMember, setFilteredRECMember] = useState([]);
 
   const handleShowModal = () => setModalShow(true);
   const handleCloseModal = () => setModalShow(false);
 
   const handleSearch = (query) => {
-    console.log("Search query:", query);
+    setSearchQuery(query);
+    const lowercasedQuery = query.toLowerCase();
+    const filtered = RECMembers.filter(
+      (member) =>
+        member.name.toLowerCase().includes(lowercasedQuery) ||
+        member.email.toLowerCase().includes(lowercasedQuery) ||
+        member.recRole.toLowerCase().includes(lowercasedQuery)
+    );
+    setFilteredRECMember(filtered);
   };
 
   useEffect(() => {
     const fetchRECData = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get(`/api/REC/${params.id}`);
         setREC(response.data.rec);
       } catch (error) {
         console.error(error);
         setError("Failed to fetch REC details.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -42,12 +56,16 @@ function IrebManageRECRoles({ params }) {
 
   useEffect(() => {
     const fetchRECMembersData = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get(`/api/RECMembers?rec=${REC?.name}`);
         setRECMembers(response.data.data || []);
+        setFilteredRECMember(response.data.data || []); // Initialize filtered members
       } catch (error) {
         console.error(error);
         setError("Failed to fetch REC members.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -55,6 +73,18 @@ function IrebManageRECRoles({ params }) {
       fetchRECMembersData();
     }
   }, [REC]);
+
+  if (isLoading) {
+    return (
+      <div className="loading-overlay">
+        <div className="spinner-container">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="adminpage-container">
@@ -88,7 +118,7 @@ function IrebManageRECRoles({ params }) {
 
               <div className="acctype-toggles">
                 <div className="search-bar">
-                  <SearchBar className="search-bar" />
+                  <SearchBar className="search-bar" onSearch={handleSearch} />
                 </div>
 
                 <button className="me-buttonfilter">Filter & Sort</button>
@@ -110,8 +140,8 @@ function IrebManageRECRoles({ params }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {RECMembers.length > 0 ? (
-                    RECMembers.map((member, index) => (
+                  {filteredRECMember.length > 0 ? (
+                    filteredRECMember.map((member, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{member.name}</td>

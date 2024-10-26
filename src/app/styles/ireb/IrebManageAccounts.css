@@ -1,435 +1,450 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
-    --primary-color: #121212;
-    --secondary-color: #ecf0f1;
-    --tertiary-color: #fcbf15;
-    --quaternary-color: #ffffff;
-    --poppins: "Poppins", sans-serif;
-    --title-size: 1.875rem;
-    --heading-1-size: 1.5rem;
-    --paragraph-size: 1rem;
+  --primary-color: #121212;
+  --secondary-color: #ecf0f1;
+  --tertiary-color: #fcbf15;
+  --quaternary-color: #ffffff;
+  --poppins: "Poppins", sans-serif;
+  --title-size: 1.875rem;
+  --heading-1-size: 1.5rem;
+  --paragraph-size: 1rem;
 }
 
 /* General Page Container */
 .adminpage-container {
-    display: flex;
-    height: 100%;
+  display: flex;
+  height: 100%;
 }
 
 /* Side Nav */
 .adminnav.open ~ .ireb-manageaccounts {
-    margin-left: 18.75rem;
+  margin-left: 18.75rem;
 }
 
 /* IREB Manage Accounts */
 .ireb-manageaccounts {
-    flex-grow: 1;
-    transition: margin-left 0.3s ease;
-    background-color: var(--secondary-color);
-    height: 100vh;
-    margin-left: 5.625rem;
+  flex-grow: 1;
+  transition: margin-left 0.3s ease;
+  background-color: var(--secondary-color);
+  height: 100vh;
+  margin-left: 5.625rem;
 }
 
 /* Main Content Div for IREB Manage Accounts */
 .adminmain-content {
-    font-family: var(--poppins);
-    color: var(--primary-color);
-    max-width: 81.25rem;
-    height: 100%;
-    margin: 1rem auto;
-    padding: 1rem;
-    box-sizing: border-box;
+  font-family: var(--poppins);
+  color: var(--primary-color);
+  max-width: 81.25rem;
+  height: 100%;
+  margin: 1rem auto;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 /* Header */
 .adminheader-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    padding: 1rem;
-    box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .UserLoggedIn {
-    flex-shrink: 0;
-    display: flex;
-}  
+  flex-shrink: 0;
+  display: flex;
+}
 
 .header {
-    margin-top: 0.2rem;
-    flex-grow: 1;
+  margin-top: 0.2rem;
+  flex-grow: 1;
 }
 
 /* Manage Accounts */
 .manage-accounts {
-    display: column;
-    justify-content: center;
-    align-items: center;
-    gap: 0.625rem;
-    flex-wrap: nowrap;
-    position: relative;
+  display: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  flex-wrap: nowrap;
+  position: relative;
 }
 
 .me-title {
-    background-color: var(--tertiary-color);
-    color: #121212;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    display: flex;
-    padding: 1.25rem;
-    margin: 2rem 2rem 0rem 2rem;
-    font-size: 2rem;
-    font-weight: bold;
-    border-radius: 0.938rem 0.938rem 0 0;
+  background-color: var(--tertiary-color);
+  color: #121212;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  padding: 1.25rem;
+  margin: 2rem 2rem 0rem 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 0.938rem 0.938rem 0 0;
 }
 
 .acctype-container {
-    background-color: var(--quaternary-color);
-    justify-content: left;
-    align-items: center;
-    display: flex;
-    padding: 1rem 1rem 1rem 3rem;
-    margin: 0rem 2rem 2rem 2rem;
-    font-size: 1.8rem;
-    font-weight: bold;
-    border-radius: 0 0 0.938rem 0.938rem;
+  background-color: var(--quaternary-color);
+  justify-content: left;
+  align-items: center;
+  display: flex;
+  padding: 1rem 1rem 1rem 3rem;
+  margin: 0rem 2rem 2rem 2rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  border-radius: 0 0 0.938rem 0.938rem;
 }
 
 .acctype {
-    min-width: 18rem;
+  min-width: 18rem;
 }
 .acctype h2 {
-    color: var(--tertiary-color);
+  color: var(--tertiary-color);
 }
 
 /* Filter Section */
 
 .acctype-toggles {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 0 0.5rem 0 3rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 0.5rem 0 3rem;
 }
 
 .search-bar {
-    font-weight: 400;
-    max-width: 21.875rem;
-    min-width: 12.5rem;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
+  font-weight: 400;
+  max-width: 21.875rem;
+  min-width: 12.5rem;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
 .me-buttonfilter {
-    padding: 0.7rem 1.2rem 0.7rem 1.2rem;
-    margin-left: 1rem;
-    font-size: 0.8rem;
-    border: none;
-    border-radius: 0.625rem;
-    cursor: pointer;
-    color: #369AD2;
-    background-color: var(--secondary-color);
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  padding: 0.7rem 1.2rem 0.7rem 1.2rem;
+  margin-left: 1rem;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 0.625rem;
+  cursor: pointer;
+  color: #369ad2;
+  background-color: var(--secondary-color);
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .me-buttonaddacc {
-    padding: 0.7rem 1.2rem 0.7rem 1.2rem;
-    margin-left: 1rem;
-    font-size: 0.8rem;
-    border: none;
-    border-radius: 0.625rem;
-    cursor: pointer;
-    color: var(--quaternary-color);
-    background-color: #369AD2;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  padding: 0.7rem 1.2rem 0.7rem 1.2rem;
+  margin-left: 1rem;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 0.625rem;
+  cursor: pointer;
+  color: var(--quaternary-color);
+  background-color: #369ad2;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 /* Manage Accounts Table */
 
 .manageaccounts-table {
-    background-color: var(--quaternary-color);
-    justify-content: left;
-    align-items: center;
-    display: flex;
-    margin: 1.5rem 2rem 2rem 2rem;
-    border-radius: 0.938rem;
+  background-color: var(--quaternary-color);
+  justify-content: left;
+  align-items: center;
+  display: flex;
+  margin: 1.5rem 2rem 2rem 2rem;
+  border-radius: 0.938rem;
 }
 
 .me-table {
-    width: 100%;
-    margin: 1.5rem 2rem 2rem 2rem;
-    border-collapse: collapse;
-    font-family: var(--poppins);
-    background-color: var(--quaternary-color);
-    border-radius: 0.938rem;
+  width: 100%;
+  margin: 1.5rem 2rem 2rem 2rem;
+  border-collapse: collapse;
+  font-family: var(--poppins);
+  background-color: var(--quaternary-color);
+  border-radius: 0.938rem;
 }
 
-th, td {
-    padding: 0.625rem 0.313rem 0.625rem 1.25rem;
-    text-align: left;
-    border-bottom: 0.063rem solid #ddd;
+th,
+td {
+  padding: 0.625rem 0.313rem 0.625rem 1.25rem;
+  text-align: left;
+  border-bottom: 0.063rem solid #ddd;
 }
 
 th {
-    color: var(--primary-color);
+  color: var(--primary-color);
 }
 
 tr:hover {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 /* Action Column */
-.me-table td .edit-icon, 
+.me-table td .edit-icon,
 .me-table td .archive-icon {
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    margin-right: 0.5rem;
-    color: var(--primary-color);
-    transition: color 0.2s ease;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+  color: var(--primary-color);
+  transition: color 0.2s ease;
 }
 
 .me-table td .edit-icon {
-    color: var(--tertiary-color);
+  color: var(--tertiary-color);
 }
 
 .me-table td .archive-icon {
-    color: #e74c3c;
+  color: #e74c3c;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.spinner-container {
+  text-align: center;
 }
 
 /* scroll design  */
 ::-webkit-scrollbar {
-    background-color: var(--primary-color);
-    width: 5px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background-color: var(--tertiary-color);
-    border-radius: 10px;
-  }
-  
+  background-color: var(--primary-color);
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--tertiary-color);
+  border-radius: 10px;
+}
+
 /* Responsiveness */
 
 /* Laptops & Desktops */
 @media only screen and (min-width: 769px) and (max-width: 1200px) {
-    .irebnav-mobile {
-        display: none;
-    }
-
-    .ireb-header-container-mobile {
-        display: none;
-    }
-    }
-
-    /* Larger Screens */
-    @media only screen and (min-width: 1201px) {
-    .irebnav-mobile {
-        display: none;
-    }
-
-    .ireb-header-container-mobile {
-        display: none;
-    }
-}
-
-  /* Mobile */
-  @media only screen and (max-width: 576px) {
-
-    .irebnav {
-      display: none;
-    }
-
-    /* Mobile General Page Container */
-    .adminpage-container {
-        flex-direction: column;
-        height: auto;
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow-x: hidden;
-    }
-
-    /* Mobile Manage Accounts */
-    .ireb-manageaccounts {
-        margin-left: 0;
-        padding: 1rem;
-        height: auto;
-        }
-    
-    /* Mobile Main Content Div for IREB Manage Accounts */
-    .adminmain-content {
-        padding: 1rem;
-        margin: 1rem auto;
-        max-width: 100%;
-    }
-
-    .ireb-header-container {
-        display: none;
-    }
-
-    .ireb-header-container-mobile {
-        align-items: left;
-        margin: 0;
-        padding: 0;
-    }
-
-    .userloggedin-mobile {
-        margin-bottom: 1.5rem;
-    }
-
-    .me-title {
-        font-size: var(--heading-1-size);
-        margin: 0;
-    }
-
-    .acctype-container {
-        margin: 0;
-        width: 100%;
-        flex-direction: column;
-        padding: 1rem;
-    }
-
-    .acctype h2 {
-        text-align: center;
-    }
-
-    .acctype-toggles {
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        margin: 0;
-        width: 100%;
-    }
-
-    .search-bar,
-    .me-buttonfilter,
-    .me-buttonaddacc {
-        width: 100%;
-        margin-left: 0;
-        margin-top: 1rem;
-    }
-
-    .manageaccounts-table {
-        margin: 2rem 0;
-    }
-
-    .me-table {
-        font-size: 0.875rem;
-        border-radius: 10px;
-        width: 100%;
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
+  .irebnav-mobile {
+    display: none;
   }
 
-    /* Tablet */
-    @media only screen and (min-width: 577px) and (max-width: 768px) {
-        .irebnav-mobile {
-        display: none;
-        }
-        
-    .ireb-header-container-mobile {
-        display: none;
-    }
-    
-    .ireb-manageaccounts {
-        margin-left: 5.625rem;
-        height: 100%;
-    }
+  .ireb-header-container-mobile {
+    display: none;
+  }
+}
 
-        /* Tablet General Page Container */
-        .adminpage-container {
-            flex-direction: column;
-            height: auto;
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow-x: hidden;
-        }
+/* Larger Screens */
+@media only screen and (min-width: 1201px) {
+  .irebnav-mobile {
+    display: none;
+  }
 
-        /* Tablet Side Nav */
-        .adminnav.open ~ .ireb-manageaccounts {
-            margin-left: 18.75rem;
-            transition: margin-left 0.3s ease;
-            }
+  .ireb-header-container-mobile {
+    display: none;
+  }
+}
 
-        /* Tablet Manage Accounts */
-        .ireb-manageaccounts {
-            padding: 1rem;
-            flex-grow: 1;
-            transition: margin-left 0.3s ease;
-            background-color: var(--secondary-color);
-            height: 100%;
-            margin-left: 5.625rem;
-        }
-        
-        /* Tablet Main Content Div for IREB Manage Accounts */
-        .adminmain-content {
-            padding: 1rem;
-            margin: 1rem auto;
-            max-width: 100%;
-        }
+/* Mobile */
+@media only screen and (max-width: 576px) {
+  .irebnav {
+    display: none;
+  }
 
-        .adminheader-container {
-            padding: 0;
-        }
+  /* Mobile General Page Container */
+  .adminpage-container {
+    flex-direction: column;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+  }
 
-        .me-title {
-            margin: 2rem 0 0 0;
-            text-align: center;
-        }
-    
-        .acctype-container {
-            margin: 0;
-            width: 100%;
-            flex-direction: column;
-            padding: 1rem;
-        }
+  /* Mobile Manage Accounts */
+  .ireb-manageaccounts {
+    margin-left: 0;
+    padding: 1rem;
+    height: auto;
+  }
 
-        .acctype h2 {
-            text-align: center;
-        }
+  /* Mobile Main Content Div for IREB Manage Accounts */
+  .adminmain-content {
+    padding: 1rem;
+    margin: 1rem auto;
+    max-width: 100%;
+  }
 
-        .acctype-toggles {
-            justify-content: center;
-            align-items: flex-start;
-            margin: 0;
-            width: 100%;
-        }
+  .ireb-header-container {
+    display: none;
+  }
 
-        .search-bar {
-            width: 45%;
-            margin-left: 0;
-            margin-top: 1rem;
-        }
+  .ireb-header-container-mobile {
+    align-items: left;
+    margin: 0;
+    padding: 0;
+  }
 
-        .me-buttonfilter,
-        .me-buttonaddacc {
-            width: auto;
-            margin-left: 0.5rem;
-            margin-top: 1rem;
-        }
+  .userloggedin-mobile {
+    margin-bottom: 1.5rem;
+  }
 
-        .manageaccounts-table {
-            margin: 2rem 0;
-        }
+  .me-title {
+    font-size: var(--heading-1-size);
+    margin: 0;
+  }
 
-        .me-table {
-            font-size: 0.875rem;
-            border-radius: 10px;
-            width: 100%;
-            display: block;
-            overflow-x: auto;
-            white-space: nowrap;
-            box-sizing: border-box;
-        }
+  .acctype-container {
+    margin: 0;
+    width: 100%;
+    flex-direction: column;
+    padding: 1rem;
+  }
 
-    }
+  .acctype h2 {
+    text-align: center;
+  }
+
+  .acctype-toggles {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+  }
+
+  .search-bar,
+  .me-buttonfilter,
+  .me-buttonaddacc {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+
+  .manageaccounts-table {
+    margin: 2rem 0;
+  }
+
+  .me-table {
+    font-size: 0.875rem;
+    border-radius: 10px;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* Tablet */
+@media only screen and (min-width: 577px) and (max-width: 768px) {
+  .irebnav-mobile {
+    display: none;
+  }
+
+  .ireb-header-container-mobile {
+    display: none;
+  }
+
+  .ireb-manageaccounts {
+    margin-left: 5.625rem;
+    height: 100%;
+  }
+
+  /* Tablet General Page Container */
+  .adminpage-container {
+    flex-direction: column;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Tablet Side Nav */
+  .adminnav.open ~ .ireb-manageaccounts {
+    margin-left: 18.75rem;
+    transition: margin-left 0.3s ease;
+  }
+
+  /* Tablet Manage Accounts */
+  .ireb-manageaccounts {
+    padding: 1rem;
+    flex-grow: 1;
+    transition: margin-left 0.3s ease;
+    background-color: var(--secondary-color);
+    height: 100%;
+    margin-left: 5.625rem;
+  }
+
+  /* Tablet Main Content Div for IREB Manage Accounts */
+  .adminmain-content {
+    padding: 1rem;
+    margin: 1rem auto;
+    max-width: 100%;
+  }
+
+  .adminheader-container {
+    padding: 0;
+  }
+
+  .me-title {
+    margin: 2rem 0 0 0;
+    text-align: center;
+  }
+
+  .acctype-container {
+    margin: 0;
+    width: 100%;
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .acctype h2 {
+    text-align: center;
+  }
+
+  .acctype-toggles {
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+  }
+
+  .search-bar {
+    width: 45%;
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+
+  .me-buttonfilter,
+  .me-buttonaddacc {
+    width: auto;
+    margin-left: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .manageaccounts-table {
+    margin: 2rem 0;
+  }
+
+  .me-table {
+    font-size: 0.875rem;
+    border-radius: 10px;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+}

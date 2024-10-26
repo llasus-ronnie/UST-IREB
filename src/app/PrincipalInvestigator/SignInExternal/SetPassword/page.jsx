@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession, signIn, signOut } from "next-auth/react";
 import React, { useState } from "react";
 import {
   Container,
@@ -11,29 +10,28 @@ import {
   FormLabel,
   Button,
 } from "react-bootstrap";
-import bg from "../../../../public/images/signin/bg.png";
-import USTLogo from "../../../../public/images/signin/USTLogo.png";
+import Image from "next/image";
+import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ReCAPTCHA from "react-google-recaptcha";
-import Image from "next/image";
+import USTLogo from "../../../../../public/images/signin/USTLogo.png";
+import bg from "../../../../../public/images/signin/bg.png";
+import { signIn } from "next-auth/react";
 
-// CSS
-import "../../styles/signin/SignIn.css";
+//css
+import "../../../styles/signin/SignIn.css";
 
-// Components
-import SignInFooter from "../../components/siginin/SignInFooter";
+//components
+import SignInFooter from "../../../components/siginin/SignInFooter";
 
-function SignIn() {
-  const { data: session } = useSession();
+function SetPassword() {
   const [email, setEmail] = useState("");
-  const [accessToken, setAccessToken] = useState("");
+  const [password, setPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
-  const [isTokenValid, setIsTokenValid] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
-  const [enterPassword, setEnterPassword] = useState(false); // Reflects whether to enter password
   const router = useRouter();
 
   const handleEmailChange = (e) => {
@@ -42,10 +40,10 @@ function SignIn() {
     setIsEmailValid(validateEmail(emailValue));
   };
 
-  const handleAccessTokenChange = (e) => {
-    const tokenValue = e.target.value;
-    setAccessToken(tokenValue);
-    setIsTokenValid(tokenValue.length > 0);
+  const handlePasswordChange = (e) => {
+    const passwordValue = e.target.value;
+    setPassword(passwordValue);
+    setIsPasswordValid(passwordValue.length >= 6);
   };
 
   const validateEmail = (email) => {
@@ -60,27 +58,36 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post("/api/externalInvestigatorLogin", {
-        email,
-        accessToken, // Could be either the access token or password
-      });
+    if (isEmailValid && isPasswordValid && isRecaptchaVerified) {
+      try {
+        // Send email and password to the API to update the password
+        const response = await axios.post("/api/set-password", {
+          email,
+          password,
+        });
 
-      if (response.data.message.includes("set your password")) {
-        toast.success("Sign in successful, please create a password");
-        router.push(
-          `/PrincipalInvestigator/SignInExternal/SetPassword?accessToken=${accessToken}`
-        );
-      } else {
-        toast.success("Login successful");
-        router.push("/");
+        if (response.data.success) {
+          // Automatically log the user in after setting the password
+          const loginResult = await signIn("credentials", {
+            redirect: false,
+            email,
+            password,
+          });
+
+          if (loginResult.error) {
+            toast.error("Login failed. Please check your credentials.");
+          } else {
+            toast.success("Password set successfully and logged in.");
+            router.push("/"); // Redirect to homepage or dashboard
+          }
+        } else {
+          toast.error("Error setting password: " + response.data.message);
+        }
+      } catch (error) {
+        toast.error("Failed to set password: " + error.message);
       }
-    } catch (error) {
-      console.error(
-        "Error:",
-        error.response ? error.response.data : error.message
-      );
-      toast.error("Invalid email or password");
+    } else {
+      toast.warn("Please complete all fields and verify the reCAPTCHA.");
     }
   };
 
@@ -89,17 +96,17 @@ function SignIn() {
       <Container>
         <Row className="thomasian-cont-border g-0">
           <Col>
-            <Image src={bg} alt="" className="thomasian-bg" />
+            <Image src={bg} alt="Background" className="thomasian-bg" />
           </Col>
           <Col className="thomasian-SignInHeader">
             <div className="thomasian-Sign">
-              <Image src={USTLogo} alt="" className="thomasian-logo" />
+              <Image src={USTLogo} alt="UST Logo" className="thomasian-logo" />
               <h1 className="d-inline">
                 <b>UST IREB</b> Research Portal
               </h1>
             </div>
 
-            <h1 className="thomasian-signin">Sign In</h1>
+            <h1 className="thomasian-signin">Set Password</h1>
 
             <Form onSubmit={handleSubmit}>
               <FormGroup>
@@ -110,14 +117,16 @@ function SignIn() {
                     className="form-control"
                     value={email}
                     onChange={handleEmailChange}
+                    required
                   />
 
-                  <FormLabel>Password or Access Token</FormLabel>
+                  <FormLabel>New Password</FormLabel>
                   <input
                     type="password"
                     className="form-control"
-                    value={accessToken}
-                    onChange={handleAccessTokenChange}
+                    value={password}
+                    onChange={handlePasswordChange}
+                    required
                   />
                 </div>
 
@@ -139,10 +148,12 @@ function SignIn() {
                       variant="outline-warning"
                       className="thomasian-btnlogin"
                       disabled={
-                        !isEmailValid || !isTokenValid || !isRecaptchaVerified
+                        !isEmailValid ||
+                        !isPasswordValid ||
+                        !isRecaptchaVerified
                       }
                     >
-                      Log In
+                      Set Password
                     </Button>
                   </Col>
                 </Row>
@@ -160,4 +171,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default SetPassword;
