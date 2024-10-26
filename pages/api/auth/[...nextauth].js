@@ -80,7 +80,7 @@ const handler = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role || (await getRoleFromDB(user.email));
-        token.password = user.password; // Add password to token
+        token.password = user.password;
         console.log("JWT token set:", token);
       }
       return token;
@@ -88,7 +88,7 @@ const handler = NextAuth({
     async session({ session, token }) {
       session.user.role = token.role;
       if (token.password) {
-        session.user.password = token.password; // Add password to session
+        session.user.password = token.password;
       }
       return session;
     },

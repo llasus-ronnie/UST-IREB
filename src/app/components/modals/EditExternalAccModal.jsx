@@ -60,10 +60,10 @@ export default function EditExternalAccModal(props) {
   };
 
   const handleConfirmCancel = () => {
-    setName(""); // Clear input fields on cancel
+    setName("");
     setAffiliation("");
     setShowCancelConfirmation(false);
-    props.onHide(); // Close the modal
+    props.onHide();
   };
 
   return (
