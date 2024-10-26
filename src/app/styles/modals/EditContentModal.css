@@ -107,7 +107,9 @@
 }
 
 .mc-editcontent-body {
-    min-height: 15rem;
+  min-height: 10rem;
+  max-height: 20rem;
+  resize: none;
 }
 
 /* Two Buttons */
