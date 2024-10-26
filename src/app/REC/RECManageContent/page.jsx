@@ -10,7 +10,7 @@ import "../../styles/rec/RECManageContent.css";
 
 import withAuthorization from "../../../hoc/withAuthorization";
 
-function RECManageContent() {
+function RECManageContent(props) {
   const [modalShow, setModalShow] = useState(false);
 
   const handleShowModal = () => setModalShow(true);
@@ -30,7 +30,7 @@ function RECManageContent() {
     }
 
     fetchData();
-  }, []);
+  }, [props.modalShowAddAcc]);
 
   return (
     <div className="adminpage-container">

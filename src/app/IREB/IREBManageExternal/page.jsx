@@ -33,7 +33,6 @@ function IrebManageExternal() {
   const handleCloseEditAccModal = () => setModalShowEditAcc(false);
   const handleCloseArchiveModal = () => setModalShowArchiveConfirmation(false);
 
-  // Search handling
   const handleSearch = (query) => {
     const lowercasedQuery = query.toLowerCase();
     const filtered = external.filter(
