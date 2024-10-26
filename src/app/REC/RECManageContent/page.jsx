@@ -85,6 +85,7 @@ function RECManageContent() {
                   <tr>
                     <th>Heading</th>
                     <th>Body</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
