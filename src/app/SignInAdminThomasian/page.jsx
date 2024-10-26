@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/navigation";
 import { Spinner } from "react-bootstrap";
+import axios from "axios";
 
 // Images
 import Image from "next/image";
@@ -22,19 +23,36 @@ export default function SignIn() {
   const router = useRouter();
 
   useEffect(() => {
-    if (status === "authenticated") {
-      setIsLoading(true);
-      const userRole = session.user.role;
-      if (userRole === "IREB") {
-        router.push("/IREB/IREBDashboard");
-      } else if (userRole === "PrimaryReviewer") {
-        router.push("/PrimaryReviewer/PRDashboard");
-      } else if (userRole === "REC") {
-        router.push("/REC/RECdashboard/[rec]");
-      } else {
-        router.push("../Unauthorized");
+    const routeUserByRole = async () => {
+      if (status === "authenticated") {
+        setIsLoading(true);
+        const { role, email } = session.user;
+
+        try {
+          // Fetch REC data by email to determine the REC dashboard route
+          const response = await axios.get(`/api/RECMembers?email=${email}`);
+          const recData = response.data.data;
+
+          if (role === "IREB") {
+            router.push("/IREB/IREBDashboard");
+          } else if (role === "PrimaryReviewer") {
+            router.push("/PrimaryReviewer/PRDashboard");
+          } else if (role === "REC" && recData) {
+            // Route to the specific REC dashboard based on fetched data
+            router.push(`/REC/RECdashboard/${recData.rec}`);
+          } else {
+            router.push("../Unauthorized");
+          }
+        } catch (error) {
+          console.error("Error fetching REC data:", error);
+          router.push("../Unauthorized");
+        } finally {
+          setIsLoading(false);
+        }
       }
-    }
+    };
+
+    routeUserByRole();
   }, [session, status, router]);
 
   const handleRecaptchaChange = (value) => {
