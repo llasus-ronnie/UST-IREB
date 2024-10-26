@@ -8,29 +8,51 @@ import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
 import AddRECModal from "../../components/modals/AddRECModal";
 import "../../styles/ireb/IrebManageREC.css";
 import { Spinner } from "react-bootstrap";
-
 import axios from "axios";
 import useSWR from "swr";
-
 import withAuthorization from "../../../hoc/withAuthorization";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
+
 function IrebManageExternal() {
   const [modalShow, setModalShow] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredREC, setFilteredREC] = useState([]);
+  const { data, error } = useSWR("/api/REC", fetcher);
+
+  useEffect(() => {
+    if (data) {
+      setFilteredREC(data.data);
+    }
+  }, [data]);
 
   const handleShowModal = () => setModalShow(true);
   const handleCloseModal = () => setModalShow(false);
 
   const handleSearch = (query) => {
-    console.log("Search query:", query);
+    setSearchQuery(query);
+    const lowercasedQuery = query.toLowerCase();
+    const filtered = data?.data.filter(
+      (rec) =>
+        rec.name.toLowerCase().includes(lowercasedQuery) ||
+        rec.email.toLowerCase().includes(lowercasedQuery) ||
+        rec.status.toLowerCase().includes(lowercasedQuery)
+    );
+    setFilteredREC(filtered);
   };
 
-  const { data, error } = useSWR("/api/REC", fetcher);
-
   if (error) return <div>Failed to load</div>;
-  if (!data) return <></>;
-
-  const REC = data.data;
+  if (!data) {
+    return (
+      <div className="loading-overlay">
+        <div className="spinner-container">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="adminpage-container">
@@ -64,7 +86,7 @@ function IrebManageExternal() {
 
               <div className="acctype-toggles">
                 <div className="search-bar">
-                  <SearchBar className="search-bar" />
+                  <SearchBar onSearch={handleSearch} />
                 </div>
 
                 <button className="me-buttonfilter"> Filter & Sort </button>
@@ -76,8 +98,8 @@ function IrebManageExternal() {
             </div>
 
             <div className="managerec-cards-container">
-              {REC && REC.length > 0 ? (
-                REC.map((form, index) => (
+              {filteredREC && filteredREC.length > 0 ? (
+                filteredREC.map((form, index) => (
                   <a
                     key={index}
                     className="managerec-card"
@@ -94,7 +116,7 @@ function IrebManageExternal() {
                   </a>
                 ))
               ) : (
-                <h2>Add an REC or Academic Unit</h2>
+                <h2>No REC accounts found. Add an REC or Academic Unit.</h2>
               )}
             </div>
           </div>

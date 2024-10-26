@@ -10,8 +10,8 @@ import AddAccModal from "../../components/modals/AddExternalAccModal";
 import EditAccModal from "../../components/modals/EditExternalAccModal";
 import ArchiveConfirmationModal from "../../components/modals/ArchiveConfirmationModal";
 import "../../styles/ireb/IrebManageAccounts.css";
-
 import withAuthorization from "../../../hoc/withAuthorization";
+import { Spinner } from "react-bootstrap";
 
 function IrebManageExternal() {
   const [modalShowAddAcc, setModalShowAddAcc] = useState(false);
@@ -21,6 +21,7 @@ function IrebManageExternal() {
   const [selectedInvestigator, setSelectedInvestigator] = useState(null);
   const [external, setExternal] = useState([]);
   const [filteredExternal, setFilteredExternal] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleShowAddAccModal = () => setModalShowAddAcc(true);
   const handleShowEditAccModal = (investigator) => {
@@ -32,6 +33,7 @@ function IrebManageExternal() {
   const handleCloseEditAccModal = () => setModalShowEditAcc(false);
   const handleCloseArchiveModal = () => setModalShowArchiveConfirmation(false);
 
+  // Search handling
   const handleSearch = (query) => {
     const lowercasedQuery = query.toLowerCase();
     const filtered = external.filter(
@@ -45,6 +47,7 @@ function IrebManageExternal() {
 
   useEffect(() => {
     async function fetchData() {
+      setIsLoading(true);
       try {
         const response = await axios.get("/api/addExternalInvestigator");
         console.log("API Response:", response.data);
@@ -52,11 +55,25 @@ function IrebManageExternal() {
         setFilteredExternal(response.data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
     fetchData();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="loading-overlay">
+        <div className="spinner-container">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="adminpage-container">
@@ -90,7 +107,7 @@ function IrebManageExternal() {
 
               <div className="acctype-toggles">
                 <div className="search-bar">
-                  <SearchBar onSearch={handleSearch} />{" "}
+                  <SearchBar onSearch={handleSearch} />
                 </div>
 
                 <button className="me-buttonfilter"> Filter & Sort </button>
@@ -178,6 +195,7 @@ function IrebManageExternal() {
       <ArchiveConfirmationModal
         show={modalShowArchiveConfirmation}
         onHide={handleCloseArchiveModal}
+        data={selectedInvestigator}
       />
     </div>
   );
