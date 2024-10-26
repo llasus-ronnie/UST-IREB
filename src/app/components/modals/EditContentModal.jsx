@@ -80,7 +80,7 @@ export default function EditRECContentModal(props) {
             id="contained-modal-title-vcenter"
             className="editcontent-modal-title"
           >
-            Edit REC Requirements Content
+            Edit Content
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="editcontent-modal-body rounded-body">
