@@ -90,7 +90,6 @@ const handler = NextAuth({
       if (token.password) {
         session.user.password = token.password; // Add password to session
       }
-      console.log("Session data after update:", session.user);
       return session;
     },
     async signIn({ user, profile, account }) {

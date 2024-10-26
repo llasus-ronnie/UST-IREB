@@ -1,88 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import "../../styles/modals/AddAccModal.css";
 import CancelConfirmationModal from "../../components/modals/CancelConfirmationModal.jsx";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function EditExternalAccModal(props) {
   const [name, setName] = useState("");
   const [affiliation, setAffiliation] = useState("");
-  const [email, setEmail] = useState("");
-  const [accessToken, setAccessToken] = useState("");
-  const [isEmailValid, setIsEmailValid] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+  const [investigatorId, setInvestigatorId] = useState("");
+
+  useEffect(() => {
+    console.log("Props Data:", props.data);
+    if (props.data) {
+      setName(props.data.name);
+      setAffiliation(props.data.affiliation);
+      setInvestigatorId(props.data._id);
+    }
+  }, [props.data]);
 
   const handleNameChange = (e) => {
-    const nameValue = e.target.value;
-    setName(nameValue);
+    setName(e.target.value);
   };
 
   const handleAffiliationChange = (e) => {
-    const affiliationValue = e.target.value;
-    setAffiliation(affiliationValue);
+    setAffiliation(e.target.value);
   };
 
-  const handleEmailChange = (e) => {
-    const emailValue = e.target.value;
-    setEmail(emailValue);
-    setIsEmailValid(validateEmail(emailValue));
-  };
-
-  const handleAccessTokenChange = (e) => setAccessToken(e.target.value);
-
-  const handleAddAccount = async () => {
-    if (!isEmailValid) {
-      alert("Please enter a valid email.");
+  const handleEditAccount = async () => {
+    if (!name || !affiliation) {
+      toast.error("Please fill in all fields.");
       return;
     }
 
     try {
-      await axios.post("/api/addExternalInvestigator", {
+      await axios.patch("/api/addExternalInvestigator", {
+        id: investigatorId,
         name,
         affiliation,
-        email,
-        token: accessToken,
       });
-      console.log("Account added to database");
+      toast.success("Account updated successfully.");
 
-      await axios.post("/api/auth/send-email", { email, token: accessToken });
-      toast.success("Email sent successfully");
-
+      setName("");
+      setAffiliation("");
+      setInvestigatorId("");
       props.onHide();
     } catch (error) {
-      console.error(
-        "Error adding account to database or sending email:",
-        error
-      );
+      console.error("Error updating account:", error);
       toast.error("An error occurred. Please try again.");
     }
-  };
-
-  const handleGenerateToken = () => {
-    if (!isEmailValid) {
-      toast.error("Please enter a valid email.");
-      return;
-    }
-
-    const token = uuidv4();
-    setAccessToken(token);
-  };
-
-  const formatToken = (token) => {
-    if (!token) return "";
-    const visibleChars = 6;
-    const maskedChars = token.length - visibleChars;
-    return token.substring(0, visibleChars) + "*".repeat(maskedChars);
-  };
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
   };
 
   const handleCancel = () => {
@@ -90,13 +60,10 @@ export default function EditExternalAccModal(props) {
   };
 
   const handleConfirmCancel = () => {
-    setName("");
+    setName(""); // Clear input fields on cancel
     setAffiliation("");
-    setEmail("");
-    setAccessToken("");
-    setIsEmailValid(false);
     setShowCancelConfirmation(false);
-    props.onHide();
+    props.onHide(); // Close the modal
   };
 
   return (
@@ -128,7 +95,7 @@ export default function EditExternalAccModal(props) {
                 width="16"
                 height="16"
                 fill="#5c5c5c"
-                class="bi bi-person form-icon"
+                className="bi bi-person form-icon"
                 viewBox="0 0 16 16"
               >
                 <path
@@ -180,7 +147,10 @@ export default function EditExternalAccModal(props) {
           <Button onClick={handleCancel} className="btn cancel rounded-btn">
             Cancel
           </Button>
-          <Button onClick={handleAddAccount} className="btn addacc rounded-btn">
+          <Button
+            onClick={handleEditAccount}
+            className="btn addacc rounded-btn"
+          >
             Save Changes
           </Button>
         </Modal.Footer>

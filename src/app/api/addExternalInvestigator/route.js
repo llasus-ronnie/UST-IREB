@@ -47,20 +47,19 @@ export async function GET() {
 export async function PATCH(req) {
   await connectDB();
 
-  const { email, password } = await req.json();
+  const { id, name, affiliation } = await req.json();
+
+  console.log("Updating investigator with ID:", id); // Log the ID
 
   try {
-    // Hash the password before storing it
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Find the investigator by email and update the password
-    const investigator = await ExternalInvestigator.findOneAndUpdate(
-      { email },
-      { password: hashedPassword, accessToken: "", tokenUsed: true }, // Invalidate the access token
+    const updatedInvestigator = await ExternalInvestigator.findByIdAndUpdate(
+      id,
+      { name, affiliation },
       { new: true }
     );
 
-    if (!investigator) {
+    if (!updatedInvestigator) {
+      console.error("Investigator not found for ID:", id); // Log if not found
       return NextResponse.json(
         { success: false, error: "Investigator not found" },
         { status: 404 }
@@ -68,10 +67,11 @@ export async function PATCH(req) {
     }
 
     return NextResponse.json(
-      { success: true, message: "Password set successfully" },
+      { success: true, data: updatedInvestigator },
       { status: 200 }
     );
   } catch (error) {
+    console.error("Error in PATCH:", error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }
