@@ -63,8 +63,6 @@ function RecSubmissions({params}) {
       console.log("Status:", status);
       return forms.filter((form) => form.status === status);
     };
-
-    const formCount = forms.length;
   
     
   return (
