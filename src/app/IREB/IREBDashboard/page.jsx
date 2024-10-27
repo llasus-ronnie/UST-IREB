@@ -36,6 +36,21 @@ function IrebDashboard() {
   const [newlyAssignedCount, setNewlyAssignedCount] = useState(0);
   const [recChairMap, setRecChairMap] = useState({});
   const [submissionCounts, setSubmissionCounts] = useState({});
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Submitted",
+        data: [],
+        backgroundColor: "#FFCC00",
+      },
+      {
+        label: "Approved",
+        data: [],
+        backgroundColor: "#E6B800",
+      },
+    ],
+  });
 
   // For REC data
   useEffect(() => {
@@ -51,7 +66,7 @@ function IrebDashboard() {
     fetchData();
   }, []);
 
-  // For forms data
+  // For forms data and chart data aggregation
   useEffect(() => {
     async function fetchFormsData() {
       try {
@@ -62,15 +77,56 @@ function IrebDashboard() {
         setFormsData(forms);
         setNewlyAssignedCount(forms.length);
 
-        // Count submissions per REC
-        const counts = forms.reduce((acc, form) => {
-          const researchEthicsCommittee = form.researchEthicsCommittee;
-          acc[researchEthicsCommittee] =
-            (acc[researchEthicsCommittee] || 0) + 1;
-          return acc;
-        }, {});
+        const submissionCountsArray = Array(12).fill(0);
+        const labels = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
 
-        setSubmissionCounts(counts);
+        const recSubmissionCounts = {};
+
+        forms.forEach((form) => {
+          const submissionDate = new Date(form.date);
+          const month = submissionDate.getMonth(); // 0-11 for Jan-Dec
+          const recName = form.researchEthicsCommittee;
+
+          // Increment counts for submissions
+          submissionCountsArray[month]++;
+          if (!recSubmissionCounts[recName]) {
+            recSubmissionCounts[recName] = 0;
+          }
+          recSubmissionCounts[recName]++;
+        });
+
+        // Update the state for submission counts per REC
+        setSubmissionCounts(recSubmissionCounts);
+
+        // Update the chart data
+        setChartData({
+          labels: labels,
+          datasets: [
+            {
+              label: "Submitted",
+              data: submissionCountsArray,
+              backgroundColor: "#FFCC00",
+            },
+            {
+              label: "Approved", // This dataset can be removed if not used
+              data: Array(12).fill(0), // Placeholder if you don't have approval data
+              backgroundColor: "#E6B800",
+            },
+          ],
+        });
       } catch (error) {
         console.error("Error fetching forms data:", error);
       }
@@ -99,35 +155,6 @@ function IrebDashboard() {
     }
     fetchRECChairs();
   }, []);
-
-  const [chartData, setChartData] = useState({
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
-    datasets: [
-      {
-        label: "Submitted",
-        data: [3, 4, 6, 5, 7, 8, 6, 9, 7, 6, 5, 4],
-        backgroundColor: "#FFCC00",
-      },
-      {
-        label: "Approved",
-        data: [2, 3, 5, 4, 6, 7, 5, 8, 6, 5, 4, 3],
-        backgroundColor: "#E6B800",
-      },
-    ],
-  });
 
   const options = {
     responsive: true,
