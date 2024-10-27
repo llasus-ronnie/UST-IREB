@@ -70,6 +70,29 @@
     gap: 20px;
 }
 
+.report-page-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+}
+
+.download-btn {
+    background-color: var(--tertiary-color); 
+    color: var(--quaternary-color); 
+    font-family: var(--poppins);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0.625rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+    background-color: #ffd700; 
+}
+
 /* Chart Container */
 .ireb-chart-container {
     flex: 2;
