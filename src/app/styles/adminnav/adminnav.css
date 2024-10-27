@@ -83,7 +83,28 @@
 
 .adminnav ul li a:hover {
     color: var(--tertiary-color);
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.adminnavline {
+    position: relative;
+}
+
+.adminnavline:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -4px;
+    height: 100%;
+    width: 2px;
+    background: #fcbf15;
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+
+.adminnavline:hover:before {
+    transform: scaleY(1);
 }
 
 .adminnav ul li a span {
@@ -189,7 +210,9 @@
     display: inline;
 }
 
-
+  /* Add more icon classes as needed */
+  
+  
 /* Responsiveness */
 /* Mobile View */
 @media only screen and (max-width: 576px) {
