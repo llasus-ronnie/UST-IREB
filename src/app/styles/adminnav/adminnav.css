@@ -109,6 +109,25 @@
     transform: scaleY(1);
 }
 
+.active-linkline {
+    position: relative;
+}
+
+.active-linkline:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -4px;
+    height: 100%;
+    width: 2px;
+    background: var(--tertiary-color);
+    transform: scaleY(1);
+}
+
+.active-link {
+    fill: var(--tertiary-color);
+}
+
 .adminnav ul li a span {
     margin-left: 0.625rem;
     white-space: nowrap;
