@@ -7,7 +7,8 @@ import { useSession } from "next-auth/react";
 
 const UserInfo = () => {
   const { data: session } = useSession();
-  const [currentTime, setCurrentTime] = useState(null);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -17,23 +18,25 @@ const UserInfo = () => {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    setIsClient(true);
+  },[]);
+
   const userName = session?.user?.name || "IREB Chair";
   const profileImage =
     session?.user?.image || "/images/userloggedin/user-placeholder.png";
 
-  const formattedDate = currentTime
-    ? currentTime.toLocaleDateString("en-US")
-    : ""; // For MM/DD/YYYY format
-  const formattedTime = currentTime
-    ? currentTime.toLocaleTimeString("en-US", {
+  const formattedDate = currentTime.toLocaleDateString("en-US")
+  const formattedTime = currentTime.toLocaleTimeString("en-US", {
         hour: "numeric",
         minute: "numeric",
         second: "numeric",
         hour12: true, // For 12-hour format with AM/PM
-      })
-    : "";
+      });
 
   return (
+    <>
+    {isClient && (
     <div className="uli-container">
       <Image
         src={profileImage}
@@ -49,6 +52,8 @@ const UserInfo = () => {
         </div>
       </div>
     </div>
+    )}
+    </>
   );
 };
 

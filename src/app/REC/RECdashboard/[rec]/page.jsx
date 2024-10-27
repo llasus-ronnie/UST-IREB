@@ -16,7 +16,9 @@ import withAuthorization from "../../../../hoc/withAuthorization";
 
 function RECDashboard({ params }) {
   const [forms, setForms] = useState([]);
+  const [isClient, setIsClient] = useState(false);
   const { rec } = useParams(); // Get the current route parameter
+  const parameter = React.use(params)
 
   useEffect(() => {
     async function fetchData() {
@@ -32,6 +34,11 @@ function RECDashboard({ params }) {
 
     fetchData();
   }, [rec]);
+
+  //hydration error fix 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const formatResearchEthicsCommittee = (value) => {
     const replacements = {
@@ -60,6 +67,8 @@ function RECDashboard({ params }) {
   };
 
   return (
+    <>
+    {isClient && (
     <div className="adminpage-container">
       <div className="recnav-mobile">
         <RecNavMobile />
@@ -67,7 +76,7 @@ function RECDashboard({ params }) {
 
       <RecNav 
       className="recnav"
-      rec= {params.rec}
+      rec= {parameter.rec}
       />
 
       <div className="rec-dashboard">
@@ -156,6 +165,8 @@ function RECDashboard({ params }) {
         </div>
       </div>
     </div>
+    )};
+    </>
   );
 }
 
