@@ -37,6 +37,8 @@ function SubmissionStatus({ params }) {
       description: "Your submission has been approved. You may now view and download the certificate of ethics review. Thank you!"},
   ];
 
+  
+
   const [form, setForm] = useState(null); // Initialize form state
   const [error, setError] = useState(null); // Initialize error state
 

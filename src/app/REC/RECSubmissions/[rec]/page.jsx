@@ -154,10 +154,10 @@ function RecSubmissions({params}) {
                         <tbody>
                           {filterFormsByStatus(status).map((form, index) => (
                             <tr key={index}>
-                              <td>{form?._id || "no forms"}</td>
-                              <td>{form.fullName}</td>
-                              <td>{new Date(form.date).toLocaleDateString("en-US")}</td>
-                              <td>{form.title}</td>
+                              <td>{form?._id || "No forms available"}</td>
+                              <td>{form?.fullName || "No author available"}</td>
+                              <td>{new Date(form?.date).toLocaleDateString("en-US") || "No date available"}</td>
+                              <td>{form?.title || "No title available"}</td>
                               <td>
                                 <Link href={`/REC/RECViewSubmission/${params.rec}/${form._id}`} className="rec-view-btn">
                                   View
