@@ -24,20 +24,23 @@ export async function POST(req, res) {
 
 export async function GET(req) {
   await connectDB();
-  
-  // Extract query params from the request URL
+
   const { searchParams } = new URL(req.url);
-  const rec = searchParams.get('rec'); // Get 'rec' from query params
-  console.log("REC: ", rec);
-  
+  const rec = searchParams.get("rec");
+  console.log("REC Parameter: ", rec);
+
   try {
     const forms = rec
       ? await SubmissionForm.find({ researchEthicsCommittee: rec.trim() })
-      : await SubmissionForm.find({}); // Return all forms if no 'rec'
-    
+      : await SubmissionForm.find({});
+
     return NextResponse.json({ forms }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch forms' }, { status: 500 });
+    console.error("Error fetching forms:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch forms" },
+      { status: 500 }
+    );
   }
 }
 

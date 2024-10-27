@@ -16,17 +16,18 @@ import {
   updateFormData,
   setCurrentStep,
 } from "../../../redux/slices/submissionFormSlice";
+import axios from "axios";
 
 function SubmissionFormsP1() {
   const [validated, setValidated] = useState(false);
   const [showTextbox, setShowTextbox] = useState(false);
+  const [recOptions, setRecOptions] = useState([]);
 
   const dispatch = useDispatch();
 
   const currentStep = useSelector((store) => store.submissionForm.currentStep);
   const formData = useSelector((store) => store.submissionForm.formData);
   console.log(formData, currentStep);
-  
 
   const {
     handleSubmit,
@@ -37,18 +38,31 @@ function SubmissionFormsP1() {
   } = useForm({
     defaultValues: {
       ...formData,
-      researchEthicsCommittee: formData.researchEthicsCommittee ? formData.researchEthicsCommittee.replace(/\s+/g, '') : '',
+      researchEthicsCommittee: formData.researchEthicsCommittee
+        ? formData.researchEthicsCommittee.replace(/\s+/g, "")
+        : "",
     },
   });
 
-  async function processForm(data) {
+  useEffect(() => {
+    async function fetchRecOptions() {
+      try {
+        const response = await axios.get("/api/REC");
+        setRecOptions(response.data.data);
+      } catch (error) {
+        console.error("Error fetching REC options:", error);
+      }
+    }
+    fetchRecOptions();
+  }, []);
 
+  async function processForm(data) {
     const sanitizedData = {
       ...data,
-      researchEthicsCommittee: data.researchEthicsCommittee.replace(/\s+/g, ''),
-  };
+      researchEthicsCommittee: data.researchEthicsCommittee.replace(/\s+/g, ""),
+    };
 
-  dispatch(updateFormData(sanitizedData));
+    dispatch(updateFormData(sanitizedData));
     dispatch(setCurrentStep(currentStep + 1));
   }
 
@@ -121,26 +135,11 @@ function SubmissionFormsP1() {
                 <option disabled value="">
                   Choose...
                 </option>
-                <option value="UST Hospital">UST Hospital</option>
-                <option value="Faculty of Pharmacy">Faculty of Pharmacy</option>
-                <option value="Graduate School">Graduate School</option>
-                <option value="College of Nursing">College of Nursing</option>
-                <option value="College of Rehabilitation Sciences">
-                  College of Rehabilitation Sciences
-                </option>
-                <option value="Faculty of Medicine and Surgery">
-                  Faculty of Medicine and Surgery
-                </option>
-                <option value="Senior High School">Senior High School</option>
-                <option value="College of Education">
-                  College of Education
-                </option>
-                <option value="Faculty of Engineering">
-                  Faculty of Engineering
-                </option>
-                <option value="College of Information and Computing Sciences">
-                  College of Information and Computing Sciences
-                </option>
+                {recOptions.map((rec) => (
+                  <option key={rec._id} value={rec.name}>
+                    {rec.name}
+                  </option>
+                ))}
               </FormSelect>
             </Row>
           </Container>

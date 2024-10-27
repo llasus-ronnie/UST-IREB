@@ -34,8 +34,10 @@ function IrebDashboard() {
   const [REC, setREC] = useState([]);
   const [formsData, setFormsData] = useState([]);
   const [newlyAssignedCount, setNewlyAssignedCount] = useState(0);
+  const [recChairMap, setRecChairMap] = useState({});
+  const [submissionCounts, setSubmissionCounts] = useState({});
 
-  // For rec
+  // For REC data
   useEffect(() => {
     async function fetchData() {
       try {
@@ -43,27 +45,59 @@ function IrebDashboard() {
         console.log("API Response:", response.data);
         setREC(response.data.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching REC data:", error);
       }
     }
-
     fetchData();
   }, []);
 
-  // For forms
+  // For forms data
   useEffect(() => {
     async function fetchFormsData() {
       try {
         const response = await axios.get("/api/forms");
-        const forms = response.data.data || [];
+        console.log("API Response Data:", response.data);
+
+        const forms = response.data.forms || [];
         setFormsData(forms);
         setNewlyAssignedCount(forms.length);
+
+        // Count submissions per REC
+        const counts = forms.reduce((acc, form) => {
+          const researchEthicsCommittee = form.researchEthicsCommittee;
+          acc[researchEthicsCommittee] =
+            (acc[researchEthicsCommittee] || 0) + 1;
+          return acc;
+        }, {});
+
+        setSubmissionCounts(counts);
       } catch (error) {
         console.error("Error fetching forms data:", error);
       }
     }
-
     fetchFormsData();
+  }, []);
+
+  // For REC members data (to find REC Chair)
+  useEffect(() => {
+    async function fetchRECChairs() {
+      try {
+        const response = await axios.get("/api/RECMembers");
+        const recMembers = response.data.data || [];
+
+        const chairMap = {};
+        recMembers.forEach((member) => {
+          if (member.recRole === "REC Chair") {
+            chairMap[member.rec] = member.name;
+          }
+        });
+
+        setRecChairMap(chairMap);
+      } catch (error) {
+        console.error("Error fetching REC Chair data:", error);
+      }
+    }
+    fetchRECChairs();
   }, []);
 
   const [chartData, setChartData] = useState({
@@ -182,7 +216,7 @@ function IrebDashboard() {
                     <th>RECs</th>
                     <th>Status</th>
                     <th>Overall Submission Count</th>
-                    <th>Assigned REC Reviewer</th>
+                    <th>Chair</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -191,8 +225,8 @@ function IrebDashboard() {
                     <tr key={rec.id}>
                       <td>{rec.name}</td>
                       <td>{rec.status}</td>
-                      <td>{rec.submission_count}</td>
-                      <td>{rec.reviewer}</td>
+                      <td>{submissionCounts[rec.name] || 0}</td>
+                      <td>{recChairMap[rec.name] || "Not Assigned"}</td>
                       <td>
                         <button className="view-button">View</button>
                       </td>
