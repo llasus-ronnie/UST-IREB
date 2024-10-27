@@ -28,37 +28,20 @@ const RecNav = (props) => {
       </div>
       <div className="adminnav-content">
         <ul>
-          <li>
+          <li className="adminnavline">
             <a href="../../REC/RECUserProfile">
               <div>
-<<<<<<< HEAD
               <svg fill="#fcbf15" width="30" height="30" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16,8a5,5,0,1,0,5,5A5,5,0,0,0,16,8Zm0,8a3,3,0,1,1,3-3A3.0034,3.0034,0,0,1,16,16Z"/>
                 <path d="M16,2A14,14,0,1,0,30,16,14.0158,14.0158,0,0,0,16,2ZM10,26.3765V25a3.0033,3.0033,0,0,1,3-3h6a3.0033,3.0033,0,0,1,3,3v1.3765a11.8989,11.8989,0,0,1-12,0Zm13.9925-1.4507A5.0016,5.0016,0,0,0,19,20H13a5.0016,5.0016,0,0,0-4.9925,4.9258,12,12,0,1,1,15.985,0Z"/>
               </svg>
-=======
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="30"
-                  height="30"
-                  fill="#fcbf15"
-                  className="bi bi-person-circle"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                  <path
-                    fillRule="evenodd"
-                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
-                  />
-                </svg>
->>>>>>> 6de237a9ac6061a184fe0b79026dae68f50782cf
               </div>
               {isOpen && <span>My Profile</span>}
             </a>
           </li>
 
-          <li>
-            <a href= {`/REC/RECdashboard/${props.rec}`}>
+          <li className="adminnavline">
+            <a href={`/REC/RECdashboard/${props.rec}`}>
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +59,7 @@ const RecNav = (props) => {
             </a>
           </li>
 
-          <li>
+          <li className="adminnavline">
             <a href={`/REC/RECSubmissions/${props.rec}`}>
               <div>
                 <svg
@@ -100,7 +83,7 @@ const RecNav = (props) => {
             </a>
           </li>
 
-          <li>
+          <li className="adminnavline">
             <a href="../RECManageContent">
               <div>
                 <svg
@@ -122,7 +105,7 @@ const RecNav = (props) => {
             </a>
           </li>
 
-          <li>
+          <li className="adminnavline">
             <a href="/reports">
               <div>
                 <svg
@@ -144,7 +127,7 @@ const RecNav = (props) => {
 
       <div className="adminnav-logout">
         <ul>
-          <li>
+          <li className="adminnavline">
             <a
               href="/#"
               onClick={() => signOut({ callbackUrl: "/SignInAdmin" })}

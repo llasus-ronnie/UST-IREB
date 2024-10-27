@@ -40,8 +40,6 @@
     padding-top: 3rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;    
 }
 
 .adminnav-logout {
@@ -213,9 +211,6 @@
 .adminnav.open .adminnav-logout span {
     display: inline;
 }
-
-  /* Add more icon classes as needed */
-  
   
 /* Responsiveness */
 /* Mobile View */
@@ -347,8 +342,4 @@
     font-family: var(--poppins);
     font-size: 1rem;
     text-align: center;
-}
-
-.active-link{
-    fill: #a58324;
 }

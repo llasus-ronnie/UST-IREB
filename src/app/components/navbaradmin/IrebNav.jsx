@@ -68,9 +68,9 @@ const IrebNav = () => {
           </li>
 
           {/* Manage Accounts */}
-          <li className="dropdown adminnavline" onClick={handleImageClick}>
+          <li className="dropdown adminnavline">
             <div className="dropdown-div">
-              <div>
+              <div onClick={handleImageClick}>
                 <svg
                   width="30"
                   height="30"
@@ -81,7 +81,7 @@ const IrebNav = () => {
                   <path
                     d="M8.5 21H4C4 17.134 7.13401 14 11 14C11.1681 14 11.3348 14.0059 11.5 14.0176M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7ZM12.5898 21L14.6148 20.595C14.7914 20.5597 14.8797 20.542 14.962 20.5097C15.0351 20.4811 15.1045 20.4439 15.1689 20.399C15.2414 20.3484 15.3051 20.2848 15.4324 20.1574L19.5898 16C20.1421 15.4477 20.1421 14.5523 19.5898 14C19.0376 13.4477 18.1421 13.4477 17.5898 14L13.4324 18.1574C13.3051 18.2848 13.2414 18.3484 13.1908 18.421C13.1459 18.4853 13.1088 18.5548 13.0801 18.6279C13.0478 18.7102 13.0302 18.7985 12.9948 18.975L12.5898 21Z"
                     stroke="#fcbf15"
-                    stroke-width="2"
+                    strokeWidth="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   />
@@ -179,21 +179,21 @@ const IrebNav = () => {
                   <path
                     d="M21 12L13 12"
                     stroke="#fcbf15"
-                    stroke-width="2"
+                    strokeWidth="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   ></path>
                   <path
                     d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9"
                     stroke="#fcbf15"
-                    stroke-width="2"
+                    strokeWidth="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   ></path>
                   <path
                     d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19"
                     stroke="#fcbf15"
-                    stroke-width="2"
+                    strokeWidth="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   ></path>

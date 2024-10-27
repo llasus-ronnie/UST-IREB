@@ -19,7 +19,7 @@ const PrNav = () => {
       </div>
       <div className="adminnav-content">
         <ul>
-          <li>
+          <li className="adminnavline">
             <Link href="../PrimaryReviewer/PRUserProfile" passHref>
             <div>
             <svg fill="#fcbf15" width="30" height="30" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +31,7 @@ const PrNav = () => {
             </Link>
           </li>
 
-          <li>
+          <li className="adminnavline">
             <Link href="../PrimaryReviewer/PRDashboard" passHref>
             <div>
             <svg
@@ -49,7 +49,7 @@ const PrNav = () => {
             </Link>
           </li>
 
-          <li>
+          <li className="adminnavline">
             <Link href="/submissions" passHref>
             <div>
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#fcbf15" className="bi bi-clipboard-check" viewBox="0 0 16 16">
@@ -66,7 +66,7 @@ const PrNav = () => {
 
       <div className="adminnav-logout">
         <ul>
-          <li>
+          <li className="adminnavline">
             <Link
               href="/#"
               onClick={() => signOut({ callbackUrl: "/SignInAdmin" })}
