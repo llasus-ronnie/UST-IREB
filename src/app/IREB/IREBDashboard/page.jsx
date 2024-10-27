@@ -1,7 +1,6 @@
 "use client";
 
-// dependencies
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IrebNav from "../../components/navbaradmin/IrebNav";
 import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
@@ -16,8 +15,8 @@ import {
   Legend,
 } from "chart.js";
 import "chartjs-plugin-dragdata";
+import axios from "axios";
 
-// css
 import "../../styles/ireb/dashboard.css";
 
 import withAuthorization from "../../../hoc/withAuthorization";
@@ -32,6 +31,41 @@ ChartJS.register(
 );
 
 function IrebDashboard() {
+  const [REC, setREC] = useState([]);
+  const [formsData, setFormsData] = useState([]);
+  const [newlyAssignedCount, setNewlyAssignedCount] = useState(0);
+
+  // For rec
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get("/api/REC");
+        console.log("API Response:", response.data);
+        setREC(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  // For forms
+  useEffect(() => {
+    async function fetchFormsData() {
+      try {
+        const response = await axios.get("/api/forms");
+        const forms = response.data.data || [];
+        setFormsData(forms);
+        setNewlyAssignedCount(forms.length);
+      } catch (error) {
+        console.error("Error fetching forms data:", error);
+      }
+    }
+
+    fetchFormsData();
+  }, []);
+
   const [chartData, setChartData] = useState({
     labels: [
       "Jan",
@@ -71,12 +105,12 @@ function IrebDashboard() {
         display: true,
         text: "REC Submissions",
       },
-      dragData: true, // Enable drag functionality
-      dragDataRound: 0, // Round dragged values
+      dragData: true,
+      dragDataRound: 0,
       onDragEnd: function (e, datasetIndex, index, value) {
         const updatedData = [...chartData.datasets];
-        updatedData[datasetIndex].data[index] = value; // Update dragged value
-        setChartData({ ...chartData, datasets: updatedData }); // Set new data in state
+        updatedData[datasetIndex].data[index] = value;
+        setChartData({ ...chartData, datasets: updatedData });
       },
     },
     scales: {
@@ -116,7 +150,7 @@ function IrebDashboard() {
               <div className="admindashboard-cards">
                 <div className="admindashboard-card">
                   <h2>Newly Assigned</h2>
-                  <h3>100</h3>
+                  <h3>{newlyAssignedCount}</h3>
                   <p>Submissions</p>
                 </div>
                 <div className="admindashboard-card">
@@ -145,7 +179,7 @@ function IrebDashboard() {
               <table className="rec-table">
                 <thead>
                   <tr>
-                    <th>PHREB-accredited RECs and IREB Members</th>
+                    <th>RECs</th>
                     <th>Status</th>
                     <th>Overall Submission Count</th>
                     <th>Assigned REC Reviewer</th>
@@ -153,33 +187,17 @@ function IrebDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>UST Hospital</td>
-                    <td>PHREB</td>
-                    <td>1</td>
-                    <td>Juan Miguel Dela Cruz</td>
-                    <td>
-                      <button className="view-button">View</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Faculty of Pharmacy</td>
-                    <td>PHREB</td>
-                    <td>2</td>
-                    <td>Juan Miguel Dela Cruz</td>
-                    <td>
-                      <button className="view-button">View</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Graduate School</td>
-                    <td>PHREB</td>
-                    <td>3</td>
-                    <td>Juan Miguel Dela Cruz</td>
-                    <td>
-                      <button className="view-button">View</button>{" "}
-                    </td>
-                  </tr>
+                  {REC.map((rec) => (
+                    <tr key={rec.id}>
+                      <td>{rec.name}</td>
+                      <td>{rec.status}</td>
+                      <td>{rec.submission_count}</td>
+                      <td>{rec.reviewer}</td>
+                      <td>
+                        <button className="view-button">View</button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
