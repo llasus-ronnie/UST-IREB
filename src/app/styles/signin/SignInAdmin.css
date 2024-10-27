@@ -138,7 +138,7 @@ hr {
 @media screen and (max-width: 1500px) {
   .admin-signin-logo-container {
     position: absolute;
-    top: 23rem;
+    top: 10rem;
     left: 10%;
     transform: translate(-10%, -50%);
     gap: 5px;
