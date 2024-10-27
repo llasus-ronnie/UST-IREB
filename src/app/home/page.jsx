@@ -1,6 +1,5 @@
 "use client";
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 //components
@@ -25,7 +24,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Image from "next/image";
 
 function Home() {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null; 
+  }
+
   return (
+    <>
+    {isClient && (
     <>
       <div className="header">
         <Navbar />
@@ -197,6 +207,8 @@ function Home() {
       <div className="footer">
         <Footer />
       </div>
+      </>
+      )}
     </>
   );
 }

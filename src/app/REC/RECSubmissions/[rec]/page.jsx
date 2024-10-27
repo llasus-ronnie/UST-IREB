@@ -32,6 +32,8 @@ function RecSubmissions({params}) {
 
 
     const [forms, setForms] = useState([]);
+    const [statusCount, setStatusCount] = useState({});
+
     const { rec } = useParams(); // Get the current route parameter
   
     useEffect(() => {
@@ -41,6 +43,13 @@ function RecSubmissions({params}) {
             params: { rec: rec.trim() },
           });
           setForms(response.data.forms); 
+
+          const statusCount = response.data.forms.reduce((acc, form) => {
+            acc[form.status] = (acc[form.status] || 0) + 1; 
+            return acc;
+          }
+          , {});
+          setStatusCount(statusCount);
         } catch (error) {
           console.error("Error fetching forms:", error);
         }
@@ -54,8 +63,6 @@ function RecSubmissions({params}) {
       console.log("Status:", status);
       return forms.filter((form) => form.status === status);
     };
-
-    const formCount = forms.length;
   
     
   return (
@@ -98,22 +105,22 @@ function RecSubmissions({params}) {
           <div className="rec-submissions-tabs">
             <div className="rec-buttons-container">
               <button onClick={() => handleTableChange("Initial-Submission")}>
-                <span>{formCount} </span> <p>Initial Submission</p>
+                <span>{statusCount["Initial-Submission"] || 0} </span> <p>Initial Submission</p>
               </button>
               <button onClick={() => handleTableChange("Pending-Payment")}>
-                <span>{formCount}</span> <p>Pending Payment</p>
+                <span>{statusCount["Pending-Payment"] || 0}</span> <p>Pending Payment</p>
               </button>
               <button onClick={() => handleTableChange("For-Classification")}>
-                <span>{formCount}</span> <p>For Classification</p>
+                <span>{statusCount["For-Classification"] || 0}</span> <p>For Classification</p>
               </button>
               <button onClick={() => handleTableChange("In-Progress")}>
-                <span>100</span> <p>In Progress</p>
+                <span>{statusCount["In-Progress"] || 0}</span> <p>In Progress</p>
               </button>
               <button onClick={() => handleTableChange("Final-Review")}>
-                <span>21</span> <p>Final Review</p>
+                <span>{statusCount["Final-Review"] || 0}</span> <p>Final Review</p>
               </button>
               <button onClick={() => handleTableChange("Approved")}>
-                <span>100</span> <p>Approved</p>
+                <span>{statusCount["Approved"] || 0}</span> <p>Approved</p>
               </button>
             </div>
 
