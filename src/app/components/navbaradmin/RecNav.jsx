@@ -1,14 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/adminnav/adminnav.css";
 import { useSession, signOut } from "next-auth/react";
 
 const RecNav = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isActive, setIsActive] = useState("");
 
   const toggleNav = () => {
     setIsOpen(!isOpen);
+  };
+
+  const activeLink = (link) => {
+    setIsActive(link);
   };
 
   // const handleImageClick = (event) => {
@@ -46,14 +51,15 @@ const RecNav = (props) => {
           </li>
 
           <li>
-            <a href="../REC/RECdashboard/rec">
+            <a href= {`/REC/RECdashboard/${props.rec}`}>
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="30"
                   height="30"
                   fill="#fcbf15"
-                  className="bi bi-house-door"
+                  className={`bi bi-house-door ${isActive === "home" ? "active-link" : ""}`}     
+                  onClick={() => activeLink("home")}             
                   viewBox="0 0 16 16"
                 >
                   <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
@@ -71,7 +77,8 @@ const RecNav = (props) => {
                   width="30"
                   height="30"
                   fill="#fcbf15"
-                  className="bi bi-clipboard-check"
+                  className={`bi bi-clipboard-check ${isActive === "submissions" ? "active-link" : ""}`}
+                  onClick={() => activeLink("submissions")} 
                   viewBox="0 0 16 16"
                 >
                   <path
@@ -94,7 +101,7 @@ const RecNav = (props) => {
                   width="30"
                   height="30"
                   fill="#fcbf15"
-                  className="bi bi-pencil-square"
+                  className={`bi bi-pencil-square ${isActive ? "active-link" : ""}`} 
                   viewBox="0 0 16 16"
                 >
                   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -116,7 +123,7 @@ const RecNav = (props) => {
                   width="30"
                   height="30"
                   fill="#fcbf15"
-                  className="bi bi-folder2"
+                  className={`bi bi-folder2 ${isActive ? "active-link" : ""}`} 
                   viewBox="0 0 16 16"
                 >
                   <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5zM2.5 3a.5.5 0 0 0-.5.5V6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3zM14 7H2v5.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5z" />

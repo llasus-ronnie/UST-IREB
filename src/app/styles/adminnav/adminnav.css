@@ -38,6 +38,10 @@
 
 .adminnav-content {
     padding-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;    
 }
 
 .adminnav-logout {
@@ -320,4 +324,8 @@
     font-family: var(--poppins);
     font-size: 1rem;
     text-align: center;
+}
+
+.active-link{
+    fill: #a58324;
 }
