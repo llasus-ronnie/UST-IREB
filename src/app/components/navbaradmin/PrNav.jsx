@@ -1,15 +1,30 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/adminnav/adminnav.css";
 import { useSession, signOut } from "next-auth/react";
 
-const PrNav = () => {
+const PrNav = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isActive, setIsActive] = useState("");
 
   const toggleNav = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    const path = window.location.pathname;
+
+    if (path.includes("PRDashboard")) {
+        setIsActive("home");
+    } else if (path.includes("PRUserProfile")) {
+        setIsActive("profile");
+    } else if (path.includes("PRSubmissions")) { //change to submission page
+        setIsActive("submissions");
+    } else {
+        setIsActive("");
+    }
+}, [props.rec]);
 
   return (
     <div className={`prnav adminnav ${isOpen ? "open" : ""}`}>
@@ -18,15 +33,16 @@ const PrNav = () => {
       </div>
       <div className="adminnav-content">
         <ul>
-          <li className="adminnavline">
-            <a href="../PrimaryReviewer/PRUserProfile" passHref>
+          <li className={`adminnavline ${isActive === "profile" ? "active-linkline" : ""}`}>
+            <a href="../PrimaryReviewer/PRUserProfile" passHref onClick={() => isActive("profile")} >
               <div>
                 <svg
-                  fill="#fcbf15"
+                  fill="#a58324"
                   width="30"
                   height="30"
                   viewBox="0 0 32 32"
                   xmlns="http://www.w3.org/2000/svg"
+                  className={`${isActive === "profile" ? "active-link" : ""}`}
                 >
                   <path d="M16,8a5,5,0,1,0,5,5A5,5,0,0,0,16,8Zm0,8a3,3,0,1,1,3-3A3.0034,3.0034,0,0,1,16,16Z" />
                   <path d="M16,2A14,14,0,1,0,30,16,14.0158,14.0158,0,0,0,16,2ZM10,26.3765V25a3.0033,3.0033,0,0,1,3-3h6a3.0033,3.0033,0,0,1,3,3v1.3765a11.8989,11.8989,0,0,1-12,0Zm13.9925-1.4507A5.0016,5.0016,0,0,0,19,20H13a5.0016,5.0016,0,0,0-4.9925,4.9258,12,12,0,1,1,15.985,0Z" />
@@ -36,15 +52,15 @@ const PrNav = () => {
             </a>
           </li>
 
-          <li className="adminnavline">
-            <a href="../PrimaryReviewer/PRDashboard" passHref>
+          <li className={`adminnavline ${isActive === "home" ? "active-linkline" : ""}`}>
+            <a href="../PrimaryReviewer/PRDashboard" passHref onClick={() => isActive("home")} >
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="30"
                   height="30"
-                  fill="#fcbf15"
-                  className="bi bi-house-door"
+                  fill="#a58324"
+                  className={`bi bi-house-door ${isActive === "home" ? "active-link" : ""}`}
                   viewBox="0 0 16 16"
                 >
                   <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
@@ -54,15 +70,15 @@ const PrNav = () => {
             </a>
           </li>
 
-          <li className="adminnavline">
-            <a href="/submissions" passHref>
+          <li className={`adminnavline ${isActive === "submissions" ? "active-linkline" : ""}`}>
+            <a href="/submissions" passHref onClick={() => isActive("submissions")} >
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="30"
                   height="30"
-                  fill="#fcbf15"
-                  className="bi bi-clipboard-check"
+                  fill="#a58324"
+                  className={`bi bi-clipboard-check ${isActive === "submissions" ? "active-link" : ""}`}
                   viewBox="0 0 16 16"
                 >
                   <path
