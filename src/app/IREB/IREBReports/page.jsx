@@ -205,7 +205,10 @@ function IrebReports() {
             </div>
 
             <br />
-            <br />
+
+            <div class="report-page-header">
+              <button class="download-btn">Download Reports</button>
+            </div>
 
             {/* Chart */}
             <div className="twocol-container">
