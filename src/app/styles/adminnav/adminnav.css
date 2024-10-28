@@ -6,6 +6,9 @@
     --tertiary-color: #fcbf15;
     --quaternary-color: #ffffff;
     --poppins: "Poppins", sans-serif;
+    --title-size: 1.875rem;
+    --heading-1-size: 1.5rem;
+    --paragraph-size: 1rem;
 }
 
 /* Sidebar Container */
@@ -40,8 +43,6 @@
     padding-top: 3rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;    
 }
 
 .adminnav-logout {
@@ -81,7 +82,7 @@
     display: flex;
     align-items: center;
     font-family: var(--poppins);
-    font-size: 1rem;
+    font-size: var(--paragraph-size);
     transition: color 0.1s ease, background-color 0.1s ease;
 }
 
@@ -111,6 +112,29 @@
     transform: scaleY(1);
 }
 
+.active-linkline {
+    position: relative;
+}
+
+.active-linkline:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -4px;
+    height: 100%;
+    width: 2px;
+    background: var(--tertiary-color);
+    transform: scaleY(1);
+}
+
+.active-link {
+    fill: var(--tertiary-color);
+}
+
+.active-link-accounts path {
+    stroke: var(--tertiary-color);
+}
+
 .adminnav ul li a span {
     margin-left: 0.625rem;
     white-space: nowrap;
@@ -126,7 +150,7 @@
     background-color: var(--primary-color);
     cursor: pointer;
     font-family: var(--poppins);
-    font-size: 1rem;
+    font-size: var(--paragraph-size);
     color: var(--quaternary-color);
 }
 
@@ -152,7 +176,7 @@
     align-items: center;
     color: var(--quaternary-color);
     font-family: var(--poppins);
-    font-size: 1rem;
+    font-size: var(--paragraph-size);
     text-decoration: none;
     padding: 0.1rem 0.3125rem 0.1rem 2rem !important;
     transition: color 0.1s ease, background-color 0.1s ease;
@@ -213,9 +237,6 @@
 .adminnav.open .adminnav-logout span {
     display: inline;
 }
-
-  /* Add more icon classes as needed */
-  
   
 /* Responsiveness */
 /* Mobile View */
@@ -347,8 +368,4 @@
     font-family: var(--poppins);
     font-size: 1rem;
     text-align: center;
-}
-
-.active-link{
-    fill: #a58324;
 }

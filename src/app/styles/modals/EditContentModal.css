@@ -6,6 +6,9 @@
   --tertiary-color: #fcbf15;
   --quaternary-color: #ffffff;
   --poppins: "Poppins", sans-serif;
+  --title-size: 1.875rem;
+  --heading-1-size: 1.5rem;
+  --paragraph-size: 1rem;
 }
 
 .modal-dialog {
@@ -37,7 +40,7 @@
   color: var(--primary-color);
   text-align: center;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: var(--title-size);
 }
 
 /* Body */
@@ -129,7 +132,7 @@
 .editcontent-modal-footer .btn.cancel {
   background-color: #6c757d;
   color: #fff;
-  font-size: 0.9rem;
+  font-size: var(--paragraph-size);
   padding: 0.7rem 3rem;
 }
 
@@ -140,7 +143,7 @@
 .editcontent-modal-footer .btn.editcontent {
   background-color: var(--tertiary-color);
   color: #fff;
-  font-size: 0.9rem;
+  font-size: var(--paragraph-size);
   padding: 0.7rem 5rem;
 }
 
@@ -152,7 +155,7 @@
   }
 
   .editcontent-modal-title {
-    font-size: 1.5rem;
+    font-size: var(--heading-1-size);
   }
 
   .editcontent-modal-body .form-control {

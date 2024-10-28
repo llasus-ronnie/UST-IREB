@@ -2,15 +2,13 @@
 
 :root {
   --primary-color: #121212;
-  --secondary-color: #d9d9d9;
+  --secondary-color: #ecf0f1;
   --tertiary-color: #fcbf15;
-  --quaternary-color: #fffcf7;
-
+  --quaternary-color: #ffffff;
   --poppins: "Poppins", sans-serif;
-
-  --title-size: 2rem;
+  --title-size: 1.875rem;
   --heading-1-size: 1.5rem;
-  --paragraph-size: 0.85rem;
+  --paragraph-size: 1rem;
 }
 
 .unauthorized-container {
@@ -53,7 +51,7 @@
 }
 
 .unauthorized-message {
-  font-size: 1.1rem;
+  font-size: var(--paragraph-size);
   margin: 1rem 0;;
   color: var(--primary-color);
 }
@@ -108,7 +106,7 @@
     }
   
     .unauthorized-message {
-      font-size: 1rem;
+      font-size: var(--paragraph-size);
     }
   
     .unauthorized-image {
@@ -146,7 +144,7 @@
       }
     
       .unauthorized-link {
-        font-size: 1rem;
+        font-size: var(--paragraph-size);
         padding: 6px 25px;
       }
     

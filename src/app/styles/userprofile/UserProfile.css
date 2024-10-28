@@ -6,9 +6,9 @@
   --tertiary-color: #fcbf15;
   --quaternary-color: #ffffff;
   --poppins: "Poppins", sans-serif;
-  --title-size: 32px;
-  --heading-1-size: 24px;
-  --paragraph-size: 13.6px;
+  --title-size: 1.875rem;
+  --heading-1-size: 1.5rem;
+  --paragraph-size: 1rem;
 }
 
 .profileheader {
@@ -172,6 +172,12 @@
   font-weight: bold;
 }
 
+.check-status button:hover {
+  background-color: var(--primary-color);
+  transition: background-color 0.3s ease-in-out;
+}
+
+
 /* scroll design  */
 ::-webkit-scrollbar {
   background-color: var(--primary-color);
@@ -193,7 +199,7 @@
   }
 
   .profileheader h1 {
-    font-size: 1.5rem;
+    font-size: var(--heading-1-size);
   }
 
   .profile-container {
@@ -263,7 +269,7 @@
 
   .check-status button {
     padding: 0.5rem 2.5rem;
-    font-size: 0.9rem;
+    font-size: var(--paragraph-size);
   }
 
   ::-webkit-scrollbar {
@@ -281,7 +287,7 @@
       }
     
       .profileheader h1 {
-        font-size: 1.75rem;
+        font-size: var(--title-size);
       }
     
       .profile-container {
@@ -346,7 +352,7 @@
     
       .check-status button {
         padding: 0.5rem 2.5rem;
-        font-size: 1rem;
+        font-size: var(--paragraph-size);
       }
     
       ::-webkit-scrollbar {

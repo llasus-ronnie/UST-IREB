@@ -61,12 +61,12 @@
 
 .rec-header h1 {
     color: var(--primary-color);
-    font-size: 1.75rem;
+    font-size: var(--title-size);
     font-weight: bold;
 }
 
 .rec-header p {
-    font-size: 1rem;
+    font-size: var(--paragraph-size);
     color: var(--primary-color);
     padding-top: 0.4rem;
 }
@@ -235,11 +235,11 @@
     }
 
     .rec-header h1 {
-      font-size: 1.75rem;
+      font-size: var(--title-size);
     }
 
     .rec-header p {
-      font-size: 1rem;
+      font-size: var(--paragraph-size);
       padding-top: 0.4rem;
     }
 
@@ -319,7 +319,7 @@
       }
 
       .rec-header-container-mobile h1 {
-        font-size: 1.5rem;
+        font-size: var(--heading-1-size);
       }
 
       .userloggedin-mobile {

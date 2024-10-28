@@ -81,7 +81,7 @@
     display: flex;
     padding: 1.25rem;
     margin: 2rem 2rem 0rem 2rem;
-    font-size: 2rem;
+    font-size: var(--title-size);
     font-weight: bold;
     border-radius: 0.938rem 0.938rem 0 0;
 }
@@ -93,7 +93,7 @@
     display: flex;
     padding: 1rem 1rem 1rem 3rem;
     margin: 0rem 2rem 2rem 2rem;
-    font-size: 1.8rem;
+    font-size: var(--title-size);
     font-weight: bold;
     border-radius: 0 0 0.938rem 0.938rem;
 }
@@ -121,7 +121,7 @@
 .mc-buttonedit {
     padding: 0.8rem 4rem;
     margin-left: 1rem;
-    font-size: 0.8rem;
+    font-size: var(--paragraph-size);
     border: none;
     border-radius: 0.625rem;
     cursor: pointer;
@@ -130,6 +130,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.mc-buttonedit:hover {
+    color: var(--quaternary-color);
+    background-color: #297cac;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .mc-buttonedit svg {
@@ -178,7 +184,7 @@ tr:hover {
     cursor: pointer;
     background: none;
     border: none;
-    font-size: 1.2rem;
+    font-size: var(--heading-1-size);
     margin-right: 0.5rem;
     color: var(--primary-color);
     transition: color 0.2s ease;

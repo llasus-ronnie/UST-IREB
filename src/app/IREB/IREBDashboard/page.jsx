@@ -1,7 +1,6 @@
 "use client";
 
-// dependencies
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IrebNav from "../../components/navbaradmin/IrebNav";
 import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
@@ -16,8 +15,8 @@ import {
   Legend,
 } from "chart.js";
 import "chartjs-plugin-dragdata";
+import axios from "axios";
 
-// css
 import "../../styles/ireb/dashboard.css";
 
 import withAuthorization from "../../../hoc/withAuthorization";
@@ -32,34 +31,130 @@ ChartJS.register(
 );
 
 function IrebDashboard() {
+  const [REC, setREC] = useState([]);
+  const [formsData, setFormsData] = useState([]);
+  const [newlyAssignedCount, setNewlyAssignedCount] = useState(0);
+  const [recChairMap, setRecChairMap] = useState({});
+  const [submissionCounts, setSubmissionCounts] = useState({});
   const [chartData, setChartData] = useState({
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
+    labels: [],
     datasets: [
       {
         label: "Submitted",
-        data: [3, 4, 6, 5, 7, 8, 6, 9, 7, 6, 5, 4],
+        data: [],
         backgroundColor: "#FFCC00",
       },
       {
         label: "Approved",
-        data: [2, 3, 5, 4, 6, 7, 5, 8, 6, 5, 4, 3],
+        data: [],
         backgroundColor: "#E6B800",
       },
     ],
   });
+
+  // For REC data
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get("/api/REC");
+        console.log("API Response:", response.data);
+        setREC(response.data.data);
+      } catch (error) {
+        console.error("Error fetching REC data:", error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  // For forms data and chart data aggregation
+  useEffect(() => {
+    async function fetchFormsData() {
+      try {
+        const response = await axios.get("/api/forms");
+        console.log("API Response Data:", response.data);
+
+        const forms = response.data.forms || [];
+        setFormsData(forms);
+        setNewlyAssignedCount(forms.length);
+
+        const submissionCountsArray = Array(12).fill(0);
+        const labels = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+
+        const recSubmissionCounts = {};
+
+        forms.forEach((form) => {
+          const submissionDate = new Date(form.date);
+          const month = submissionDate.getMonth(); // 0-11 for Jan-Dec
+          const recName = form.researchEthicsCommittee;
+
+          // Increment counts for submissions
+          submissionCountsArray[month]++;
+          if (!recSubmissionCounts[recName]) {
+            recSubmissionCounts[recName] = 0;
+          }
+          recSubmissionCounts[recName]++;
+        });
+
+        // Update the state for submission counts per REC
+        setSubmissionCounts(recSubmissionCounts);
+
+        // Update the chart data
+        setChartData({
+          labels: labels,
+          datasets: [
+            {
+              label: "Submitted",
+              data: submissionCountsArray,
+              backgroundColor: "#FFCC00",
+            },
+            {
+              label: "Approved", // This dataset can be removed if not used
+              data: Array(12).fill(0), // Placeholder if you don't have approval data
+              backgroundColor: "#E6B800",
+            },
+          ],
+        });
+      } catch (error) {
+        console.error("Error fetching forms data:", error);
+      }
+    }
+    fetchFormsData();
+  }, []);
+
+  // For REC members data (to find REC Chair)
+  useEffect(() => {
+    async function fetchRECChairs() {
+      try {
+        const response = await axios.get("/api/RECMembers");
+        const recMembers = response.data.data || [];
+
+        const chairMap = {};
+        recMembers.forEach((member) => {
+          if (member.recRole === "REC Chair") {
+            chairMap[member.rec] = member.name;
+          }
+        });
+
+        setRecChairMap(chairMap);
+      } catch (error) {
+        console.error("Error fetching REC Chair data:", error);
+      }
+    }
+    fetchRECChairs();
+  }, []);
 
   const options = {
     responsive: true,
@@ -71,12 +166,12 @@ function IrebDashboard() {
         display: true,
         text: "REC Submissions",
       },
-      dragData: true, // Enable drag functionality
-      dragDataRound: 0, // Round dragged values
+      dragData: true,
+      dragDataRound: 0,
       onDragEnd: function (e, datasetIndex, index, value) {
         const updatedData = [...chartData.datasets];
-        updatedData[datasetIndex].data[index] = value; // Update dragged value
-        setChartData({ ...chartData, datasets: updatedData }); // Set new data in state
+        updatedData[datasetIndex].data[index] = value;
+        setChartData({ ...chartData, datasets: updatedData });
       },
     },
     scales: {
@@ -116,7 +211,7 @@ function IrebDashboard() {
               <div className="admindashboard-cards">
                 <div className="admindashboard-card">
                   <h2>Newly Assigned</h2>
-                  <h3>100</h3>
+                  <h3>{newlyAssignedCount}</h3>
                   <p>Submissions</p>
                 </div>
                 <div className="admindashboard-card">
@@ -145,41 +240,25 @@ function IrebDashboard() {
               <table className="rec-table">
                 <thead>
                   <tr>
-                    <th>PHREB-accredited RECs and IREB Members</th>
+                    <th>RECs</th>
                     <th>Status</th>
                     <th>Overall Submission Count</th>
-                    <th>Assigned REC Reviewer</th>
+                    <th>Chair</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>UST Hospital</td>
-                    <td>PHREB</td>
-                    <td>1</td>
-                    <td>Juan Miguel Dela Cruz</td>
-                    <td>
-                      <button className="view-button">View</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Faculty of Pharmacy</td>
-                    <td>PHREB</td>
-                    <td>2</td>
-                    <td>Juan Miguel Dela Cruz</td>
-                    <td>
-                      <button className="view-button">View</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Graduate School</td>
-                    <td>PHREB</td>
-                    <td>3</td>
-                    <td>Juan Miguel Dela Cruz</td>
-                    <td>
-                      <button className="view-button">View</button>{" "}
-                    </td>
-                  </tr>
+                  {REC.map((rec) => (
+                    <tr key={rec.id}>
+                      <td>{rec.name}</td>
+                      <td>{rec.status}</td>
+                      <td>{submissionCounts[rec.name] || 0}</td>
+                      <td>{recChairMap[rec.name] || "Not Assigned"}</td>
+                      <td>
+                        <button className="view-button">View</button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

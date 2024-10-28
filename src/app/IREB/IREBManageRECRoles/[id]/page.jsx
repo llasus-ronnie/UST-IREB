@@ -9,12 +9,14 @@ import IrebNavMobile from "../../../components/navbaradmin/IrebNavMobile";
 import SearchBar from "../../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../../components/userloggedin/UserLoggedIn";
 import AddRECMemberModal from "../../../components/modals/AddRECMemberModal";
+import EditRECMemberModal from "../../../components/modals/EditRECMemberModal";
 import "../../../styles/ireb/IrebManageAccounts.css";
 
 import withAuthorization from "../../../../hoc/withAuthorization";
 
 function IrebManageRECRoles({ params }) {
-  const [modalShow, setModalShow] = useState(false);
+  const [modalShowAddRECMember, setModalShowAddRECMember] = useState(false);
+  const [modalShowEditRECMember, setModalShowEditRECMember] = useState(false);
   const [REC, setREC] = useState(null);
   const [RECMembers, setRECMembers] = useState([]);
   const [error, setError] = useState(null);
@@ -22,8 +24,11 @@ function IrebManageRECRoles({ params }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRECMember, setFilteredRECMember] = useState([]);
 
-  const handleShowModal = () => setModalShow(true);
-  const handleCloseModal = () => setModalShow(false);
+  const handleShowModalAddRECMember = () => setModalShowAddRECMember(true);
+  const handleShowModalEditRECMember = () => setModalShowEditRECMember(true);
+  const handleCloseModalAddRECMember = () => setModalShowAddRECMember(false);
+  const handleCloseModalEditRECMember = () => setModalShowEditRECMember(false);
+
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -122,7 +127,7 @@ function IrebManageRECRoles({ params }) {
                 </div>
 
                 <button className="me-buttonfilter">Filter & Sort</button>
-                <button className="me-buttonaddacc" onClick={handleShowModal}>
+                <button className="me-buttonaddacc" onClick={handleShowModalAddRECMember}>
                   + &nbsp; &nbsp; Add Member
                 </button>
               </div>
@@ -156,6 +161,7 @@ function IrebManageRECRoles({ params }) {
                               fill="currentColor"
                               className="bi bi-pen"
                               viewBox="0 0 16 16"
+                              onClick={handleShowModalEditRECMember}
                             >
                               <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
                             </svg>
@@ -189,7 +195,8 @@ function IrebManageRECRoles({ params }) {
         </div>
       </div>
 
-      <AddRECMemberModal show={modalShow} onHide={handleCloseModal} REC={REC} />
+      <AddRECMemberModal show={modalShowAddRECMember} onHide={handleCloseModalAddRECMember} REC={REC} />
+      <EditRECMemberModal show={modalShowEditRECMember} onHide={handleCloseModalEditRECMember} REC={REC} />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 // dependencies
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IrebNav from "../../components/navbaradmin/IrebNav";
 import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
@@ -17,6 +17,7 @@ import {
   Legend,
 } from "chart.js";
 import "chartjs-plugin-dragdata";
+import axios from "axios";
 
 // css
 import "../../styles/ireb/IrebReports.css";
@@ -115,9 +116,9 @@ function IrebReports() {
     },
   };
 
-  // Stacked horizontal bar chart data and options
-  const recStatusData = {
-    labels: ["Medicine", "FOP", "COS", "CRS", "GS"],
+  const [REC, setREC] = useState([]);
+  const [recStatusData, setRecStatusData] = useState({
+    labels: [],
     datasets: [
       {
         label: "Deferred",
@@ -137,23 +138,32 @@ function IrebReports() {
         backgroundColor: "#FFEB3B", // Yellow
         barThickness: 25,
       },
-      {
-        label: "In Progress",
-        data: [4, 2, 2, 4, 2],
-        backgroundColor: "#FFCC80", // Light orange-yellow
-        barThickness: 25,
-      },
-      {
-        label: "Not Started",
-        data: [2, 3, 0, 4, 7],
-        backgroundColor: "#808080", // Dark grey
-        barThickness: 25,
-      },
     ],
-  };
+  });
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get("/api/REC");
+        console.log("API Response:", response.data);
+        setREC(response.data.data);
+
+        // Extract REC names and update recStatusData labels
+        const recNames = response.data.data.map((rec) => rec.name);
+        setRecStatusData((prevData) => ({
+          ...prevData,
+          labels: recNames,
+        }));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   const recStatusOptions = {
-    indexAxis: 'y', // Horizontal bar chart
+    indexAxis: "y", // Horizontal bar chart
     responsive: true,
     plugins: {
       legend: {
@@ -171,8 +181,8 @@ function IrebReports() {
       },
       y: {
         stacked: true,
-        barThickness: 1, 
-        maxBarThickness: 1, 
+        barThickness: 1,
+        maxBarThickness: 1,
       },
     },
   };
@@ -195,7 +205,10 @@ function IrebReports() {
             </div>
 
             <br />
-            <br />
+
+            <div class="report-page-header">
+              <button class="download-btn">Download Reports</button>
+            </div>
 
             {/* Chart */}
             <div className="twocol-container">

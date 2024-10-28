@@ -8,9 +8,9 @@
   --full-board-color: #2ecc71; /* Green for Full Board */
   --expedited-color: #e74c3c; /* Red for Expedited */
   --poppins: "Poppins", sans-serif;
-  --title-size: 32px;
-  --heading-1-size: 24px;
-  --paragraph-size: 13.6px;
+  --title-size: 1.875rem;
+  --heading-1-size: 1.5rem;
+  --paragraph-size: 1rem;
 }
 
 body {
@@ -55,7 +55,7 @@ body {
 
 .submission-list-header h2 {
   margin: 0;
-  font-size: 1.8rem; 
+  font-size: var(--heading-1-size); 
   font-weight: 700; 
 }
 
@@ -138,7 +138,7 @@ body {
 @media (max-width: 768px) {
   .submission-list-container {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* for smooth scrolling on iOS */
+    -webkit-overflow-scrolling: touch; 
   }
 
   .submission-list-header {
