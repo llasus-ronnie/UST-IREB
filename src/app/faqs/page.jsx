@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
-
 import "../styles/faqs/faqs.css";
-
 import { Container, Row, Accordion } from "react-bootstrap";
 
 function FAQs() {
@@ -26,42 +24,44 @@ function FAQs() {
   }, []);
   return (
     <>
-      <div className="header">
-        <Navbar />
-      </div>
+     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+        <div className="header">
+          <Navbar />
+        </div>
 
-      <div style={{ paddingTop: "2em" }} className="faqheader">
-        <h1 className="text-center">Frequently Asked Questions</h1>
-      </div>
+        <div style={{ paddingTop: "2em" }} className="faqheader">
+          <h1 className="text-center">Frequently Asked Questions</h1>
+        </div>
 
-      <Row className="faqdivider" />
+        <Row className="faqdivider" />
 
-      <Container>
-        <Accordion style={{ paddingTop: "2em" }}>
-          {/* <Accordion.Item eventKey="0">
-            <Accordion.Header className="accheader">
-              What is the UST Research Ethics Online System?
-            </Accordion.Header>
-            <Accordion.Body className="accbody">
-              The UST Research Ethics Online System is a platform that allows
-              researchers to submit their research proposals and have them
-              reviewed by the UST Research Ethics Committee.
-            </Accordion.Body>
-          </Accordion.Item> */}
-
-          {content.map((faq, index) => (
-            <Accordion.Item key={index} eventKey={index + 1}>
+        <Container>
+          <Accordion style={{ paddingTop: "2em" }}>
+            {/* <Accordion.Item eventKey="0">
               <Accordion.Header className="accheader">
-                {faq.heading}
+                What is the UST Research Ethics Online System?
               </Accordion.Header>
-              <Accordion.Body className="accbody">{faq.body}</Accordion.Body>
-            </Accordion.Item>
-          ))}
-        </Accordion>
-      </Container>
+              <Accordion.Body className="accbody">
+                The UST Research Ethics Online System is a platform that allows
+                researchers to submit their research proposals and have them
+                reviewed by the UST Research Ethics Committee.
+              </Accordion.Body>
+            </Accordion.Item> */}
 
-      <div style={{ marginTop: "3em" }} className="footer">
-        <Footer />
+            {content.map((faq, index) => (
+              <Accordion.Item key={index} eventKey={index + 1}>
+                <Accordion.Header className="accheader">
+                  {faq.heading}
+                </Accordion.Header>
+                <Accordion.Body className="accbody">{faq.body}</Accordion.Body>
+              </Accordion.Item>
+            ))}
+          </Accordion>
+        </Container>
+
+        <div style={{ marginTop: "auto" }} className="footer">
+          <Footer />
+        </div>
       </div>
     </>
   );
