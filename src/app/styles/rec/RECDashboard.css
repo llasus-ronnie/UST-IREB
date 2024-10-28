@@ -75,10 +75,12 @@ html {
 /* Header Title */
 .rec-header h1 {
     color: var(--primary-color);
-    font-size: 1.75rem;
+    font-size: var(--title-size);
     font-weight: bold;
     margin: 0;
     font-family: var(--poppins);
+    display: flex;
+    align-items: center;
 }
 
 .rec-header-text {
@@ -86,18 +88,8 @@ html {
   flex-direction: column;
 }
 
-.rec-header h1 {
-  color: var(--primary-color);
-  font-size: 1.75rem;
-  font-weight: bold;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  font-family: var(--poppins);
-}
-
 .rec-header p {
-  font-size: 1rem;
+  font-size: var(--paragraph-size);
   color: var(--primary-color);
   padding-top: 0.4rem;
   margin: 0;
@@ -137,7 +129,7 @@ html {
   
 
 .recdashboard-card h2 {
-  font-size: 1rem;
+  font-size: var(--paragraph-size);
   font-weight: bold;
   color: var(--primary-color);
   margin-bottom: 0.5rem;
@@ -145,7 +137,7 @@ html {
 }
 
 .recdashboard-card h3 {
-  font-size: 2rem;
+  font-size: var(--title-size);
   font-weight: bold;
   color: var(--primary-color);
   margin: 0.5rem 0;
@@ -153,7 +145,7 @@ html {
 }
 
 .recdashboard-card p {
-  font-size: 0.875rem;
+  font-size: var(--paragraph-size);
   color: var(--primary-color);
   font-family: var(--poppins);
 }
@@ -170,20 +162,20 @@ html {
   height: 350px; 
   margin-right: 40px;
   display: flex;
-  align-items: flex-start; /* Change to flex-start for alignment */
+  align-items: flex-start;
   justify-content: center;
-  position: relative; /* Add this for positioning context */
+  position: relative;
 }
 
 .deadline-card h2 {
-  font-size: 1.5rem;
+  font-size: var(--heading-1-size);
   font-weight: bold;
   color: var(--primary-color);
-  margin: 0; /* Remove bottom margin */
+  margin: 0;
   font-family: var(--poppins);
-  position: absolute; /* Use absolute positioning */
-  top: 1.5rem; /* Adjust to your desired spacing from the top */
-  left: 1.5rem; /* Adjust to your desired spacing from the left */
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
 }
 
 
@@ -193,7 +185,7 @@ html {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin: 1rem auto; /* Center the table */
+    margin: 1rem auto;
     padding: 1rem;
     max-width: 95%;
     overflow-x: auto;
@@ -218,7 +210,7 @@ html {
 
 /* Table Styling */
 .rec-overview-table h1 {
-  font-size: 1.75rem;
+  font-size: var(--heading-1-size);
   font-weight: bold;
   color: var(--tertiary-color);
   margin-bottom: 1rem;
@@ -245,7 +237,7 @@ html {
 }
 
 .rec-overview-table td {
-  font-size: 0.9rem;
+  font-size: var(--paragraph-size);
   color: #333;
 }
 
@@ -254,7 +246,7 @@ html {
   display: inline-block;
   padding: 0.25rem 0.5rem;
   border-radius: 5px;
-  font-size: 0.875rem;
+  font-size: var(--paragraph-size);
   font-weight: bold;
   text-align: center;
   font-family: var(--poppins);
@@ -344,11 +336,11 @@ html {
   }
 
   .rec-header h1 {
-    font-size: 1.5rem;
+    font-size: var(--heading-1-size);
   }
 
   .rec-header p {
-    font-size: 0.875rem;
+    font-size: var(--paragraph-size);
   }
 
   .admindashboard-cards{
@@ -374,8 +366,8 @@ html {
 /* Mobile Screens */
 @media only screen and (max-width: 576x) {
   .cards-container {
-    flex-direction: column; /* Stack the admin cards and deadline card vertically */
-    align-items: center; /* Center-align the content */
+    flex-direction: column;
+    align-items: center;
   }
 
   .admindashboard-cards {
@@ -390,10 +382,10 @@ html {
   }
 
   .deadline-card {
-    width: 95%; /* Adjust width for mobile */
-    margin: 15px auto; /* Center the card */
-    padding: 1rem; /* Adjust padding */
-    height: auto; /* Allow height to adjust automatically */
+    width: 95%;
+    margin: 15px auto;
+    padding: 1rem;
+    height: auto;
   }
 
   .rec-overview-table {
@@ -409,7 +401,7 @@ html {
   }
   .rec-overview-table th,
   .rec-overview-table td {
-    font-size: 0.8rem;
+    font-size: var(--paragraph-size);
 
   }
 
@@ -419,11 +411,11 @@ html {
   }
 
   .rec-header h1 {
-    font-size: 1.5rem;
+    font-size: var(--heading-1-size);
   }
 
   .rec-header p {
-    font-size: 0.875rem;
+    font-size: var(--paragraph-size);
   }
 
   
@@ -447,11 +439,11 @@ html {
   }
 
   .mobile-nav-icon img {
-    width: 24px; /* Adjust icon size */
+    width: 24px;
     height: auto;
   }
 
   .mobile-nav-icon span {
-    font-size: 0.75rem; /* Adjust font size for labels */
+    font-size: var(--paragraph-size);
   }
 }

@@ -62,7 +62,7 @@
 
 .admin-header h1 {
     color: var(--primary-color);
-    font-size: var(--heading-1-size);
+    font-size: var(--title-size);
     font-weight: bold;
 }
 
