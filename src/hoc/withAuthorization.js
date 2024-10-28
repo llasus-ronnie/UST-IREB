@@ -9,6 +9,22 @@ const withAuthorization = (Component, requiredRoles) => {
     const { data: session, status } = useSession();
     const router = useRouter();
 
+    useEffect(() => {
+      if (status === "unauthenticated" || !session) {
+        router.replace("../SignInOption");
+        return;
+      }
+
+      const userRole = session?.user?.role;
+      if (status === "authenticated" && (!userRole || !requiredRoles.includes(userRole))) {
+        if (requiredRoles.includes("REC")) {
+          router.replace("../../Unauthorized");
+        } else {
+          router.replace("../Unauthorized");
+        }
+      }
+    }, [status, session, router, requiredRoles]);
+
     if (status === "loading") {
       return (
         <div style={loadingContainerStyle}>
@@ -20,33 +36,6 @@ const withAuthorization = (Component, requiredRoles) => {
           </p>
         </div>
       );
-    }
-
-    useEffect(() => {
-      if (status === "unauthenticated" || !session) {
-        router.replace("../SignInOption");
-        console.log("Unauthorized access");
-      }
-    }, [status, session, router]);
-
-    if (status === "unauthenticated" || !session) {
-      return null;
-    }
-
-    const userRole = session?.user?.role;
-
-    useEffect(() => {
-      if (userRole && !requiredRoles.includes(userRole)) {
-        if (requiredRoles.includes("REC")) {
-          router.replace("../../Unauthorized");
-        } else {
-          router.replace("../Unauthorized");
-        }
-      }
-    }, [router, requiredRoles, userRole]);
-
-    if (!userRole || !requiredRoles.includes(userRole)) {
-      return null;
     }
 
     return <Component {...props} />;
