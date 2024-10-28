@@ -4,45 +4,43 @@ import { useEffect } from "react";
 import { Spinner } from "react-bootstrap";
 import "../app/styles/unauthorized/unauthorized.css";
 
-const withAuthorization = (Component, requiredRoles) => {
-  return (props) => {
-    const { data: session, status } = useSession();
-    const router = useRouter();
+const AuthorizationWrapper = ({ children, requiredRoles }) => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
-    useEffect(() => {
-      if (status === "unauthenticated" || !session) {
-        router.replace("../SignInOption");
-        return;
-      }
-
+  useEffect(() => {
+    if (status === "authenticated") {
       const userRole = session?.user?.role;
-      if (status === "authenticated" && (!userRole || !requiredRoles.includes(userRole))) {
-        if (requiredRoles.includes("REC")) {
-          router.replace("../../Unauthorized");
-        } else {
-          router.replace("../Unauthorized");
-        }
+      if (!userRole || !requiredRoles.includes(userRole)) {
+        router.replace(requiredRoles.includes("REC") ? "../../Unauthorized" : "../Unauthorized");
       }
-    }, [status, session, router, requiredRoles]);
-
-    if (status === "loading") {
-      return (
-        <div style={loadingContainerStyle}>
-          <Spinner animation="border" role="status" style={spinnerStyle}>
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-          <p style={loadingTextStyle}>
-            Please wait, we are verifying your access...
-          </p>
-        </div>
-      );
+    } else if (status === "unauthenticated") {
+      router.replace("../SignInOption");
     }
+  }, [status, session, requiredRoles, router]);
 
-    return <Component {...props} />;
-  };
+  if (status === "loading") {
+    return (
+      <div style={loadingContainerStyle}>
+        <Spinner animation="border" role="status" style={spinnerStyle}>
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        <p style={loadingTextStyle}>
+          Please wait, we are verifying your access...
+        </p>
+      </div>
+    );
+  }
+
+  return children;
 };
 
-// Styling objects
+const withAuthorization = (Component, requiredRoles) => (props) => (
+  <AuthorizationWrapper requiredRoles={requiredRoles}>
+    <Component {...props} />
+  </AuthorizationWrapper>
+);
+
 const loadingContainerStyle = {
   display: "flex",
   flexDirection: "column",
