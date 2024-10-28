@@ -81,7 +81,7 @@
   display: flex;
   padding: 1.25rem;
   margin: 2rem 2rem 0rem 2rem;
-  font-size: 2rem;
+  font-size: var(--title-size);
   font-weight: bold;
   border-radius: 0.938rem 0.938rem 0 0;
 }
@@ -93,7 +93,7 @@
   display: flex;
   padding: 1rem 1rem 1rem 3rem;
   margin: 0rem 2rem 2rem 2rem;
-  font-size: 1.8rem;
+  font-size: var(--heading-1-size);
   font-weight: bold;
   border-radius: 0 0 0.938rem 0.938rem;
 }
