@@ -24,7 +24,7 @@ const withAuthorization = (Component, requiredRoles) => {
 
     useEffect(() => {
       if (status === "unauthenticated" || !session) {
-        router.push("../SignInOption");
+        router.replace("../SignInOption");
         console.log("Unauthorized access");
       }
     }, [status, session, router]);
@@ -38,9 +38,9 @@ const withAuthorization = (Component, requiredRoles) => {
     useEffect(() => {
       if (userRole && !requiredRoles.includes(userRole)) {
         if (requiredRoles.includes("REC")) {
-          router.push("../../Unauthorized");
+          router.replace("../../Unauthorized");
         } else {
-          router.push("../Unauthorized");
+          router.replace("../Unauthorized");
         }
       }
     }, [router, requiredRoles, userRole]);
