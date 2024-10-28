@@ -23,22 +23,29 @@ const withAuthorization = (Component, requiredRoles) => {
     }
 
     useEffect(() => {
-      if (status === 'unauthenticated' || !session) {
-        router.push('../SignInOption');
+      if (status === "unauthenticated" || !session) {
+        router.push("../SignInOption");
+        console.log("Unauthorized access");
       }
     }, [status, session, router]);
 
-  if (status === 'unauthenticated' || !session) {
-    return null; 
-  }
+    if (status === "unauthenticated" || !session) {
+      return null;
+    }
 
-    const userRole = session.user.role;
-    if (!requiredRoles.includes(userRole)) {
-      if (requiredRoles.includes("REC")) {
-        router.push("../../Unauthorized");
-      } else {
-        router.push("../Unauthorized");
+    const userRole = session?.user?.role;
+
+    useEffect(() => {
+      if (userRole && !requiredRoles.includes(userRole)) {
+        if (requiredRoles.includes("REC")) {
+          router.push("../../Unauthorized");
+        } else {
+          router.push("../Unauthorized");
+        }
       }
+    }, [router, requiredRoles, userRole]);
+
+    if (!userRole || !requiredRoles.includes(userRole)) {
       return null;
     }
 
@@ -46,6 +53,7 @@ const withAuthorization = (Component, requiredRoles) => {
   };
 };
 
+// Styling objects
 const loadingContainerStyle = {
   display: "flex",
   flexDirection: "column",
