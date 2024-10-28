@@ -21,10 +21,15 @@ const withAuthorization = (Component, requiredRoles) => {
       );
     }
 
-    if (status === "unauthenticated" || !session) {
-      router.push("../SignInOption");
-      return null;
-    }
+    useEffect(() => {
+      if (status === 'unauthenticated' || !session) {
+        router.push('../SignInOption');
+      }
+    }, [status, session, router]);
+
+  if (status === 'unauthenticated' || !session) {
+    return null; 
+  }
 
     const userRole = session.user.role;
     if (!requiredRoles.includes(userRole)) {
