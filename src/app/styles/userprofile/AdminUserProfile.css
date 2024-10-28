@@ -13,8 +13,9 @@
 
 /* General Page Container */
 .adminpage-container {
-    display: flex;
-    height: 100vh;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
 /* Side Nav */
@@ -27,7 +28,7 @@
     flex-grow: 1;
     transition: margin-left 0.3s ease;
     background-color: var(--secondary-color);
-    height: 100vh;
+    height: 100%;
     margin-left: 5.625rem;
 }
 
@@ -61,12 +62,12 @@
 
 .admin-header h1 {
     color: var(--primary-color);
-    font-size: 1.75rem;
+    font-size: var(--heading-1-size);
     font-weight: bold;
 }
 
 .admin-header p {
-    font-size: 1rem;
+    font-size: var(--paragraph-size);
     color: var(--primary-color);
     padding-top: 0.4rem;
 }
@@ -206,6 +207,11 @@
     cursor: pointer;
     font-size: var(--paragraph-size);
     font-weight: bold;
+  }
+
+  .return-dashboard button:hover {
+    background-color: var(--primary-color);
+    transition: background-color 0.3s, color 0.3s;
   }
   
   /* scroll design  */

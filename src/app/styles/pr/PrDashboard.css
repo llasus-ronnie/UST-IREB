@@ -14,7 +14,7 @@
 /* General Page Container */
 .adminpage-container {
     display: flex;
-    height: 100vh;
+    height: 100%;
 }
 
 /* Side Nav */
@@ -27,7 +27,7 @@
     flex-grow: 1;
     transition: margin-left 0.3s ease;
     background-color: var(--secondary-color);
-    height: 100vh;
+    height: 100%;
     margin-left: 5.625rem;
 }
 
@@ -61,12 +61,12 @@
 
 .pr-header h1 {
     color: var(--primary-color);
-    font-size: 1.75rem;
+    font-size: var(--heading-1-size);
     font-weight: bold;
 }
 
 .pr-header p {
-    font-size: 1rem;
+    font-size: var(--paragraph-size);
     color: var(--primary-color);
     padding-top: 0.4rem;
 }
@@ -91,7 +91,7 @@
 }
 
 .admindashboard-card h2 {
-    font-size: 0.875rem;
+    font-size: var(--paragraph-size);
     font-weight: bold;
     color: var(--primary-color);
 }
@@ -104,7 +104,7 @@
 }
 
 .admindashboard-card p {
-    font-size: 0.875rem;
+    font-size: var(--paragraph-size);
     color: var(--primary-color);
 }
 
@@ -133,10 +133,6 @@
   border-right: 0.5rem solid transparent;
 }
 
-.pr-button:hover {
-    transform: scale(1.05);
-}
-
 /* Tables */
 .pr-tables {
   margin: 3rem 0 3rem 0;
@@ -151,7 +147,7 @@
 }
 
 .newly-assigned h1 {
-  font-size: 1.75rem;
+  font-size: var(--heading-1-size);
   font-weight: bold;
   color: var(--tertiary-color);
   margin-bottom: 1.5rem;
@@ -159,6 +155,10 @@
 
 .newly-assigned .pr-view-btn {
   background-color: var(--tertiary-color);
+}
+
+.newly-assigned .pr-view-btn:hover {
+  background-color: #e9ad07;
 }
 
 /* Resubmission Table */
@@ -170,7 +170,7 @@
 }
 
 .resubmission h1 {
-  font-size: 1.75rem;
+  font-size: var(--heading-1-size);
   font-weight: bold;
   color: #FF7A00;
   margin-bottom: 1.5rem;
@@ -178,6 +178,10 @@
 
 .resubmission .pr-view-btn {
   background-color: #FF7A00;
+}
+
+.resubmission .pr-view-btn:hover {
+  background-color: #df6c00;
 }
 
 /* For Final Review Table */
@@ -189,7 +193,7 @@
 }
 
 .for-final h1 {
-  font-size: 1.75rem;
+  font-size: var(--heading-1-size);
   font-weight: bold;
   color: #369AD2;
   margin-bottom: 1.5rem;
@@ -197,6 +201,10 @@
 
 .for-final .pr-view-btn {
   background-color: #369AD2;
+}
+
+.for-final .pr-view-btn:hover {
+  background-color: #297cac;
 }
 
 /* Table Styling */
@@ -225,16 +233,12 @@
 
 .pr-view-btn {
   padding: 0.375rem 1.125rem;
-  font-size: 0.875rem;
+  font-size: var(--paragraph-size);
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.pr-view-btn:hover {
-  transform: scale(1.05);
 }
 
 /* scroll design  */
