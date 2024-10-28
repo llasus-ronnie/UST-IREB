@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Spinner } from "react-bootstrap";
 import "../app/styles/unauthorized/unauthorized.css";
 
