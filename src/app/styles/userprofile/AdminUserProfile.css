@@ -207,6 +207,11 @@
     font-size: var(--paragraph-size);
     font-weight: bold;
   }
+
+  .return-dashboard button:hover {
+    background-color: var(--primary-color);
+    transition: background-color 0.3s, color 0.3s;
+  }
   
   /* scroll design  */
   ::-webkit-scrollbar {

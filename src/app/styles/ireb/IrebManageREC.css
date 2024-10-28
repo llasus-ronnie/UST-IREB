@@ -136,6 +136,12 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.me-buttonfilter:hover {
+  color: #369ad2;
+  background-color: #cecece;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
 .me-buttonaddacc {
   padding: 0.7rem 1.2rem 0.7rem 1.2rem;
   margin-left: 1rem;
@@ -145,6 +151,12 @@
   cursor: pointer;
   color: var(--quaternary-color);
   background-color: #369ad2;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.me-buttonaddacc:hover {
+  color: var(--quaternary-color);
+  background-color: #297cac;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 

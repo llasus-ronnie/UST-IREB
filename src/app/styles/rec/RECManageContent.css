@@ -132,6 +132,12 @@
     justify-content: center;
 }
 
+.mc-buttonedit:hover {
+    color: var(--quaternary-color);
+    background-color: #297cac;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
 .mc-buttonedit svg {
     vertical-align: middle;
     margin-right: 1rem;
