@@ -62,12 +62,12 @@
 
 .admin-header h1 {
     color: var(--primary-color);
-    font-size: 1.75rem;
+    font-size: var(--heading-1-size);
     font-weight: bold;
 }
 
 .admin-header p {
-    font-size: 1rem;
+    font-size: var(--paragraph-size);
     color: var(--primary-color);
     padding-top: 0.4rem;
 }

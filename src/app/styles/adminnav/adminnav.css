@@ -6,6 +6,9 @@
     --tertiary-color: #fcbf15;
     --quaternary-color: #ffffff;
     --poppins: "Poppins", sans-serif;
+    --title-size: 1.875rem;
+    --heading-1-size: 1.5rem;
+    --paragraph-size: 1rem;
 }
 
 /* Sidebar Container */
@@ -79,7 +82,7 @@
     display: flex;
     align-items: center;
     font-family: var(--poppins);
-    font-size: 1rem;
+    font-size: var(--paragraph-size);
     transition: color 0.1s ease, background-color 0.1s ease;
 }
 
@@ -147,7 +150,7 @@
     background-color: var(--primary-color);
     cursor: pointer;
     font-family: var(--poppins);
-    font-size: 1rem;
+    font-size: var(--paragraph-size);
     color: var(--quaternary-color);
 }
 
@@ -173,7 +176,7 @@
     align-items: center;
     color: var(--quaternary-color);
     font-family: var(--poppins);
-    font-size: 1rem;
+    font-size: var(--paragraph-size);
     text-decoration: none;
     padding: 0.1rem 0.3125rem 0.1rem 2rem !important;
     transition: color 0.1s ease, background-color 0.1s ease;

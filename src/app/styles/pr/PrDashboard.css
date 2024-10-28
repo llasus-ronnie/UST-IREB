@@ -61,12 +61,12 @@
 
 .pr-header h1 {
     color: var(--primary-color);
-    font-size: 1.75rem;
+    font-size: var(--heading-1-size);
     font-weight: bold;
 }
 
 .pr-header p {
-    font-size: 1rem;
+    font-size: var(--paragraph-size);
     color: var(--primary-color);
     padding-top: 0.4rem;
 }
@@ -91,7 +91,7 @@
 }
 
 .admindashboard-card h2 {
-    font-size: 0.875rem;
+    font-size: var(--paragraph-size);
     font-weight: bold;
     color: var(--primary-color);
 }
@@ -104,7 +104,7 @@
 }
 
 .admindashboard-card p {
-    font-size: 0.875rem;
+    font-size: var(--paragraph-size);
     color: var(--primary-color);
 }
 
@@ -147,7 +147,7 @@
 }
 
 .newly-assigned h1 {
-  font-size: 1.75rem;
+  font-size: var(--heading-1-size);
   font-weight: bold;
   color: var(--tertiary-color);
   margin-bottom: 1.5rem;
@@ -170,7 +170,7 @@
 }
 
 .resubmission h1 {
-  font-size: 1.75rem;
+  font-size: var(--heading-1-size);
   font-weight: bold;
   color: #FF7A00;
   margin-bottom: 1.5rem;
@@ -193,7 +193,7 @@
 }
 
 .for-final h1 {
-  font-size: 1.75rem;
+  font-size: var(--heading-1-size);
   font-weight: bold;
   color: #369AD2;
   margin-bottom: 1.5rem;
@@ -233,7 +233,7 @@
 
 .pr-view-btn {
   padding: 0.375rem 1.125rem;
-  font-size: 0.875rem;
+  font-size: var(--paragraph-size);
   color: #fff;
   border: none;
   border-radius: 5px;
