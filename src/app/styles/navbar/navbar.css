@@ -278,11 +278,11 @@
 }
 
 .view-account:hover {
-  transform: scale(1.1);
-  transform: translateY(-0.2em);
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.248);
-  transition: 0.3s;
+  background-color: var(--quaternary-color);
+  color: var(--primary-color) !important;
+  transition: background-color 0.3s, color 0.3s;
 }
+
 
 /* other styles */
 .yellow-text {
