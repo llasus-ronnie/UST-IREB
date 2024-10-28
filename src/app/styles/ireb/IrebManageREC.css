@@ -197,6 +197,19 @@
   margin: 0.5rem 0;
 }
 
+.edit-icon-container {
+  display: none;
+  position: absolute;
+}
+
+.managerec-card:hover .edit-icon-container {
+  display: flex;
+  width: 100%;
+  top: 0;
+  padding: 1.5rem;
+  justify-content: flex-end;
+}
+
 .managerec-card-logo {
   width: 5rem;
   height: fit-content;
