@@ -133,10 +133,6 @@
   border-right: 0.5rem solid transparent;
 }
 
-.pr-button:hover {
-    transform: scale(1.05);
-}
-
 /* Tables */
 .pr-tables {
   margin: 3rem 0 3rem 0;
@@ -161,6 +157,10 @@
   background-color: var(--tertiary-color);
 }
 
+.newly-assigned .pr-view-btn:hover {
+  background-color: #e9ad07;
+}
+
 /* Resubmission Table */
 .resubmission {
   padding: 2rem;
@@ -180,6 +180,10 @@
   background-color: #FF7A00;
 }
 
+.resubmission .pr-view-btn:hover {
+  background-color: #df6c00;
+}
+
 /* For Final Review Table */
 .for-final {
   padding: 2rem;
@@ -197,6 +201,10 @@
 
 .for-final .pr-view-btn {
   background-color: #369AD2;
+}
+
+.for-final .pr-view-btn:hover {
+  background-color: #297cac;
 }
 
 /* Table Styling */
@@ -231,10 +239,6 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.pr-view-btn:hover {
-  transform: scale(1.05);
 }
 
 /* scroll design  */
