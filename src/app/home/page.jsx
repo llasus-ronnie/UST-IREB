@@ -6,7 +6,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import Navbar from "../components/navbar/Navbar";
 import Card from "../components/card/Card";
 import Footer from "../components/footer/Footer";
-import Carousel from "../components/carousel/Slider";
+import dynamic from "next/dynamic"
+const Carousel = dynamic(() => import("react-bootstrap/Carousel"), { ssr: false });
 
 //images
 import viewIcon from "../../../public/images/card/card-view-icon.png";
@@ -28,10 +29,6 @@ function Home() {
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  if (!isClient) {
-    return null; 
-  }
 
   return (
     <>
