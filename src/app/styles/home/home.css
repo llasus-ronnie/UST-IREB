@@ -76,13 +76,13 @@
 }
 
 /* other styles */
-.get-started, .learn-more{
+.get-started, .learn-more {
     height: auto;
     width: max-content;
     border-radius: 10px;
     font-size: var(--paragraph-size);
     border: none;
-    background-color: var(--quaternary-color) !important;
+    background-color: var(--quaternary-color);
     color: var(--primary-color);
     
     display: flex;
@@ -90,19 +90,26 @@
     align-items: center;
 
     padding: 0.5rem;
+    cursor: pointer; /* Added for better UX */
 }
 
-.learn-more{
-    background-color: transparent !important;
+.learn-more {
+    background-color: transparent;
     color: var(--quaternary-color);
     border: 2px solid var(--quaternary-color);
 }
 
-.learn-more:hover, .get-started:hover{
-    transform: scale(1.1);
-    transform: translateY(-0.2em);
-    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.248);
-    transition: 0.3s;
+.get-started:hover {
+    background-color: var(--tertiary-color);
+    color: var(--primary-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.learn-more:hover {
+    /* background-color: var(--quaternary-color); */
+    color: var(--tertiary-color);
+    border-color: var(--tertiary-color);
+    transition: background-color 0.3s, color 0.3s;
 }
 
 
