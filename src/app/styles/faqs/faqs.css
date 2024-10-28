@@ -70,6 +70,21 @@
   z-index: 1;
 }
 
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+}
+
+.footer {
+  margin-top: auto;
+  width: 100%;
+}
+
 /* scroll design  */
 ::-webkit-scrollbar {
   background-color: var(--primary-color);
