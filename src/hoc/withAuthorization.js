@@ -35,11 +35,15 @@ const AuthorizationWrapper = ({ children, requiredRoles }) => {
   return children;
 };
 
-const withAuthorization = (Component, requiredRoles) => (props) => (
-  <AuthorizationWrapper requiredRoles={requiredRoles}>
-    <Component {...props} />
-  </AuthorizationWrapper>
-);
+const withAuthorization = (Component, requiredRoles) => {
+  return function WrappedComponent(props) {
+    return (
+      <AuthorizationWrapper requiredRoles={requiredRoles}>
+        <Component {...props} />
+      </AuthorizationWrapper>
+    );
+  };
+};
 
 const loadingContainerStyle = {
   display: "flex",
