@@ -14,7 +14,7 @@
 /* General Page Container */
 .adminpage-container {
     display: flex;
-    height: 100vh;
+    height: 100%;
 }
 
 /* Side Nav */
@@ -27,7 +27,7 @@
     flex-grow: 1;
     transition: margin-left 0.3s ease;
     background-color: var(--secondary-color);
-    height: 100vh;
+    height: 100%;
     margin-left: 5.625rem;
 }
 
