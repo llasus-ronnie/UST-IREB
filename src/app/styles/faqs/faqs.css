@@ -6,9 +6,9 @@
   --tertiary-color: #fcbf15;
   --quaternary-color: #ffffff;
   --poppins: "Poppins", sans-serif;
-  --title-size: 32px;
-  --heading-1-size: 24px;
-  --paragraph-size: 13.6px;
+  --title-size: 1.875rem;
+  --heading-1-size: 1.5rem;
+  --paragraph-size: 1rem;
 }
 
 .faqheader {

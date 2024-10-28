@@ -6,6 +6,9 @@
   --tertiary-color: #fcbf15;
   --quaternary-color: #ffffff;
   --poppins: "Poppins", sans-serif;
+  --title-size: 1.875rem;
+  --heading-1-size: 1.5rem;
+  --paragraph-size: 1rem;
 }
 
 .modal-dialog {
@@ -37,7 +40,7 @@
   color: var(--primary-color);
   text-align: center;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: var(--title-size);
 }
 
 /* Body */
@@ -103,7 +106,7 @@
     border: none;
     border-radius: 8px;
     font-family: var(--poppins);
-    font-size: 0.8rem;
+    font-size: var(--paragraph-size);
     font-weight: 500;
     padding: 0.6rem 1rem;
     white-space: nowrap;
@@ -121,7 +124,7 @@
   border: none;
   border-radius: 8px;
   font-family: var(--poppins);
-  font-size: 0.8rem;
+  font-size: var(--paragraph-size);
   font-weight: 500;
   padding: 0.6rem 1rem;
   margin-left: 1rem;
@@ -172,7 +175,7 @@
 
 .upload-logo-area p {
   color: var(--primary-color);
-  font-size: 0.95rem;
+  font-size: var(--paragraph-size);
   margin: 0 1rem;
   width: fit-content;
 }
@@ -194,7 +197,7 @@
 .addacc-modal-footer .btn.cancel {
   background-color: #6c757d;
   color: #fff;
-  font-size: 0.9rem;
+  font-size: var(--paragraph-size);
   padding: 0.7rem 3rem;
 }
 
@@ -205,7 +208,7 @@
 .addacc-modal-footer .btn.addacc {
   background-color: var(--tertiary-color);
   color: #fff;
-  font-size: 0.9rem;
+  font-size: var(--paragraph-size);
   padding: 0.7rem 2rem;
 }
 
@@ -217,7 +220,7 @@
   }
 
   .addacc-modal-title {
-    font-size: 1.5rem;
+    font-size: var(--heading-1-size);
   }
 
   .addacc-modal-body .form-control {
@@ -242,7 +245,7 @@
 
   .access-token-group .btn.generate-token-btn {
     width: 100%;
-    font-size: 0.8rem;
+    font-size: var(--paragraph-size);
     padding: 0.7rem 1rem;
     margin-top: 0.5rem;
     margin-bottom: 1.5rem; 
@@ -255,7 +258,7 @@
   /* Send Email Button */
   .btn.send-email-btn {
     width: 100%;
-    font-size: 0.8rem;
+    font-size: var(--paragraph-size);
     padding: 0.7rem 1rem;
   }
 
@@ -274,7 +277,7 @@
   }
   
   .addacc-modal-footer .btn {
-    font-size: 0.8rem;
+    font-size: var(--paragraph-size);
     width: 100%;
     display: block;
     text-align: center;

@@ -80,7 +80,7 @@
     background-color: var(--tertiary-color); 
     color: var(--quaternary-color); 
     font-family: var(--poppins);
-    font-size: 1rem;
+    font-size: var(--paragraph-size);
     font-weight: 600;
     padding: 10px 20px;
     border: none;
@@ -124,7 +124,7 @@
 }
 
 .admindashboard-card h2 {
-    font-size: 1rem;
+    font-size: var(--paragraph-size);
     font-weight: bold;
     color: var(--primary-color);
 }

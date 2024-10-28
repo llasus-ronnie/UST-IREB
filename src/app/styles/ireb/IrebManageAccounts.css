@@ -128,7 +128,7 @@
 .me-buttonfilter {
   padding: 0.7rem 1.2rem 0.7rem 1.2rem;
   margin-left: 1rem;
-  font-size: 0.8rem;
+  font-size: var(--paragraph-size);
   border: none;
   border-radius: 0.625rem;
   cursor: pointer;
@@ -146,7 +146,7 @@
 .me-buttonaddacc {
   padding: 0.7rem 1.2rem 0.7rem 1.2rem;
   margin-left: 1rem;
-  font-size: 0.8rem;
+  font-size: var(--paragraph-size);
   border: none;
   border-radius: 0.625rem;
   cursor: pointer;
@@ -349,7 +349,7 @@ tr:hover {
   }
 
   .me-table {
-    font-size: 0.875rem;
+    font-size: var(--paragraph-size);
     border-radius: 10px;
     width: 100%;
     display: block;
@@ -451,7 +451,7 @@ tr:hover {
   }
 
   .me-table {
-    font-size: 0.875rem;
+    font-size: var(--paragraph-size);
     border-radius: 10px;
     width: 100%;
     display: block;

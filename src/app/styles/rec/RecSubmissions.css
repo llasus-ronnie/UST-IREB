@@ -181,7 +181,7 @@ gap: 10px;
 
 .rec-view-btn {
   padding: 0.375rem 1.125rem;
-  font-size: 0.875rem;
+  font-size: var(--paragraph-size);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -244,7 +244,7 @@ gap: 10px;
     }
 
     .rec-table {
-      font-size: 0.875rem;
+      font-size: var(--paragraph-size);
       border-radius: 10px;
       width: 100%;
       display: block;
@@ -257,11 +257,11 @@ gap: 10px;
     }
 
     .rec-header h1 {
-      font-size: 1.75rem;
+      font-size: var(--title-size);
     }
 
     .rec-header p {
-      font-size: 1rem;
+      font-size: var(--paragraph-size);
       padding-top: 0.4rem;
     }
 
@@ -287,15 +287,15 @@ gap: 10px;
 
     .rec-buttons-container button {
       padding: 0.5rem 0.8rem;
-      font-size: 0.7rem;
+      font-size: var(--paragraph-size);
     }
 
     .rec-buttons-container span {
-      font-size: 0.9rem;
+      font-size: var(--paragraph-size);
     }
 
     .rec-table {
-      font-size: 0.9rem;
+      font-size: var(--paragraph-size);
       width: 100%;
       display: block;
       overflow-x: auto;
@@ -306,7 +306,7 @@ gap: 10px;
     }
 
     .initial-submission h1 {
-      font-size: 1.75rem;
+      font-size: var(--title-size);
       margin-bottom: 1.25rem;
     }
 
@@ -365,7 +365,7 @@ gap: 10px;
       }
 
       .rec-header-container-mobile h1 {
-        font-size: 1.5rem;
+        font-size: var(--heading-1-size);
       }
 
       .userloggedin-mobile {
