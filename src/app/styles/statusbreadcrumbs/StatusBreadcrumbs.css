@@ -74,3 +74,7 @@
 .breadcrumbs-line-completed {
     background-color: var(--tertiary-color);
 }
+
+.breadcrumbs-step-circle.yellow {
+    background-color: yellow;
+  }
