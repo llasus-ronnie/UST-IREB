@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -7,13 +7,27 @@ import CancelConfirmationModal from "./CancelConfirmationModal.jsx";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { set } from "mongoose";
 
 export default function EditRECMemberModal(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [rec, setRec] = useState("");
   const [recRole, setrecRole] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+  const [memberId, setMemberId] = useState("");
+
+  useEffect(() => {
+    console.log("Props Data:", props.data);
+    if (props.data) {
+      setName(props.data.name);
+      setEmail(props.data.email);
+      setRec(props.data.rec);
+      setrecRole(props.data.recRole);
+      setMemberId(props.data._id);
+    }
+  }, [props.data]);
 
   const handleNameChange = (e) => {
     const nameValue = e.target.value;
@@ -32,22 +46,26 @@ export default function EditRECMemberModal(props) {
   };
 
   const handleEditAccount = async () => {
-    if (!name || !affiliation) {
+    if (!name || !email || !recRole) {
       toast.error("Please fill in all fields.");
       return;
     }
 
     try {
-      await axios.patch("/api/addExternalInvestigator", {
-        id: investigatorId,
+      await axios.patch("/api/RECMembers", {
+        id: memberId,
         name,
-        affiliation,
+        email,
+        rec,
+        recRole,
       });
       toast.success("Account updated successfully.");
 
       setName("");
-      setAffiliation("");
-      setInvestigatorId("");
+      setEmail("");
+      setRec("");
+      setrecRole("");
+      setMemberId("");
       props.onHide();
     } catch (error) {
       console.error("Error updating account:", error);
@@ -66,8 +84,10 @@ export default function EditRECMemberModal(props) {
 
   const handleConfirmCancel = () => {
     setName("");
-    setRole("");
+    setrecRole("");
     setEmail("");
+    setRec("");
+    setMemberId("");
     setIsEmailValid(false);
     setShowCancelConfirmation(false);
     props.onHide();
@@ -201,7 +221,10 @@ export default function EditRECMemberModal(props) {
           <Button onClick={handleCancel} className="btn cancel rounded-btn">
             Cancel
           </Button>
-          <Button onClick={handleEditAccount} className="btn addacc rounded-btn">
+          <Button
+            onClick={handleEditAccount}
+            className="btn addacc rounded-btn"
+          >
             Save Changes
           </Button>
         </Modal.Footer>

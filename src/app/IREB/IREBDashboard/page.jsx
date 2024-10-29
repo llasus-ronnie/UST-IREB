@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { Spinner } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import IrebNav from "../../components/navbaradmin/IrebNav";
 import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
@@ -295,7 +295,12 @@ function IrebDashboard() {
                       <td>{submissionCounts[rec.name] || 0}</td>
                       <td>{recChairMap[rec.name] || "Not Assigned"}</td>
                       <td>
-                        <button className="view-button">View</button>
+                        <Button
+                          className="btn-warning"
+                          href={`../IREB/IREBManageRECRoles/${rec._id}`}
+                        >
+                          View
+                        </Button>
                       </td>
                     </tr>
                   ))}
