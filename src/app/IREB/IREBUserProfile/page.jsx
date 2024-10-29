@@ -12,7 +12,41 @@ import "../../styles/userprofile/AdminUserProfile.css";
 import withAuthorization from "../../../hoc/withAuthorization";
 
 function IREBUserProfile() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  //loading
+  const loadingContainerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    backgroundColor: "var(--secondary-color)",
+  };
+  const spinnerStyle = {
+    width: "4rem",
+    height: "4rem",
+    color: "var(--tertiary-color)",
+  };
+  const loadingTextStyle = {
+    fontFamily: "var(--poppins)",
+    fontSize: "var(--paragraph-size)",
+    color: "var(--primary-color)",
+    marginTop: "1rem",
+  };
+
+  if (status === "loading") {
+    return (
+      <div style={loadingContainerStyle}>
+        <Spinner animation="border" role="status" style={spinnerStyle}>
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        <p style={loadingTextStyle}>
+          Please wait, we are verifying your access...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="adminpage-container">
