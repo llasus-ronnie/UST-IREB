@@ -62,9 +62,9 @@ export default function StatusBreadcrumbs({ steps = [], params }) {
                 <div className="breadcrumbs-step-line"></div>
                 <div className={`breadcrumbs-step-circle ${form && form.status === step.id ? 'yellow' : ''}`}></div>
                 <div className="breadcrumbs-step-content">
-                  <div className="breadcrumbs-step-title">{step.title}</div>
+                  <div className={`breadcrumbs-step-title ${form && form.status === step.id ? 'active' : ''}`}>{step.title}</div>
                   {step.description && (
-                    <div className="breadcrumbs-step-description">
+                    <div className={`breadcrumbs-step-description ${form && form.status === step.id ? 'active' : ''}`}>
                       {step.description}
                     </div>
                   )}

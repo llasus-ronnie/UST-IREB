@@ -76,5 +76,9 @@
 }
 
 .breadcrumbs-step-circle.yellow {
-    background-color: yellow;
-  }
+    background-color: var(--primary-color);
+}
+
+.breadcrumbs-step-title.active, .breadcrumbs-step-description.active {
+    color: var(--primary-color);
+}
