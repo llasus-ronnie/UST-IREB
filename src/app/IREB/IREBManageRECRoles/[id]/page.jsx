@@ -13,22 +13,27 @@ import EditRECMemberModal from "../../../components/modals/EditRECMemberModal";
 import "../../../styles/ireb/IrebManageAccounts.css";
 
 import withAuthorization from "../../../../hoc/withAuthorization";
+import { set } from "mongoose";
 
 function IrebManageRECRoles({ params }) {
   const [modalShowAddRECMember, setModalShowAddRECMember] = useState(false);
   const [modalShowEditRECMember, setModalShowEditRECMember] = useState(false);
   const [REC, setREC] = useState(null);
   const [RECMembers, setRECMembers] = useState([]);
+  const [selectedMember, setSelectedMember] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRECMember, setFilteredRECMember] = useState([]);
 
   const handleShowModalAddRECMember = () => setModalShowAddRECMember(true);
-  const handleShowModalEditRECMember = () => setModalShowEditRECMember(true);
+  const handleShowModalEditRECMember = (member) => {
+    setSelectedMember(member);
+    setModalShowEditRECMember(true);
+  };
+
   const handleCloseModalAddRECMember = () => setModalShowAddRECMember(false);
   const handleCloseModalEditRECMember = () => setModalShowEditRECMember(false);
-
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -79,14 +84,47 @@ function IrebManageRECRoles({ params }) {
     }
   }, [REC]);
 
+  const roleOrder = {
+    "REC Chair": 1,
+    "REC Vice Chair": 2,
+    "REC Secretary": 3,
+    "Primary Reviewer": 4,
+  };
+
+  const sortedRECMembers = RECMembers.sort((a, b) => {
+    return roleOrder[a.recRole] - roleOrder[b.recRole];
+  });
+
+  //loading
+  const loadingContainerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    backgroundColor: "var(--secondary-color)",
+  };
+  const spinnerStyle = {
+    width: "4rem",
+    height: "4rem",
+    color: "var(--tertiary-color)",
+  };
+  const loadingTextStyle = {
+    fontFamily: "var(--poppins)",
+    fontSize: "var(--paragraph-size)",
+    color: "var(--primary-color)",
+    marginTop: "1rem",
+  };
+
   if (isLoading) {
     return (
-      <div className="loading-overlay">
-        <div className="spinner-container">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
+      <div style={loadingContainerStyle}>
+        <Spinner animation="border" role="status" style={spinnerStyle}>
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        <p style={loadingTextStyle}>
+          Please wait, we are verifying your access...
+        </p>
       </div>
     );
   }
@@ -101,20 +139,40 @@ function IrebManageRECRoles({ params }) {
         <div className="adminmain-content">
           <div className="ireb-header-container">
             <div className="adminheader-container">
-            <button className="back-button">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
-              </svg>
-              Go Back to REC Accounts
-            </button>
+              <a href="../IREBManageREC" className="back-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-arrow-left"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+                  />
+                </svg>
+                Go Back to REC Accounts
+              </a>
               <UserLoggedIn className="user-loggedin" />
             </div>
           </div>
 
           <div className="ireb-header-container-mobile">
-          <button className="back-button">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+            <button className="back-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-arrow-left"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+                />
               </svg>
               Go Back to REC Accounts
             </button>
@@ -139,7 +197,10 @@ function IrebManageRECRoles({ params }) {
                 </div>
 
                 <button className="me-buttonfilter">Filter & Sort</button>
-                <button className="me-buttonaddacc" onClick={handleShowModalAddRECMember}>
+                <button
+                  className="me-buttonaddacc"
+                  onClick={handleShowModalAddRECMember}
+                >
                   + &nbsp; &nbsp; Add Member
                 </button>
               </div>
@@ -157,15 +218,18 @@ function IrebManageRECRoles({ params }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredRECMember.length > 0 ? (
-                    filteredRECMember.map((member, index) => (
+                  {sortedRECMembers.length > 0 ? (
+                    sortedRECMembers.map((member, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{member.name}</td>
                         <td>{member.email}</td>
                         <td>{member.recRole}</td>
                         <td>
-                          <button className="edit-icon">
+                          <button
+                            className="edit-icon"
+                            onClick={() => handleShowModalEditRECMember(member)}
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="16"
@@ -173,7 +237,6 @@ function IrebManageRECRoles({ params }) {
                               fill="currentColor"
                               className="bi bi-pen"
                               viewBox="0 0 16 16"
-                              onClick={handleShowModalEditRECMember}
                             >
                               <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
                             </svg>
@@ -207,8 +270,16 @@ function IrebManageRECRoles({ params }) {
         </div>
       </div>
 
-      <AddRECMemberModal show={modalShowAddRECMember} onHide={handleCloseModalAddRECMember} REC={REC} />
-      <EditRECMemberModal show={modalShowEditRECMember} onHide={handleCloseModalEditRECMember} REC={REC} />
+      <AddRECMemberModal
+        show={modalShowAddRECMember}
+        onHide={handleCloseModalAddRECMember}
+        data={selectedMember}
+      />
+      <EditRECMemberModal
+        show={modalShowEditRECMember}
+        onHide={handleCloseModalEditRECMember}
+        data={selectedMember}
+      />
     </div>
   );
 }

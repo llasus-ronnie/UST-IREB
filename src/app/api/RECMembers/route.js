@@ -51,14 +51,35 @@ export async function GET(req) {
   }
 }
 
-async function addRECMember(memberData, REC) {
+export async function PATCH(req) {
+  await connectDB();
+
+  const { id, name, email, rec, recRole } = await req.json();
+
   try {
-    const response = await axios.post("/api/RECMembers", {
-      ...memberData,
-      rec: REC?.name,
-    });
-    console.log("Member added:", response.data);
+    const updatedMember = await RECMembers.findByIdAndUpdate(
+      id,
+      { name, email, rec, recRole },
+      { new: true }
+    );
+
+    if (!updatedMember) {
+      console.error("Member not found for ID:", id);
+      return NextResponse.json(
+        { success: false, error: "Member not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, data: updatedMember },
+      { status: 200 }
+    );
   } catch (error) {
-    console.error("Error adding member:", error);
+    console.error("Error in PATCH:", error);
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
 }

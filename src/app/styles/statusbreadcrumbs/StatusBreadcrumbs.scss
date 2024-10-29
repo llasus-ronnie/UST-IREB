@@ -4,6 +4,10 @@
     --tertiary-color: #fcbf15;
 }
 
+$breadcrumbStepCircleWidth: 3.25rem;
+$breadcrumbStepCircleHeight: 3.25rem;
+
+
 .breadcrumbs-status-breadcrumbs {
     display: flex;
     flex-direction: column;
@@ -32,8 +36,8 @@
 }
 
 .breadcrumbs-step-circle {
-    width: 3.25rem;
-    height: 3.25rem;
+    width: $breadcrumbStepCircleWidth;
+    height: $breadcrumbStepCircleHeight;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -71,6 +75,35 @@
     margin-top: 0.5rem;
 }
 
-.breadcrumbs-line-completed {
+.breadcrumbs-step-line.yellow{
     background-color: var(--tertiary-color);
+}
+
+.breadcrumbs-step-circle.active {
+    background-color: var(--primary-color);
+}
+
+.breadcrumbs-step-title.active,
+.breadcrumbs-step-description.active {
+    color: var(--primary-color);
+}
+
+.breadcrumbs-step-description.active {
+    font-style: italic;
+}
+
+.breadcrumbs-step-title.completed,
+.breadcrumbs-step-description.completed {
+    color: var(--tertiary-color);
+}
+
+.breadcrumbs-step-circle.completed {
+    background-color: var(--tertiary-color);
+}
+
+.white-circle{
+    background-color: white;
+    width: $breadcrumbStepCircleWidth - 1.5rem;
+    height: $breadcrumbStepCircleHeight - 1.5rem;
+    border-radius: 100%;
 }

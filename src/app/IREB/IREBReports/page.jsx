@@ -2,6 +2,8 @@
 
 // dependencies
 import React, { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { Spinner } from "react-bootstrap";
 import IrebNav from "../../components/navbaradmin/IrebNav";
 import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
@@ -18,6 +20,8 @@ import {
 } from "chart.js";
 import "chartjs-plugin-dragdata";
 import axios from "axios";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 // css
 import "../../styles/ireb/IrebReports.css";
@@ -35,30 +39,21 @@ ChartJS.register(
 );
 
 function IrebReports() {
+  const { data: status } = useSession();
+
+  //for forms data
+  const [formsData, setFormsData] = useState([]);
   const [chartData, setChartData] = useState({
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
+    labels: [],
     datasets: [
       {
         label: "Submitted",
-        data: [3, 4, 6, 5, 7, 8, 6, 9, 7, 6, 5, 4],
+        data: [],
         backgroundColor: "#FFCC00",
       },
       {
         label: "Approved",
-        data: [2, 3, 5, 4, 6, 7, 5, 8, 6, 5, 4, 3],
+        data: [],
         backgroundColor: "#E6B800",
       },
     ],
@@ -89,16 +84,106 @@ function IrebReports() {
     },
   };
 
-  const doughnutData = {
-    labels: ["Submitted", "Approved", "Pending"],
+  useEffect(() => {
+    async function fetchFormsData() {
+      try {
+        const response = await axios.get("/api/forms");
+        console.log("API Response Data:", response.data);
+
+        const forms = response.data.forms || [];
+        setFormsData(forms);
+
+        const submissionCountsArray = Array(12).fill(0);
+        const labels = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+
+        const recSubmissionCounts = {};
+        let submittedCount = 0;
+        let totalSubmissions = 0;
+
+        //wala pa tayo status
+        let approvedCount = 0;
+        let rejectedCount = 0;
+
+        forms.forEach((form) => {
+          const submissionDate = new Date(form.date);
+          const month = submissionDate.getMonth(); // 0-11 for Jan-Dec
+          const recName = form.researchEthicsCommittee;
+
+          // Increment counts for submissions by month
+          submissionCountsArray[month]++;
+          if (!recSubmissionCounts[recName]) {
+            recSubmissionCounts[recName] = 0;
+          }
+          recSubmissionCounts[recName]++;
+          totalSubmissions++;
+
+          // Count status types for doughnut chart
+          if (form.status === "Submitted") submittedCount++;
+          else if (form.status === "Approved") approvedCount++;
+          else if (form.status === "Rejected") rejectedCount++;
+        });
+
+        // Update the bar chart data
+        setChartData({
+          labels: labels,
+          datasets: [
+            {
+              label: "Submitted",
+              data: submissionCountsArray,
+              backgroundColor: "#FFCC00",
+            },
+            {
+              label: "Approved",
+              data: Array(12).fill(0), // Placeholder if you don't have monthly approval data
+              backgroundColor: "#E6B800",
+            },
+          ],
+        });
+
+        // Update the doughnut chart data
+        setDoughnutData({
+          labels: ["Submitted", "Approved", "Rejected"],
+          datasets: [
+            {
+              label: "Approval Status",
+              data: [totalSubmissions, approvedCount, rejectedCount],
+              backgroundColor: ["#FFCC00", "#4CAF50", "#F44336"],
+              hoverOffset: 4,
+            },
+          ],
+        });
+      } catch (error) {
+        console.error("Error fetching forms data:", error);
+      }
+    }
+    fetchFormsData();
+  }, []);
+
+  // rec analytics (doughnut chart data state)
+  const [doughnutData, setDoughnutData] = useState({
+    labels: [],
     datasets: [
       {
-        data: [60, 30, 10],
-        backgroundColor: ["#FFCC00", "#E6B800", "#7D7D7D"],
+        label: "Approval Status",
+        data: [],
+        backgroundColor: ["#FFCC00", "#4CAF50", "#F44336"],
         hoverOffset: 4,
       },
     ],
-  };
+  });
 
   const doughnutOptions = {
     responsive: true,
@@ -116,6 +201,7 @@ function IrebReports() {
     },
   };
 
+  //for rec status
   const [REC, setREC] = useState([]);
   const [recStatusData, setRecStatusData] = useState({
     labels: [],
@@ -187,6 +273,65 @@ function IrebReports() {
     },
   };
 
+  //download
+  const downloadReport = async () => {
+    const doc = new jsPDF("portrait", "pt", "a4");
+    doc.text("IREB Reports", 20, 20);
+
+    // Capture charts as images
+    const barChartElement = document.getElementById("bar-chart");
+    const doughnutChartElement = document.getElementById("doughnut-chart");
+
+    if (barChartElement && doughnutChartElement) {
+      const barChartImage = await html2canvas(barChartElement).then((canvas) =>
+        canvas.toDataURL("image/png")
+      );
+      const doughnutChartImage = await html2canvas(doughnutChartElement).then(
+        (canvas) => canvas.toDataURL("image/png")
+      );
+
+      doc.addImage(barChartImage, "PNG", 20, 40, 550, 300);
+      doc.addPage();
+      doc.addImage(doughnutChartImage, "PNG", 20, 40, 300, 300);
+    }
+
+    doc.save("IREB_Report.pdf");
+  };
+
+  //loading
+  const loadingContainerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    backgroundColor: "var(--secondary-color)",
+  };
+  const spinnerStyle = {
+    width: "4rem",
+    height: "4rem",
+    color: "var(--tertiary-color)",
+  };
+  const loadingTextStyle = {
+    fontFamily: "var(--poppins)",
+    fontSize: "var(--paragraph-size)",
+    color: "var(--primary-color)",
+    marginTop: "1rem",
+  };
+
+  if (status === "loading") {
+    return (
+      <div style={loadingContainerStyle}>
+        <Spinner animation="border" role="status" style={spinnerStyle}>
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        <p style={loadingTextStyle}>
+          Please wait, we are verifying your access...
+        </p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="adminpage-container">
@@ -206,21 +351,27 @@ function IrebReports() {
 
             <br />
 
-            <div class="report-page-header">
-              <button class="download-btn">Download Reports</button>
+            <div className="report-page-header">
+              <button className="download-btn" onClick={downloadReport}>
+                Download Reports
+              </button>
             </div>
 
             {/* Chart */}
             <div className="twocol-container">
               <div className="ireb-chart-container">
-                <Bar data={chartData} options={options} />
+                <Bar id="bar-chart" data={chartData} options={options} />
               </div>
 
               <div className="admindashboard-cards">
                 <div className="admindashboard-card">
                   <h2>REC Analytics</h2>
                   <div className="circle-analytics">
-                    <Doughnut data={doughnutData} options={doughnutOptions} />
+                    <Doughnut
+                      id="doughnut-chart"
+                      data={doughnutData}
+                      options={doughnutOptions}
+                    />
                   </div>
                 </div>
               </div>

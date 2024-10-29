@@ -37,3 +37,29 @@ export async function GET() {
     );
   }
 }
+
+export async function PATCH(req) {
+  await connectDB();
+
+  const { id, name, email, status } = await req.json();
+
+  console.log("Updating REC with ID:", id); // Log the ID
+
+  try {
+    const updatedREC = await REC.findByIdAndUpdate(
+      id,
+      { name, email, status },
+      { new: true }
+    );
+
+    return NextResponse.json(
+      { success: true, data: updatedREC },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 400 }
+    );
+  }
+}

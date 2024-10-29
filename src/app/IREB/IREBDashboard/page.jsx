@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { Button, Spinner } from "react-bootstrap";
 import IrebNav from "../../components/navbaradmin/IrebNav";
 import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
@@ -31,11 +33,14 @@ ChartJS.register(
 );
 
 function IrebDashboard() {
+  const { data: status } = useSession();
+
   const [REC, setREC] = useState([]);
   const [formsData, setFormsData] = useState([]);
   const [newlyAssignedCount, setNewlyAssignedCount] = useState(0);
   const [recChairMap, setRecChairMap] = useState({});
   const [submissionCounts, setSubmissionCounts] = useState({});
+
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -181,6 +186,41 @@ function IrebDashboard() {
     },
   };
 
+  // Loading state
+
+  const loadingContainerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    backgroundColor: "var(--secondary-color)",
+  };
+  const spinnerStyle = {
+    width: "4rem",
+    height: "4rem",
+    color: "var(--tertiary-color)",
+  };
+  const loadingTextStyle = {
+    fontFamily: "var(--poppins)",
+    fontSize: "var(--paragraph-size)",
+    color: "var(--primary-color)",
+    marginTop: "1rem",
+  };
+
+  if (status === "loading") {
+    return (
+      <div style={loadingContainerStyle}>
+        <Spinner animation="border" role="status" style={spinnerStyle}>
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        <p style={loadingTextStyle}>
+          Please wait, we are verifying your access...
+        </p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="adminpage-container">
@@ -255,7 +295,12 @@ function IrebDashboard() {
                       <td>{submissionCounts[rec.name] || 0}</td>
                       <td>{recChairMap[rec.name] || "Not Assigned"}</td>
                       <td>
-                        <button className="view-button">View</button>
+                        <Button
+                          className="btn-warning"
+                          href={`../IREB/IREBManageRECRoles/${rec._id}`}
+                        >
+                          View
+                        </Button>
                       </td>
                     </tr>
                   ))}
