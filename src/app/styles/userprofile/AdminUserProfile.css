@@ -250,103 +250,133 @@
     }
 }
 
-  /* Mobile */
-  @media only screen and (max-width: 576px) {
-
-    .adminnav {
-      display: none;
-    }
-
-    /* Mobile General Page Container */
-    .adminpage-container {
-        flex-direction: column;
-        height: auto;
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow-x: hidden;
-    }
-
-    /* Mobile IREB User Profile */
-    .admin-userprofile {
-        margin-left: 0;
-        padding: 1rem;
-        height: auto;
-        }
-    
-    /* Mobile Main Content Div for IREB User Profile */
-    .adminmain-content {
-        padding: 1rem;
-        margin: 1rem auto;
-        max-width: 100%;
-    }
-
-    .admin-header-container {
-        display: none;
-    }
-
-    .admin-header-container-mobile {
-        align-items: left;
-        margin: 0;
-        padding: 0;
-    }
-
-    .userloggedin-mobile {
-        margin-bottom: 1.5rem;
-    }
-
+/* Mobile */
+@media only screen and (max-width: 576px) {
+  * {
+      box-sizing: border-box;
   }
 
+  .adminnav {
+      display: none;
+  }
 
-    /* Tablet */
-    @media only screen and (min-width: 577px) and (max-width: 768px) {
-        .adminnav-mobile {
-        display: none;
-        }
-        
-    .admin-header-container-mobile {
-        display: none;
-    }
-    
-    .admin-userprofile {
-        margin-left: 5.625rem;
-    }
+  /* Mobile General Page Container */
+  .adminpage-container {
+      flex-direction: column;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+  }
 
-        /* Tablet General Page Container */
-        .adminpage-container {
-            flex-direction: column;
-            height: auto;
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow-x: hidden;
-        }
+  /* Mobile Admin User Profile */
+  .admin-userprofile {
+      margin-left: 0;
+      padding: 1rem;
+      height: auto;
+  }
 
-        /* Tablet Side Nav */
-        .adminnav.open ~ .admin-userprofile {
-            margin-left: 18.75rem;
-            transition: margin-left 0.3s ease;
-            }
+  /* Mobile Main Content Div for Admin User Profile */
+  .adminmain-content {
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 100%;
+      overflow: hidden;
+  }
 
-        /* Tablet IREB User Profile */
-        .admin-userprofile {
-            padding: 1rem;
-            flex-grow: 1;
-            transition: margin-left 0.3s ease;
-            background-color: var(--secondary-color);
-            height: 100vh;
-            margin-left: 5.625rem;
-        }
-        
-        /* Tablet Main Content Div for IREB User Profile */
-        .adminmain-content {
-            padding: 1rem;
-            margin: 1rem auto;
-            max-width: 100%;
-        }
+  .admin-header-container {
+      display: none;
+  }
 
-        .adminheader-container {
-            padding: 0;
-        }
+  .admin-header-container-mobile {
+      align-items: flex-start;
+      margin: 0;
+      padding: 0;
+  }
 
-    }
+  .userloggedin-mobile {
+      margin-bottom: 1.5rem;
+  }
+
+  /* Additional adjustments for cards or containers */
+  .profile-container {
+      flex-direction: column;
+      width: 100%;
+      margin: 0;
+  }
+
+  .profile-left,
+  .profile-right {
+      width: 100%;
+      margin: 0;
+  }
+
+  .profile-cardleft,
+  .profile-cardright {
+      width: 90%;
+      margin: 0 auto;
+  }
+}
+
+
+/* Tablet */
+@media only screen and (min-width: 577px) and (max-width: 768px) {
+  * {
+      box-sizing: border-box;
+
+  .adminnav-mobile {
+      display: none;
+  }
+
+  .admin-header-container-mobile {
+      display: none;
+  }
+
+  /* Tablet General Page Container */
+  .adminpage-container {
+      flex-direction: column;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+  }
+
+  /* Tablet Admin User Profile */
+  .admin-userprofile {
+      margin-left: 5.625rem; 
+      padding: 1rem;
+      height: auto;
+  }
+
+  /* Tablet Main Content Div for Admin User Profile */
+  .adminmain-content {
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 100%;
+      overflow: hidden;
+  }
+
+  .admin-header-container {
+      padding: 0;
+  }
+
+  /* Adjusting profile container layout */
+  .profile-container {
+      flex-direction: row;
+      width: 100%;
+      margin: 0;
+  }
+
+  .profile-left,
+  .profile-right {
+      width: 48%;
+      margin: 0;
+  }
+
+  .profile-cardleft,
+  .profile-cardright {
+      width: 95%;
+      margin: 0 auto;
+  }
+}
+}

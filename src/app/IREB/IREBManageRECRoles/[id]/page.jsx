@@ -29,7 +29,6 @@ function IrebManageRECRoles({ params }) {
   const handleCloseModalAddRECMember = () => setModalShowAddRECMember(false);
   const handleCloseModalEditRECMember = () => setModalShowEditRECMember(false);
 
-
   const handleSearch = (query) => {
     setSearchQuery(query);
     const lowercasedQuery = query.toLowerCase();
@@ -79,14 +78,36 @@ function IrebManageRECRoles({ params }) {
     }
   }, [REC]);
 
+  //loading
+  const loadingContainerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    backgroundColor: "var(--secondary-color)",
+  };
+  const spinnerStyle = {
+    width: "4rem",
+    height: "4rem",
+    color: "var(--tertiary-color)",
+  };
+  const loadingTextStyle = {
+    fontFamily: "var(--poppins)",
+    fontSize: "var(--paragraph-size)",
+    color: "var(--primary-color)",
+    marginTop: "1rem",
+  };
+
   if (isLoading) {
     return (
-      <div className="loading-overlay">
-        <div className="spinner-container">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
+      <div style={loadingContainerStyle}>
+        <Spinner animation="border" role="status" style={spinnerStyle}>
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        <p style={loadingTextStyle}>
+          Please wait, we are verifying your access...
+        </p>
       </div>
     );
   }
@@ -101,11 +122,43 @@ function IrebManageRECRoles({ params }) {
         <div className="adminmain-content">
           <div className="ireb-header-container">
             <div className="adminheader-container">
+              <a href="../IREBManageREC" className="back-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-arrow-left"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+                  />
+                </svg>
+                Go Back to REC Accounts
+              </a>
               <UserLoggedIn className="user-loggedin" />
             </div>
           </div>
 
           <div className="ireb-header-container-mobile">
+            <button className="back-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-arrow-left"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+                />
+              </svg>
+              Go Back to REC Accounts
+            </button>
             <div className="userloggedin-mobile">
               <UserLoggedIn />
             </div>
@@ -127,7 +180,10 @@ function IrebManageRECRoles({ params }) {
                 </div>
 
                 <button className="me-buttonfilter">Filter & Sort</button>
-                <button className="me-buttonaddacc" onClick={handleShowModalAddRECMember}>
+                <button
+                  className="me-buttonaddacc"
+                  onClick={handleShowModalAddRECMember}
+                >
                   + &nbsp; &nbsp; Add Member
                 </button>
               </div>
@@ -195,8 +251,16 @@ function IrebManageRECRoles({ params }) {
         </div>
       </div>
 
-      <AddRECMemberModal show={modalShowAddRECMember} onHide={handleCloseModalAddRECMember} REC={REC} />
-      <EditRECMemberModal show={modalShowEditRECMember} onHide={handleCloseModalEditRECMember} REC={REC} />
+      <AddRECMemberModal
+        show={modalShowAddRECMember}
+        onHide={handleCloseModalAddRECMember}
+        REC={REC}
+      />
+      <EditRECMemberModal
+        show={modalShowEditRECMember}
+        onHide={handleCloseModalEditRECMember}
+        REC={REC}
+      />
     </div>
   );
 }

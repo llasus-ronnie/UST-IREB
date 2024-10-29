@@ -45,15 +45,37 @@ function IrebManageExternal() {
     setFilteredREC(filtered);
   };
 
+  //loading
+  const loadingContainerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    backgroundColor: "var(--secondary-color)",
+  };
+  const spinnerStyle = {
+    width: "4rem",
+    height: "4rem",
+    color: "var(--tertiary-color)",
+  };
+  const loadingTextStyle = {
+    fontFamily: "var(--poppins)",
+    fontSize: "var(--paragraph-size)",
+    color: "var(--primary-color)",
+    marginTop: "1rem",
+  };
+
   if (error) return <div>Failed to load</div>;
   if (!data) {
     return (
-      <div className="loading-overlay">
-        <div className="spinner-container">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
+      <div style={loadingContainerStyle}>
+        <Spinner animation="border" role="status" style={spinnerStyle}>
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        <p style={loadingTextStyle}>
+          Please wait, we are verifying your access...
+        </p>
       </div>
     );
   }
@@ -94,7 +116,10 @@ function IrebManageExternal() {
                 </div>
 
                 <button className="me-buttonfilter"> Filter & Sort </button>
-                <button className="me-buttonaddacc" onClick={handleShowModalAddREC}>
+                <button
+                  className="me-buttonaddacc"
+                  onClick={handleShowModalAddREC}
+                >
                   {" "}
                   + &nbsp; &nbsp; Add REC{" "}
                 </button>
@@ -110,11 +135,14 @@ function IrebManageExternal() {
                     href={`../IREB/IREBManageRECRoles/${form._id}`}
                   >
                     <div className="edit-icon-container">
-                      <button className="edit-icon"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleShowModalEditREC();
-                          }}>
+                      <button
+                        className="edit-icon"
+                        onClick={(e) => {
+                          // e.stopPropagation();
+                          e.preventDefault();
+                          handleShowModalEditREC();
+                        }}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
