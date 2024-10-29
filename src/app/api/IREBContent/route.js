@@ -47,3 +47,27 @@ export async function GET(req) {
     );
   }
 }
+
+export async function PATCH(req) {
+  await connectDB();
+
+  const { heading, body } = await req.json();
+
+  try {
+    const updatedIREBContent = await IREBContent.findOneAndUpdate(
+      { heading },
+      { body },
+      { new: true }
+    );
+    return NextResponse.json(
+      { success: true, data: updatedIREBContent },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error updating content:", error);
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 400 }
+    );
+  }
+}

@@ -94,10 +94,11 @@ export default function EditRECContentModal(props) {
                 Body
               </Form.Label>
               <Form.Control
-                type="text"
+                as="textarea"
                 value={body}
                 onChange={handleBodyChange}
                 className="form-control-with-icon rounded-input mc-editcontent-body"
+                rows={5}
               />
             </Form.Group>
           </Form>
