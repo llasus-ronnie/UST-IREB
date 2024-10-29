@@ -5,7 +5,7 @@ import axios from "axios";
 import RecNav from "../../components/navbaradmin/RecNav";
 import RecNavMobile from "../../components/navbaradmin/RecNavMobile";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
-import AddAccModal from "../../components/modals/EditContentModal";
+import EditContentModal from "../../components/modals/EditRECContentModal";
 import "../../styles/rec/RECManageContent.css";
 
 import withAuthorization from "../../../hoc/withAuthorization";
@@ -124,7 +124,7 @@ function RECManageContent(props) {
         </div>
       </div>
 
-      <AddAccModal show={modalShow} onHide={handleCloseModal} />
+      <EditContentModal show={modalShow} onHide={handleCloseModal} />
     </div>
   );
 }

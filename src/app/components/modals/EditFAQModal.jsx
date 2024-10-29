@@ -8,7 +8,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function EditRECContentModal(props) {
+export default function EditFAQModal(props) {
   const [heading, setHeading] = useState("");
   const [body, setBody] = useState("");
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
@@ -64,7 +64,7 @@ export default function EditRECContentModal(props) {
             id="contained-modal-title-vcenter"
             className="editcontent-modal-title"
           >
-            Edit Content
+            Edit FAQ Content
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="editcontent-modal-body rounded-body">

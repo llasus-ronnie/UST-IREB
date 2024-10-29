@@ -7,7 +7,7 @@ import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
 import SearchBar from "../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
 import AddAccModal from "../../components/modals/AddFAQModal";
-import EditAccModal from "../../components/modals/EditContentModal";
+import EditAccModal from "../../components/modals/EditFAQModal";
 import ArchiveConfirmationModal from "../../components/modals/ArchiveConfirmationModal";
 import "../../styles/rec/RECManageContent.css";
 import { Spinner } from "react-bootstrap";
