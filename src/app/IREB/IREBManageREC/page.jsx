@@ -12,6 +12,7 @@ import { Spinner } from "react-bootstrap";
 import axios from "axios";
 import useSWR from "swr";
 import withAuthorization from "../../../hoc/withAuthorization";
+import { set } from "mongoose";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
@@ -20,6 +21,7 @@ function IrebManageExternal() {
   const [modalShowEditREC, setModalShowEditREC] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredREC, setFilteredREC] = useState([]);
+  const [selectedREC, setSelectedREC] = useState(null);
   const { data, error } = useSWR("/api/REC", fetcher);
 
   useEffect(() => {
@@ -29,7 +31,10 @@ function IrebManageExternal() {
   }, [data]);
 
   const handleShowModalAddREC = () => setModalShowAddREC(true);
-  const handleShowModalEditREC = () => setModalShowEditREC(true);
+  const handleShowModalEditREC = (rec) => {
+    setSelectedREC(rec);
+    setModalShowEditREC(true);
+  };
   const handleCloseModalAddREC = () => setModalShowAddREC(false);
   const handleCloseModalEditREC = () => setModalShowEditREC(false);
 
@@ -140,7 +145,7 @@ function IrebManageExternal() {
                         onClick={(e) => {
                           // e.stopPropagation();
                           e.preventDefault();
-                          handleShowModalEditREC();
+                          handleShowModalEditREC(form);
                         }}
                       >
                         <svg
@@ -174,7 +179,11 @@ function IrebManageExternal() {
       </div>
 
       <AddRECModal show={modalShowAddREC} onHide={handleCloseModalAddREC} />
-      <EditRECModal show={modalShowEditREC} onHide={handleCloseModalEditREC} />
+      <EditRECModal
+        show={modalShowEditREC}
+        onHide={handleCloseModalEditREC}
+        data={selectedREC}
+      />
     </div>
   );
 }

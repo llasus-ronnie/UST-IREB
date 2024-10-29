@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -13,8 +13,19 @@ export default function EditRECModal(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
+  const [recId, setrecId] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+
+  useEffect(() => {
+    console.log("Props Data:", props.data);
+    if (props.data) {
+      setName(props.data.name);
+      setEmail(props.data.email);
+      setStatus(props.data.status);
+      setrecId(props.data._id);
+    }
+  }, [props.data]);
 
   const handleNameChange = (e) => {
     const nameValue = e.target.value;
@@ -32,20 +43,21 @@ export default function EditRECModal(props) {
     setStatus(statusValue);
   };
 
-  const handleAddAccount = async () => {
-    if (!isEmailValid) {
-      alert("Please enter a valid email.");
+  const handleEditAccount = async () => {
+    if (!name || !email || !status) {
+      alert("Please fill in all fields.");
       return;
     }
 
     try {
-      await axios.post("/api/REC", {
+      await axios.patch("/api/REC", {
+        id: recId,
         name,
         email,
         status,
       });
       console.log("Account added to database");
-      toast.success("REC added successfully");
+      toast.success("REC updated successfully");
 
       props.onHide();
     } catch (error) {
@@ -243,7 +255,10 @@ export default function EditRECModal(props) {
           <Button onClick={handleCancel} className="btn cancel rounded-btn">
             Cancel
           </Button>
-          <Button onClick={handleAddAccount} className="btn addacc rounded-btn">
+          <Button
+            onClick={handleEditAccount}
+            className="btn addacc rounded-btn"
+          >
             Save Changes
           </Button>
         </Modal.Footer>
