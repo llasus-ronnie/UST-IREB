@@ -82,3 +82,7 @@
 .breadcrumbs-step-title.active, .breadcrumbs-step-description.active {
     color: var(--primary-color);
 }
+
+.breadcrumbs-step-description.active{
+    font-style: italic;
+}
