@@ -12,6 +12,7 @@ import { PropagateLoader } from "react-spinners";
 import UploadPaymentProofModal from "../../../components/modals/UploadPaymentProofModal.jsx";
 
 import withAuthorization from "../../../../hoc/withAuthorization";
+import { current } from "@reduxjs/toolkit";
 
 function SubmissionStatus({ params }) {
   const [loading, setLoading] = useState(false);
@@ -35,26 +36,32 @@ function SubmissionStatus({ params }) {
 
   const steps = [
     {
+      id: "Initial-Submission",
       title: "Initial Submission",
       description: "Your initial submission will be reviewed to see if all requirements are complete or if any revisions are needed before proceeding."
     },
     {
+      id: "Pending-Payment",
       title: "Pending Payment",
       description: "This is where you need to pay the Ethical Review Fees and submit proof of payment so your research can proceed to classification."
     },
     {
+      id: "For-Classification",
       title: "For Classification",
       description: "Once proof of payment is received, your submission will move to research classification."
     },
     {
+      id: "In-Progress",
       title: "In Progress",
       description: "Your submission is currently with the primary reviewer for ethical review"
     },
     {
+      id: "Final-Review",
       title: "Final Review",
       description: "After all revisions, your submission will be sent to the REC Chair for the final review stage."
     },
     {
+      id: "Approved",
       title: "Approved",
       description: "Your submission has been approved. You may now view and download the certificate of ethics review. Thank you!"
     },
@@ -62,7 +69,6 @@ function SubmissionStatus({ params }) {
 
 
   const [form, setForm] = useState(null); // Initialize form state
-  const [error, setError] = useState(null); // Initialize error state
 
   useEffect(() => {
     async function fetchData() {
@@ -76,16 +82,17 @@ function SubmissionStatus({ params }) {
         setError("Failed to fetch form details.");
       } finally {
         setLoading(false);
-      }
+      } 
     }
     fetchData();
-  }, []);
+  }, [unwrappedParams]);
 
   const [isClient, setIsClient] = useState(null);
 
   useEffect(() => {
     setIsClient(true);
   }, [])
+
 
 
   if (loading) {
@@ -152,7 +159,7 @@ function SubmissionStatus({ params }) {
               <Col className="submissionstatus-right">
                 <div className="submissionstatus-card-breadcrumbs">
                   <h1>Track Status of Submission</h1>
-                  <StatusBreadcrumbs steps={steps} />
+                  <StatusBreadcrumbs steps={steps} params={unwrappedParams}/>
                 </div>
               </Col>
             </Row>
