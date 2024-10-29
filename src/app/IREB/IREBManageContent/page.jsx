@@ -7,13 +7,12 @@ import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
 import SearchBar from "../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
 import AddAccModal from "../../components/modals/AddFAQModal";
-import EditAccModal from "../../components/modals/EditContentModal";
+import EditAccModal from "../../components/modals/EditFAQModal";
 import ArchiveConfirmationModal from "../../components/modals/ArchiveConfirmationModal";
 import "../../styles/rec/RECManageContent.css";
 import { Spinner } from "react-bootstrap";
 
 import withAuthorization from "../../../hoc/withAuthorization";
-import { set } from "mongoose";
 
 function IREBManageContent(props) {
   const [modalShowAddAcc, setModalShowAddAcc] = useState(false);
@@ -21,16 +20,20 @@ function IREBManageContent(props) {
   const [modalShowArchiveConfirmation, setModalShowArchiveConfirmation] =
     useState(false);
 
+  const [content, setContent] = useState([]);
+  const [selectedFaq, setSelectedFaq] = useState(null);
+  const [filteredContent, setFilteredContent] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleShowAddAccModal = () => setModalShowAddAcc(true);
-  const handleShowEditAccModal = () => setModalShowEditAcc(true);
+  const handleShowEditAccModal = (faq) => {
+    setSelectedFaq(faq);
+    setModalShowEditAcc(true);
+  };
   const handleShowArchiveModal = () => setModalShowArchiveConfirmation(true);
   const handleCloseAddAccModal = () => setModalShowAddAcc(false);
   const handleCloseEditAccModal = () => setModalShowEditAcc(false);
   const handleCloseArchiveModal = () => setModalShowArchiveConfirmation(false);
-
-  const [content, setContent] = useState([]);
-  const [filteredContent, setFilteredContent] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = (query) => {
     const lowercasedQuery = query.toLowerCase();
@@ -166,7 +169,7 @@ function IREBManageContent(props) {
                         <td>
                           <button
                             className="edit-icon"
-                            onClick={handleShowEditAccModal}
+                            onClick={() => handleShowEditAccModal(form)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -211,7 +214,11 @@ function IREBManageContent(props) {
       </div>
 
       <AddAccModal show={modalShowAddAcc} onHide={handleCloseAddAccModal} />
-      <EditAccModal show={modalShowEditAcc} onHide={handleCloseEditAccModal} />
+      <EditAccModal
+        show={modalShowEditAcc}
+        onHide={handleCloseEditAccModal}
+        data={selectedFaq}
+      />
       <ArchiveConfirmationModal
         show={modalShowArchiveConfirmation}
         onHide={handleCloseArchiveModal}
