@@ -62,7 +62,7 @@ export default function StatusBreadcrumbs({ steps = [], params }) {
             {steps.map((step, index) => {
               return (
                 <div key={index} className={`breadcrumbs-step-container ${index < activeStep ? 'completed' : ''}`}>
-                  <div className={`breadcrumbs-step-line ${index === activeStep - 1 ? 'yellow' : ''}`}></div>
+                  <div className={`breadcrumbs-step-line ${index < activeStep ? 'yellow' : ''}`}></div>
                   <div className={`breadcrumbs-step-circle ${form && form.status === step.id ? 'active' : ''} ${index < activeStep ? 'completed' : ''}`}>
                     {form && form.status === step.id && (
                       <div className="white-circle"></div>
