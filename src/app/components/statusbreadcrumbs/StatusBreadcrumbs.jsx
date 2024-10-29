@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import "../../styles/statusbreadcrumbs/StatusBreadcrumbs.css";
 import axios from "axios";
 
-
 const CheckMarkSVG = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" className="bi bi-check-lg" viewBox="0 0 16 16">
     <path 
@@ -52,25 +51,31 @@ export default function StatusBreadcrumbs({ steps = [], params }) {
     }
   }, [params]);
 
-  return (
+
+  // Determine the index of the active step based on form.status
+  const activeStep = steps.findIndex(step => step.id === form?.status); 
+
+   return (
     <>
       {isClient && (
         <>
           <div className="breadcrumbs-status-breadcrumbs">
-            {steps.map((step, index) => (
-              <div key={index} className="breadcrumbs-step-container">
-                <div className="breadcrumbs-step-line"></div>
-                <div className={`breadcrumbs-step-circle ${form && form.status === step.id ? 'yellow' : ''}`}></div>
-                <div className="breadcrumbs-step-content">
-                  <div className={`breadcrumbs-step-title ${form && form.status === step.id ? 'active' : ''}`}>{step.title}</div>
-                  {step.description && (
-                    <div className={`breadcrumbs-step-description ${form && form.status === step.id ? 'active' : ''}`}>
-                      {step.description}
-                    </div>
-                  )}
+            {steps.map((step, index) => {
+              return (
+                <div key={index} className={`breadcrumbs-step-container ${index < activeStep ? 'completed' : ''}`}>
+                  <div className="breadcrumbs-step-line"></div>
+                  <div className={`breadcrumbs-step-circle ${form && form.status === step.id ? 'active' : ''} ${index < activeStep ? 'completed' : ''}`}></div>
+                  <div className="breadcrumbs-step-content">
+                    <div className={`breadcrumbs-step-title ${form && form.status === step.id ? 'active' : ''} ${index < activeStep ? 'completed' : ''}`}>{step.title}</div>
+                    {step.description && (
+                      <div className={`breadcrumbs-step-description ${form && form.status === step.id ? 'active' : ''} ${index < activeStep ? 'completed' : ''}`}>
+                        {step.description}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </>
       )}

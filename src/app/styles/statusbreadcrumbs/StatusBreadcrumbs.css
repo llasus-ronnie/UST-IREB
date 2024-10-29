@@ -75,14 +75,21 @@
     background-color: var(--tertiary-color);
 }
 
-.breadcrumbs-step-circle.yellow {
+.breadcrumbs-step-circle.active{
     background-color: var(--primary-color);
 }
 
-.breadcrumbs-step-title.active, .breadcrumbs-step-description.active {
+.breadcrumbs-step-title.active, .breadcrumbs-step-description.active{
     color: var(--primary-color);
 }
 
 .breadcrumbs-step-description.active{
     font-style: italic;
+}
+
+ .breadcrumbs-step-title.completed, .breadcrumbs-step-description.completed {
+    color: var(--tertiary-color);
+}
+.breadcrumbs-step-circle.completed{
+    background-color: var(--tertiary-color);
 }
