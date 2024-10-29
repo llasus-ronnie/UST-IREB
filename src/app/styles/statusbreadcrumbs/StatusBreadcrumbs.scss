@@ -92,9 +92,11 @@ $breadcrumbStepCircleHeight: 3.25rem;
     font-style: italic;
 }
 
-.breadcrumbs-step-title.completed,
-.breadcrumbs-step-description.completed {
+.breadcrumbs-step-title.completed {
     color: var(--tertiary-color);
+}
+.breadcrumbs-step-description.completed{
+    color: var(--primary-color);
 }
 
 .breadcrumbs-step-circle.completed {
