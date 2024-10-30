@@ -17,6 +17,15 @@ import withAuthorization from "../../../../hoc/withAuthorization";
 function RECDashboard({ params }) {
   const [forms, setForms] = useState([]);
   const [isClient, setIsClient] = useState(false);
+  const [statusCounts, setStatusCounts] = useState({
+    "Initial-Submission": 0,
+    "Pending-Payment": 0,
+    "For-Classification": 0,
+    "In-Progress": 0,
+    "Final-Review": 0,
+    Approved: 0,
+  });
+
   const { rec } = useParams(); // Get the current route parameter
   const parameter = React.use(params);
 
@@ -24,9 +33,9 @@ function RECDashboard({ params }) {
     async function fetchData() {
       try {
         const response = await axios.get("/api/forms", {
-          params: { rec: rec.trim() }, // Include rec in the query params
+          params: { rec: rec.trim() },
         });
-        setForms(response.data.forms); // Access the forms
+        setForms(response.data.forms);
       } catch (error) {
         console.error("Error fetching forms:", error);
       }
@@ -34,6 +43,25 @@ function RECDashboard({ params }) {
 
     fetchData();
   }, [rec]);
+
+  useEffect(() => {
+    const newStatusCounts = {
+      "Initial-Submission": 0,
+      "Pending-Payment": 0,
+      "For-Classification": 0,
+      "In-Progress": 0,
+      "Final-Review": 0,
+      Approved: 0,
+    };
+
+    forms.forEach((form) => {
+      if (form.status && newStatusCounts.hasOwnProperty(form.status)) {
+        newStatusCounts[form.status] += 1;
+      }
+    });
+
+    setStatusCounts(newStatusCounts);
+  }, [forms]);
 
   //hydration error fix
   useEffect(() => {
@@ -88,32 +116,32 @@ function RECDashboard({ params }) {
               <div className="admindashboard-cards">
                 <div className="recdashboard-card">
                   <h2>Initial Submission</h2>
-                  <h3>0</h3>
+                  <h3>{statusCounts["Initial-Submission"]}</h3>
                 </div>
 
                 <div className="recdashboard-card">
                   <h2>Pending Payment</h2>
-                  <h3>0</h3>
+                  <h3>{statusCounts["Pending-Payment"]}</h3>
                 </div>
 
                 <div className="recdashboard-card">
                   <h2>For Classification</h2>
-                  <h3>0</h3>
+                  <h3>{statusCounts["For-Classification"]}</h3>
                 </div>
 
                 <div className="recdashboard-card">
                   <h2>In Progress</h2>
-                  <h3>0</h3>
+                  <h3>{statusCounts["In-Progress"]}</h3>
                 </div>
 
                 <div className="recdashboard-card">
                   <h2>For Final Review</h2>
-                  <h3>0</h3>
+                  <h3>{statusCounts["Final-Review"]}</h3>
                 </div>
 
                 <div className="recdashboard-card">
                   <h2>Certificates Released</h2>
-                  <h3>0</h3>
+                  <h3>{statusCounts["Approved"]}</h3>
                 </div>
               </div>
               <br />

@@ -30,26 +30,26 @@ const RecNavMobile = (props) => {
     const path = window.location.pathname;
 
     if (path.includes(`RECdashboard/${props.rec}`)) {
-        setIsActive("home");
+      setIsActive("home");
     } else if (path.includes("RECUserProfile")) {
-        setIsActive("profile");
+      setIsActive("profile");
     } else if (path.includes(`RECSubmissions/${props.rec}`)) {
-        setIsActive("submissions");
+      setIsActive("submissions");
     } else if (path.includes("RECManageContent")) {
-        setIsActive("content");
+      setIsActive("content");
     } else if (path.includes("RECReports")) {
-        setIsActive("reports");
+      setIsActive("reports");
     } else {
-        setIsActive("");
+      setIsActive("");
     }
-}, [props.rec]);
+  }, [props.rec]);
 
   return (
     <div className={`adminnav ${isNavVisible ? "visible" : "hidden"}`}>
       <div className="adminnav-content">
         <ul>
-        <li className={`${isActive === "profile" ? "active-linkline" : ""}`}>
-            <a href="../REC/RECUserProfile" passHref>
+          <li className={`${isActive === "profile" ? "active-linkline" : ""}`}>
+            <a href="../REC/RECUserProfile">
               <div>
                 <svg
                   fill="#a58324"
@@ -68,14 +68,16 @@ const RecNavMobile = (props) => {
           </li>
 
           <li className={`${isActive === "home" ? "active-linkline" : ""}`}>
-            <a href="../REC/RECdashboard" passHref>
+            <a href="../REC/RECdashboard">
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="30"
                   height="30"
                   fill="#a58324"
-                  className={`bi bi-house-door ${isActive === "home" ? "active-link" : ""}`} 
+                  className={`bi bi-house-door ${
+                    isActive === "home" ? "active-link" : ""
+                  }`}
                   viewBox="0 0 16 16"
                 >
                   <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
@@ -85,15 +87,19 @@ const RecNavMobile = (props) => {
             </a>
           </li>
 
-          <li className={`${isActive === "submissions" ? "active-linkline" : ""}`}>
-            <a href={`../REC/RECSubmissions/${params}`} passHref>
+          <li
+            className={`${isActive === "submissions" ? "active-linkline" : ""}`}
+          >
+            <a href={`../REC/RECSubmissions/${params}`}>
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="25"
                   height="25"
                   fill="#a58324"
-                  className={`bi bi-clipboard-check ${isActive === "submissions" ? "active-link" : ""}`} 
+                  className={`bi bi-clipboard-check ${
+                    isActive === "submissions" ? "active-link" : ""
+                  }`}
                   viewBox="0 0 16 16"
                 >
                   <path
@@ -109,13 +115,15 @@ const RecNavMobile = (props) => {
           </li>
 
           <li className={`${isActive === "content" ? "active-linkline" : ""}`}>
-            <a href="../REC/RECManageContent" passHref>
+            <a href="../REC/RECManageContent">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="25"
                 height="25"
                 fill="#a58324"
-                className={`bi bi-pencil-square ${isActive === "content" ? "active-link" : ""}`} 
+                className={`bi bi-pencil-square ${
+                  isActive === "content" ? "active-link" : ""
+                }`}
                 viewBox="0 0 16 16"
               >
                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -129,7 +137,7 @@ const RecNavMobile = (props) => {
           </li>
 
           <li className={`${isActive === "reports" ? "active-linkline" : ""}`}>
-            <a href="../REC/RECReports" passHref>
+            <a href="../REC/RECReports">
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
