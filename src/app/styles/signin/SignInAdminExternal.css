@@ -152,10 +152,30 @@ hr {
   margin-bottom: 20px;
 }
 
-@media screen and (max-width: 1500px) {
+@media screen and (min-width: 1200px) and (max-width: 1440px) {
+  .admin-signin-logo-container {
+    position: sticky;
+    top: 50%; 
+    align-items: center;
+    gap: 10px;
+    z-index: 2;
+  }
+
+
+  .admin-signin-box {
+    padding: 30px;
+    max-width: 550px;
+    width: 100%;
+    margin-right: 7%; 
+    margin-left: 0; 
+    z-index: 2;
+  }
+}
+
+@media screen and (max-width: 1199px) {
   .admin-signin-logo-container {
     position: absolute;
-    top: 15rem;
+    top: 8rem;
     left: 10%;
     transform: translate(-10%, -50%);
     gap: 5px;
@@ -177,7 +197,7 @@ hr {
 @media screen and (max-width: 768px) {
   .admin-signin-logo-container {
     position: absolute;
-    top: 12rem;
+    top: 3rem;
     left: 10%;
     transform: translate(-10%, -50%);
     gap: 5px;
@@ -189,6 +209,7 @@ hr {
     width: 85%;
     margin-left: 0%;
     margin-right: 10%;
+    height: 75%;
   }
 
   .admin-logo {
@@ -214,12 +235,16 @@ hr {
 
   .admin-signin-logo-container {
     position: absolute;
-        top: 3rem;
+        top: 1rem;
         transform: none;
   }
 
   .admin-title {
-    font-size: 18px;
+    font-size: 15px;
+  }
+
+  .admin-logo {
+    width: 50px
   }
 
   .admin-signin-box {
@@ -228,6 +253,7 @@ hr {
     width: 85%;
     margin-left: 0%;
     margin-right: 10%;
+    height: 80%;
   }
 
   .admin-signin-title {
