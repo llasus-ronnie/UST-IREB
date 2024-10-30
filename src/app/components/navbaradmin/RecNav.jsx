@@ -43,7 +43,7 @@ const RecNav = (props) => {
             }`}
           >
             <a
-              href="../../REC/RECUserProfile"
+              href={`/REC/RECUserProfile/${props.rec}`}
               onClick={() => isActive("profile")}
             >
               <div>
