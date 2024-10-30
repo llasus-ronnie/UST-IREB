@@ -49,7 +49,7 @@ const RecNavMobile = (props) => {
       <div className="adminnav-content">
         <ul>
           <li className={`${isActive === "profile" ? "active-linkline" : ""}`}>
-            <a href="../REC/RECUserProfile">
+            <a href={`/REC/RECUserProfile/${props.rec}`}>
               <div>
                 <svg
                   fill="#a58324"
@@ -68,7 +68,7 @@ const RecNavMobile = (props) => {
           </li>
 
           <li className={`${isActive === "home" ? "active-linkline" : ""}`}>
-            <a href="../REC/RECdashboard">
+            <a href={`/REC/RECdashboard/${props.rec}`}>
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +90,7 @@ const RecNavMobile = (props) => {
           <li
             className={`${isActive === "submissions" ? "active-linkline" : ""}`}
           >
-            <a href={`../REC/RECSubmissions/${params}`}>
+            <a href={`/REC/RECSubmissions/${props.rec}`}>
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +115,7 @@ const RecNavMobile = (props) => {
           </li>
 
           <li className={`${isActive === "content" ? "active-linkline" : ""}`}>
-            <a href="../REC/RECManageContent">
+            <a href={`/REC/RECManageContent/${props.rec}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="25"
@@ -137,7 +137,7 @@ const RecNavMobile = (props) => {
           </li>
 
           <li className={`${isActive === "reports" ? "active-linkline" : ""}`}>
-            <a href="../REC/RECReports">
+            <a href={`/REC/RECReports/${props.rec}`}>
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
