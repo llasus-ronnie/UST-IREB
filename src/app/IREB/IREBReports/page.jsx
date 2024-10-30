@@ -94,6 +94,7 @@ function IrebReports() {
         setFormsData(forms);
 
         const submissionCountsArray = Array(12).fill(0);
+        const approvedCountsArray = Array(12).fill(0);
         const labels = [
           "Jan",
           "Feb",
@@ -134,6 +135,10 @@ function IrebReports() {
           if (form.status === "Submitted") submittedCount++;
           else if (form.status === "Approved") approvedCount++;
           else if (form.status === "Rejected") rejectedCount++;
+
+          if (form.status === "Approved") {
+            approvedCountsArray[month]++;
+          }
         });
 
         // Update the bar chart data
@@ -147,7 +152,7 @@ function IrebReports() {
             },
             {
               label: "Approved",
-              data: Array(12).fill(0), // Placeholder if you don't have monthly approval data
+              data: approvedCount,
               backgroundColor: "#E6B800",
             },
           ],

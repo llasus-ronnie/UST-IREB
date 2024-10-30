@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import RecNav from "../../components/navbaradmin/RecNav";
-import RecNavMobile from "../../components/navbaradmin/RecNavMobile";
-import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
+import RecNav from "../../../components/navbaradmin/RecNav";
+import RecNavMobile from "../../../components/navbaradmin/RecNavMobile";
+import UserLoggedIn from "../../../components/userloggedin/UserLoggedIn";
 import { Row, Col } from "react-bootstrap";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import "../../styles/userprofile/AdminUserProfile.css";
+import "../../../styles/userprofile/AdminUserProfile.css";
 
-import withAuthorization from "../../../hoc/withAuthorization";
+import withAuthorization from "../../../../hoc/withAuthorization";
 
 function RECUserProfile() {
   const { data: session } = useSession();

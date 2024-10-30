@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import RecNav from "../../components/navbaradmin/RecNav";
-import RecNavMobile from "../../components/navbaradmin/RecNavMobile";
-import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
+import RecNav from "../../../components/navbaradmin/RecNav";
+import RecNavMobile from "../../../components/navbaradmin/RecNavMobile";
+import UserLoggedIn from "../../../components/userloggedin/UserLoggedIn";
 import { Bar, Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -17,11 +17,12 @@ import {
 } from "chart.js";
 import "chartjs-plugin-dragdata";
 import axios from "axios";
+import { useParams } from "next/navigation";
 
 //css
-import "../../styles/rec/RECReports.css";
+import "../../../styles/rec/RECReports.css";
 
-import withAuthorization from "../../../hoc/withAuthorization";
+import withAuthorization from "../../../../hoc/withAuthorization";
 
 ChartJS.register(
   CategoryScale,
@@ -34,32 +35,13 @@ ChartJS.register(
 );
 
 function RECReports({ params }) {
+  const { rec } = useParams();
+  const [formsData, setFormsData] = useState([]);
   const [chartData, setChartData] = useState({
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
+    labels: [],
     datasets: [
-      {
-        label: "Submitted",
-        data: [3, 4, 6, 5, 7, 8, 6, 9, 7, 6, 5, 4],
-        backgroundColor: "#FFCC00",
-      },
-      {
-        label: "Approved",
-        data: [2, 3, 5, 4, 6, 7, 5, 8, 6, 5, 4, 3],
-        backgroundColor: "#E6B800",
-      },
+      { label: "Submitted", data: [], backgroundColor: "#FFCC00" },
+      { label: "Approved", data: [], backgroundColor: "#E6B800" },
     ],
   });
 
@@ -88,16 +70,92 @@ function RECReports({ params }) {
     },
   };
 
-  const doughnutData = {
-    labels: ["Submitted", "Approved", "Pending"],
+  useEffect(() => {
+    async function fetchFormsData() {
+      try {
+        const response = await axios.get("/api/forms", { params: { rec } });
+        const forms = response.data.forms || [];
+        setFormsData(forms);
+
+        const submissionCountsArray = Array(12).fill(0);
+        const approvedCountsArray = Array(12).fill(0);
+        const labels = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+
+        let approvedCount = 0,
+          rejectedCount = 0,
+          totalSubmission = 0;
+
+        forms.forEach((form) => {
+          const month = new Date(form.date).getMonth();
+          submissionCountsArray[month]++;
+          totalSubmission++;
+
+          if (form.status === "Submitted") submittedCount++;
+          else if (form.status === "Approved") approvedCount++;
+          else if (form.status === "Rejected") rejectedCount++;
+
+          if (form.status === "Approved") {
+            approvedCountsArray[month]++;
+          }
+        });
+
+        setChartData({
+          labels,
+          datasets: [
+            {
+              label: "Submitted",
+              data: submissionCountsArray,
+              backgroundColor: "#FFCC00",
+            },
+            {
+              label: "Approved",
+              data: approvedCountsArray,
+              backgroundColor: "#E6B800",
+            },
+          ],
+        });
+
+        setDoughnutData({
+          labels: ["Submitted", "Approved", "Rejected"],
+          datasets: [
+            {
+              data: [totalSubmission, approvedCount, rejectedCount],
+              backgroundColor: ["#FFCC00", "#4CAF50", "#F44336"],
+            },
+          ],
+        });
+      } catch (error) {
+        console.error("Error fetching forms data:", error);
+      }
+    }
+    fetchFormsData();
+  }, [rec]);
+
+  // rec analytics (doughnut chart data state)
+  const [doughnutData, setDoughnutData] = useState({
+    labels: [],
     datasets: [
       {
-        data: [60, 30, 10],
-        backgroundColor: ["#FFCC00", "#E6B800", "#7D7D7D"],
+        label: "Approval Status",
+        data: [],
+        backgroundColor: ["#FFCC00", "#4CAF50", "#F44336"],
         hoverOffset: 4,
       },
     ],
-  };
+  });
 
   const doughnutOptions = {
     responsive: true,
@@ -143,15 +201,20 @@ function RECReports({ params }) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get("/api/REC");
-        console.log("API Response:", response.data);
-        setREC(response.data.data);
+        // Fetch REC data
+        const recResponse = await axios.get("/api/REC");
+        setREC(recResponse.data.data);
 
-        // Extract REC names and update recStatusData labels
-        const recNames = response.data.data.map((rec) => rec.name);
+        // Fetch RECMembers data to get "Primary Reviewer" roles
+        const membersResponse = await axios.get("/api/RECMembers");
+        const primaryReviewers = membersResponse.data.data
+          .filter((member) => member.recRole === "Primary Reviewer")
+          .map((member) => member.name);
+
+        // Update recStatusData labels with Primary Reviewer names
         setRecStatusData((prevData) => ({
           ...prevData,
-          labels: recNames,
+          labels: primaryReviewers,
         }));
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -192,10 +255,7 @@ function RECReports({ params }) {
         <div className="recnav-mobile">
           <RecNavMobile />
         </div>
-        <RecNav
-          className="recnav"
-          rec={params.rec}
-        />
+        <RecNav className="recnav" rec={params.rec} />
 
         <div className="rec-reports">
           <div className="recreports-content">
@@ -233,7 +293,7 @@ function RECReports({ params }) {
 
             {/* REC Status Section */}
             <div className="rec-container">
-              <h3>REC Status</h3>
+              <h3>Primary Reviewer Status</h3>
               <div className="ireb-rec-status-chart">
                 <Bar data={recStatusData} options={recStatusOptions} />
               </div>
