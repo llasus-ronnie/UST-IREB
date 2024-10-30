@@ -47,10 +47,11 @@
 }
 
 .admin-title {
-  font-size: 60px;
+  font-size: 50px;
   font-weight: bold;
   color: #ffbf00;
   margin-right: 0; 
+  font-family: var(--poppins);
 }
 
 .research-portal-text {
@@ -76,7 +77,6 @@
   margin-bottom: 20px;
   text-align: center;
   font-family: var(--poppins);
-
 }
 
 .admin-signin-text {
@@ -89,6 +89,7 @@
 
 .admin-signin-footer {
   text-align: center;
+  font-family: var(--poppins);
 }
 
 .admin-signin-footer a {
@@ -108,6 +109,7 @@
 }
 
 .btn-thomasian, .btn-external {
+  display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem 0.5rem;

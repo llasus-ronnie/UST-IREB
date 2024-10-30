@@ -71,7 +71,7 @@ const PrNav = (props) => {
           </li>
 
           <li className={`adminnavline ${isActive === "submissions" ? "active-linkline" : ""}`}>
-            <a href="/submissions" passHref onClick={() => isActive("submissions")} >
+            <a href="../PrimaryReviewer/PRSubmissions" passHref onClick={() => isActive("submissions")} >
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

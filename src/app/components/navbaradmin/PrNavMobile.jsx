@@ -81,7 +81,7 @@ const PrNavMobile = (props) => {
           </li>
 
           <li className={`${isActive === "submissions" ? "active-linkline" : ""}`}>
-            <a href="/submissions" passHref >
+            <a href="../PrimaryReviewer/PRSubmissions" passHref >
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

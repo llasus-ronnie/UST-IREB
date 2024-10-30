@@ -45,10 +45,11 @@
 }
 
 .admin-title {
-  font-size: 60px;
+  font-size: 50px;
   font-weight: bold;
   color: #ffbf00;
   margin-right: 0; 
+  font-family: var(--poppins);
 }
 
 .research-portal-text {
@@ -136,6 +137,7 @@
 
 .admin-signin-footer {
   text-align: center;
+  font-family: var(--poppins);
 }
 
 .admin-signin-footer a {
