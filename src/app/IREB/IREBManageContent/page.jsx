@@ -6,8 +6,8 @@ import IrebNav from "../../components/navbaradmin/IrebNav";
 import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
 import SearchBar from "../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
-import AddAccModal from "../../components/modals/AddFAQModal";
-import EditAccModal from "../../components/modals/EditFAQModal";
+import AddFAQModal from "../../components/modals/AddFAQModal";
+import EditFAQModal from "../../components/modals/EditFAQModal";
 import ArchiveConfirmationModal from "../../components/modals/ArchiveConfirmationModal";
 import "../../styles/rec/RECManageContent.css";
 import { Spinner } from "react-bootstrap";
@@ -15,8 +15,8 @@ import { Spinner } from "react-bootstrap";
 import withAuthorization from "../../../hoc/withAuthorization";
 
 function IREBManageContent(props) {
-  const [modalShowAddAcc, setModalShowAddAcc] = useState(false);
-  const [modalShowEditAcc, setModalShowEditAcc] = useState(false);
+  const [modalShowAddFAQ, setModalShowAddFAQ] = useState(false);
+  const [modalShowEditFAQ, setModalShowEditFAQ] = useState(false);
   const [modalShowArchiveConfirmation, setModalShowArchiveConfirmation] =
     useState(false);
 
@@ -25,14 +25,14 @@ function IREBManageContent(props) {
   const [filteredContent, setFilteredContent] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleShowAddAccModal = () => setModalShowAddAcc(true);
-  const handleShowEditAccModal = (faq) => {
+  const handleShowAddFAQModal = () => setModalShowAddFAQ(true);
+  const handleShowEditFAQModal = (faq) => {
     setSelectedFaq(faq);
-    setModalShowEditAcc(true);
+    setModalShowEditFAQ(true);
   };
   const handleShowArchiveModal = () => setModalShowArchiveConfirmation(true);
-  const handleCloseAddAccModal = () => setModalShowAddAcc(false);
-  const handleCloseEditAccModal = () => setModalShowEditAcc(false);
+  const handleCloseAddFAQModal = () => setModalShowAddFAQ(false);
+  const handleCloseEditFAQModal = () => setModalShowEditFAQ(false);
   const handleCloseArchiveModal = () => setModalShowArchiveConfirmation(false);
 
   const handleSearch = (query) => {
@@ -61,7 +61,7 @@ function IREBManageContent(props) {
     }
 
     fetchData();
-  }, [props.modalShowAddAcc]);
+  }, [props.modalShowAddFAQ]);
 
   //loading
   const loadingContainerStyle = {
@@ -134,7 +134,7 @@ function IREBManageContent(props) {
 
                 <button
                   className="mc-buttonedit"
-                  onClick={handleShowAddAccModal}
+                  onClick={handleShowAddFAQModal}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -169,7 +169,7 @@ function IREBManageContent(props) {
                         <td>
                           <button
                             className="edit-icon"
-                            onClick={() => handleShowEditAccModal(form)}
+                            onClick={() => handleShowEditFAQModal(form)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -213,10 +213,10 @@ function IREBManageContent(props) {
         </div>
       </div>
 
-      <AddAccModal show={modalShowAddAcc} onHide={handleCloseAddAccModal} />
-      <EditAccModal
-        show={modalShowEditAcc}
-        onHide={handleCloseEditAccModal}
+      <AddFAQModal show={modalShowAddFAQ} onHide={handleCloseAddFAQModal} />
+      <EditFAQModal
+        show={modalShowEditFAQ}
+        onHide={handleCloseEditFAQModal}
         data={selectedFaq}
       />
       <ArchiveConfirmationModal
