@@ -73,66 +73,92 @@
 
 /* Cards */
 
+.admindashboard-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 3rem 0 0 0;
+}
+
+.needs-attention {
+  display: inline-block;
+  align-items: center;
+  text-align: left;
+  padding: 3rem 4rem;
+  border-radius: 15px;
+  background-color: var(--quaternary-color);
+  min-height: 21rem;
+}
+
+.needs-attention h1 {
+  color: var(--primary-color);
+  font-size: var(--paragraph-size);
+  font-weight: bold;
+}
+
 .admindashboard-cards {
-    margin: 3rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  padding: 0;
 }
 
 .admindashboard-card {
-    width: 13rem;
-    height: 9rem;
-    display: inline-block;
-    align-items: center;
-    text-align: left;
-    margin: 1rem 2rem 0 0;
-    padding: 1.7rem 1.7rem 1.7rem 2.2rem;
-    border-radius: 15px;
-    border: none;
-    background-color: var(--quaternary-color);
+  min-width: 14rem;
+  height: 9rem;
+  display: inline-block;
+  align-items: center;
+  text-align: left;
+  padding: 1.7rem 2.2rem;
+  border-radius: 15px;
+  border: none;
+  background-color: var(--quaternary-color);
 }
 
 .admindashboard-card h2 {
-    font-size: var(--paragraph-size);
-    font-weight: bold;
-    color: var(--primary-color);
+  font-size: var(--paragraph-size);
+  font-weight: bold;
+  color: var(--primary-color);
 }
 
 .admindashboard-card h3 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--tertiary-color);
-    padding: 0.5rem 0 0.5rem 0;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--tertiary-color);
+  padding: 0.5rem 0 0.5rem 0;
 }
 
 .admindashboard-card p {
-    font-size: var(--paragraph-size);
-    color: var(--primary-color);
+  font-size: var(--paragraph-size);
+  color: var(--primary-color);
 }
+
 
 /* Tables */
 .pr-tables {
-  margin: 3rem 0 3rem 0;
+  margin: 3rem 0;
 }
 
-/* Newly Assigned Table */
-.newly-assigned {
+/* PR Dashboard Table */
+.prdashboard-table {
   padding: 2rem;
   background-color: var(--quaternary-color);
   border-radius: 15px;
   margin-bottom: 2rem;
 }
 
-.newly-assigned h1 {
+.prdashboard-table h1 {
   font-size: var(--heading-1-size);
   font-weight: bold;
   color: var(--tertiary-color);
   margin-bottom: 1.5rem;
 }
 
-.newly-assigned .pr-view-btn {
+.prdashboard-table .pr-view-btn {
   background-color: var(--tertiary-color);
 }
 
-.newly-assigned .pr-view-btn:hover {
+.prdashboard-table .pr-view-btn:hover {
   background-color: #e9ad07;
 }
 
@@ -211,8 +237,12 @@
       display: none;
     }
 
-    .pr-header-container-mobile {
+    .pr-header-container {
       display: none;
+    }
+
+    .userloggedin-mobile {
+      margin-bottom: 1rem;
     }
 
     .admindashboard-cards {
@@ -220,13 +250,38 @@
       flex-wrap: wrap;
       justify-content: space-between;
       padding: 0.625rem;
+      width: 100%;
     }
   
     .admindashboard-card {
-      flex: 1 1 calc(50% - 20px);
       margin: 0.625rem;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       padding: 1.563rem;
+    }
+
+    .admindashboard-container {
+      flex-direction: column;
+      align-items: center;
+      margin: 1rem;
+    }
+  
+    .needs-attention {
+      width: 100%;
+      max-width: 600px;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+  
+    .admindashboard-cards {
+      flex-direction: row;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+  
+    .admindashboard-card {
+      flex: 1 1 calc(45% - 20px);
+      margin: 0.5rem;
+      padding: 1.5rem;
     }
 
   }
@@ -307,11 +362,11 @@
         margin: 2rem 0;
       }
     
-      .newly-assigned {
+      .prdashboard-table {
         padding: 1rem;
       }
     
-      .newly-assigned h1 {
+      .prdashboard-table h1 {
         font-size: 1.5rem;
         text-align: center;
         padding: 0.8rem 0 0.2rem 0;
@@ -335,5 +390,29 @@
       .pr-view-btn {
         padding: 0.25rem 1rem;
         font-size: 0.75rem;
+      }
+
+      .admindashboard-container {
+        flex-direction: column;
+        align-items: center;
+        margin: 1rem 0;
+      }
+    
+      .needs-attention {
+        width: 100%;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+    
+      .admindashboard-cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+    
+      .admindashboard-card {
+        width: 100%;
+        padding: 1.2rem;
+        margin: 0;
       }
     }

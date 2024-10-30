@@ -126,9 +126,9 @@ function RecSubmissions({ params }) {
                 <option value="Initial-Submission">Initial Submission</option>
                 <option value="Pending-Payment">Pending Payment</option>
                 <option value="For-Classification">For Classification</option>
-                <option value="inProgress">In Progress</option>
-                <option value="finalReview">Final Review</option>
-                <option value="approved">Approved</option>
+                <option value="In-Progress">In Progress</option>
+                <option value="Final-Review">Final Review</option>
+                <option value="Approved">Approved</option>
               </select>
             </div>
 
@@ -144,7 +144,7 @@ function RecSubmissions({ params }) {
                 selectedOption === status && (
                   <div className="rec-tables" key={status}>
                     <div className={status}>
-                      <h1>{status.replace(/([A-Z])/g, " $1").trim()}</h1>
+                      <h1>{status.replace(/-/g, " ")}</h1>
                       <table className="rec-table">
                         <thead>
                           <tr>

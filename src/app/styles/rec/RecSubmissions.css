@@ -78,9 +78,9 @@
 }
 
 .rec-buttons-container {
-display: flex;
-align-items: center;
-gap: 10px;
+  align-items: center;
+  gap: 10px;
+  display: flex;
 }
 
 .rec-buttons-container button {
@@ -94,12 +94,14 @@ gap: 10px;
   border-radius: 15px 15px 0 0;
   transition: background-color 0.3s ease;
   text-align: left;
+  min-width: 10rem;
+  background-color: var(--tertiary-color);
 }
 
 .rec-buttons-container span {
   font-size: var(--heading-1-size);
   font-weight: bold;
-  margin-bottom: 0.313rem;
+  margin-bottom: 0.1rem;
 }
 
 .rec-buttons-container button:nth-child(1) {
@@ -136,7 +138,17 @@ gap: 10px;
 
 /* Tables */
 .rec-tables {
+  background-color: var(--quaternary-color);
+  border-radius: 0 15px 15px 15px;
   margin: 0 0 3rem 0;
+  padding: 2rem;
+}
+
+.rec-tables h1 {
+  font-size: var(--title-size);
+  font-weight: bold;
+  color: var(--tertiary-color);
+  margin-bottom: 1.5rem;
 }
 
 /* Specific Table */

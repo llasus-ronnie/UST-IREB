@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Row, Col } from "react-bootstrap";
 import PrNav from "../../components/navbaradmin/PrNav";
 import PrNavMobile from "../../components/navbaradmin/PrNavMobile";
 import SearchBar from "../../components/searchbar/SearchBar";
@@ -48,32 +49,37 @@ function PrDashboard() {
             </div>
           </div>
 
-          <div className="admindashboard-cards">
-            <div className="admindashboard-card">
-              <h2>Newly Assigned</h2>
-              <h3>100</h3>
-              <p>Submissions</p>
-            </div>
-            <div className="admindashboard-card">
-              <h2>Resubmission</h2>
-              <h3>100</h3>
-              <p>Entries</p>
-            </div>
-            <div className="admindashboard-card">
-              <h2>For Final Review</h2>
-              <h3>100</h3>
-              <p>Researches</p>
-            </div>
-            <div className="admindashboard-card">
-              <h2>Total Assigned</h2>
-              <h3>100</h3>
-              <p>Tasks</p>
-            </div>
-          </div>
+        <Row className="admindashboard-container">
+          <Col className="admindashboard-cards">
+              <div className="admindashboard-card">
+                <h2>Newly Assigned</h2>
+                <h3>100</h3>
+                <p>Submissions</p>
+              </div>
+              <div className="admindashboard-card">
+                <h2>Resubmission</h2>
+                <h3>100</h3>
+                <p>Entries</p>
+              </div>
+              <div className="admindashboard-card">
+                <h2>For Final Review</h2>
+                <h3>100</h3>
+                <p>Researches</p>
+              </div>
+              <div className="admindashboard-card">
+                <h2>Total Assigned</h2>
+                <h3>100</h3>
+                <p>Tasks</p>
+              </div>
+           </Col>
+            <Col className="needs-attention">
+              <h1>Assigned Tasks that Need Attention</h1>  
+           </Col>
+        </Row>
 
           <div className="pr-tables">
-            <div className="newly-assigned">
-              <h1>Newly Assigned</h1>
+            <div className="prdashboard-table">
+              <h1>Table ng Kahit Ano</h1>
               <table className="pr-table">
                 <thead>
                   <tr>
