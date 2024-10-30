@@ -5,13 +5,14 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   await connectDB();
 
-  const { name, email, status } = await req.json();
+  const { name, email, status, logo } = await req.json();
 
   try {
     const newREC = new REC({
       name,
       email,
       status,
+      logo,
     });
     await newREC.save();
     return NextResponse.json({ success: true, data: newREC }, { status: 201 });
@@ -41,14 +42,14 @@ export async function GET() {
 export async function PATCH(req) {
   await connectDB();
 
-  const { id, name, email, status } = await req.json();
+  const { id, name, email, status, logo } = await req.json();
 
-  console.log("Updating REC with ID:", id); // Log the ID
+  // console.log("Updating REC with ID:", id); // Log the ID
 
   try {
     const updatedREC = await REC.findByIdAndUpdate(
       id,
-      { name, email, status },
+      { name, email, status, logo },
       { new: true }
     );
 

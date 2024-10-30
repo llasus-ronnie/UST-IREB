@@ -13,6 +13,7 @@ export default function AddRECModal(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
+  const [logo, setLogo] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
 
@@ -32,6 +33,11 @@ export default function AddRECModal(props) {
     setStatus(statusValue);
   };
 
+  const handleLogoChange = (e) => {
+    const logoValue = e.target.value;
+    setLogo(logoValue);
+  };
+
   const handleAddAccount = async () => {
     if (!isEmailValid) {
       alert("Please enter a valid email.");
@@ -43,6 +49,7 @@ export default function AddRECModal(props) {
         name,
         email,
         status,
+        logo,
       });
       console.log("Account added to database");
       toast.success("REC added successfully");
@@ -70,6 +77,7 @@ export default function AddRECModal(props) {
     setName("");
     setEmail("");
     setStatus("");
+    setLogo("");
     setIsEmailValid(false);
     setShowCancelConfirmation(false);
     props.onHide();
@@ -132,7 +140,7 @@ export default function AddRECModal(props) {
                 width="18"
                 height="16"
                 fill="#5c5c5c"
-                class="form-icon"
+                className="form-icon"
                 viewBox="0 0 64 64"
               >
                 <path
@@ -173,7 +181,7 @@ export default function AddRECModal(props) {
                 width="16"
                 height="16"
                 fill="#5c5c5c"
-                class="bi bi-clipboard form-icon"
+                className="bi bi-clipboard form-icon"
                 viewBox="0 0 16 16"
               >
                 <path
@@ -208,9 +216,7 @@ export default function AddRECModal(props) {
               <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
                 onSuccess={(res) => {
-                  console.log(res);
-                  console.log(res.info.secure_url);
-                  setValue("recLogo", res.info.secure_url);
+                  setLogo(res.info.secure_url);
                 }}
               >
                 {({ open }) => {
@@ -225,7 +231,7 @@ export default function AddRECModal(props) {
                         width="16"
                         height="16"
                         fill="#121212"
-                        class="bi bi-upload"
+                        className="bi bi-upload"
                         viewBox="0 0 16 16"
                       >
                         <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />

@@ -161,7 +161,7 @@ function IrebManageExternal() {
                       </button>
                     </div>
                     <img
-                      src="/images/rec logos/PHARMA-Logo.png"
+                      src={form.logo}
                       alt="icon"
                       className="managerec-card-logo"
                     />

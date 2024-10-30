@@ -8,11 +8,13 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CldUploadWidget } from "next-cloudinary";
+import { set } from "mongoose";
 
 export default function EditRECModal(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
+  const [logo, setLogo] = useState("");
   const [recId, setrecId] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
@@ -55,6 +57,7 @@ export default function EditRECModal(props) {
         name,
         email,
         status,
+        logo,
       });
       console.log("Account added to database");
       toast.success("REC updated successfully");
@@ -82,6 +85,7 @@ export default function EditRECModal(props) {
     setName("");
     setEmail("");
     setStatus("");
+    setLogo("");
     setIsEmailValid(false);
     setShowCancelConfirmation(false);
     props.onHide();
@@ -220,9 +224,7 @@ export default function EditRECModal(props) {
               <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
                 onSuccess={(res) => {
-                  console.log(res);
-                  console.log(res.info.secure_url);
-                  setValue("recLogo", res.info.secure_url);
+                  setLogo(res.info.secure_url);
                 }}
               >
                 {({ open }) => {
