@@ -23,9 +23,7 @@ function RecSubmissions({ params }) {
   };
 
   const handleTableChange = (option) => {
-    selectedOption === option
-      ? setSelectedOption("")
-      : setSelectedOption(option);
+    setSelectedOption(option);
     console.log("Selected Option:", selectedOption);
   };
 
