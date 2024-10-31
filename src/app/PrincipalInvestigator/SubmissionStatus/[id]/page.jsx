@@ -43,7 +43,7 @@ function SubmissionStatus({ params }) {
     {
       id: "Pending-Payment",
       title: "Pending Payment",
-      description: "This is where you need to pay the Ethical Review Fees and submit proof of payment so your research can proceed to classification."
+      description: "This is where you need to pay the Ethical Review Fees and submit proof of payment so your research can proceed to classification. Kindly click here for the payment instructions."
     },
     {
       id: "For-Classification",
@@ -118,6 +118,7 @@ function SubmissionStatus({ params }) {
 
             <Row className="submissionstatus-container">
               <Col className="submissionstatus-left">
+                {/* Details */}
                 <div className="submissionstatus-card-details">
                   <h1>Submission Details</h1>
 
@@ -133,6 +134,38 @@ function SubmissionStatus({ params }) {
 
                   <span>Review Classification:</span>
                   <p>{form?.status || "No classification available"}</p>
+                </div>
+
+                {/* Remarks */}
+                <div className="submissionstatus-card-remarks">
+                  <h1>Remarks</h1>
+                  <div className="submissionstatus-remarks-table">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Remarks</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {form?.remarks?.length > 0 ? (
+                          form.remarks.map((remark, index) => (
+                            <tr key={index}>
+                              <td>
+                                {new Date(remark.date).toLocaleDateString("en-US")}<br />
+                                {new Date(remark.date).toLocaleTimeString("en-US")}
+                              </td>
+                              <td>{remark.text}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="2">No remarks available.</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
 
                 <div className="submissionstatus-buttons">
@@ -152,13 +185,15 @@ function SubmissionStatus({ params }) {
                   <button className="submissionstatus-uploadproof" onClick={handleShowModal}>
                     Upload Proof of Payment
                   </button>
+                  <div className="submissionstatus-paymentfile">
+                    <p>Uplaoded File:</p>
+                  </div>
                 </div>
-
               </Col>
 
               <Col className="submissionstatus-right">
                 <div className="submissionstatus-card-breadcrumbs">
-                  <h1>Track Status of Submission</h1>
+                  <h1 className="submissionstatus-card-title">Track Status of Submission</h1>
                   <StatusBreadcrumbs steps={steps} params={unwrappedParams}/>
                 </div>
               </Col>

@@ -1,0 +1,297 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary-color: #121212;
+  --secondary-color: #ecf0f1;
+  --tertiary-color: #fcbf15;
+  --quaternary-color: #ffffff;
+  --poppins: "Poppins", sans-serif;
+}
+
+.modal-dialog {
+    width: fit-content;
+}
+
+.resubmission-modal-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.resubmission-modal-overlay .modal-content,
+.resubmission-modal-overlay .modal-dialog,
+.resubmission-modal-overlay .modal-header,
+.resubmission-modal-overlay .modal-body,
+.resubmission-modal-overlay .modal-footer {
+    border-radius: 1.4rem;
+}
+
+/* Header */
+.resubmission-modal-header {
+  border-bottom: none;
+  font-family: var(--poppins);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.resubmission-modal-title {
+  color: var(--primary-color);
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.resubmission-instructions {
+    color: var(--primary-color);
+    font-size: var(--paragraph-size);
+    margin-top: 1rem;
+    text-align: center;
+}
+
+/* Body */
+.resubmission-modal-body {
+  padding: 0 5rem;
+  font-family: var(--poppins);
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.resubmission-modal-body h4 {
+  color: var(--primary-color);
+}
+
+.resubmission-modal-body p {
+  color: var(--primary-color);
+}
+
+/* Form Fields */
+.resubmission-modal-body .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.resubmission-modal-body .form-label {
+    font-family: var(--poppins);
+    color: var(--primary-color);
+    padding-top: 0.5rem;
+    text-align: left;
+}
+
+.resubmission-modal-body .form-control {
+    border-radius: 0.7rem;
+    background-color: #F4F4F4;
+    padding: 1rem;
+    font-family: var(--poppins);
+    width: 34rem;
+}
+
+.resubmission-modal-body .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.resubmission-modal-overlay .modal-content {
+    border-radius: 1rem;
+}
+
+.form-group-with-icon {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.form-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.form-control-with-icon {
+    padding-left: 3.5rem;
+    flex-grow: 1;
+}
+
+/* Uploading Area */
+
+.reupload-area {
+  background-color: var(--quaternary-color);
+  height: 5rem;
+  width: 100%;
+  max-width: 35rem;
+  border-radius: 10px;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  margin: 1rem auto;
+}
+
+.reupload-area:hover {
+  border: 2px solid var(--tertiary-color);
+}
+
+.reupload-area p {
+  color: var(--tertiary-color);
+  font-size: 0.95rem;
+  font-weight: bold;
+  margin: 0 1rem;
+  width: fit-content;
+}
+
+/* Textarea */
+.form-group-with-icon {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    text-align: left;
+}
+
+.form-group-with-icon label {
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+    padding-left: 0;
+    margin-left: 0.5rem;
+    font-weight: bold;
+}
+
+.rm-editcontent-body {
+    min-height: 10rem;
+    max-height: 20rem;
+    resize: none;
+  }
+
+/* Two Buttons */
+.resubmission-modal-footer {
+  border-top: none;
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.resubmission-modal-footer .btn {
+  border: none;
+  font-family: var(--poppins);
+  font-weight: 500;
+}
+
+.resubmission-modal-footer .btn.cancel {
+  background-color: #6c757d;
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 0.7rem 3rem;
+}
+
+.resubmission-modal-footer .btn.cancel:hover {
+  background-color: #5a6268;
+}
+
+.resubmission-modal-footer .btn.uploadproof {
+  background-color: var(--tertiary-color);
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 0.7rem 3rem;
+}
+
+/* Mobile Responsiveness */
+
+@media only screen and (max-width: 576px) {
+  .modal-dialog {
+      width: 90%;
+      max-width: 400px;
+      margin: 0 auto;
+  }
+
+  .resubmission-modal-header {
+      padding: 2rem;
+  }
+
+  .resubmission-modal-title {
+      font-size: 1.5rem;
+  }
+
+  .resubmission-instructions {
+      font-size: 0.9rem;
+  }
+
+  .resubmission-modal-body {
+      padding: 0 2rem;
+      margin-bottom: 4rem;
+  }
+
+  .resubmission-modal-body .form-control {
+      width: 100%;
+      padding: 0.8rem;
+  }
+
+  .resubmission-area {
+      height: 8rem;
+      width: 100%;
+  }
+
+  .resubmission-modal-footer {
+      padding: 2rem;
+      flex-direction: row;
+      justify-content: space-between;
+  }
+
+  .resubmission-modal-footer .btn {
+    width: 47%;
+    margin-bottom: 0;
+    display: block;
+    text-align: center;
+  }
+}
+
+/* Tablet */
+@media only screen and (min-width: 577px) and (max-width: 768px) {
+  .modal-dialog {
+      width: 80%;
+      max-width: 500px;
+      margin: 0 auto;
+  }
+
+  .resubmission-modal-header {
+      padding: 3rem;
+  }
+
+  .resubmission-modal-title {
+      font-size: 1.75rem;
+  }
+
+  .resubmission-instructions {
+      font-size: 1rem;
+  }
+
+  .resubmission-modal-body {
+      padding: 0 3rem;
+      margin-bottom: 3rem;
+  }
+
+  .resubmission-modal-body .form-control {
+      width: 100%;
+      padding: 0.9rem;
+  }
+
+  .resubmission-area {
+      height: 10rem;
+      width: 100%;
+  }
+
+  .resubmission-modal-footer {
+      padding: 3rem;
+      flex-direction: row;
+      justify-content: space-between;
+  }
+
+  .resubmission-modal-footer .btn {
+    width: 48%;
+    margin-bottom: 0;
+    display: block;
+    text-align: center;
+  }
+}

@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { CldUploadWidget } from 'next-cloudinary';
 import "../../styles/modals/UploadPaymentProofModal.css";
+import CancelConfirmationModal from "../../components/modals/CancelConfirmationModal.jsx";
 
 export default function UploadPaymentProofModal(props) {
 
