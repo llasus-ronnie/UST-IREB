@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 const Carousel = dynamic(() => import("react-bootstrap/Carousel"), {
   ssr: false,
 });
+import CardCarousel from "../components/cardcarousel/CardCarousel";
 
 //images
 import viewIcon from "../../../public/images/card/card-view-icon.png";
@@ -204,6 +205,8 @@ function Home() {
               </Container>
             </div>
           </div>
+
+          <CardCarousel />
 
           <div className="footer">
             <Footer />
