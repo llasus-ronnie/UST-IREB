@@ -191,6 +191,7 @@ function RECDashboard({ params }) {
                 </tbody>
               </table>
             </div>
+            <br />
           </div>
         </div>
       )}
