@@ -27,23 +27,16 @@ export default async function handler(req, res) {
               <meta http-equiv="X-UA-Compatible" content="IE=edge" />
               <meta name="viewport" content="width=device-width, initial-scale=1" />
               <title>UST IREB Research Portal Access Token Email Template</title>
-              <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
               <style type="text/css">
+                @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+                body, table, .container {
+                  font-family: 'Poppins', Helvetica, Arial, sans-serif;
+                }
                 body {
                   margin: 0;
                   padding: 0;
                   background-color: #eaeaea;
-                  font-family: 'Poppins', Helvetica, Arial, sans-serif;
-                  -webkit-font-smoothing: antialiased !important;
-                }
-                table {
-                  border-collapse: collapse;
-                  width: 100%;
-                }
-                img {
-                  border: 0;
-                  display: block;
-                  max-width: 100%;
                 }
                 .container {
                   max-width: 500px;
@@ -91,6 +84,7 @@ export default async function handler(req, res) {
                   margin: 20px 0 0 0;
                   border-radius: 30px;
                   display: inline-block;
+                  font-size: 16px;
                 }
 
                 /* Responsiveness */
@@ -110,8 +104,8 @@ export default async function handler(req, res) {
                 }
               </style>
             </head>
-            <body>
-              <div class="container">
+            <body style="margin:0; padding:0; background-color:#eaeaea;">
+              <div class="container" style="background-color: #ffffff; padding: 0;">
                 <div class="header">
                   <img src="public/images/unauthorized/email-header.png" alt="Header Image" />
                 </div>
@@ -120,9 +114,9 @@ export default async function handler(req, res) {
                   <h1>Access Token:</h1>
                   <h2>${token}</h2>
                   <p>Use the access token above to sign in <br/> and set up your password.</p>
-                  <div class="button-container">
-                    <a href="https://google.com" target="_blank" class="button">Redirect to Research Portal</a>
-                  </div>
+                  <a href="https://google.com" target="_blank" class="button" style="background-color: #fcbf15; color: #ffffff;">
+                    Redirect to Research Portal
+                  </a>
                 </div>
               </div>
             </body>
