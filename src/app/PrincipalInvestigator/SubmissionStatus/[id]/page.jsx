@@ -143,7 +143,7 @@ function SubmissionStatus({ params }) {
                     View Submission
                   </Link>
                   <button className="submissionstatus-edit-sub">
-                    Edit Submission
+                    Resubmission
                   </button>
                 </div>
 
