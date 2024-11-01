@@ -22,7 +22,7 @@ export default function ConfirmSubmissionModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="confirm-modal-body">
-        <p>Are you sure this submission is ready for final review by the REC Chair? <br/> Once submitted, this action is final and cannot be undone.</p>
+        <p>Are you sure this submission is ready for final review by the REC Chair? Once submitted, this action is final and cannot be undone.</p>
       </Modal.Body>
       <Modal.Footer className="confirm-modal-footer">
         <Button onClick={props.onHide} className="btn cancel">

@@ -54,7 +54,7 @@ body {
 .submissionstatus-container {
     font-family: Poppins;
     display: flex;
-    margin: 1.5rem;
+    margin: 2rem 4rem;
   }
 
 .submissionstatus-container h1 {
@@ -79,6 +79,27 @@ body {
     margin: 0.2rem 0;
     padding: 0;
 }
+
+.back-button {
+    color: var(--primary-color);
+    font-size: var(--paragraph-size);
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin: 0 auto 2rem;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .back-button:hover {
+    color: var(--tertiary-color);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .back-button svg {
+    vertical-align: middle;
+    margin-right: 0.8rem;
+  }
   
   /* Left Side of Main Content */
   
@@ -87,7 +108,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    margin: 3rem 1rem 3rem 3rem;
+    margin: 0 1rem 0 0;
     width: fit-content;
     max-width: 50%;
 }
@@ -210,7 +231,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: left;
-    margin: 3rem;
+    margin: 0 0 0 1rem;
     width: fit-content;
     max-width: 50%;
 }
@@ -285,6 +306,10 @@ body {
     .submissionstatus-card-title {
         margin: 2rem 0;
     }
+
+    .back-button {
+        margin: 0 auto 1rem;
+    }
 }
 
 /* Tablet */
@@ -328,5 +353,9 @@ body {
 
     .submission_header h1 {
         font-size: 28px;
+    }
+
+    .back-button {
+        margin: 0 auto;
     }
 }

@@ -160,7 +160,7 @@
 
   .editcontent-modal-body .form-control {
     width: 100%;
-    padding-left: 2.5rem;
+    padding-left: 1rem;
   }
 
   .form-group-with-icon {
@@ -200,16 +200,40 @@
   }
 }
 
-  /* Tablet */
-  @media only screen and (min-width: 577px) and (max-width: 768px) {
-    .editcontent-modal-body .form-control {
-        padding: 1rem 2rem;
-        width: 100%;
-        max-width: 34rem;
-        box-sizing: border-box;
-    }
-
-    .mc-editcontent-body {
-        min-height: 10rem;
-      }
+/* Tablet */
+@media only screen and (min-width: 577px) and (max-width: 768px) {
+  .editcontent-modal-body {
+    padding: 1rem 3rem; 
+    width: 100%;
+    max-width: 34rem;
+    box-sizing: border-box;
   }
+
+  .editcontent-modal-body .form-control {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  .form-group-with-icon {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .form-control-with-icon {
+    padding-left: 2rem;
+    flex-grow: 1;
+  }
+
+  .mc-editcontent-body {
+    min-height: 10rem;
+    max-height: 20rem;
+    width: 100%;
+    resize: none;
+  }
+
+  .editcontent-modal-footer {
+    padding: 0 4rem 4rem;
+  }
+}

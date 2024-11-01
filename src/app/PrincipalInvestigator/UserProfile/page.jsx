@@ -46,8 +46,8 @@ function UserProfile() {
           </div>
         </Col>
         <Col className="profile-right">
-          <div className="profile-cardright-title">User Information</div>
           <div className="profile-cardright">
+            <div className="profile-cardright-title">User Information</div>
             <Row className="profile-cardright-body">
               <div className="profile-cardright-row">
                 <Col className="profile-cardright-labels">

@@ -151,21 +151,6 @@
   margin-bottom: 1.5rem;
 }
 
-/* Specific Table */
-.initial-submission {
-  padding: 2rem;
-  background-color: var(--quaternary-color);
-  border-radius: 0 15px 15px 15px;
-  margin-bottom: 2rem;
-}
-
-.initial-submission h1 {
-  font-size: var(--title-size);
-  font-weight: bold;
-  color: var(--tertiary-color);
-  margin-bottom: 1.5rem;
-}
-
 
 /* Table Styling */
 
@@ -253,6 +238,13 @@
   @media only screen and (min-width: 577px) and (max-width: 768px) {
     .recnav-mobile {
       display: none;
+    }
+
+    .rec-tables {
+      background-color: var(--quaternary-color);
+      border-radius: 0 15px 15px 15px;
+      margin: 0 0 3rem 0;
+      padding: 2rem;
     }
 
     .rec-table {
@@ -388,6 +380,10 @@
 
       .rec-buttons-container {
         display: none;
+      }
+
+      .rec-submissions-tabs {
+        margin: 1rem 0;
       }
 
       .rec-dropdown-mobile select {
