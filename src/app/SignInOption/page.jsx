@@ -45,13 +45,13 @@ function SignInOption() {
               <Container className="signin-options">
                 <a href="../PrincipalInvestigator/SignInThomasian">
                   <Button className="signin-option">
-                    Thomasian <br /> Primary Investigator
+                    Thomasian <br /> Principal Investigator
                   </Button>
                 </a>
 
                 <a href="../PrincipalInvestigator/SignInExternal">
                   <Button className="signin-option">
-                    External <br /> Primary Investigator
+                    External <br /> Principal Investigator
                   </Button>
                 </a>
               </Container>
