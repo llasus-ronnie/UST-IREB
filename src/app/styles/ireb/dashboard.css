@@ -185,12 +185,67 @@
 
   /* Responsiveness */
 
-  /* Tablet */
-  @media only screen and (min-width: 577px) and (max-width: 768px) {
-    .irebnav-mobile {
-      display: none;
+/* Tablet */
+@media only screen and (min-width: 577px) and (max-width: 768px) {
+
+    .irebnav-mobile{
+        display: none;
     }
-  }
+
+    .adminpage-container {
+        flex-direction: row; 
+        height: 100%;
+    }
+
+    .ireb-dashboard {
+        margin-left: 5.625rem; /* Maintain desktop margin */
+        padding: 1rem;
+        height: 100%;
+    }
+
+    /* Main Content Div for PR Dashboard */
+    .adminmain-content {
+        padding: 2rem;
+        max-width: 81.25rem; /* Ensure it stays within the desktop width range */
+    }
+
+    /* Keep Two Column Layout */
+    .twocol-container {
+        display: flex;
+        flex-direction: row; /* Ensure it remains a two-column layout */
+        gap: 20px;
+    }
+
+    /* Chart Container */
+    .ireb-chart-container {
+        height: 400px; /* Keep height similar to desktop */
+        padding: 1.5rem;
+    }
+
+    /* Admin Dashboard Cards - Maintain Two Column Layout */
+    .admindashboard-cards {
+        grid-template-columns: repeat(2, 1fr); /* Two columns */
+        gap: 20px;
+    }
+
+    /* REC Status Table Container */
+    .rec-container {
+        padding: 1.5rem;
+        overflow-x: auto; /* Allow scrolling if necessary */
+    }
+
+    /* Table - Ensure Responsiveness */
+    .rec-table {
+        font-size: 0.875rem;
+        min-width: 600px; /* Minimum width to enable scrolling if screen is narrow */
+    }
+
+    /* Button Styles */
+    .view-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
 
   /* Laptops & Desktops */
   @media only screen and (min-width: 769px) and (max-width: 1200px) {
@@ -206,11 +261,11 @@
     }
   }
 
-  /* Mobile */
-  @media only screen and (max-width: 576px) {
+/* Mobile */
+@media only screen and (max-width: 576px) {
 
     .irebnav {
-      display: none;
+        display: none;
     }
 
     /* General Page Container */
@@ -228,7 +283,7 @@
         margin-left: 0;
         padding: 1rem;
         height: auto;
-        }
+    }
     
     /* Main Content Div for PR Dashboard */
     .adminmain-content {
@@ -237,4 +292,49 @@
         max-width: 100%;
     }
 
-  }
+    /* Two Column Layout to Stack */
+    .twocol-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    /* Chart Container */
+    .ireb-chart-container {
+        height: auto;
+        padding: 1rem;
+    }
+
+    /* Admin Dashboard Cards - Stack */
+    .admindashboard-cards {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* REC Status Table Container */
+    .rec-container {
+        padding: 1rem;
+        overflow-x: auto; /* Enable horizontal scrolling */
+    }
+
+    /* Table - Ensure Responsiveness */
+    .rec-table {
+        width: 100%; /* Table takes full width of its container */
+        font-size: 0.875rem;
+        min-width: 600px; /* Minimum width to trigger scrolling */
+    }
+
+    /* View Button */
+    .view-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+    }
+
+    .ireb-header h1 {
+        font-size: var(--heading-1-size);
+    }
+
+    .ireb-header p {
+        font-size: 0.8rem;
+    }
+}
+
