@@ -18,7 +18,7 @@ export default function ConfirmLogOut(props) {
           id="contained-modal-title-vcenter"
           className="confirm-modal-title"
         >
-            Confirm Log Out
+          Confirm Log Out
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="confirm-modal-body">
@@ -28,7 +28,7 @@ export default function ConfirmLogOut(props) {
         <Button onClick={props.onHide} className="btn cancel">
           Cancel
         </Button>
-        <Button onClick={props.onConfirm} className="btn confirm-cancel">
+        <Button onClick={props.onLogout} className="btn confirm-cancel">
           Log out
         </Button>
       </Modal.Footer>
