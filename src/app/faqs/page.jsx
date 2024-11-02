@@ -36,7 +36,7 @@ function FAQs() {
         <Row className="faqdivider" />
 
         <Container>
-          <Accordion style={{ paddingTop: "2em" }}>
+          <Accordion style={{ paddingTop: "2em", paddingBottom: "2em" }}>
             {/* <Accordion.Item eventKey="0">
               <Accordion.Header className="accheader">
                 What is the UST Research Ethics Online System?
