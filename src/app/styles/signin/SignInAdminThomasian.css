@@ -146,23 +146,26 @@ hr {
 
 @media screen and (max-width: 1199px) {
   .admin-signin-logo-container {
-    position: absolute;
-    top: 10rem;
-    left: 10%;
-    transform: translate(-10%, -50%);
-    gap: 5px;
+    position: sticky;
+    top: 50%; 
+    align-items: center;
+    gap: 10px;
+    left: 5%;
+    z-index: 2;
   }
 
   .admin-title {
     font-size: 40px;
   }
 
+
   .admin-signin-box {
-    padding: 1rem;
-    max-width: 100%;
-    width: 90%;
-    margin-left: 0%;
-    margin-right: 5%;
+    padding: 30px;
+    max-width: 550px;
+    width: 100%;
+    margin-right: 3%; 
+    margin-left: 0; 
+    z-index: 2;
   }
 }
 
@@ -250,5 +253,9 @@ hr {
 
   .admin-signin-title {
     font-size: 20px;
+  }
+
+  .rc-anchor-light.rc-anchor-normal{
+    width: 50%;
   }
 }
