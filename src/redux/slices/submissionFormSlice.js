@@ -1,3 +1,5 @@
+import { get } from 'http';
+
 const {createSlice} = require('@reduxjs/toolkit');
 
 //initial states
@@ -8,6 +10,7 @@ const initialState={
     //adiitional researcher
     additionalResearcher: [],
     fileName: "",
+    paymentFile: ""
 }
 
 
@@ -40,9 +43,11 @@ const submissionFormSlice = createSlice({
 
         getFileName(state, action){
             state.fileName = action.payload;
+        },
+
+        getPaymentFile(state, action){
+            state.paymentFile = action.payload;
         }
-
-
     }
 });
 
@@ -50,7 +55,8 @@ export const {
     setCurrentStep,
     updateFormData,
     addResearcher,
-    getFileName
+    getFileName,
+    getPaymentFile
 } = submissionFormSlice.actions;
 
 export default submissionFormSlice.reducer;

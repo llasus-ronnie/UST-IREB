@@ -101,8 +101,6 @@ function SubmissionStatus({ params }) {
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  }, [])
   
   
   if (loading) {
