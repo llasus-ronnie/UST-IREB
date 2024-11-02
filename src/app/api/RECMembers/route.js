@@ -1,12 +1,18 @@
 import connectDB from "../../../../utils/database";
 import RECMembers from "../../../../models/recmembersModel";
 import { NextResponse } from "next/server";
-import axios from "axios";
 
 export async function POST(req) {
   await connectDB();
 
   const { name, email, rec, recRole } = await req.json();
+
+  if (!name || !email || !rec || !recRole) {
+    return NextResponse.json(
+      { success: false, error: "All fields are required" },
+      { status: 400 }
+    );
+  }
 
   try {
     const newRECMember = new RECMembers({
@@ -33,10 +39,10 @@ export async function GET(req) {
   await connectDB();
 
   const { searchParams } = new URL(req.url);
-  const recName = searchParams.get("rec");
+  const email = searchParams.get("email");
 
   try {
-    const filter = recName ? { rec: recName } : {};
+    const filter = email ? { email } : {};
     const recmembers = await RECMembers.find(filter);
     return NextResponse.json(
       { success: true, data: recmembers },

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -6,17 +6,35 @@ import "../../styles/modals/EditContentModal.css";
 import CancelConfirmationModal from "../../components/modals/CancelConfirmationModal.jsx";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { useSession } from "next-auth/react";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function EditRECContentModal(props) {
   const [heading, setHeading] = useState("");
   const [body, setBody] = useState("");
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+  const { data: session, status } = useSession();
 
-  const handleHeadingChange = (e) => {
-    const headingValue = e.target.value;
-    setHeading(headingValue);
-  };
+  useEffect(() => {
+    const fetchRECMemberData = async () => {
+      if (status === "authenticated") {
+        const { email } = session.user;
+
+        try {
+          const response = await axios.get(`/api/RECMembers?email=${email}`);
+          const recMemberData = response.data.data;
+
+          if (recMemberData.length > 0) {
+            setHeading(recMemberData[0].rec.replace(/\s+/g, "")); // Remove spaces
+          }
+        } catch (error) {
+          console.error("Error fetching REC member data:", error);
+        }
+      }
+    };
+
+    fetchRECMemberData();
+  }, [status, session]);
 
   const handleBodyChange = (e) => {
     const bodyValue = e.target.value;
@@ -26,6 +44,7 @@ export default function EditRECContentModal(props) {
   const handleSave = async () => {
     try {
       await axios.post("/api/RECContent", {
+        rec: heading, // Use the heading as the rec identifier
         heading,
         body,
       });
@@ -69,22 +88,6 @@ export default function EditRECContentModal(props) {
         </Modal.Header>
         <Modal.Body className="editcontent-modal-body rounded-body">
           <Form>
-            {/* Heading */}
-            <Form.Group
-              className="mb-3 form-group-with-icon"
-              controlId="formHeading"
-            >
-              <Form.Label className="mb-3 form-group-with-icon">
-                Heading
-              </Form.Label>
-              <Form.Control
-                type="text"
-                value={heading}
-                onChange={handleHeadingChange}
-                className="form-control-with-icon rounded-input"
-              />
-            </Form.Group>
-
             {/* Body */}
             <Form.Group
               className="mb-3 form-group-with-icon"

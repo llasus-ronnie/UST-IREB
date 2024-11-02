@@ -3,7 +3,7 @@ import { type } from "os";
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const paymentSchhema = new Schema({
+const paymentSchema = new Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

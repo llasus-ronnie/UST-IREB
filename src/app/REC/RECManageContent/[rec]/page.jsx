@@ -83,8 +83,7 @@ function RECManageContent(props) {
               <table className="mc-table">
                 <thead>
                   <tr>
-                    <th>Heading</th>
-                    <th>Body</th>
+                    <th>Content</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -92,7 +91,6 @@ function RECManageContent(props) {
                   {content && content.length > 0 ? (
                     content.map((form, index) => (
                       <tr key={index}>
-                        <td>{form.heading}</td>
                         <td>{form.body}</td>
                         <td>
                           <button class="edit-icon"></button>

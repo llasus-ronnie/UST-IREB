@@ -7,13 +7,11 @@ import StatusBreadcrumbs from "../../../components/statusbreadcrumbs/StatusBread
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { PropagateLoader } from "react-spinners";
 import UploadPaymentProofModal from "../../../components/modals/UploadPaymentProofModal.jsx";
 import ResubmissionModal from "../../../components/modals/ResubmissionModal.jsx";
 
 import withAuthorization from "../../../../hoc/withAuthorization";
-import { current } from "@reduxjs/toolkit";
 
 function SubmissionStatus({ params }) {
   const [loading, setLoading] = useState(false);
@@ -101,7 +99,8 @@ function SubmissionStatus({ params }) {
   useEffect(() => {
     setIsClient(true);
   }, []);
-
+  
+  
   if (loading) {
     return (
       <div className="center-spinner">

@@ -2,7 +2,8 @@ import connectDB from "../../../../../utils/database";
 import REC from "../../../../../models/recModel";
 import { NextResponse } from "next/server";
 
-export async function PUT(req, { params }) {
+export async function PUT(req, context) {
+  const { params } = await context;
   const { id } = params;
   try {
     await connectDB();
@@ -20,7 +21,8 @@ export async function PUT(req, { params }) {
   }
 }
 
-export async function GET(req, { params }) {
+export async function GET(req, context) {
+  const { params } = await context;
   const { id } = params;
   await connectDB();
   const rec = await REC.findOne({ _id: id });

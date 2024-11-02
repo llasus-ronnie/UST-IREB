@@ -47,17 +47,6 @@ function SubmissionFormP3() {
   const handleShowModal = () => setModalShow(true);
   const handleCloseModal = () => setModalShow(false);
 
-  // // Handle file change
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const fileName = file.name;
-  //     dispatch(getFileName(fileName));
-  //     dispatch(updateFormData({ fileName }));
-  //     setValue("fileName", fileName);
-  //   }
-  // };
-
   // Function to handle previous button click
   const handlePrevious = () => {
     dispatch(setCurrentStep(currentPage - 1));
