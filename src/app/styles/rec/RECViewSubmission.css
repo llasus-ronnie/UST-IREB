@@ -149,35 +149,75 @@
 }
 
 .viewsub-proofofpayment button:hover {
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
+  background-color: var(--primary-color);
+  transition: background-color 0.3s ease;
+}
+
+.viewsub-remarks {
+  background-color: var(--quaternary-color);
+  border-radius: 10px;
+  padding: 1.5rem 2rem;
+  margin: 1rem 0;
+  display: flex; 
+  flex-direction: column;
+}
+
+.viewsub-remarks textarea {
+  resize: none;
+  padding: 0.5rem;
+}
+
+.viewsub-remarks p {
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+}
+
+.viewsub-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .viewsub-buttons button {
     font-family: var(--poppins);
     border-radius: 10px;
-    padding: 0.5rem 1rem;
-    margin: 1rem 0.5rem;
     color: var(--quaternary-color);
     transition: background-color 0.3s ease;
 }
 
 .viewsub-buttons .viewsub-save {
     background-color: var(--tertiary-color);
+    padding: 0.5rem 2.8rem;
 }
 
 .viewsub-buttons .viewsub-back {
     background-color: gray;
+    padding: 0.5rem 3rem;
+}
+
+.viewsub-finalrec {
+  font-family: var(--poppins);
+  border-radius: 10px;
+  color: var(--quaternary-color);
+  background-color: #369AD2;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  padding: 0.5rem 1.5rem;
+  margin: 1rem 0;
 }
 
 .viewsub-buttons .viewsub-save:hover {
-    transform: scale(1.1);
-    transition: transform 0.3s ease-in-out;
+  background-color: var(--primary-color);
+  transition: background-color 0.3s ease;
 }
 
 .viewsub-buttons .viewsub-back:hover {
-    transform: scale(1.1);
-    transition: transform 0.3s ease-in-out;
+  background-color: var(--primary-color);
+  transition: background-color 0.3s ease;
+}
+.viewsub-finalrec:hover {
+  background-color: var(--primary-color);
+  transition: background-color 0.3s ease;
 }
 
 

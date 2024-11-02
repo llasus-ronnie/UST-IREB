@@ -10,6 +10,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { PropagateLoader } from "react-spinners";
 import UploadPaymentProofModal from "../../../components/modals/UploadPaymentProofModal.jsx";
+import ResubmissionModal from "../../../components/modals/ResubmissionModal.jsx";
 
 import withAuthorization from "../../../../hoc/withAuthorization";
 import { current } from "@reduxjs/toolkit";
@@ -17,56 +18,64 @@ import { current } from "@reduxjs/toolkit";
 function SubmissionStatus({ params }) {
   const [loading, setLoading] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const [resubmissionModalShow, setResubmissionModalShow] = useState(false);
 
   const handleShowModal = () => setModalShow(true);
   const handleCloseModal = () => setModalShow(false);
-
+  const handleShowSubmissionModal = () => setResubmissionModalShow(true);
+  const handleCloseSubmissionModal = () => setResubmissionModalShow(false);
 
   //unwrapping the params kasi ang arte ni nextjs
   const [unwrappedParams, setUnwrappedParams] = useState(null);
 
   useEffect(() => {
-    params.then((resolvedParams) => {
-      setUnwrappedParams(resolvedParams);
-    }).catch((error) => {
-      console.error('Error unwrapping params:', error);
-    });
+    params
+      .then((resolvedParams) => {
+        setUnwrappedParams(resolvedParams);
+      })
+      .catch((error) => {
+        console.error("Error unwrapping params:", error);
+      });
   }, [params]);
-
 
   const steps = [
     {
       id: "Initial-Submission",
       title: "Initial Submission",
-      description: "Your initial submission will be reviewed to see if all requirements are complete or if any revisions are needed before proceeding."
+      description:
+        "Your initial submission will be reviewed to see if all requirements are complete or if any revisions are needed before proceeding.",
     },
     {
       id: "Pending-Payment",
       title: "Pending Payment",
-      description: "This is where you need to pay the Ethical Review Fees and submit proof of payment so your research can proceed to classification."
+      description:
+        "This is where you need to pay the Ethical Review Fees and submit proof of payment so your research can proceed to classification. Kindly click here for the payment instructions.",
     },
     {
       id: "For-Classification",
       title: "For Classification",
-      description: "Once proof of payment is received, your submission will move to research classification."
+      description:
+        "Once proof of payment is received, your submission will move to research classification.",
     },
     {
       id: "In-Progress",
       title: "In Progress",
-      description: "Your submission is currently with the primary reviewer for ethical review"
+      description:
+        "Your submission is currently with the primary reviewer for ethical review",
     },
     {
       id: "Final-Review",
       title: "Final Review",
-      description: "After all revisions, your submission will be sent to the REC Chair for the final review stage."
+      description:
+        "After all revisions, your submission will be sent to the REC Chair for the final review stage.",
     },
     {
       id: "Approved",
       title: "Approved",
-      description: "Your submission has been approved. You may now view and download the certificate of ethics review. Thank you!"
+      description:
+        "Your submission has been approved. You may now view and download the certificate of ethics review. Thank you!",
     },
   ];
-
 
   const [form, setForm] = useState(null); // Initialize form state
 
@@ -82,7 +91,7 @@ function SubmissionStatus({ params }) {
         setError("Failed to fetch form details.");
       } finally {
         setLoading(false);
-      } 
+      }
     }
     fetchData();
   }, [unwrappedParams]);
@@ -91,12 +100,13 @@ function SubmissionStatus({ params }) {
 
   useEffect(() => {
     setIsClient(true);
+  }, []);
+
   }, [])
   
   
   if (loading) {
     return (
-
       <div className="center-spinner">
         <PropagateLoader color="#fcbf15" />
       </div>
@@ -116,7 +126,24 @@ function SubmissionStatus({ params }) {
             <Row className="submission-divider" />
 
             <Row className="submissionstatus-container">
+              <a href="../SubmissionList" className="back-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-arrow-left"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+                  />
+                </svg>
+                Go Back to My Submissions List
+              </a>
               <Col className="submissionstatus-left">
+                {/* Details */}
                 <div className="submissionstatus-card-details">
                   <h1>Submission Details</h1>
 
@@ -134,6 +161,43 @@ function SubmissionStatus({ params }) {
                   <p>{form?.status || "No classification available"}</p>
                 </div>
 
+                {/* Remarks */}
+                <div className="submissionstatus-card-remarks">
+                  <h1>Remarks</h1>
+                  <div className="submissionstatus-remarks-table">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Remarks</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {form?.remarks?.length > 0 ? (
+                          form.remarks.map((remark, index) => (
+                            <tr key={index}>
+                              <td>
+                                {new Date(remark.date).toLocaleDateString(
+                                  "en-US"
+                                )}
+                                <br />
+                                {new Date(remark.date).toLocaleTimeString(
+                                  "en-US"
+                                )}
+                              </td>
+                              <td>{remark.text}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="2">No remarks available.</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
                 <div className="submissionstatus-buttons">
                   <Link
                     href="/PrincipalInvestigator/SubmissionList"
@@ -141,34 +205,50 @@ function SubmissionStatus({ params }) {
                   >
                     View Submission
                   </Link>
-                  <button className="submissionstatus-edit-sub">
-                    Edit Submission
+                  <button
+                    className="submissionstatus-edit-sub"
+                    onClick={handleShowSubmissionModal}
+                  >
+                    Resubmission
                   </button>
                 </div>
 
                 {/* this will only appear when investigator reach the specific status for payment*/}
                 <div className="submissionstatus-uploadproof-container">
-                  <button className="submissionstatus-uploadproof" onClick={handleShowModal}>
+                  <button
+                    className="submissionstatus-uploadproof"
+                    onClick={handleShowModal}
+                  >
                     Upload Proof of Payment
                   </button>
+                  <div className="submissionstatus-paymentfile">
+                    <p>Uplaoded File:</p>
+                  </div>
                 </div>
-
               </Col>
 
               <Col className="submissionstatus-right">
                 <div className="submissionstatus-card-breadcrumbs">
-                  <h1>Track Status of Submission</h1>
-                  <StatusBreadcrumbs steps={steps} params={unwrappedParams}/>
+                  <h1 className="submissionstatus-card-title">
+                    Track Status of Submission
+                  </h1>
+                  <StatusBreadcrumbs steps={steps} params={unwrappedParams} />
                 </div>
               </Col>
             </Row>
 
-            <UploadPaymentProofModal show={modalShow} onHide={handleCloseModal} />
+            <UploadPaymentProofModal
+              show={modalShow}
+              onHide={handleCloseModal}
+            />
+            <ResubmissionModal
+              show={resubmissionModalShow}
+              onHide={handleCloseSubmissionModal}
+            />
           </>
         )}
       </>
     );
-
   }
 }
 

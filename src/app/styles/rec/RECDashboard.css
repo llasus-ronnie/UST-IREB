@@ -185,7 +185,7 @@ html {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin: 1rem auto;
+    margin: 2rem auto;
     padding: 1rem;
     max-width: 95%;
     overflow-x: auto;
@@ -270,7 +270,7 @@ html {
 /* Responsiveness */
 
 /* Laptops & Desktops */
-@media only screen and (min-width: 769px) and (max-width: 1200px) {
+@media only screen and (min-width: 1200px) and (max-width: 1440px) {
     .recnav-mobile {
     display: none;
     }
@@ -285,7 +285,7 @@ html {
 }
 
   /* Larger Screens */
-@media only screen and (min-width: 1201px) {
+@media only screen and (max-width: 1199px) {
     .recnav-mobile {
     display: none;
     }
@@ -297,10 +297,22 @@ html {
     .rec-dropdown-mobile {
     display: none;
     }
+
+    .cards-container {
+      flex-direction: column;
+    }
+
+    .deadline-card {
+      align-items: flex-start; /* Align content at the start */
+      justify-content: center; /* Center the content vertically */
+      max-width: 95%; /* Adjust width as needed for larger screens */
+      margin-left: 2rem;  
+      padding-bottom: 5rem;
+    }
 }
 
 /* Tablet Screens */
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 768px) {
   .rec-dashboard {
     margin-left: 0;
     padding: 1.5rem;
@@ -308,8 +320,11 @@ html {
   }
 
   .admindashboard-cards {
-    justify-content: space-around;
-    gap: 15px;
+    display: flex;
+    flex-direction: column;
+    flex: 0;
+    width: 85%;
+    margin-left: 6.5rem;
   }
 
   .recdashboard-card {
@@ -320,10 +335,10 @@ html {
   }
 
   .deadline-card {
-    width: 100%;
+    width: 85%;
     padding: 3rem;
-    margin-bottom: 10px;
-    margin-left: 10px;
+    margin-bottom: 5px;
+    margin-left: 6.5rem;
   }
 
   .deadline-card h2 {
@@ -357,24 +372,37 @@ html {
 
   .rec-overview-table {
     display: block;
-    width: 100%;
+    width: 85%;
+    margin-left: 6.5rem;
   }
 
   
 }
 
 /* Mobile Screens */
-@media only screen and (max-width: 576x) {
+@media only screen and (min-width:320px) and (max-width: 430px) {
   .cards-container {
     flex-direction: column;
     align-items: center;
   }
 
   .admindashboard-cards {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: column;
     justify-content: center;
-    gap: 20px;
+    gap: 10px;
+    margin-left: 1rem;
+  }
+
+  .recnav {
+    display: none;
+  }
+
+  .recnav-mobile {
+    display: block;
+  }
+
+  .rec-header {
+    top: 3rem;
   }
 
   .recdashboard-card {
@@ -382,9 +410,9 @@ html {
   }
 
   .deadline-card {
-    width: 95%;
-    margin: 15px auto;
-    padding: 1rem;
+    width: 85%;
+    margin-left: 3rem;
+    padding: 3rem;
     height: auto;
   }
 
@@ -392,6 +420,7 @@ html {
     padding: 1rem;
     max-width: 100%;
     overflow-x: auto;
+    margin-left: 2rem;
   }
 
   .rec-overview-table table{
@@ -447,3 +476,4 @@ html {
     font-size: var(--paragraph-size);
   }
 }
+

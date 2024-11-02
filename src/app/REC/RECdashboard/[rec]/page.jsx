@@ -17,16 +17,25 @@ import withAuthorization from "../../../../hoc/withAuthorization";
 function RECDashboard({ params }) {
   const [forms, setForms] = useState([]);
   const [isClient, setIsClient] = useState(false);
+  const [statusCounts, setStatusCounts] = useState({
+    "Initial-Submission": 0,
+    "Pending-Payment": 0,
+    "For-Classification": 0,
+    "In-Progress": 0,
+    "Final-Review": 0,
+    Approved: 0,
+  });
+
   const { rec } = useParams(); // Get the current route parameter
-  const parameter = React.use(params)
+  const parameter = React.use(params);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get("/api/forms", {
-          params: { rec: rec.trim() }, // Include rec in the query params
+          params: { rec: rec.trim() },
         });
-        setForms(response.data.forms); // Access the forms
+        setForms(response.data.forms);
       } catch (error) {
         console.error("Error fetching forms:", error);
       }
@@ -35,7 +44,26 @@ function RECDashboard({ params }) {
     fetchData();
   }, [rec]);
 
-  //hydration error fix 
+  useEffect(() => {
+    const newStatusCounts = {
+      "Initial-Submission": 0,
+      "Pending-Payment": 0,
+      "For-Classification": 0,
+      "In-Progress": 0,
+      "Final-Review": 0,
+      Approved: 0,
+    };
+
+    forms.forEach((form) => {
+      if (form.status && newStatusCounts.hasOwnProperty(form.status)) {
+        newStatusCounts[form.status] += 1;
+      }
+    });
+
+    setStatusCounts(newStatusCounts);
+  }, [forms]);
+
+  //hydration error fix
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -68,104 +96,106 @@ function RECDashboard({ params }) {
 
   return (
     <>
-    {isClient && (
-    <div className="adminpage-container">
-      <div className="recnav-mobile">
-        <RecNavMobile />
-      </div>
-
-      <RecNav 
-      className="recnav"
-      rec= {parameter.rec}
-      />
-
-      <div className="rec-dashboard">
-        <div className="adminmain-content">
-          <RecHeader college={rec} /> {/* Pass the route parameter as a prop */}
-        </div>
-
-        {/* Parent of the Cards */}
-        <div className="cards-container">
-          {/* Submission Cards */}
-          <div className="admindashboard-cards">
-            <div className="recdashboard-card">
-              <h2>Initial Submission</h2>
-              <h3>0</h3>
-            </div>
-
-            <div className="recdashboard-card">
-              <h2>Pending Payment</h2>
-              <h3>0</h3>
-            </div>
-
-            <div className="recdashboard-card">
-              <h2>For Classification</h2>
-              <h3>0</h3>
-            </div>
-
-            <div className="recdashboard-card">
-              <h2>In Progress</h2>
-              <h3>0</h3>
-            </div>
-
-            <div className="recdashboard-card">
-              <h2>For Final Review</h2>
-              <h3>0</h3>
-            </div>
-
-            <div className="recdashboard-card">
-              <h2>Certificates Released</h2>
-              <h3>0</h3>
-            </div>
+      {isClient && (
+        <div className="adminpage-container">
+          <div className="recnav-mobile">
+            <RecNavMobile />
           </div>
-          <br />
 
-          {/* Deadline Cards */}
-          <div className="deadline-card">
-            <h2>Needs Attention</h2>
+          <RecNav className="recnav" rec={parameter.rec} />
+
+          <div className="rec-dashboard">
+            <div className="adminmain-content">
+              <RecHeader college={rec} />{" "}
+              {/* Pass the route parameter as a prop */}
+            </div>
+
+            {/* Parent of the Cards */}
+            <div className="cards-container">
+              {/* Submission Cards */}
+              <div className="admindashboard-cards">
+                <div className="recdashboard-card">
+                  <h2>Initial Submission</h2>
+                  <h3>{statusCounts["Initial-Submission"]}</h3>
+                </div>
+
+                <div className="recdashboard-card">
+                  <h2>Pending Payment</h2>
+                  <h3>{statusCounts["Pending-Payment"]}</h3>
+                </div>
+
+                <div className="recdashboard-card">
+                  <h2>For Classification</h2>
+                  <h3>{statusCounts["For-Classification"]}</h3>
+                </div>
+
+                <div className="recdashboard-card">
+                  <h2>In Progress</h2>
+                  <h3>{statusCounts["In-Progress"]}</h3>
+                </div>
+
+                <div className="recdashboard-card">
+                  <h2>For Final Review</h2>
+                  <h3>{statusCounts["Final-Review"]}</h3>
+                </div>
+
+                <div className="recdashboard-card">
+                  <h2>Certificates Released</h2>
+                  <h3>{statusCounts["Approved"]}</h3>
+                </div>
+              </div>
+              <br />
+
+              {/* Deadline Cards */}
+              <div className="deadline-card">
+                <h2>Needs Attention</h2>
+              </div>
+            </div>
+
+            {/* Submission Overview Table */}
+
+            <div className="rec-overview-table">
+              <h1>Submission Overview</h1>
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Author</th>
+                    <th>Title</th>
+                    <th>Date of Submission</th>
+                    <th>Assigned Evaluator</th>
+                    <th>Assigned REC Staff</th>
+                    <th>Submission Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {forms.map((form, index) => (
+                    <tr key={index}>
+                      <td>{form ? index + 1 : "No forms"}</td>
+                      <td>{form ? form.fullName : "No available full name"}</td>
+                      <td>{form ? form.title : "No title available"}</td>
+                      <td>
+                        {form && form.date
+                          ? new Date(form.date).toLocaleDateString("en-US")
+                          : "No date available"}
+                      </td>
+                      <td>John Doe</td>
+                      <td>John Doe</td>
+                      <td>
+                        {form && form.status
+                          ? form.status
+                          : "No status available"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <br />
           </div>
         </div>
-
-        {/* Submission Overview Table */}
-
-        <div className="rec-overview-table">
-          <h1>Submission Overview</h1>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Author</th>
-                <th>Title</th>
-                <th>Date of Submission</th>
-                <th>Assigned Evaluator</th>
-                <th>Assigned REC Staff</th>
-                <th>Submission Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {forms.map((form, index) => (
-                <tr key={index}>
-                  <td>{form ? form._id : "No forms"}</td>
-                  <td>{form ? form.fullName : "No available full name"}</td>
-                  <td>{form ? form.title : "No title available"}</td>
-                  <td>
-                    {form && form.date
-                      ? new Date(form.date).toLocaleDateString("en-US")
-                      : "No date available"}
-                  </td>
-                  <td>John Doe</td>
-                  <td>John Doe</td>
-                  <td>
-                    {form && form.status ? form.status : "No status available"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    )};
+      )}
+      ;
     </>
   );
 }

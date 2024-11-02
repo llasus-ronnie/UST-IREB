@@ -1,11 +1,12 @@
 "use client";
 
 import "../../styles/navbar/navbar.css";
-import { useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { useSession, signOut } from "next-auth/react";
+import ConfirmLogout from "../modals/ConfirmLogOutModal";
 
 //images
 import logout from "../../../../public/images/navbar/navbar-logout.png";
@@ -14,6 +15,7 @@ import userIcon from "../../../../public/images/navbar/sidenav-user.png";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -96,6 +98,7 @@ export default function Navbar() {
         <div className="sidenav-links">
           <a href="/">Home</a>
           <a href="/faqs">FAQs</a>
+          <a href="/REQGuidelines">Submission Requirements</a>
 
           {session ? (
             <>
@@ -107,7 +110,7 @@ export default function Navbar() {
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  signOut({ callbackUrl: "/" });
+                  setShowLogoutModal(true);
                 }}
               >
                 Logout
@@ -118,6 +121,15 @@ export default function Navbar() {
           )}
         </div>
       </div>
+
+      <ConfirmLogout
+        show={showLogoutModal}
+        onHide={() => setShowLogoutModal(false)}
+        onLogout={() => {
+          setShowLogoutModal(false);
+          signOut({ callbackUrl: "/" });
+        }}
+      />
     </>
   );
 }

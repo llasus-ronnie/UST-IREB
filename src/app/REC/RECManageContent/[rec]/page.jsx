@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import RecNav from "../../components/navbaradmin/RecNav";
-import RecNavMobile from "../../components/navbaradmin/RecNavMobile";
-import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
-import EditContentModal from "../../components/modals/EditRECContentModal";
-import "../../styles/rec/RECManageContent.css";
+import RecNav from "../../../components/navbaradmin/RecNav";
+import RecNavMobile from "../../../components/navbaradmin/RecNavMobile";
+import UserLoggedIn from "../../../components/userloggedin/UserLoggedIn";
+import EditContentModal from "../../../components/modals/EditRECContentModal";
+import "../../../styles/rec/RECManageContent.css";
 
-import withAuthorization from "../../../hoc/withAuthorization";
+import withAuthorization from "../../../../hoc/withAuthorization";
 
 function RECManageContent(props) {
   const [modalShow, setModalShow] = useState(false);

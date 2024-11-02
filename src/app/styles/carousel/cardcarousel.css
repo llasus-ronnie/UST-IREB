@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root{
+    --primary-color: #121212;
+    --secondary-color: #D9D9D9; 
+    --tertiary-color: #FCBF15;
+    --quaternary-color: #FFFCF7;
+
+    --poppins: 'Poppins', sans-serif;
+
+    --title-size: 2rem;
+    --heading-1-size: 1.5rem;
+    --paragraph-size: 0.85rem;
+}
+
+.carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 320px;
+    padding: 20px;
+    gap: 10px;
+    background-color: var(--secondary-color);
+  }
+  
+  .card-carousel {
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    border-radius: 50%;
+    padding: 10px;
+  }
+  
+  .carousel-card  {
+    width: 100%;
+    max-width: 300px;
+    margin: 10px;
+    gap: 10%;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  .carousel-card-body {
+    padding: 20px;
+  }
+  
+  .card-title {
+    font-size: var(--title-size);
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--tertiary-color);
+  }
+  
+  .carousel-card-text {
+    font-size: var(--paragraph-size);
+    color: var(--primary-color);
+  }
+  
+  .section-4-faq {
+    width: 50px;
+    margin-bottom: 15px;
+  }
+  
+  .carousel-indicators li {
+    background-color: var(--primary-color);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    color: var(--primary-color);
+    width: 5%;
+  }
+  
+  @media (max-width: 768px) {
+    .carousel-item {
+      flex-direction: column;
+    }
+  }
+  

@@ -48,20 +48,19 @@ function IrebManageRECRoles({ params }) {
   };
 
   useEffect(() => {
-    const fetchRECData = async () => {
+    const fetchREC = async () => {
       setIsLoading(true);
       try {
         const response = await axios.get(`/api/REC/${params.id}`);
         setREC(response.data.rec);
       } catch (error) {
-        console.error(error);
-        setError("Failed to fetch REC details.");
+        setError(error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchRECData();
+    fetchREC();
   }, [params.id]);
 
   useEffect(() => {
@@ -272,8 +271,8 @@ function IrebManageRECRoles({ params }) {
 
       <AddRECMemberModal
         show={modalShowAddRECMember}
-        onHide={handleCloseModalAddRECMember}
-        data={selectedMember}
+        onHide={() => setModalShowAddRECMember(false)}
+        REC={REC}
       />
       <EditRECMemberModal
         show={modalShowEditRECMember}

@@ -9,10 +9,9 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 
-
 import withAuthorization from "../../../../hoc/withAuthorization";
 
-function RecSubmissions({params}) {
+function RecSubmissions({ params }) {
   const handleSearch = (query) => {
     console.log("Search query:", query);
   };
@@ -21,60 +20,51 @@ function RecSubmissions({params}) {
 
   const handleDropDown = (event) => {
     setSelectedOption(event.target.value);
-  }
+  };
 
   const handleTableChange = (option) => {
-    selectedOption === option ? setSelectedOption("") :
     setSelectedOption(option);
     console.log("Selected Option:", selectedOption);
   };
 
+  const [forms, setForms] = useState([]);
+  const [statusCount, setStatusCount] = useState({});
 
+  const { rec } = useParams(); // Get the current route parameter
 
-    const [forms, setForms] = useState([]);
-    const [statusCount, setStatusCount] = useState({});
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get("/api/forms", {
+          params: { rec: rec.trim() },
+        });
+        setForms(response.data.forms);
 
-    const { rec } = useParams(); // Get the current route parameter
-  
-    useEffect(() => {
-      async function fetchData() {
-        try {
-          const response = await axios.get("/api/forms", {
-            params: { rec: rec.trim() },
-          });
-          setForms(response.data.forms); 
-
-          const statusCount = response.data.forms.reduce((acc, form) => {
-            acc[form.status] = (acc[form.status] || 0) + 1; 
-            return acc;
-          }
-          , {});
-          setStatusCount(statusCount);
-        } catch (error) {
-          console.error("Error fetching forms:", error);
-        }
+        const statusCount = response.data.forms.reduce((acc, form) => {
+          acc[form.status] = (acc[form.status] || 0) + 1;
+          return acc;
+        }, {});
+        setStatusCount(statusCount);
+      } catch (error) {
+        console.error("Error fetching forms:", error);
       }
-  
-      fetchData();
-    }, [rec]);
+    }
 
+    fetchData();
+  }, [rec]);
 
-    const filterFormsByStatus = (status) => {
-      console.log("Status:", status);
-      return forms.filter((form) => form.status === status);
-    };
-  
-    
+  const filterFormsByStatus = (status) => {
+    console.log("Status:", status);
+    return forms.filter((form) => form.status === status);
+  };
+
   return (
     <div className="adminpage-container">
       <div className="recnav-mobile">
         <RecNavMobile />
       </div>
 
-      <RecNav 
-      className="recnav"
-      rec= {params.rec}
-      />
+      <RecNav className="recnav" rec={params.rec} />
 
       <div className="rec-submissions">
         <div className="adminmain-content">
@@ -105,19 +95,24 @@ function RecSubmissions({params}) {
           <div className="rec-submissions-tabs">
             <div className="rec-buttons-container">
               <button onClick={() => handleTableChange("Initial-Submission")}>
-                <span>{statusCount["Initial-Submission"] || 0} </span> <p>Initial Submission</p>
+                <span>{statusCount["Initial-Submission"] || 0} </span>{" "}
+                <p>Initial Submission</p>
               </button>
               <button onClick={() => handleTableChange("Pending-Payment")}>
-                <span>{statusCount["Pending-Payment"] || 0}</span> <p>Pending Payment</p>
+                <span>{statusCount["Pending-Payment"] || 0}</span>{" "}
+                <p>Pending Payment</p>
               </button>
               <button onClick={() => handleTableChange("For-Classification")}>
-                <span>{statusCount["For-Classification"] || 0}</span> <p>For Classification</p>
+                <span>{statusCount["For-Classification"] || 0}</span>{" "}
+                <p>For Classification</p>
               </button>
               <button onClick={() => handleTableChange("In-Progress")}>
-                <span>{statusCount["In-Progress"] || 0}</span> <p>In Progress</p>
+                <span>{statusCount["In-Progress"] || 0}</span>{" "}
+                <p>In Progress</p>
               </button>
               <button onClick={() => handleTableChange("Final-Review")}>
-                <span>{statusCount["Final-Review"] || 0}</span> <p>Final Review</p>
+                <span>{statusCount["Final-Review"] || 0}</span>{" "}
+                <p>Final Review</p>
               </button>
               <button onClick={() => handleTableChange("Approved")}>
                 <span>{statusCount["Approved"] || 0}</span> <p>Approved</p>
@@ -129,22 +124,29 @@ function RecSubmissions({params}) {
                 <option value="Initial-Submission">Initial Submission</option>
                 <option value="Pending-Payment">Pending Payment</option>
                 <option value="For-Classification">For Classification</option>
-                <option value="inProgress">In Progress</option>
-                <option value="finalReview">Final Review</option>
-                <option value="approved">Approved</option>
+                <option value="In-Progress">In Progress</option>
+                <option value="Final-Review">Final Review</option>
+                <option value="Approved">Approved</option>
               </select>
             </div>
 
-            {["Initial-Submission", "Pending-Payment", "For-Classification", "In-Progress", "Final-Review", "Approved"].map(
-  (status) =>
-    selectedOption=== status && (
-      <div className="rec-tables" key={status}>
-        <div className={status}>
-          <h1>{status.replace(/([A-Z])/g, " $1").trim()}</h1>
-          <table className="rec-table">
+            {[
+              "Initial-Submission",
+              "Pending-Payment",
+              "For-Classification",
+              "In-Progress",
+              "Final-Review",
+              "Approved",
+            ].map(
+              (status) =>
+                selectedOption === status && (
+                  <div className="rec-tables" key={status}>
+                    <div className={status}>
+                      <h1>{status.replace(/-/g, " ")}</h1>
+                      <table className="rec-table">
                         <thead>
                           <tr>
-                            <th>ID</th>
+                            <th>#</th>
                             <th>Author</th>
                             <th>Date of Submission</th>
                             <th>Name of Research</th>
@@ -154,18 +156,25 @@ function RecSubmissions({params}) {
                         <tbody>
                           {filterFormsByStatus(status).map((form, index) => (
                             <tr key={index}>
-                              <td>{form?._id || "No forms available"}</td>
+                              <td>{index + 1 || "No forms available"}</td>
                               <td>{form?.fullName || "No author available"}</td>
-                              <td>{new Date(form?.date).toLocaleDateString("en-US") || "No date available"}</td>
+                              <td>
+                                {new Date(form?.date).toLocaleDateString(
+                                  "en-US"
+                                ) || "No date available"}
+                              </td>
                               <td>{form?.title || "No title available"}</td>
                               <td>
-                                <Link href={`/REC/RECViewSubmission/${params.rec}/${form._id}`} className="rec-view-btn">
+                                <Link
+                                  href={`/REC/RECViewSubmission/${params.rec}/${form._id}`}
+                                  className="rec-view-btn"
+                                >
                                   View
                                 </Link>
                               </td>
                             </tr>
                           ))}
-                          </tbody>
+                        </tbody>
                       </table>
                     </div>
                   </div>

@@ -6,13 +6,13 @@ import Footer from "../components/footer/Footer";
 import "../styles/faqs/faqs.css";
 import { Container, Row, Accordion } from "react-bootstrap";
 
-function FAQs() {
+function Guidelines() {
   const [content, setContent] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get("/api/IREBContent");
+        const response = await axios.get("/api/RECContent");
         console.log("API Response:", response.data);
         setContent(response.data.data);
       } catch (error) {
@@ -24,19 +24,21 @@ function FAQs() {
   }, []);
   return (
     <>
-     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <div
+        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+      >
         <div className="header">
           <Navbar />
         </div>
 
         <div style={{ paddingTop: "2em" }} className="faqheader">
-          <h1 className="text-center">Frequently Asked Questions</h1>
+          <h1 className="text-center">Submission Requirements</h1>
         </div>
 
         <Row className="faqdivider" />
 
         <Container>
-          <Accordion style={{ paddingTop: "2em", paddingBottom: "2em" }}>
+          <Accordion style={{ paddingTop: "2em" }}>
             {/* <Accordion.Item eventKey="0">
               <Accordion.Header className="accheader">
                 What is the UST Research Ethics Online System?
@@ -67,4 +69,4 @@ function FAQs() {
   );
 }
 
-export default FAQs;
+export default Guidelines;

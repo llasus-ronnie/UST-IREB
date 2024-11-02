@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { CldUploadWidget } from 'next-cloudinary';
 import "../../styles/modals/UploadPaymentProofModal.css";
+import CancelConfirmationModal from "../../components/modals/CancelConfirmationModal.jsx";
 import React from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";

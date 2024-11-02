@@ -22,6 +22,7 @@ import axios from "axios";
 import "../../styles/ireb/dashboard.css";
 
 import withAuthorization from "../../../hoc/withAuthorization";
+import { set } from "mongoose";
 
 ChartJS.register(
   CategoryScale,
@@ -38,6 +39,8 @@ function IrebDashboard() {
   const [REC, setREC] = useState([]);
   const [formsData, setFormsData] = useState([]);
   const [newlyAssignedCount, setNewlyAssignedCount] = useState(0);
+  const [forFinalReviewCount, setForFinalReviewCount] = useState(0);
+  const [totalAssignedCount, setTotalAssignedCount] = useState(0);
   const [recChairMap, setRecChairMap] = useState({});
   const [submissionCounts, setSubmissionCounts] = useState({});
 
@@ -83,6 +86,7 @@ function IrebDashboard() {
         setNewlyAssignedCount(forms.length);
 
         const submissionCountsArray = Array(12).fill(0);
+        const approvedCountsArray = Array(12).fill(0);
         const labels = [
           "Jan",
           "Feb",
@@ -99,14 +103,33 @@ function IrebDashboard() {
         ];
 
         const recSubmissionCounts = {};
+        let forFinalReviewCount = 0;
+        let totalAssignedCount = 0;
 
         forms.forEach((form) => {
           const submissionDate = new Date(form.date);
           const month = submissionDate.getMonth(); // 0-11 for Jan-Dec
           const recName = form.researchEthicsCommittee;
 
-          // Increment counts for submissions
+          // Increment counts for all submissions
           submissionCountsArray[month]++;
+
+          // Increment counts for approved submissions
+          if (form.status === "Approved") {
+            approvedCountsArray[month]++;
+          }
+
+          //final review count
+          if (form.status === "Final-Review") {
+            forFinalReviewCount++;
+          }
+
+          //total assigned count
+          if (form.status === "In-Progress") {
+            totalAssignedCount++;
+          }
+
+          // Count per REC
           if (!recSubmissionCounts[recName]) {
             recSubmissionCounts[recName] = 0;
           }
@@ -115,8 +138,10 @@ function IrebDashboard() {
 
         // Update the state for submission counts per REC
         setSubmissionCounts(recSubmissionCounts);
+        setForFinalReviewCount(forFinalReviewCount);
+        setTotalAssignedCount(totalAssignedCount);
 
-        // Update the chart data
+        // Update the chart data with both submitted and approved counts
         setChartData({
           labels: labels,
           datasets: [
@@ -126,8 +151,8 @@ function IrebDashboard() {
               backgroundColor: "#FFCC00",
             },
             {
-              label: "Approved", // This dataset can be removed if not used
-              data: Array(12).fill(0), // Placeholder if you don't have approval data
+              label: "Approved",
+              data: approvedCountsArray,
               backgroundColor: "#E6B800",
             },
           ],
@@ -136,6 +161,7 @@ function IrebDashboard() {
         console.error("Error fetching forms data:", error);
       }
     }
+
     fetchFormsData();
   }, []);
 
@@ -261,12 +287,12 @@ function IrebDashboard() {
                 </div>
                 <div className="admindashboard-card">
                   <h2>For Final Review</h2>
-                  <h3>100</h3>
+                  <h3>{forFinalReviewCount}</h3>
                   <p>Researches</p>
                 </div>
                 <div className="admindashboard-card">
                   <h2>Total Assigned</h2>
-                  <h3>100</h3>
+                  <h3>{totalAssignedCount}</h3>
                   <p>Tasks</p>
                 </div>
               </div>

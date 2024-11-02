@@ -213,6 +213,13 @@
 }
 
 @media screen and (max-width: 768px) {
+  .signin-wrapper {
+    background-image: url('/images/signin/bg-2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
   .signin-container {
     max-width: 600px;
     border-radius: 30px;
@@ -244,9 +251,20 @@
 }
 
 @media (max-width: 480px) {
+  .signin-wrapper {
+    background-image: url('/images/signin/bg-2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
   .signin-container {
     max-width: 90%;
     border-radius: 20px;
+  }
+
+  .signin-header h1 {
+    margin: 0 2rem;
   }
 
   .signin-title {
