@@ -168,7 +168,7 @@ body {
 }
 
 .submissionstatus-view-sub {
-    background-color: var(--primary-color);
+    background-color: #2f2f2f;
     color: var(--quaternary-color);
     border: none;
     border-radius: 10px;
@@ -183,6 +183,11 @@ body {
     width: 100%;
 }
 
+.submissionstatus-view-sub:hover {
+    background-color: #272727;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
 .submissionstatus-edit-sub {
     background-color: var(--tertiary-color);
     color: var(--quaternary-color);
@@ -194,6 +199,11 @@ body {
     font-size: var(--paragraph-size);
     font-weight: bold;
     width: 100%;
+}
+
+.submissionstatus-edit-sub:hover {
+    background-color: #e9ac04;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .submissionstatus-uploadproof-container {
@@ -211,6 +221,11 @@ body {
     font-size: var(--paragraph-size);
     font-weight: bold;
     width: 100%;
+}
+
+.submissionstatus-uploadproof:hover {
+    background-color: #137ab5;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .submissionstatus-paymentfile {

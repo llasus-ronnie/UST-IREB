@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --primary-color: #121212;
+    --secondary-color: #ecf0f1;
+    --tertiary-color: #fcbf15;
+    --quaternary-color: #ffffff;
+    --poppins: "Poppins", sans-serif;
+    --title-size: 1.875rem;
+    --heading-1-size: 1.5rem;
+    --paragraph-size: 1rem;
+}
+
+/* General Page Container */
+.adminpage-container {
+    display: flex;
+    height: 100vh;
+    flex-grow: 1;
+
+    transition: margin-left 0.3s ease;
+    background-color: var(--secondary-color);
+    height: 100vh;
+    margin-left: 5.625rem;
+
+    font-family: var(--poppins);
+    color: var(--primary-color);
+    max-width: 81.25rem;
+    height: 100%;
+    margin: 2rem auto;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+
+/* View Submission */
+
+.viewsubmission-container {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    margin: 3rem 0;
+}
+
+.back-button {
+  color: var(--primary-color);
+  font-size: var(--paragraph-size);
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  margin: 0 auto 2rem;
+  border: none;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  color: var(--tertiary-color);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-button svg {
+  vertical-align: middle;
+  margin-right: 0.8rem;
+}
+
+/* Left Col */
+.viewsub-content-container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--quaternary-color);
+  border-radius: 10px;
+  padding: 1rem 2rem;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.viewsub-content-container::-webkit-scrollbar-thumb {
+  background-color: #fcbf15; 
+  border-radius: 4px; 
+}
+
+.viewsub-content-container::-webkit-scrollbar-track {
+  background-color: #ddd; 
+}
+
+/* Right Col */
+.viewsub-details-container {
+    font-family: var(--poppins);
+    padding-left: 3rem;
+  }
+
+  .viewsub-details-container h1 {
+    color: var(--tertiary-color);
+    font-size: var(--heading-1-size);
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+  }
+
+  .submission-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-family: var(--poppins);
+    background-color: var(--quaternary-color);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+.submission-history-table th,
+.submission-history-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+  color: var(--primary-color);
+}
+
+.submission-history-table tbody tr {
+  border: 2px solid var(--secondary-color);
+}
+
+.submission-history-table th {
+  background-color: var(--tertiary-color);
+  font-weight: 600;
+  color: var(--quaternary-color);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.submission-history-table tbody tr:hover {
+  background-color: #f9f9f9;
+  color: var(--quaternary-color);
+}
+
+.submission-history-table a {
+  color: var(--tertiary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.submission-history-table a:hover {
+  text-decoration: underline;
+}
+
+
+/* scroll design  */
+::-webkit-scrollbar {
+  background-color: var(--primary-color);
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--tertiary-color);
+  border-radius: 10px;
+}
+
+/* Responsiveness */
+
+  /* Tablet */
+  @media only screen and (min-width: 577px) and (max-width: 768px) {
+    .adminpage-container {
+      padding: 1.5rem;
+      margin: 1.5rem;
+      max-width: 80%;
+
+      margin-left: 5.625rem;
+      padding: 2rem;
+    }
+    
+    .viewsubmission-container {
+        flex-direction: column; 
+    }
+
+    .viewsub-content-container,
+    .viewsub-details-container {
+        width: 100%;
+        padding: 0;
+    }
+
+    .viewsub-details-container {
+        padding-left: 0;
+        margin-top: 1rem;
+    }
+  }
+
+
+    /* Mobile */
+    @media only screen and (max-width: 576px) {
+  
+      /* Mobile General Page Container */
+      .adminpage-container {
+        flex-direction: column;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow-x: hidden;
+
+        margin-left: 0;
+        padding: 1rem;
+        height: auto;
+
+        padding: 1rem;
+        margin: 1rem auto;
+        max-width: 100%;
+      }
+    
+      /* Mobile Header */
+      .rec-header-container {
+        display: none;
+      }
+
+      .rec-header-container-mobile {
+        align-items: center;
+      }
+
+      .rec-header-container-mobile h1 {
+        font-size: var(--heading-1-size);
+      }
+
+      .userloggedin-mobile {
+        margin-bottom: 1.5rem;
+      }
+
+        /* Mobile Content */
+        .viewsubmission-container {
+            flex-direction: column;
+        }
+
+        .viewsub-content-container,
+        .viewsub-details-container {
+            width: 100%;
+            padding: 0;
+        }
+
+        .viewsub-details-container {
+            padding-left: 0;
+            margin-top: 1rem;
+        }
+
+        .submission-history-table th,
+        .submission-history-table td {
+            padding: 0.5rem;
+            font-size: 0.8rem;
+        }
+    }

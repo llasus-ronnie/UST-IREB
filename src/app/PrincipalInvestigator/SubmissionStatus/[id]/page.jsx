@@ -118,7 +118,7 @@ function SubmissionStatus({ params }) {
             </div>
 
             <div style={{ paddingTop: "2em" }} className="submission_header">
-              <h1 className="text-center">My Submissions</h1>
+              <h1 className="text-center">Submission Status</h1>
             </div>
             <Row className="submission-divider" />
 
@@ -197,7 +197,7 @@ function SubmissionStatus({ params }) {
 
                 <div className="submissionstatus-buttons">
                   <Link
-                    href="/PrincipalInvestigator/SubmissionList"
+                    href="/PrincipalInvestigator/SubmissionHistory"
                     className="submissionstatus-view-sub"
                   >
                     View Submission
