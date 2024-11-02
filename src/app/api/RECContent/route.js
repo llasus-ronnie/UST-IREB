@@ -5,20 +5,33 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   await connectDB();
 
-  const { heading, body } = await req.json();
+  const { rec, heading, body } = await req.json();
 
   try {
-    const newRECContent = new RECContent({
-      heading,
-      body,
-    });
-    await newRECContent.save();
+    // Check if an entry for the given REC already exists
+    let recContent = await RECContent.findOne({ rec });
+
+    if (recContent) {
+      // Update the existing entry
+      recContent.heading = heading;
+      recContent.body = body;
+      await recContent.save();
+    } else {
+      // Create a new entry
+      recContent = new RECContent({
+        rec,
+        heading,
+        body,
+      });
+      await recContent.save();
+    }
+
     return NextResponse.json(
-      { success: true, data: newRECContent },
+      { success: true, data: recContent },
       { status: 201 }
     );
   } catch (error) {
-    console.error("Error creating content:", error);
+    console.error("Error creating or updating content:", error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 400 }
