@@ -23,7 +23,7 @@ function PRUserProfile() {
 
       <div className="admin-userprofile">
         <div className="adminmain-content">
-          <div className="admin-header-container">
+        <div className="admin-header-container">
             <div className="admin-header">
               <h1>Primary Reviewer User Profile</h1>
               <p>View Admin Account Information</p>
@@ -36,6 +36,10 @@ function PRUserProfile() {
           <div className="admin-header-container-mobile">
             <div className="userloggedin-mobile">
               <UserLoggedIn />
+            </div>
+            <div className="admin-header">
+              <h1>Primary Reviewer User Profile</h1>
+              <p>View Admin Account Information</p>
             </div>
           </div>
 

@@ -6,7 +6,7 @@ import PrNav from "../../components/navbaradmin/PrNav";
 import PrNavMobile from "../../components/navbaradmin/PrNavMobile";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
 import FinalReviewModal from "../../components/modals/ConfirmSubmitToRECFinalReview";
-import "../../styles/rec/RECViewSubmission.css";
+import "../../styles/pr/PrViewSubmission.css";
 import axios from "axios";
 import withAuthorization from "../../../hoc/withAuthorization";
 import {useRouter} from "next/navigation";
@@ -61,16 +61,16 @@ function PRViewSubmission({ params }) {
 
   return (
     <div className="adminpage-container">
-      <div className="recnav-mobile">
+      <div className="prnav-mobile">
         <PrNavMobile />
       </div>
 
-      <PrNav className="recnav" />
+      <PrNav className="prnav" />
 
-      <div className="rec-submissions">
+      <div className="pr-submissions">
         <div className="adminmain-content">
-          <div className="rec-header-container">
-            <div className="rec-header">
+          <div className="pr-header-container">
+            <div className="pr-header">
               <h1>View Submission</h1>
             </div>
             <div className="userloggedin">
@@ -78,15 +78,9 @@ function PRViewSubmission({ params }) {
             </div>
           </div>
 
-          <div className="rec-header-container-mobile">
+          <div className="pr-header-container-mobile">
             <div className="userloggedin-mobile">
               <UserLoggedIn />
-            </div>
-            <div className="rec-header">
-              <h1>REC Manage Submissions</h1>
-              <p>
-                Manage Initial Review and Principal Investigator Submissions
-              </p>
             </div>
           </div>
 

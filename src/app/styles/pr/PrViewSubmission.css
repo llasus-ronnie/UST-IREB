@@ -18,12 +18,12 @@
 }
 
 /* Side Nav */
-.adminnav.open ~ .rec-submissions {
+.adminnav.open ~ .pr-submissions {
     margin-left: 18.75rem;
 }
 
 /* REC Submissions */
-.rec-submissions {
+.pr-submissions {
     flex-grow: 1;
     transition: margin-left 0.3s ease;
     background-color: var(--secondary-color);
@@ -44,7 +44,7 @@
 
 /* Header */
 
-.rec-header-container {
+.pr-header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -54,18 +54,18 @@
   flex-shrink: 0;
 }
 
-.rec-header {
+.pr-header {
     margin-top: 0.2rem;
     flex-grow: 1;
 }
 
-.rec-header h1 {
+.pr-header h1 {
     color: var(--primary-color);
     font-size: var(--title-size);
     font-weight: bold;
 }
 
-.rec-header p {
+.pr-header p {
     font-size: var(--paragraph-size);
     color: var(--primary-color);
     padding-top: 0.4rem;
@@ -130,33 +130,31 @@
     transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
-.viewsub-proofofpayment {
-    background-color: var(--quaternary-color);
-    border-radius: 10px;
-    padding: 1rem 2rem;
-    margin: 1rem 0;
-    display: flex; 
-    flex-direction: column;
+.viewsub-remarks {
+  background-color: var(--quaternary-color);
+  border-radius: 10px;
+  padding: 1.5rem 2rem;
+  margin: 1rem 0;
+  display: flex; 
+  flex-direction: column;
 }
 
-.viewsub-proofofpayment button {
-    font-family: var(--poppins);
-    color: var(--quaternary-color);
-    background-color: var(--tertiary-color);
-    border-radius: 10px;
-    padding: 0.5rem 1rem;
-    margin: 1rem 0;
+.viewsub-remarks textarea {
+  resize: none;
+  padding: 0.5rem;
 }
 
-.viewsub-proofofpayment button:hover {
-  background-color: var(--primary-color);
-  transition: background-color 0.3s ease;
+.viewsub-remarks p {
+  font-weight: bold;
+  margin: 0 0 1rem 0;
 }
 
 .viewsub-buttons {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .viewsub-buttons button {
@@ -217,49 +215,60 @@
 
 /* Laptops & Desktops */
 @media only screen and (min-width: 769px) and (max-width: 1200px) {
-  .recnav-mobile {
+  .prnav-mobile {
     display: none;
   }
 
-  .rec-header-container-mobile {
+  .pr-header-container-mobile {
     display: none;
   }
 
-  .rec-dropdown-mobile {
+  .pr-dropdown-mobile {
     display: none;
   }
+
+    .adminmain-content {
+        padding: 1.5rem;
+        margin: 1.5rem;
+        height: 100%;
+    }
+
+    .viewsub-buttons {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 /* Larger Screens */
 @media only screen and (min-width: 1201px) {
-  .recnav-mobile {
+  .prnav-mobile {
     display: none;
   }
 
-  .rec-header-container-mobile {
+  .pr-header-container-mobile {
     display: none;
   }
 
-  .rec-dropdown-mobile {
+  .pr-dropdown-mobile {
     display: none;
   }
 }
 
   /* Tablet */
   @media only screen and (min-width: 577px) and (max-width: 768px) {
-    .recnav-mobile {
+    .prnav-mobile {
       display: none;
     }
 
-    .rec-header-container {
+    .pr-header-container {
       display: none;
     }
 
-    .rec-header h1 {
+    .pr-header h1 {
       font-size: var(--title-size);
     }
 
-    .rec-header p {
+    .pr-header p {
       font-size: var(--paragraph-size);
       padding-top: 0.4rem;
     }
@@ -267,10 +276,10 @@
     .adminmain-content {
       padding: 1.5rem;
       margin: 1.5rem;
-      max-width: 80%;
+      max-width: 100%;
     }
 
-    .rec-submissions {
+    .pr-submissions {
       margin-left: 5.625rem;
       padding: 2rem;
     }
@@ -279,30 +288,29 @@
         flex-direction: column; 
     }
 
-    .viewsub-content-container,
-    .viewsub-details-container {
-        width: 100%;
-        padding: 0;
+    .viewsub-content-container {
+        min-height: 100vh;
     }
 
     .viewsub-details-container {
-        padding-left: 0;
-        margin-top: 1rem;
+        width: 100%;
+        padding: 0;
+        margin: 2rem 0;
     }
   }
 
 
     /* Mobile */
     @media only screen and (max-width: 576px) {
-      .recnav {
+      .prnav {
         display: none;
       }
 
-      .recnav-mobile {
+      .prnav-mobile {
         display: block;
       }
 
-      .adminpage-container .recnav {
+      .adminpage-container .prnav {
         display: none;
       }
     
@@ -317,7 +325,7 @@
       }
     
       /* Mobile REC Submission */
-      .rec-submissions {
+      .pr-submissions {
         margin-left: 0;
         padding: 1rem;
         height: auto;
@@ -331,15 +339,15 @@
       }
     
       /* Mobile Header */
-      .rec-header-container {
+      .pr-header-container {
         display: none;
       }
 
-      .rec-header-container-mobile {
+      .pr-header-container-mobile {
         align-items: center;
       }
 
-      .rec-header-container-mobile h1 {
+      .pr-header-container-mobile h1 {
         font-size: var(--heading-1-size);
       }
 
@@ -350,16 +358,26 @@
         /* Mobile Content */
         .viewsubmission-container {
             flex-direction: column;
+            margin: 2rem 0;
         }
 
-        .viewsub-content-container,
+        .viewsub-content-container {
+            min-height: 80vh;
+            overflow: auto;
+        }
         .viewsub-details-container {
             width: 100%;
             padding: 0;
+            margin: 0;
+            margin-top: 2rem;
+            text-align: center;
         }
 
         .viewsub-details-container {
             padding-left: 0;
-            margin-top: 1rem;
+        }
+
+        .viewsub-remarks {
+          margin: 2rem 0;
         }
     }
