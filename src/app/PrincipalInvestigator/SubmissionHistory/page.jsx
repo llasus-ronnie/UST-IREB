@@ -55,7 +55,7 @@ function SummaryHistory({ params }) {
   return (
     <>
     <Navbar/>
-    <div className="adminpage-container">
+    <div className="historypage-container">
       <Row className="viewsubmission-container">
 
       <a href="../PrincipalInvestigator/SubmissionStatus/[id]" className="back-button">
@@ -81,7 +81,6 @@ function SummaryHistory({ params }) {
 
         <Col xs={12} lg={4} className="viewsub-details-container">
             <h1>Submission History</h1>
-            <div class="submission-history-wrapper">
             <table className="submission-history-table">
               <thead>
                 <tr>
@@ -142,70 +141,62 @@ function SummaryHistory({ params }) {
                     </Link>
                   </td>
                 </tr>
+
+                {/* just checking ano itsura niya pag maraming rows/submission */}
+                
+                {/* <tr>
+                  <td>11/3/2024 14:00</td>
+                  <td>
+                    <Link href={`/path/to/file/sample-file-2.pdf`}>
+                    sample-file-4.pdf
+                    </Link>
+                  </td>
+                </tr>
                 <tr>
                   <td>11/3/2024 14:00</td>
                   <td>
                     <Link href={`/path/to/file/sample-file-2.pdf`}>
-                    sample-file-3.pdf
-                    </Link>
-                  </td>
-                </tr>                <tr>
-                  <td>11/3/2024 14:00</td>
-                  <td>
-                    <Link href={`/path/to/file/sample-file-2.pdf`}>
-                    sample-file-3.pdf
-                    </Link>
-                  </td>
-                </tr>                <tr>
-                  <td>11/3/2024 14:00</td>
-                  <td>
-                    <Link href={`/path/to/file/sample-file-2.pdf`}>
-                    sample-file-3.pdf
-                    </Link>
-                  </td>
-                </tr>                <tr>
-                  <td>11/3/2024 14:00</td>
-                  <td>
-                    <Link href={`/path/to/file/sample-file-2.pdf`}>
-                    sample-file-3.pdf
-                    </Link>
-                  </td>
-                </tr>                <tr>
-                  <td>11/3/2024 14:00</td>
-                  <td>
-                    <Link href={`/path/to/file/sample-file-2.pdf`}>
-                    sample-file-3.pdf
-                    </Link>
-                  </td>
-                </tr>                <tr>
-                  <td>11/3/2024 14:00</td>
-                  <td>
-                    <Link href={`/path/to/file/sample-file-2.pdf`}>
-                    sample-file-3.pdf
-                    </Link>
-                  </td>
-                </tr>                <tr>
-                  <td>11/3/2024 14:00</td>
-                  <td>
-                    <Link href={`/path/to/file/sample-file-2.pdf`}>
-                    sample-file-3.pdf
-                    </Link>
-                  </td>
-                </tr>                <tr>
-                  <td>11/3/2024 14:00</td>
-                  <td>
-                    <Link href={`/path/to/file/sample-file-2.pdf`}>
-                    sample-file-3.pdf
+                    sample-file-5.pdf
                     </Link>
                   </td>
                 </tr>
+                <tr>
+                  <td>11/3/2024 14:00</td>
+                  <td>
+                    <Link href={`/path/to/file/sample-file-2.pdf`}>
+                    sample-file-6.pdf
+                    </Link>
+                  </td>
+                </tr>
+                <tr>
+                  <td>11/3/2024 14:00</td>
+                  <td>
+                    <Link href={`/path/to/file/sample-file-2.pdf`}>
+                    sample-file-7.pdf
+                    </Link>
+                  </td>
+                </tr>
+                <tr>
+                  <td>11/3/2024 14:00</td>
+                  <td>
+                    <Link href={`/path/to/file/sample-file-2.pdf`}>
+                    sample-file-8.pdf
+                    </Link>
+                  </td>
+                </tr>
+                <tr>
+                  <td>11/3/2024 14:00</td>
+                  <td>
+                    <Link href={`/path/to/file/sample-file-2.pdf`}>
+                    sample-file-9.pdf
+                    </Link>
+                  </td>
+                </tr> */}
               </tbody>
             </table>
-
-            </div>
         </Col>
       </Row>
-    </div>
+      </div>
     </>
   );
 }
