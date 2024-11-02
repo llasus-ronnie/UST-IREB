@@ -13,25 +13,6 @@ import Form from 'react-bootstrap/Form';
 export default function UploadPaymentProofModal(props) {
   const { handleSubmit, setValue, register } = useForm();
 
-  // async function submitPayment(data) {
-  //   console.log("Form data submitted:", data); // Debugging log
-  //   try {
-  //     const response = await axios.post("/api/payment", data, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-      
-  //     if (response.status === 201) {
-  //       console.log("Payment saved successfully:", response.data);
-  //     } else {
-  //       console.error("Error in saving:", response.data);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error in saving:", error.response ? error.response.data : error.message);
-  //   }
-  // }
-
   async function submitPayment(data) {
     console.log("Submit function called with data:", data); // Confirm submitPayment is called
     try {
