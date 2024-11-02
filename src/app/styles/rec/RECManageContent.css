@@ -156,18 +156,21 @@
 }
 
 .mc-table {
-    width: 100%;
     margin: 1.5rem 2rem 2rem 2rem;
     border-collapse: collapse;
     font-family: var(--poppins);
     background-color: var(--quaternary-color);
     border-radius: 0.938rem;
+    width: 100%;
+    display: table;
+    table-layout: fixed;
 }
 
 th, td {
     padding: 0.625rem 0.313rem 0.625rem 1.25rem;
     text-align: left;
     border-bottom: 0.063rem solid #ddd;
+    width: 100%;
 }
 
 th {

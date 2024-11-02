@@ -23,30 +23,40 @@
 .ust-ireb-logo{
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: row;
-
-    gap:0.5rem;
+    width: fit-content;
 }
 
-.ust-logo{
+.ust-ireb-title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.ust-logo {
     width: 2.5rem;
+    margin: 1rem;
 }
 
-.ust-ireb-logo h1:nth-child(2){
+.ust-ireb-logo h1{
     font-size: var(--title-size);
     color: var(--tertiary-color);
     font-weight: 700;
+    margin: 0;
 }
 
-.ust-ireb-logo h1:nth-child(3){
+.ust-ireb-logo span {
     font-size: var(--title-size);
     color: var(--quaternary-color);
 }
 
-.col-1-p{
+.ust-ireb-subtitle{
     position: relative;
     left: 1rem;
-
     padding-right: 11rem;
 }
 
@@ -54,10 +64,10 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    margin-top: 1rem;
+    margin: 1rem 3rem;
 }
 
-.ust-ireb-contacts{
+.ust-ireb-contacts {
     margin-top: 1rem;
 }
 
@@ -69,4 +79,93 @@
 p{
     font-size: var(--paragraph-size);
     color: var(--quaternary-color);
+}
+
+/* Tablet */
+@media only screen and (min-width: 577px) and (max-width: 768px) {
+    .footer {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-items: start;
+    }
+
+    .ust-ireb-logo {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin: 0 auto;
+    }
+
+    .ust-logo {
+        margin: 0;
+    }
+
+    .ust-ireb-logo h1,
+    .ust-ireb-logo span {
+        font-size: var(--heading-1-size);
+    }
+
+    .ust-ireb-subtitle {
+        padding: 0.5rem 0;
+        left: 0;
+        text-align: center;
+    }
+
+    .ust-ireb-address, 
+    .ust-ireb-contacts {
+        margin: 0;
+    }
+
+    p {
+        font-size: 0.75rem;
+    }
+}
+
+
+/* Mobile */
+@media only screen and (max-width: 576px) {
+    .footer {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        text-align: center;
+    }
+
+    .ust-ireb-logo {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin: 0 auto;
+    }
+
+    .ust-logo {
+        margin: 0;
+    }
+
+    .ust-ireb-logo h1,
+    .ust-ireb-logo span {
+        font-size: 1.25rem;
+    }
+
+    .ust-ireb-subtitle {
+        padding: 0.5rem 1.8rem;
+        left: 0;
+        text-align: center;
+    }
+
+    .ust-ireb-address, 
+    .ust-ireb-contacts {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-top: 0.5rem;
+    }
+
+    p {
+        font-size: 0.75rem;
+    }
 }

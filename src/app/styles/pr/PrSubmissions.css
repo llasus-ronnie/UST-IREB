@@ -125,6 +125,20 @@
   background-color: #e9ad07;
 }
 
+
+.pr-table::-webkit-scrollbar {
+  height: 8px; 
+}
+
+.pr-table::-webkit-scrollbar-thumb {
+  background-color: #fcbf15; 
+  border-radius: 4px; 
+}
+
+.pr-table::-webkit-scrollbar-track {
+  background-color: #ddd; 
+}
+
 /* Resubmission Table */
 .resubmission {
   padding: 2rem;
