@@ -39,25 +39,21 @@ function Guidelines() {
 
         <Container>
           <Accordion style={{ paddingTop: "2em" }}>
-            {/* <Accordion.Item eventKey="0">
-              <Accordion.Header className="accheader">
-                What is the UST Research Ethics Online System?
-              </Accordion.Header>
-              <Accordion.Body className="accbody">
-                The UST Research Ethics Online System is a platform that allows
-                researchers to submit their research proposals and have them
-                reviewed by the UST Research Ethics Committee.
-              </Accordion.Body>
-            </Accordion.Item> */}
-
-            {content.map((faq, index) => (
-              <Accordion.Item key={index} eventKey={index + 1}>
-                <Accordion.Header className="accheader">
-                  {faq.heading}
-                </Accordion.Header>
-                <Accordion.Body className="accbody">{faq.body}</Accordion.Body>
-              </Accordion.Item>
-            ))}
+            {content.map((faq, index) => {
+              const formattedHeading = faq.heading
+                .replace(/([A-Z])/g, " $1")
+                .trim();
+              return (
+                <Accordion.Item key={index} eventKey={index + 1}>
+                  <Accordion.Header className="accheader">
+                    {formattedHeading}
+                  </Accordion.Header>
+                  <Accordion.Body className="accbody">
+                    {faq.body}
+                  </Accordion.Body>
+                </Accordion.Item>
+              );
+            })}
           </Accordion>
         </Container>
 

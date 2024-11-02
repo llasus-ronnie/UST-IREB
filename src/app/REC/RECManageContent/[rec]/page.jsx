@@ -83,7 +83,7 @@ function RECManageContent(props) {
               <table className="mc-table">
                 <thead>
                   <tr>
-                    <th>Body</th>
+                    <th>Content</th>
                     <th>Action</th>
                   </tr>
                 </thead>
