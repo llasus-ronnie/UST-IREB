@@ -25,6 +25,8 @@ function SubmissionList() {
 
     fetchData();
   }, []);
+
+
   return (
     <>
       <div className="header">
