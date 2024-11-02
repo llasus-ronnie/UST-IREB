@@ -181,6 +181,20 @@ tr:hover {
     background-color: #f2f2f2;
 }
 
+.mc-table::-webkit-scrollbar {
+    height: 8px; 
+  }
+
+  .mc-table::-webkit-scrollbar-thumb {
+    background-color: #fcbf15; 
+    border-radius: 4px; 
+  }
+
+  .mc-table::-webkit-scrollbar-track {
+    background-color: #ddd; 
+  }
+
+
 /* Action Column */
 .mc-table td .edit-icon, 
 .mc-table td .archive-icon {
@@ -216,7 +230,7 @@ tr:hover {
 
 /* Laptops & Desktops */
 @media only screen and (min-width: 769px) and (max-width: 1200px) {
-    .recnav-mobile {
+    .adminnav-mobile {
         display: none;
     }
 
@@ -227,7 +241,7 @@ tr:hover {
 
     /* Larger Screens */
     @media only screen and (min-width: 1201px) {
-    .recnav-mobile {
+    .adminnav-mobile {
         display: none;
     }
 
@@ -239,8 +253,12 @@ tr:hover {
   /* Mobile */
   @media only screen and (max-width: 576px) {
 
+    .irebnav {
+        display: none;
+    }
+
     .recnav {
-      display: none;
+        display: none;
     }
 
     /* Mobile General Page Container */
@@ -328,9 +346,9 @@ tr:hover {
 
     /* Tablet */
     @media only screen and (min-width: 577px) and (max-width: 768px) {
-        .recnav-mobile {
+    .adminnav-mobile {
         display: none;
-        }
+    }
         
     .rec-header-container-mobile {
         display: none;

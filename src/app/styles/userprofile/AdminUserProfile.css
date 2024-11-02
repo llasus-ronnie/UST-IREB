@@ -151,7 +151,7 @@
   .profile-cardright {
     background-color: var(--quaternary-color);
     border-radius: 0 0 10px 10px;
-    margin: 2rem 2rem 0 0;
+    padding: 2rem 2rem 0 0;
     width: 100%;
     justify-content: center;
     align-items: left;
@@ -181,6 +181,9 @@
     max-width: 70%;
     flex: 1;
     text-align: left;
+    word-break: break-word;
+    margin-right: 1rem;
+    margin-bottom: 0.4rem;
   }
   
   .profile-cardright-labels p,
@@ -202,11 +205,15 @@
     color: var(--quaternary-color);
     border: none;
     border-radius: 10px;
-    padding: 0.6rem 10rem;
+    padding: 0.6rem 3rem;
+    width: 100%;
     margin-bottom: 4rem;
     cursor: pointer;
     font-size: var(--paragraph-size);
     font-weight: bold;
+    text-align: center;
+    display: flex;
+    justify-content: center;
   }
 
   .return-dashboard button:hover {
@@ -256,7 +263,15 @@
       box-sizing: border-box;
   }
 
-  .adminnav {
+  .irebnav {
+      display: none;
+  }
+
+  .recnav {
+      display: none;
+  }
+
+  .prnav {
       display: none;
   }
 
@@ -271,9 +286,9 @@
 
   /* Mobile Admin User Profile */
   .admin-userprofile {
-      margin-left: 0;
-      padding: 1rem;
+      margin: 1rem;
       height: auto;
+      width: 100%;
   }
 
   /* Mobile Main Content Div for Admin User Profile */
@@ -285,13 +300,13 @@
   }
 
   .admin-header-container {
-      display: none;
+    display: none;
   }
 
   .admin-header-container-mobile {
-      align-items: flex-start;
-      margin: 0;
-      padding: 0;
+    align-items: left;
+    margin: 0;
+    padding: 0;
   }
 
   .userloggedin-mobile {
@@ -303,18 +318,58 @@
       flex-direction: column;
       width: 100%;
       margin: 0;
+      margin-top: 1rem;
   }
 
   .profile-left,
   .profile-right {
       width: 100%;
-      margin: 0;
+      max-width: fit-content;
   }
 
   .profile-cardleft,
   .profile-cardright {
       width: 90%;
       margin: 0 auto;
+      word-break: break-word;
+      padding: 1rem 0;
+  }
+
+  .profile-cardright-body {
+    padding: 0;
+  }
+
+  .profile-cardright-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0.5rem 0;
+    width: 100%;
+  }
+
+  .profile-cardright-labels {
+    max-width: 100%;
+    color: gray;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+  }
+
+  .profile-cardright-content {
+    max-width: 80%;
+    flex: 1;
+    text-align: center;
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+
+  .return-dashboard {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    align-items: center;
+    padding: 0.6rem 1rem;
   }
 }
 
@@ -364,7 +419,8 @@
   .profile-container {
       flex-direction: row;
       width: 100%;
-      margin: 0;
+      margin: 2rem 0;
+      max-width: 100%;
   }
 
   .profile-left,
@@ -373,10 +429,16 @@
       margin: 0;
   }
 
+  .profile-left {
+      margin-right: 1rem;
+  }
+
   .profile-cardleft,
   .profile-cardright {
       width: 95%;
-      margin: 0 auto;
+      margin: 0;
+      padding: 0;
+      text-align: center;
   }
 }
 }

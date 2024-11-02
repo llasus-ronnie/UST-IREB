@@ -99,7 +99,7 @@ function IREBManageContent(props) {
 
   return (
     <div className="adminpage-container">
-      <div className="recnav-mobile">
+      <div className="adminnav-mobile">
         <IrebNavMobile />
       </div>
       <IrebNav />

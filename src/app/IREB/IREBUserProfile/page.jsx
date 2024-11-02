@@ -71,6 +71,10 @@ function IREBUserProfile() {
             <div className="userloggedin-mobile">
               <UserLoggedIn />
             </div>
+            <div className="admin-header">
+              <h1>IREB User Profile</h1>
+              <p>View Admin Account Information</p>
+            </div>
           </div>
 
           <Row className="profile-container profile-maincard">
