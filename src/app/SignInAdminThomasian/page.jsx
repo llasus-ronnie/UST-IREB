@@ -29,22 +29,26 @@ export default function SignIn() {
         const { role, email } = session.user;
 
         try {
-          // Fetch REC data by email to determine the REC dashboard route
+          // Fetch REC member data by email
           const response = await axios.get(`/api/RECMembers?email=${email}`);
-          const recData = response.data.data;
+          const recMemberData = response.data.data;
+
+          console.log("REC Member Data:", recMemberData);
 
           if (role === "IREB") {
             router.push("/IREB/IREBDashboard");
           } else if (role === "PrimaryReviewer") {
             router.push("/PrimaryReviewer/PRDashboard");
-          } else if (role === "REC" && recData) {
+          } else if (role === "REC" && recMemberData.length > 0) {
             // Route to the specific REC dashboard based on fetched data
-            router.push(`/REC/RECdashboard/${recData.rec}`);
+            const recName = recMemberData[0].rec.replace(/\s+/g, "");
+            console.log("Redirecting to REC Dashboard:", recName);
+            router.push(`/REC/RECdashboard/${recName}`);
           } else {
             router.push("../Unauthorized");
           }
         } catch (error) {
-          console.error("Error fetching REC data:", error);
+          console.error("Error fetching REC member data:", error);
           router.push("../Unauthorized");
         } finally {
           setIsLoading(false);
@@ -53,7 +57,7 @@ export default function SignIn() {
     };
 
     routeUserByRole();
-  }, [session, status, router]);
+  }, [status, session, router]);
 
   const handleRecaptchaChange = (value) => {
     setIsRecaptchaVerified(!!value);
