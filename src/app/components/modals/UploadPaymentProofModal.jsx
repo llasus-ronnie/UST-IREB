@@ -34,15 +34,25 @@ export default function UploadPaymentProofModal(props) {
 
   async function submitPayment(data) {
     console.log("Submit function called with data:", data); // Confirm submitPayment is called
-    // Temporarily remove axios for debugging:
-    alert(`Form submitted with data: ${JSON.stringify(data)}`);
+    try {
+      const response = await axios.post("/api/payment", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status === 201) {
+        console.log("Payment saved successfully:", response.data);
+      } else {
+        console.error("Error in saving:", response.data);
+      }
+    } catch (error) {
+      console.error("Error in saving:", error.response ? error.response.data : error.message);
+    }
   }
 
   return (
-    <Form onSubmit={handleSubmit((data) => {
-      console.log("Form submitted with data:", data); // Check data immediately before calling submitPayment
-      submitPayment(data);
-    })}>
+    <Form>
       <Modal
         {...props}
         size="lg"
@@ -88,7 +98,10 @@ export default function UploadPaymentProofModal(props) {
         </Modal.Body>
         <Modal.Footer className="uploadproof-modal-footer">
           <Button onClick={props.onHide} className="btn cancel">Cancel</Button>
-          <Button type="submit" className="btn uploadproof"onClick={() => console.log("Submit button clicked")}>Submit</Button>
+          <Button type="submit" className="btn uploadproof" onClick={handleSubmit((data) => {
+      console.log("Form submitted with data:", data); // Check data immediately before calling submitPayment
+      submitPayment(data);
+    })}>Submit</Button>
         </Modal.Footer>
       </Modal>
     </Form>
