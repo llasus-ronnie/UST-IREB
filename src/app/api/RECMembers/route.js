@@ -40,12 +40,17 @@ export async function GET(req) {
 
   const { searchParams } = new URL(req.url);
   const email = searchParams.get("email");
+  const recName = searchParams.get("rec");
+
+  // Build filter object based on query parameters
+  const filter = {};
+  if (email) filter.email = email;
+  if (recName) filter.rec = recName;
 
   try {
-    const filter = email ? { email } : {};
-    const recmembers = await RECMembers.find(filter);
+    const recMembers = await RECMembers.find(filter);
     return NextResponse.json(
-      { success: true, data: recmembers },
+      { success: true, data: recMembers },
       { status: 200 }
     );
   } catch (error) {

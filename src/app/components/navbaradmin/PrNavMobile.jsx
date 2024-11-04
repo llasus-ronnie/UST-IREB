@@ -50,7 +50,7 @@ const PrNavMobile = (props) => {
             <li
               className={`${isActive === "profile" ? "active-linkline" : ""}`}
             >
-              <a href="../PrimaryReviewer/PRUserProfile" passHref>
+              <a href="/PrimaryReviewer/PRUserProfile">
                 <div>
                   <svg
                     fill="#a58324"
@@ -69,7 +69,7 @@ const PrNavMobile = (props) => {
             </li>
 
             <li className={`${isActive === "home" ? "active-linkline" : ""}`}>
-              <a href="../PrimaryReviewer/PRDashboard" passHref>
+              <a href="/PrimaryReviewer/PRDashboard">
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +93,7 @@ const PrNavMobile = (props) => {
                 isActive === "submissions" ? "active-linkline" : ""
               }`}
             >
-              <a href="../PrimaryReviewer/PRSubmissions" passHref>
+              <a href="/PrimaryReviewer/PRSubmissions">
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

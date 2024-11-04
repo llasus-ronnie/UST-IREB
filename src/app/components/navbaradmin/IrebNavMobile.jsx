@@ -82,7 +82,7 @@ const IrebNavMobile = (props) => {
             <li
               className={`${isActive === "profile" ? "active-linkline" : ""}`}
             >
-              <a href="../IREB/IREBUserProfile">
+              <a href="/IREB/IREBUserProfile">
                 <div>
                   <svg
                     fill="#a58324"
@@ -100,7 +100,7 @@ const IrebNavMobile = (props) => {
               </a>
             </li>
             <li className={`${isActive === "home" ? "active-linkline" : ""}`}>
-              <a href="../IREB/IREBDashboard">
+              <a href="/IREB/IREBDashboard">
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +147,7 @@ const IrebNavMobile = (props) => {
             <li
               className={`${isActive === "content" ? "active-linkline" : ""}`}
             >
-              <a href="../IREB/IREBManageContent">
+              <a href="/IREB/IREBManageContent">
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -173,7 +173,7 @@ const IrebNavMobile = (props) => {
             <li
               className={`${isActive === "reports" ? "active-linkline" : ""}`}
             >
-              <a href="../IREB/IREBReports">
+              <a href="/IREB/IREBReports">
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -246,10 +246,10 @@ const IrebNavMobile = (props) => {
           onTouchEnd={handleDragEnd}
         >
           <div className="grab-handle"></div>
-          <a href="../IREB/IREBManageREC">
+          <a href="/IREB/IREBManageREC">
             <p>Manage REC Accounts</p>
           </a>
-          <a href="../IREB/IREBManageExternal">
+          <a href="/IREB/IREBManageExternal">
             <p>Manage External Accounts</p>
           </a>
         </div>

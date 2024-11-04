@@ -43,7 +43,7 @@ function PrSubmissions() {
               <UserLoggedIn />
             </div>
             <div className="pr-header">
-              <h1>Primary Reviewer Dashboard</h1>
+              <h1>Primary Reviewer Submissions</h1>
               <p>Manage Assigned Tasks, Resubmissions, and Revisions.</p>
             </div>
           </div>

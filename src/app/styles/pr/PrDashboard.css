@@ -209,8 +209,8 @@
 
 /* Responsiveness */
 
-/* Laptops & Desktops */
-@media only screen and (min-width: 769px) and (max-width: 1200px) {
+/* Larger Screens */
+@media only screen and (min-width: 1201px) {
   .prnav-mobile {
     display: none;
   }
@@ -220,14 +220,36 @@
   }
 }
 
-/* Larger Screens */
-@media only screen and (min-width: 1201px) {
+/* Laptops & Desktops */
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
   .prnav-mobile {
     display: none;
   }
 
   .pr-header-container-mobile {
     display: none;
+  }
+
+  .admindashboard-cards {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2rem 0;
+  }
+
+  .admindashboard-card {
+    width: 20%;
+    margin: 0.5rem;
+    padding: 1.5rem;
+    min-width: 12rem;
+  }
+
+  .needs-attention {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    height: 100%;
   }
 }
 
@@ -255,7 +277,6 @@
   
     .admindashboard-card {
       margin: 0.625rem;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       padding: 1.563rem;
     }
 
