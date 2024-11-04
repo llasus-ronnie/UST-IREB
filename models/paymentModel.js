@@ -4,9 +4,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const paymentSchema = new Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+    userEmail: {
+        type: String,
+        required: true,
+    },
+    formId: {
+        type: String,
         required: true,
     },
     paymentFile: {

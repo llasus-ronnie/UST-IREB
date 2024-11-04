@@ -217,7 +217,60 @@
     .recnav-mobile {
         display: none;
     }
-}
+
+        /* Stack columns */
+        .twocol-container {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            width: 100%;
+        }
+    
+        /* Center chart container and cards */
+        .rec-chart-container
+        {
+            width: 90%;
+            max-width: 100%;
+            margin: 0 auto; 
+        }
+
+        .rec-report-cards,
+        .recreport-card {
+            width: 95%;
+            max-width: 100%;
+            margin: 0 auto; 
+        }
+    
+        /* Adjust padding and layout for main content */
+        .recreports-content {
+            padding: 1rem;
+            margin: 1rem auto;
+            max-width: 100%;
+        }
+    
+        /* Set download button to full width for better alignment */
+        .download-btn {
+            width: 90%;
+            text-align: center;
+            margin: 0 auto;
+        }
+    
+        /* Header adjustments */
+        .rec-header h1 {
+            font-size: var(--heading-1-size);
+        }
+    
+        .rec-header p {
+            font-size: 0.9rem;
+        }
+    
+        /* Adjust REC Status Table */
+        .rec-container {
+            width: 90%;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+    }
 
 /* Laptops & Desktops */
 @media only screen and (min-width: 769px) and (max-width: 1200px) {
@@ -246,7 +299,7 @@
         height: auto;
         margin: 0;
         padding: 0;
-        height: 100%;
+        width: 100%;
         overflow-x: hidden;
     }
 
@@ -255,6 +308,7 @@
         margin-left: 0;
         padding: 1rem;
         height: auto;
+        width: 100%;
     }
     
     /* Main Content Div for REC Dashboard */
@@ -263,4 +317,93 @@
         margin: 1rem auto;
         max-width: 100%;
     }
+
+    /* Stacking Containers for Column Layout */
+    .twocol-container {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        width: 100%;
+    }
+
+    .rec-chart-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto; 
+        margin-left: -20%;
+    } 
+
+    .rec-report-cards, 
+    .recreport-card {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto; 
+        margin-left: -10%;
+    }
+
+    .rec-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto; 
+        margin-left: -20%;
+    }
+
+    .rec-chart-container, 
+    .recreport-card {
+        height: auto;
+    }
+
+    .download-btn {
+        width: 100%; 
+        text-align: center;
+        margin: 0 auto;
+        margin-left: -23%;
+    }
+
+    .rec-header-container {
+        margin-left: -30%;
+    }
+
+    .rec-header h1 {
+        font-size: var(--heading-1-size);
+    }
+
+    .rec-header p {
+        font-size: 0.8rem;
+    }
+
+    .uli-container {
+        width: 90%;
+
+    }
+
+    /* Mobile Navigation */
+
+.mobile-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--quaternary-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+.mobile-nav-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.mobile-nav-icon img {
+    width: 24px;
+    height: auto;
+}
+
+.mobile-nav-icon span {
+    font-size: var(--paragraph-size);
+}
+}
+
+

@@ -12,6 +12,7 @@ import UploadPaymentProofModal from "../../../components/modals/UploadPaymentPro
 import ResubmissionModal from "../../../components/modals/ResubmissionModal.jsx";
 
 import withAuthorization from "../../../../hoc/withAuthorization";
+import { useSession, getSession } from "next-auth/react";
 
 function SubmissionStatus({ params }) {
   const [loading, setLoading] = useState(false);
@@ -99,8 +100,10 @@ function SubmissionStatus({ params }) {
   useEffect(() => {
     setIsClient(true);
   }, []);
-  
-  
+
+  const { data: session } = useSession();
+  const userId = session.user.id;
+
   if (loading) {
     return (
       <div className="center-spinner">
@@ -233,10 +236,12 @@ function SubmissionStatus({ params }) {
               </Col>
             </Row>
 
-            <UploadPaymentProofModal
-              show={modalShow}
-              onHide={handleCloseModal}
-            />
+              <UploadPaymentProofModal
+                show={modalShow}
+                onHide={handleCloseModal}
+                submissionparams={unwrappedParams}
+                />
+
             <ResubmissionModal
               show={resubmissionModalShow}
               onHide={handleCloseSubmissionModal}

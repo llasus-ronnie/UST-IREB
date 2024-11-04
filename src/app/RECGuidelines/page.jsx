@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
-import "../styles/faqs/faqs.css";
+import "../styles/subreqs/faqs.css";
 import { Container, Row, Accordion } from "react-bootstrap";
 
 function Guidelines() {
