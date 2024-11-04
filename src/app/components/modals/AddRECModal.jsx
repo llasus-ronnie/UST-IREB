@@ -40,7 +40,7 @@ export default function AddRECModal(props) {
 
   const handleAddAccount = async () => {
     if (!isEmailValid) {
-      alert("Please enter a valid email.");
+      toast.error("Please enter a valid email.");
       return;
     }
 
@@ -216,6 +216,16 @@ export default function AddRECModal(props) {
               <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
                 onSuccess={(res) => {
+                  // Check if the uploaded file is an image format
+                  const acceptedFormats = ["jpg", "jpeg", "png", "gif"];
+                  if (!acceptedFormats.includes(res.info.format)) {
+                    toast.error(
+                      "Please upload an image file (JPG, JPEG, PNG, or GIF)."
+                    );
+                    return;
+                  }
+
+                  // Set logo URL if the file is an accepted image format
                   setLogo(res.info.secure_url);
                 }}
               >
