@@ -69,7 +69,7 @@ const IrebNav = (props) => {
               }`}
             >
               <a
-                href="../IREB/IREBUserProfile"
+                href="/IREB/IREBUserProfile"
                 onClick={() => isActive("profile")}
               >
                 <div>
@@ -94,7 +94,7 @@ const IrebNav = (props) => {
                 isActive === "home" ? "active-linkline" : ""
               }`}
             >
-              <a href="../IREB/IREBDashboard" onClick={() => isActive("home")}>
+              <a href="/IREB/IREBDashboard" onClick={() => isActive("home")}>
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -186,7 +186,7 @@ const IrebNav = (props) => {
               }`}
             >
               <a
-                href="../IREB/IREBManageContent"
+                href="/IREB/IREBManageContent"
                 onClick={() => isActive("content")}
               >
                 <div>
@@ -216,7 +216,7 @@ const IrebNav = (props) => {
                 isActive === "reports" ? "active-linkline" : ""
               }`}
             >
-              <a href="../IREB/IREBReports" onClick={() => isActive("reports")}>
+              <a href="/IREB/IREBReports" onClick={() => isActive("reports")}>
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

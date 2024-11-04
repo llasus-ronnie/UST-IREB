@@ -43,7 +43,7 @@ const PrNav = (props) => {
               }`}
             >
               <a
-                href="../PrimaryReviewer/PRUserProfile"
+                href="/PrimaryReviewer/PRUserProfile"
                 passHref
                 onClick={() => isActive("profile")}
               >
@@ -70,7 +70,7 @@ const PrNav = (props) => {
               }`}
             >
               <a
-                href="../PrimaryReviewer/PRDashboard"
+                href="/PrimaryReviewer/PRDashboard"
                 passHref
                 onClick={() => isActive("home")}
               >
@@ -98,7 +98,7 @@ const PrNav = (props) => {
               }`}
             >
               <a
-                href="../PrimaryReviewer/PRSubmissions"
+                href="/PrimaryReviewer/PRSubmissions"
                 passHref
                 onClick={() => isActive("submissions")}
               >
