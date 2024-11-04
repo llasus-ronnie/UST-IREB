@@ -22,6 +22,7 @@ import { CldUploadWidget } from "next-cloudinary";
 import "../../styles/forms/Forms.css";
 
 import ConfirmSubmissionModal from "../../components/modals/ConfirmSubmissionModal";
+import { toast } from "react-toastify";
 
 function SubmissionFormP3() {
   const [validated, setValidated] = useState(false);
@@ -126,9 +127,17 @@ function SubmissionFormP3() {
               <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
                 onSuccess={(res) => {
-                  console.log(res); // This will log the entire response
+                  // Check if the uploaded file is a PDF
+                  if (res.info.format !== "pdf") {
+                    toast.error(
+                      "Only PDF files are allowed. Please upload a PDF."
+                    );
+                    return;
+                  }
+
+                  // If it's a PDF, save the file URL
                   console.log(res.info.secure_url);
-                  setValue("mainFileLink", res.info.secure_url); // This will log the public ID of the uploaded file
+                  setValue("mainFileLink", res.info.secure_url);
                 }}
               >
                 {({ open }) => {
@@ -184,9 +193,17 @@ function SubmissionFormP3() {
               <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
                 onSuccess={(res) => {
-                  console.log(res); // This will log the entire response
+                  // Check if the uploaded file is a PDF
+                  if (res.info.format !== "pdf") {
+                    toast.error(
+                      "Only PDF files are allowed. Please upload a PDF."
+                    );
+                    return;
+                  }
+
+                  // If it's a PDF, save the file URL
                   console.log(res.info.secure_url);
-                  setValue("supplementaryFileLink", res.info.secure_url); // This will log the public ID of the uploaded file
+                  setValue("mainFileLink", res.info.secure_url);
                 }}
               >
                 {({ open }) => {

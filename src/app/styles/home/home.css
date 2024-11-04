@@ -128,7 +128,14 @@
     }
 
     .section-1-content h1{
-        font-size: 4em;
+        font-size: 2rem;
+        width: 20rem;
+    }
+
+    .section-1-content p {
+        text-align: center;
+        width: 20rem;
+        margin: 0 auto;
     }
 
     .section-1-content{

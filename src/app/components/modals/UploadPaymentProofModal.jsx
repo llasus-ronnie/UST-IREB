@@ -1,47 +1,49 @@
 "use client";
 
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { CldUploadWidget } from 'next-cloudinary';
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { CldUploadWidget } from "next-cloudinary";
 import "../../styles/modals/UploadPaymentProofModal.css";
-import CancelConfirmationModal from "../../components/modals/CancelConfirmationModal.jsx";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import Form from 'react-bootstrap/Form';
-import { useEffect, useState } from "react";
+import Form from "react-bootstrap/Form";
 import { useSession } from "next-auth/react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function UploadPaymentProofModal({ submissionparams, ...props }) {
+export default function UploadPaymentProofModal({
+  submissionparams,
+  ...props
+}) {
   const { register, handleSubmit, setValue } = useForm();
   const { data: session } = useSession();
-  console.log("Session data:", session); // Log session data to check its structure  const { handleSubmit, setValue, register } = useForm();
-  console.log("submissionparams:", submissionparams); // Check if submissionparams is defined
+  const [form, setForm] = useState(null);
 
   async function submitPayment(data) {
     try {
       const response = await axios.post("/api/payment", data, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
       if (response.status === 201) {
-        console.log("Payment saved successfully:", response.data);
+        toast.success("Payment saved successfully!");
       }
     } catch (error) {
-      console.error("Error in saving:", error.response ? error.response.data : error.message);
+      toast.error("Error saving payment. Please try again.");
+      console.error(
+        "Error in saving:",
+        error.response ? error.response.data : error.message
+      );
     }
   }
-  const [form, setForm] = useState(null); // Initialize form state
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(`/api/forms/${submissionparams.id}`);
-        console.log(`Modal rendered on URL ID: ${submissionparams.id}`); // Log to verify
         setForm(response.data.submission);
         setValue("formId", response.data.submission._id);
         setValue("userEmail", session.user.email);
@@ -51,7 +53,6 @@ export default function UploadPaymentProofModal({ submissionparams, ...props }) 
     }
     fetchData();
   }, [submissionparams, session]);
-
 
   return (
     <Form>
@@ -63,11 +64,15 @@ export default function UploadPaymentProofModal({ submissionparams, ...props }) 
         className="uploadproof-modal-overlay"
       >
         <Modal.Header className="uploadproof-modal-header">
-          <Modal.Title id="contained-modal-title-vcenter" className="uploadproof-modal-title">
+          <Modal.Title
+            id="contained-modal-title-vcenter"
+            className="uploadproof-modal-title"
+          >
             Upload Proof of Payment
           </Modal.Title>
           <p className="uploadproof-instructions">
-            Kindly upload receipt or proof of transaction in JPEG or PNG format. File should not exceed 10MB.
+            Kindly upload receipt or proof of transaction in JPEG or PNG format.
+            File should not exceed 10MB.
           </p>
         </Modal.Header>
         <Modal.Body className="uploadproof-modal-body">
@@ -75,9 +80,18 @@ export default function UploadPaymentProofModal({ submissionparams, ...props }) 
             <CldUploadWidget
               signatureEndpoint="/api/sign-cloudinary-params"
               onSuccess={(res) => {
-                const secureUrl = res.info.secure_url;
-                console.log("File uploaded to:", secureUrl);
-                setValue("paymentFile", secureUrl); // Register and set the file URL in the form
+                const fileType = res.info.format;
+                if (
+                  fileType === "jpg" ||
+                  fileType === "jpeg" ||
+                  fileType === "png"
+                ) {
+                  const secureUrl = res.info.secure_url;
+                  setValue("paymentFile", secureUrl);
+                  toast.success("File uploaded successfully!");
+                } else {
+                  toast.error("Please upload a JPEG or PNG image.");
+                }
               }}
             >
               {({ open }) => (
@@ -86,7 +100,14 @@ export default function UploadPaymentProofModal({ submissionparams, ...props }) 
                   onClick={open}
                   className="form-control PIforms-formtext PIforms-file upload-proof-area"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#369AD2" className="bi bi-upload" viewBox="0 0 16 16">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="#369AD2"
+                    className="bi bi-upload"
+                    viewBox="0 0 16 16"
+                  >
                     <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
                     <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
                   </svg>
@@ -94,17 +115,28 @@ export default function UploadPaymentProofModal({ submissionparams, ...props }) 
                 </button>
               )}
             </CldUploadWidget>
-            {/* Hidden field to capture the uploaded file URL */}
-            <input type="hidden" {...register("paymentFile", { required: true })} />
+            <input
+              type="hidden"
+              {...register("paymentFile", { required: true })}
+            />
           </div>
         </Modal.Body>
         <Modal.Footer className="uploadproof-modal-footer">
-          <Button onClick={props.onHide} className="btn cancel">Cancel</Button>
-          <Button type="submit" className="btn uploadproof" onClick={handleSubmit((data) => {
-            submitPayment(data);
-          })}>Submit</Button>
+          <Button onClick={props.onHide} className="btn cancel">
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="btn uploadproof"
+            onClick={handleSubmit((data) => {
+              submitPayment(data);
+            })}
+          >
+            Submit
+          </Button>
         </Modal.Footer>
       </Modal>
+      <ToastContainer position="bottom-right" />
     </Form>
   );
 }
