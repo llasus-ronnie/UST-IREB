@@ -21,9 +21,11 @@ export default function UploadPaymentProofModal({ submissionparams, ...props }) 
   async function submitPayment(data) {
     try {
       const response = await axios.post("/api/payment", data, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify(data),
       });
 
       if (response.status === 201) {
@@ -99,7 +101,6 @@ export default function UploadPaymentProofModal({ submissionparams, ...props }) 
         <Modal.Footer className="uploadproof-modal-footer">
           <Button onClick={props.onHide} className="btn cancel">Cancel</Button>
           <Button type="submit" className="btn uploadproof" onClick={handleSubmit((data) => {
-            console.log("Form submitted with data:", data); // This should log userId and formId
             submitPayment(data);
           })}>Submit</Button>
         </Modal.Footer>
