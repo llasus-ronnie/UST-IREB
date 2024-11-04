@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     });
 
     let mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: `"UST IREB Research Portal" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Your Access Token for UST IREB Research Portal",
       html: `
@@ -102,7 +102,7 @@ export default async function handler(req, res) {
                   <table class="container" width="500" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                       <td class="header" style="text-align: center;">
-                        <img src="public/images/unauthorized/email-header.png" alt="Header Image" />
+                        <img src="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1730726678/email-header.png" alt="Header Image" />
                       </td>
                     </tr>
                     <tr>
