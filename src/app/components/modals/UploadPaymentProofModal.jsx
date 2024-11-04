@@ -9,12 +9,16 @@ import React from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import Form from 'react-bootstrap/Form';
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
-export default function UploadPaymentProofModal(props) {
-  const { handleSubmit, setValue, register } = useForm();
+export default function UploadPaymentProofModal({ submissionparams, ...props }) {
+  const { register, handleSubmit, setValue } = useForm();
+  const { data: session } = useSession();
+  console.log("Session data:", session); // Log session data to check its structure  const { handleSubmit, setValue, register } = useForm();
+  console.log("submissionparams:", submissionparams); // Check if submissionparams is defined
 
   async function submitPayment(data) {
-    console.log("Submit function called with data:", data); // Confirm submitPayment is called
     try {
       const response = await axios.post("/api/payment", data, {
         headers: {
@@ -24,13 +28,28 @@ export default function UploadPaymentProofModal(props) {
 
       if (response.status === 201) {
         console.log("Payment saved successfully:", response.data);
-      } else {
-        console.error("Error in saving:", response.data);
       }
     } catch (error) {
       console.error("Error in saving:", error.response ? error.response.data : error.message);
     }
   }
+  const [form, setForm] = useState(null); // Initialize form state
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(`/api/forms/${submissionparams.id}`);
+        console.log(`Modal rendered on URL ID: ${submissionparams.id}`); // Log to verify
+        setForm(response.data.submission);
+        setValue("formId", response.data.submission._id);
+        setValue("userEmail", session.user.email);
+      } catch (error) {
+        console.error("Failed to fetch form details:", error);
+      }
+    }
+    fetchData();
+  }, [submissionparams, session]);
+
 
   return (
     <Form>
@@ -66,8 +85,8 @@ export default function UploadPaymentProofModal(props) {
                   className="form-control PIforms-formtext PIforms-file upload-proof-area"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#369AD2" className="bi bi-upload" viewBox="0 0 16 16">
-                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
-                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
                   </svg>
                   <p className="upload-proof-img">Upload File</p>
                 </button>
@@ -80,9 +99,9 @@ export default function UploadPaymentProofModal(props) {
         <Modal.Footer className="uploadproof-modal-footer">
           <Button onClick={props.onHide} className="btn cancel">Cancel</Button>
           <Button type="submit" className="btn uploadproof" onClick={handleSubmit((data) => {
-      console.log("Form submitted with data:", data); // Check data immediately before calling submitPayment
-      submitPayment(data);
-    })}>Submit</Button>
+            console.log("Form submitted with data:", data); // This should log userId and formId
+            submitPayment(data);
+          })}>Submit</Button>
         </Modal.Footer>
       </Modal>
     </Form>
