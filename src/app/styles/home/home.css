@@ -25,7 +25,7 @@
     overflow-x: hidden;
 }
 
-/* section 1 */
+/************** Section 1 **************/
 .section-1{
     background-image: url('/images/home/section-1-bg.png');
     background-size: cover;
@@ -117,14 +117,14 @@
 
 
 /* section 1 mobile view */
-@media screen and (max-width: 768px) {
+@media only screen and (max-width: 576px) {
     .section-1{
         display: flex;
         align-items: center; 
         justify-content: center;
         text-align: center;
         font-size: 0.6em;
-        padding: 1rem;
+        padding: 2rem;
     }
 
     .section-1-content h1{
@@ -132,10 +132,8 @@
     }
 
     .section-1-content{
-        left:0;
         position: relative;
-
-        top: 1rem;
+        margin: 1rem 2rem !important;
     }
 
     .buttons{
@@ -145,15 +143,37 @@
     }
 }
 
-/* section 2 tablet view */
+/* section 1 tablet view */
 @media screen and (max-width: 912px) {
     .section-1-content{
+        top: 10%;
         left:0;
         position: relative;
         bottom: 15rem;
         padding: 5rem;
     }
+
+    .section-1-content p{
+        text-align: center;
+    }
+
+    .section-1{
+        background-position: 82%;
+    }
 }
+
+/* Laptops & Desktops */
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
+    .section-1-content{
+        left: 6rem;
+    }
+
+    .section-1{
+    background-position: 75%;
+    }
+
+}
+
 
 /* yellow bar */
 .yellow-bar{
@@ -163,7 +183,8 @@
     border-radius: 10px;
 }
 
-/* section 2 */
+
+/************** Section 2 **************/
 .section-2{
     width: 100%;
     height: 100%;
@@ -194,15 +215,11 @@
 /* section 2 small tablet view */
 @media screen and (max-width: 912px) {
     .section-2-content{
-        display: grid;
-        justify-content: center;
-        align-items: center;
-        gap: 1.7em;
-        padding: 7em;
+        gap: 1em;
     }
 }
 
-/* section 3 */
+/************** Section 3 **************/
 .section-3 {
     width: 100%;
     height: 100%;
@@ -239,16 +256,15 @@
 @media screen and (max-width: 912px) {
     .section-3{
         gap: 1em;
-        padding: 1em;
     }   
 }
 
-/* section 4 */
+/************** Section 4 **************/
 .section-4 {
     color: var(--primary-color);  
     padding: 8rem;
     display: flex;
-    flex-direction: column; /* Added to center content horizontally */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -266,7 +282,7 @@
 .section-4-flowchart {
     width: 80%;
     height: auto;
-    display: flex; /* Added to center the flowchart horizontally */
+    display: flex;
     justify-content: center;
 }
 

@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import Carousel from 'react-bootstrap/Carousel';
 import Image from 'next/image';
 
-import img1 from '../../../../public/images/carousel/carousel1.png';
-import img2 from '../../../../public/images/carousel/carousel2.jpg';
-import img3 from '../../../../public/images/carousel/carousel3.jpg';
+import img1 from '../../../../public/images/carousel/carousel-1.png';
+import img2 from '../../../../public/images/carousel/carousel-2.png';
+import img3 from '../../../../public/images/carousel/carousel-3.png';
 
 import '../../styles/carousel/slider.css';
 
@@ -25,51 +26,50 @@ const images = [
     }
 ];
 
-function DarkVariantExample() {
-    const [currentIndex, setCurrentIndex] = useState(0);
+function Slider() {
+    const [index, setIndex] = useState(0);
+
+    const handleSelect = (selectedIndex) => {
+        setIndex(selectedIndex);
+    };
 
     const nextSlide = () => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+        setIndex((prevIndex) => (prevIndex + 1) % images.length);
     };
 
     const prevSlide = () => {
-        setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+        setIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
     };
 
     return (
-        <div className="carousel">
-            <div className="carousel-inner">
-                <Image
-                    className="d-block w-100"
-                    src={images[currentIndex].src}
-                    alt={`${images[currentIndex].title} slide`}
-                />
-                <div className='carousel-text-align'>
-                    <h3>{images[currentIndex].title}</h3>
-                    <p>{images[currentIndex].description}</p>
-                </div>
-            </div>
-            <div className="carousel-indicators">
-                {images.map((_, index) => (
-                    <button
-                        key={index}
-                        className={`indicator ${currentIndex === index ? 'active' : ''}`}
-                        onClick={() => setCurrentIndex(index)}
-                    />
+        <div className="carousel-container">
+            <Carousel activeIndex={index} onSelect={handleSelect} controls={false} className="carousel">
+                {images.map((image, i) => (
+                    <Carousel.Item key={i}>
+                        <Image
+                            className="d-block w-100"
+                            src={image.src}
+                            alt={`${image.title} slide`}
+                        />
+                        <Carousel.Caption className="carousel-text-align">
+                            <h3>{image.title}</h3>
+                            <p>{image.description}</p>
+                        </Carousel.Caption>
+                    </Carousel.Item>
                 ))}
-            </div>
+            </Carousel>
             <button className="carousel-control-prev" onClick={prevSlide}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-left" viewBox="0 0 16 16">
-                    <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                    <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
                 </svg>
             </button>
             <button className="carousel-control-next" onClick={nextSlide}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-right" viewBox="0 0 16 16">
-                    <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                    <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
                 </svg>
             </button>
         </div>
     );
 }
 
-export default DarkVariantExample;
+export default Slider;
