@@ -188,71 +188,207 @@
 /* Tablet */
 @media only screen and (min-width: 577px) and (max-width: 768px) {
 
-    .irebnav-mobile{
+    .irebnav-mobile {
         display: none;
     }
 
+    /* General Page Container */
     .adminpage-container {
-        flex-direction: row; 
-        height: 100%;
-    }
-
-    .ireb-dashboard {
-        margin-left: 5.625rem; /* Maintain desktop margin */
+        flex-direction: column;
+        height: auto;
         padding: 1rem;
-        height: 100%;
+        margin-right: -13%;
     }
 
+    /* PR Dashboard */
+    .ireb-dashboard {
+        margin-left: 0;
+        padding: 1rem;
+        height: auto;
+        transition: none;
+    }
+
+    .adminnav.open ~ .ireb-dashboard {
+        margin-left: 15.75rem;
+    }
+
+    .ireb-header-container {
+        margin-left: 4%;
+        margin-right: 4%;
+    }
+    
     /* Main Content Div for PR Dashboard */
     .adminmain-content {
-        padding: 2rem;
-        max-width: 81.25rem; /* Ensure it stays within the desktop width range */
+        max-width: 100%;
+        padding: 1rem;
+        margin: 1rem auto;
+        
     }
 
-    /* Keep Two Column Layout */
+    /* Header */
+    .ireb-header h1 {
+        font-size: calc(var(--title-size) * 0.85);
+        margin-left: 10%;
+    }
+
+    .ireb-header p {
+        font-size: calc(var(--paragraph-size) * 0.9);
+        margin-left: 10%;
+
+    }
+
+    /* Two Column Layout */
     .twocol-container {
         display: flex;
-        flex-direction: row; /* Ensure it remains a two-column layout */
-        gap: 20px;
+        flex-direction: column;
+        gap: 1rem;
     }
 
     /* Chart Container */
     .ireb-chart-container {
-        height: 400px; /* Keep height similar to desktop */
-        padding: 1.5rem;
+        height: 300px; /* Adjust height for medium screens */
+        padding: 1rem;
+        width: 80%;
+        margin-left: 8%;
+        margin: 0 auto;
     }
 
-    /* Admin Dashboard Cards - Maintain Two Column Layout */
+    /* Admin Dashboard Cards */
     .admindashboard-cards {
-        grid-template-columns: repeat(2, 1fr); /* Two columns */
-        gap: 20px;
+        grid-template-columns: 1fr 1fr; /* Two columns on medium screens */
+        gap: 1rem;
+        width: 80%;
+        margin-left: 8%;
+        margin: 0 auto;
+
     }
 
     /* REC Status Table Container */
     .rec-container {
-        padding: 1.5rem;
-        overflow-x: auto; /* Allow scrolling if necessary */
+        padding: 1rem;
+        overflow-x: auto;
+        width: 80%;
+        margin-left: 8%;
+        margin: 0 auto;
+
     }
 
-    /* Table - Ensure Responsiveness */
+    /* Table - Adjust Font Size */
     .rec-table {
         font-size: 0.875rem;
-        min-width: 600px; /* Minimum width to enable scrolling if screen is narrow */
+        min-width: 500px; /* Ensure table width is manageable for smaller screens */
+    }
+
+    .uli-container {
+        margin-right: 8%;
     }
 
     /* Button Styles */
     .view-button {
         padding: 0.5rem 1rem;
-        font-size: 0.875rem;
+        font-size: 0.8rem;
     }
 }
 
-  /* Laptops & Desktops */
-  @media only screen and (min-width: 769px) and (max-width: 1200px) {
+
+/* Laptops & Desktops (769px to 1200px) */
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
     .irebnav-mobile {
-      display: none;
+        display: none;
     }
-  }
+
+    /* General Page Container */
+    .adminpage-container {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+        margin-right: -13%;
+    }
+
+    /* PR Dashboard */
+    .ireb-dashboard {
+        margin-left: 0;
+        padding: 1rem;
+        height: auto;
+        transition: none;
+    }
+
+    .adminnav.open ~ .ireb-dashboard {
+        margin-left: 15.75rem;
+    }
+
+    .ireb-header-container {
+        margin-left: 4%;
+        margin-right: 4%;
+    }
+    
+    /* Main Content Div for PR Dashboard */
+    .adminmain-content {
+        max-width: 100%;
+        padding: 1rem;
+        margin: 1rem auto;
+        
+    }
+
+    /* Header */
+    .ireb-header h1 {
+        font-size: calc(var(--title-size) * 0.85);
+        margin-left: 10%;
+    }
+
+    .ireb-header p {
+        font-size: calc(var(--paragraph-size) * 0.9);
+        margin-left: 10%;
+
+    }
+
+    /* Two Column Layout */
+    .twocol-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    /* Chart Container */
+    .ireb-chart-container {
+        height: 300px; /* Adjust height for medium screens */
+        padding: 1rem;
+        width: 80%;
+        margin-left: 8%;
+    }
+
+    /* Admin Dashboard Cards */
+    .admindashboard-cards {
+        grid-template-columns: 1fr 1fr; /* Two columns on medium screens */
+        gap: 1rem;
+        width: 80%;
+        margin-left: 8%;
+    }
+
+    /* REC Status Table Container */
+    .rec-container {
+        padding: 1rem;
+        overflow-x: auto;
+        width: 80%;
+        margin-left: 8%;
+    }
+
+    /* Table - Adjust Font Size */
+    .rec-table {
+        font-size: 0.875rem;
+        min-width: 500px; /* Ensure table width is manageable for smaller screens */
+    }
+
+    .uli-container {
+        margin-right: 8%;
+    }
+
+    /* Button Styles */
+    .view-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+}
 
   /* Larger Screens */
   @media only screen and (min-width: 1201px) {
