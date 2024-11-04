@@ -4,12 +4,11 @@ import { Container, Row, Col } from "react-bootstrap";
 
 //components
 import Navbar from "../components/navbar/Navbar";
-import Card from "../components/card/Card";
 import Footer from "../components/footer/Footer";
 import dynamic from "next/dynamic";
-const Carousel = dynamic(() => import("react-bootstrap/Carousel"), {
-  ssr: false,
-});
+import Card from "../components/card/Card";
+import Carousel from "../components/carousel/Slider.jsx";
+
 import CardCarousel from "../components/cardcarousel/CardCarousel";
 
 //images
@@ -55,8 +54,12 @@ function Home() {
                 </p>
 
                 <div className="buttons">
+                  <a href="/SignInOption">
                   <button className="get-started">Get Started</button>
-                  <button className="learn-more">Learn More</button>
+                  </a>
+                  <a href="#home-cards">
+                    <button className="learn-more">Learn More</button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -64,40 +67,8 @@ function Home() {
             <div className="yellow-bar"></div>
 
             {/* section 2 */}
-            <div className="section-2">
-              <div className="section-2-content">
-                {/* card 1 */}
-                <Card
-                  image={viewIcon}
-                  alt="view icon"
-                  title="Ethics Review Guidelines"
-                  content="View an overview of the ethics review process and guidelines here."
-                />
-
-                {/* card 2 */}
-                <Card
-                  image={submitIcon}
-                  alt="submit icon"
-                  title="Submission Requirements"
-                  content="Access the submission requirements and necessary links here."
-                />
-
-                {/* card 3 */}
-                <Card
-                  image={profileIcon}
-                  alt="profile icon"
-                  title="How to Create an Account"
-                  content="Learn how both Thomasian and external researchers can create an account here."
-                />
-
-                {/* card 4 */}
-                <Card
-                  image={faqIcon}
-                  alt="faq icon"
-                  title="Frequent Questions"
-                  content="Get answers to frequently asked questions about UST ethics review here."
-                />
-              </div>
+            <div className="section-2" id="home-cards">
+              <Card/>
             </div>
 
             {/* section 3 */}
@@ -108,37 +79,19 @@ function Home() {
             <div className="yellow-bar"></div>
 
             {/* section 4 */}
-            <div className="section-4">
-              <Container>
-                <Row className="row-alignment">
+            <div className="section-4" id="ethics-review-guidelines">
+                <Col className="section-4">
+                
+                  {/* <CardCarousel /> */}
 
-                  <CardCarousel />
-
-                  <Image
-                      src={flowchart}
-                      alt="flowchart"
-                      className="section-4-flowchart"
-                    />
-                    
-                  {/* <Col>
+                  <div className="section-4-flowchart">
                     <Image
-                      src={whitefaqicon}
-                      alt="faq icon"
-                      className="section-4-faq"
-                    />
-                    <CardCarousel />
-                  </Col> */}
-
-                  {/* column 2 */}
-                  {/* <Col>
-                    <Image
-                      src={flowchart}
-                      alt="flowchart"
-                      className="section-4-flowchart"
-                    />
-                  </Col> */}
-                </Row>
-              </Container>
+                        src={flowchart}
+                        alt="flowchart"
+                        className="section-4-flowchart"
+                      />
+                    </div>
+                </Col>
             </div>
           </div>
           <div className="footer">
