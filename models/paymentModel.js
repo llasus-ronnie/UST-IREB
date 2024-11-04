@@ -7,11 +7,11 @@ const paymentSchema = new Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        require: true,
+        required: true,
     },
     paymentFile: {
         type: String,
-        require: true,
+        required: true,
     },
 });
 const payment =
