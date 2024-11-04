@@ -346,8 +346,10 @@ html {
   }
 
   .rec-header-container {
-    flex-direction: column;
     text-align: center;
+    margin: 0 auto;
+    column-gap: 5%;
+    margin-left: 10%;
   }
 
   .rec-header h1 {
