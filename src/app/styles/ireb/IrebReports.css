@@ -289,30 +289,44 @@
         width: 100%;
         max-width: 100%;
         margin: 0 auto;
-        margin-left: -10%
     }
     .admindashboard-cards, 
     .admindashboard-card {
         width: 100%;
         max-width: 100%;
         margin: 0 auto;
-        margin-left: -5%
 
     }
     
     .rec-container {
         width: 100%;
         margin: 0 auto;
-        margin-left: -10%;
     }
     
     .adminmain-content {
-        padding: 1rem;
+        padding: 2rem;
         max-width: 100%;
         margin: 0 auto;
     }
     
     .ireb-header-container {
         display: none;
+    }
+
+    .ireb-header h1 {
+        padding-top: 4%;
+    }
+
+    .ireb-dashboard {
+        margin-top: 1rem;
+        margin-left: 0;
+    }
+
+    .report-page-header {
+        justify-content: center;
+    }
+
+    .download-btn {
+        padding: 10px 85px;
     }
     }
