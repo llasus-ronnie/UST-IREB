@@ -213,8 +213,7 @@
     }
 
     .ireb-header-container {
-        margin-left: 4%;
-        margin-right: 4%;
+        display: none;
     }
     
     /* Main Content Div for PR Dashboard */
@@ -321,6 +320,10 @@
         margin-left: 4%;
         margin-right: 4%;
     }
+
+    .ireb-header-container-mobile {
+        display: none;
+    }
     
     /* Main Content Div for PR Dashboard */
     .adminmain-content {
@@ -395,6 +398,9 @@
     .irebnav-mobile {
       display: none;
     }
+    .ireb-header-container-mobile {
+        display: none;
+    }
   }
 
 /* Mobile */
@@ -427,6 +433,14 @@
         margin: 1rem auto;
         max-width: 100%;
     }
+
+    .ireb-header-container {
+        display: none;
+    }
+
+    .userloggedin-mobile {
+        margin-bottom: 1rem;
+      }
 
     /* Two Column Layout to Stack */
     .twocol-container {

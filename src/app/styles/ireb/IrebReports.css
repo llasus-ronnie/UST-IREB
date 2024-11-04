@@ -219,6 +219,10 @@
     display: none;
 }
 
+.ireb-header-container {
+    display: none;
+}
+
 .twocol-container {
     flex-direction: column;
     gap: 1rem;
@@ -253,12 +257,18 @@
     .irebnav-mobile {
       display: none;
     }
+    .ireb-header-container-mobile {
+        display: none;
+    }
   }
 
   /* Larger Screens */
   @media only screen and (min-width: 1201px) {
     .irebnav-mobile {
       display: none;
+    }
+    .ireb-header-container-mobile {
+        display: none;
     }
   }
 
@@ -303,9 +313,6 @@
     }
     
     .ireb-header-container {
-        column-gap: 10%;
-        margin-left: -20%;
-
-    
+        display: none;
     }
     }
