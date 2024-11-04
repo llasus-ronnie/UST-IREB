@@ -69,7 +69,7 @@ function IrebManageRECRoles({ params }) {
       try {
         const response = await axios.get(`/api/RECMembers?rec=${REC?.name}`);
         setRECMembers(response.data.data || []);
-        setFilteredRECMember(response.data.data || []); // Initialize filtered members
+        setFilteredRECMember(response.data.data || []);
       } catch (error) {
         console.error(error);
         setError("Failed to fetch REC members.");
