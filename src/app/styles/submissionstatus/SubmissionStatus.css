@@ -235,8 +235,10 @@ body {
     border-radius: 10px;
     height: auto;
     display: flex;
-    align-items: center;
+    align-items: left;
     text-align: left;
+
+    flex-direction: column;
 }
   
 /* Right Side of Main Content */
