@@ -250,6 +250,23 @@
 .ireb-header-container {
     column-gap: 10%;
 }
+
+.ireb-header-container-mobile {
+    padding: 2rem;
+}
+
+.ireb-header h1 {
+    padding-top: 2%;
+}
+
+.report-page-header {
+    justify-content: center;
+}
+
+.download-btn {
+    width: 90%;
+}
+
   }
 
   /* Laptops & Desktops */
@@ -327,6 +344,6 @@
     }
 
     .download-btn {
-        padding: 10px 85px;
+        width: 100%;
     }
     }

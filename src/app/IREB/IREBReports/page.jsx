@@ -362,8 +362,6 @@ function IrebReports() {
               </div>
           </div>
 
-            <br />
-
             <div className="report-page-header">
               <button className="download-btn" onClick={downloadReport}>
                 Download Reports
