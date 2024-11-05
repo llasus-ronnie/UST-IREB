@@ -9,9 +9,16 @@ import { toast, ToastContainer } from "react-toastify";
 import { useSession } from "next-auth/react";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function EditRECContentModal(props) {
+export default function EditRECContentModal({ show, onHide, content }) {
   const [heading, setHeading] = useState("");
   const [body, setBody] = useState("");
+
+  useEffect(() => {
+    if (content) {
+      setBody(content.body || "");
+    }
+  }, [content]);
+
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
   const { data: session, status } = useSession();
 
@@ -36,29 +43,19 @@ export default function EditRECContentModal(props) {
     fetchRECMemberData();
   }, [status, session]);
 
-  // useEffect(() => {
-  //   if (content) {
-  //     setHeading(content.heading);
-  //     setBody(content.body);
-  //   }
-  // }, [content]);
-
-  const handleBodyChange = (e) => {
-    const bodyValue = e.target.value;
-    setBody(bodyValue);
-  };
+  const handleBodyChange = (e) => setBody(e.target.value);
 
   const handleSave = async () => {
     try {
       await axios.post("/api/RECContent", {
-        rec: heading, // Use the heading as the rec identifier
+        rec: heading,
         heading,
         body,
       });
       console.log("Content added to database");
       toast.success("REC Content added successfully");
 
-      props.onHide();
+      onHide();
     } catch (error) {
       console.error("Error saving to database:", error);
       toast.error("An error occurred. Please try again.");
@@ -73,13 +70,14 @@ export default function EditRECContentModal(props) {
     setHeading("");
     setBody("");
     setShowCancelConfirmation(false);
-    props.onHide();
+    onHide();
   };
 
   return (
     <>
       <Modal
-        {...props}
+        show={show}
+        onHide={onHide}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered

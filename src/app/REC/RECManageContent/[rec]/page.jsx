@@ -14,10 +14,21 @@ import withAuthorization from "../../../../hoc/withAuthorization";
 function RECManageContent({ params, ...props }) {
   const [modalShow, setModalShow] = useState(false);
 
-  const handleShowModal = () => setModalShow(true);
+  const handleShowModal = async () => {
+    try {
+      const response = await axios.get("/api/RECContent", {
+        params: { rec: rec.trim() },
+      });
+      setSelectedContent(response.data.data[0] || {});
+      setModalShow(true);
+    } catch (error) {
+      console.error("Error fetching selected content:", error);
+    }
+  };
   const handleCloseModal = () => setModalShow(false);
 
   const [content, setContent] = useState([]);
+  const [selectedContent, setSelectedContent] = useState(null);
 
   const { rec } = useParams();
 
@@ -127,7 +138,11 @@ function RECManageContent({ params, ...props }) {
         </div>
       </div>
 
-      <EditContentModal show={modalShow} onHide={handleCloseModal} />
+      <EditContentModal
+        show={modalShow}
+        onHide={handleCloseModal}
+        content={selectedContent}
+      />
     </div>
   );
 }
