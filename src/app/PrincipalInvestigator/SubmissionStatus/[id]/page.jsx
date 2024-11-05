@@ -114,7 +114,7 @@ function SubmissionStatus({ params }) {
       if (form && form._id) {
         try {
           const response = await axios.get(`/api/payment`, {
-            params: { formId: form._id } 
+            params: { formId: form._id }
           });
           console.log("GET FOR PAYMENT FILE?", response.data);
           setPaymentLink(response.data.payment?.paymentFile);
@@ -123,20 +123,20 @@ function SubmissionStatus({ params }) {
         }
       }
     }
-  
+
     fetchPaymentFile();
-  }, [form]); 
+  }, [form]);
 
-    console.log("PAYMENT LINK", paymentLink);
+  console.log("PAYMENT LINK", paymentLink);
 
-    let url = null;
-    if (paymentLink) {
-      url = getCldImageUrl({
-        width: 960,
-        height: 600,
-        src: paymentLink
-      });
-    }
+  let url = null;
+  if (paymentLink) {
+    url = getCldImageUrl({
+      width: 960,
+      height: 600,
+      src: paymentLink
+    });
+  }
 
   if (loading) {
     return (
@@ -256,7 +256,11 @@ function SubmissionStatus({ params }) {
                   </button>
                   <div className="submissionstatus-paymentfile">
                     <p>Uplaoded File:</p>
-                    <Image src={url} alt="Payment File" width={200} height={200} />
+                    {url ? (
+                      <Image src={url} alt="Payment File" width={200} height={200} />
+                    ) : (
+                      <PropagateLoader/>
+                    )}
                   </div>
                 </div>
               </Col>
