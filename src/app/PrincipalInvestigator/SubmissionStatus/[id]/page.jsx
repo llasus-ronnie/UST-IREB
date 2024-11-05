@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { PropagateLoader } from "react-spinners";
 import UploadPaymentProofModal from "../../../components/modals/UploadPaymentProofModal.jsx";
+import EditPaymentModal from "../../../components/modals/EditPaymentProofModal.jsx";
 import ResubmissionModal from "../../../components/modals/ResubmissionModal.jsx";
 
 import withAuthorization from "../../../../hoc/withAuthorization";
@@ -23,6 +24,7 @@ function SubmissionStatus({ params }) {
   const [resubmissionModalShow, setResubmissionModalShow] = useState(false);
 
   const handleShowModal = () => setModalShow(true);
+  const handleEditModal = () => setModalShow(true);
   const handleCloseModal = () => setModalShow(false);
   const handleShowSubmissionModal = () => setResubmissionModalShow(true);
   const handleCloseSubmissionModal = () => setResubmissionModalShow(false);
@@ -250,9 +252,9 @@ function SubmissionStatus({ params }) {
                 <div className="submissionstatus-uploadproof-container">
                   <button
                     className="submissionstatus-uploadproof"
-                    onClick={handleShowModal}
+                    onClick={paymentLink ? handleEditModal : handleShowModal}
                   >
-                    Upload Proof of Payment
+                    {paymentLink ? "Edit Payment Proof" : "Upload Payment Proof"}
                   </button>
                   <div className="submissionstatus-paymentfile">
                     <p>Uplaoded File:</p>
@@ -285,6 +287,12 @@ function SubmissionStatus({ params }) {
               show={resubmissionModalShow}
               onHide={handleCloseSubmissionModal}
             />
+
+            <EditPaymentModal
+              show={modalShow}
+              onHide={handleCloseModal}
+              submissionparams={unwrappedParams}
+              />
           </>
         )}
       </>
