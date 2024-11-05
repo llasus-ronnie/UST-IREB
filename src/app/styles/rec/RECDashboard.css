@@ -270,8 +270,8 @@ html {
 /* Responsiveness */
 
 /* Laptops & Desktops */
-@media only screen and (min-width: 1200px) and (max-width: 1440px) {
-    .recnav-mobile {
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
+  .recnav-mobile {
     display: none;
     }
 
@@ -285,9 +285,9 @@ html {
 }
 
   /* Larger Screens */
-@media only screen and (max-width: 1199px) {
-    .recnav-mobile {
-    display: none;
+  @media only screen and (min-width: 1201px) {
+  .recnav-mobile {
+    display: none; 
     }
 
     .rec-header-container-mobile {
@@ -298,14 +298,10 @@ html {
     display: none;
     }
 
-    .cards-container {
-      flex-direction: column;
-    }
-
     .deadline-card {
-      align-items: flex-start; /* Align content at the start */
-      justify-content: center; /* Center the content vertically */
-      max-width: 95%; /* Adjust width as needed for larger screens */
+      align-items: flex-start;
+      justify-content: center;
+      max-width: 90%;
       margin-left: 2rem;  
       padding-bottom: 5rem;
     }
