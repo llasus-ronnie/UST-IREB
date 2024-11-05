@@ -20,25 +20,31 @@ export default function UploadPaymentProofModal({
   const { data: session } = useSession();
   const [form, setForm] = useState(null);
 
-  async function submitPayment(data) {
-    try {
-      const response = await axios.post("/api/payment", data, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+async function editPayment(data) {
+  try {
+    // Construct the payload including formId, paymentFile, and userEmail
+    const payload = {
+      formId: data.formId,          // This needs to be retrieved correctly
+      paymentFile: data.paymentFile, // This is set in the onSuccess callback of CldUploadWidget
+      userEmail: data.userEmail      // This is retrieved from the session
+    };
+    console.log("Payload:", payload);
+    // Send the PUT request with the payload
+    const response = await axios.put(`/api/payment?formId=${data.formId}`, payload);
 
-      if (response.status === 201) {
-        toast.success("Payment saved successfully!");
-      }
-    } catch (error) {
-      toast.error("Error saving payment. Please try again.");
-      console.error(
-        "Error in saving:",
-        error.response ? error.response.data : error.message
-      );
+    if (response.status === 200) {
+      toast.success("Payment proof updated successfully!");
+      props.onHide();
     }
+  } catch (error) {
+    toast.error("Error saving payment. Please try again.");
+    console.error(
+      "Error in saving:",
+      error.response ? error.response.data : error.message
+    );
   }
+}
+
 
   useEffect(() => {
     async function fetchData() {
@@ -129,7 +135,7 @@ export default function UploadPaymentProofModal({
             type="submit"
             className="btn uploadproof"
             onClick={handleSubmit((data) => {
-              submitPayment(data);
+              editPayment(data);
             })}
           >
             Submit

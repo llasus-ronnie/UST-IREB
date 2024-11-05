@@ -57,3 +57,27 @@ export async function GET(req) {
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }
+
+export async function PUT(req) {
+    try {
+        await connectDB();
+        const formdata = await req.json();
+        const url = new URL(req.url);
+        const formId = url.searchParams.get('formId');
+
+        if (!formId) {
+            return NextResponse.json({ error: "Form ID is required" }, { status: 400 });
+        }
+
+        const payment = await PaymentModel.findOneAndUpdate({ formId }, formdata, { new: true });
+
+        if (!payment) {
+            return NextResponse.json({ error: "Payment not found" }, { status: 404 });
+        }
+
+        return NextResponse.json({ payment }, { status: 200 });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    }
+}
