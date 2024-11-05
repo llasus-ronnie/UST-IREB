@@ -21,10 +21,12 @@ import { useRouter } from 'next/router';
 function SubmissionStatus({ params }) {
   const [loading, setLoading] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const [editModalShow, setEditModalShow] = useState(false);
   const [resubmissionModalShow, setResubmissionModalShow] = useState(false);
 
   const handleShowModal = () => setModalShow(true);
-  const handleEditModal = () => setModalShow(true);
+  const handleEditModal = () => setEditModalShow(true);
+  const handleCloseEditModal = () => setEditModalShow(false);
   const handleCloseModal = () => setModalShow(false);
   const handleShowSubmissionModal = () => setResubmissionModalShow(true);
   const handleCloseSubmissionModal = () => setResubmissionModalShow(false);
@@ -261,7 +263,7 @@ function SubmissionStatus({ params }) {
                     {url ? (
                       <Image src={url} alt="Payment File" width={200} height={200} />
                     ) : (
-                      <PropagateLoader/>
+                      <p> no payment uploaded yet </p>
                     )}
                   </div>
                 </div>
@@ -289,8 +291,8 @@ function SubmissionStatus({ params }) {
             />
 
             <EditPaymentModal
-              show={modalShow}
-              onHide={handleCloseModal}
+              show={editModalShow}
+              onHide={handleCloseEditModal}
               submissionparams={unwrappedParams}
               />
           </>
