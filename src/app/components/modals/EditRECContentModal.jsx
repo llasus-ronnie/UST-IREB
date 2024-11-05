@@ -36,6 +36,13 @@ export default function EditRECContentModal(props) {
     fetchRECMemberData();
   }, [status, session]);
 
+  // useEffect(() => {
+  //   if (content) {
+  //     setHeading(content.heading);
+  //     setBody(content.body);
+  //   }
+  // }, [content]);
+
   const handleBodyChange = (e) => {
     const bodyValue = e.target.value;
     setBody(bodyValue);

@@ -44,9 +44,10 @@ export async function GET(req) {
 
   const { searchParams } = new URL(req.url);
   const heading = searchParams.get("heading");
+  const rec = searchParams.get("rec");
 
   try {
-    const filter = heading ? { heading } : {};
+    const filter = rec ? { rec } : {};
     const recContents = await RECContent.find(filter);
     return NextResponse.json(
       { success: true, data: recContents },
