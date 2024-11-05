@@ -38,14 +38,15 @@ export async function GET(req) {
     try {
         await connectDB();
         const url = new URL(req.url);
-        const id = url.searchParams.get('id');
-        console.log("ID Parameter: ", id);
+        const formId = url.searchParams.get('formId'); // Get formId from the URL parameters
+        console.log("Form ID Parameter: ", formId);
 
-        if (!id) {
-            return NextResponse.json({ error: "ID is required" }, { status: 400 });
+        if (!formId) {
+            return NextResponse.json({ error: "Form ID is required" }, { status: 400 });
         }
 
-        const payment = await PaymentModel.findById(id);
+        // Find the payment document by formId instead of _id
+        const payment = await PaymentModel.findOne({ formId });
         if (!payment) {
             return NextResponse.json({ error: "Payment not found" }, { status: 404 });
         }

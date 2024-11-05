@@ -85,7 +85,6 @@ function SubmissionStatus({ params }) {
       setLoading(true);
       try {
         const response = await axios.get(`/api/forms/${unwrappedParams.id}`);
-        console.log("Working on URlID:" + `${unwrappedParams.id}`);
         setForm(response.data.submission);
       } catch (error) {
         console.error(error);
@@ -105,9 +104,36 @@ function SubmissionStatus({ params }) {
 
   const { data: session } = useSession();
 
-  const url = getCldImageUrl({
-    src: 'https://res.cloudinary.com/dyrf8wr1i/image/upload/v1730722649/ywr2nezshykdwgjrgboc.jpg'
-  });
+  const [paymentLink, setPaymentLink] = useState(null);
+
+  //cloudinary
+  useEffect(() => {
+    async function fetchPaymentFile() {
+      const formId = '670f970c26b24eee077d06ac'; // Define your formId here
+      try {
+        const response = await axios.get(`/api/payment`, {
+          params: { formId }
+        });
+        console.log("GET FOR PAYMENT FILE?", response.data);
+        setPaymentLink(response.data.payment?.paymentFile);
+      } catch (error) {
+        console.error('Error fetching payment file:', error);
+      }
+    }
+
+    fetchPaymentFile();
+  }, []);
+
+    console.log("PAYMENT LINK", paymentLink);
+
+    let url = null;
+    if (paymentLink) {
+      url = getCldImageUrl({
+        width: 960,
+        height: 600,
+        src: paymentLink
+      });
+    }
 
   if (loading) {
     return (
@@ -227,12 +253,7 @@ function SubmissionStatus({ params }) {
                   </button>
                   <div className="submissionstatus-paymentfile">
                     <p>Uplaoded File:</p>
-                      <Image 
-                      src={url} 
-                      alt="Uploaded Payment Proof" 
-                      width={200}
-                      height={200}
-                      />
+                    <Image src={url} alt="Payment File" width={200} height={200} />
                   </div>
                 </div>
               </Col>
@@ -247,11 +268,11 @@ function SubmissionStatus({ params }) {
               </Col>
             </Row>
 
-              <UploadPaymentProofModal
-                show={modalShow}
-                onHide={handleCloseModal}
-                submissionparams={unwrappedParams}
-                />
+            <UploadPaymentProofModal
+              show={modalShow}
+              onHide={handleCloseModal}
+              submissionparams={unwrappedParams}
+            />
 
             <ResubmissionModal
               show={resubmissionModalShow}
