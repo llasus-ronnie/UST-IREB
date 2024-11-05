@@ -219,6 +219,10 @@
     display: none;
 }
 
+.ireb-header-container {
+    display: none;
+}
+
 .twocol-container {
     flex-direction: column;
     gap: 1rem;
@@ -246,6 +250,23 @@
 .ireb-header-container {
     column-gap: 10%;
 }
+
+.ireb-header-container-mobile {
+    padding: 2rem;
+}
+
+.ireb-header h1 {
+    padding-top: 2%;
+}
+
+.report-page-header {
+    justify-content: center;
+}
+
+.download-btn {
+    width: 90%;
+}
+
   }
 
   /* Laptops & Desktops */
@@ -253,12 +274,18 @@
     .irebnav-mobile {
       display: none;
     }
+    .ireb-header-container-mobile {
+        display: none;
+    }
   }
 
   /* Larger Screens */
   @media only screen and (min-width: 1201px) {
     .irebnav-mobile {
       display: none;
+    }
+    .ireb-header-container-mobile {
+        display: none;
     }
   }
 
@@ -279,33 +306,44 @@
         width: 100%;
         max-width: 100%;
         margin: 0 auto;
-        margin-left: -10%
     }
     .admindashboard-cards, 
     .admindashboard-card {
         width: 100%;
         max-width: 100%;
         margin: 0 auto;
-        margin-left: -5%
 
     }
     
     .rec-container {
         width: 100%;
         margin: 0 auto;
-        margin-left: -10%;
     }
     
     .adminmain-content {
-        padding: 1rem;
+        padding: 2rem;
         max-width: 100%;
         margin: 0 auto;
     }
     
     .ireb-header-container {
-        column-gap: 10%;
-        margin-left: -20%;
+        display: none;
+    }
 
-    
+    .ireb-header h1 {
+        padding-top: 4%;
+    }
+
+    .ireb-dashboard {
+        margin-top: 1rem;
+        margin-left: 0;
+    }
+
+    .report-page-header {
+        justify-content: center;
+    }
+
+    .download-btn {
+        width: 100%;
     }
     }

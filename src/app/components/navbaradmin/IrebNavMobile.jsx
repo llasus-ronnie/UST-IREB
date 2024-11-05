@@ -119,9 +119,10 @@ const IrebNavMobile = (props) => {
               </a>
             </li>
             <li
-              className={`${isActive === "accounts" ? "active-linkline" : ""}`}
+              className={`${isActive === "accounts" ? "active-linkline-accounts" : ""}`}
             >
-              <div className="accounts-icon" onClick={handlePopupToggle}>
+            <a onClick={handlePopupToggle}>
+              <div className="accounts-icon">
                 <svg
                   width="30"
                   height="30"
@@ -142,6 +143,7 @@ const IrebNavMobile = (props) => {
                 </svg>
                 <p>Accounts</p>
               </div>
+              </a>
             </li>
 
             <li

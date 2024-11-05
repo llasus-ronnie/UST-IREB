@@ -351,10 +351,16 @@ function IrebReports() {
                 <h1>IREB Reports</h1>
                 <p>Overview of UST-IREB Submissions and RECs.</p>
               </div>
-              <UserLoggedIn />
+              <UserLoggedIn className="userloggedin" />
             </div>
 
-            <br />
+          <div className="ireb-header-container-mobile">
+              <div className="ireb-header">
+              <UserLoggedIn className="userloggedin-mobile" />
+                <h1>IREB Reports</h1>
+                <p>Overview of UST-IREB Submissions and RECs.</p>
+              </div>
+          </div>
 
             <div className="report-page-header">
               <button className="download-btn" onClick={downloadReport}>
