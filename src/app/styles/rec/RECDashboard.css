@@ -395,6 +395,10 @@ html {
     margin-left: 1rem;
   }
 
+  .recreports-content {
+    padding: 0 !important; 
+  }
+
   .recnav {
     display: none;
   }
