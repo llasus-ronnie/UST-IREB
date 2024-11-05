@@ -33,3 +33,26 @@ export async function POST(req, res) {
         );
     }   
 }
+
+export async function GET(req) {
+    try {
+        await connectDB();
+        const url = new URL(req.url);
+        const id = url.searchParams.get('id');
+        console.log("ID Parameter: ", id);
+
+        if (!id) {
+            return NextResponse.json({ error: "ID is required" }, { status: 400 });
+        }
+
+        const payment = await PaymentModel.findById(id);
+        if (!payment) {
+            return NextResponse.json({ error: "Payment not found" }, { status: 404 });
+        }
+
+        return NextResponse.json({ payment }, { status: 200 });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    }
+}
