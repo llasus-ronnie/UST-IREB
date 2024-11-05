@@ -15,6 +15,7 @@ import withAuthorization from "../../../../hoc/withAuthorization";
 import { useSession, getSession } from "next-auth/react";
 import { getCldImageUrl } from 'next-cloudinary';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 function SubmissionStatus({ params }) {
   const [loading, setLoading] = useState(false);
@@ -106,23 +107,25 @@ function SubmissionStatus({ params }) {
 
   const [paymentLink, setPaymentLink] = useState(null);
 
+
   //cloudinary
   useEffect(() => {
     async function fetchPaymentFile() {
-      const formId = '670f970c26b24eee077d06ac'; // Define your formId here
-      try {
-        const response = await axios.get(`/api/payment`, {
-          params: { formId }
-        });
-        console.log("GET FOR PAYMENT FILE?", response.data);
-        setPaymentLink(response.data.payment?.paymentFile);
-      } catch (error) {
-        console.error('Error fetching payment file:', error);
+      if (form && form._id) {
+        try {
+          const response = await axios.get(`/api/payment`, {
+            params: { formId: form._id } 
+          });
+          console.log("GET FOR PAYMENT FILE?", response.data);
+          setPaymentLink(response.data.payment?.paymentFile);
+        } catch (error) {
+          console.error('Error fetching payment file:', error);
+        }
       }
     }
-
+  
     fetchPaymentFile();
-  }, []);
+  }, [form]); 
 
     console.log("PAYMENT LINK", paymentLink);
 
