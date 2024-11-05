@@ -13,6 +13,8 @@ import ResubmissionModal from "../../../components/modals/ResubmissionModal.jsx"
 
 import withAuthorization from "../../../../hoc/withAuthorization";
 import { useSession, getSession } from "next-auth/react";
+import { getCldImageUrl } from 'next-cloudinary';
+import Image from 'next/image';
 
 function SubmissionStatus({ params }) {
   const [loading, setLoading] = useState(false);
@@ -102,7 +104,10 @@ function SubmissionStatus({ params }) {
   }, []);
 
   const { data: session } = useSession();
-  const userId = session.user.id;
+
+  const url = getCldImageUrl({
+    src: 'https://res.cloudinary.com/dyrf8wr1i/image/upload/v1730722649/ywr2nezshykdwgjrgboc.jpg'
+  });
 
   if (loading) {
     return (
@@ -222,6 +227,12 @@ function SubmissionStatus({ params }) {
                   </button>
                   <div className="submissionstatus-paymentfile">
                     <p>Uplaoded File:</p>
+                      <Image 
+                      src={url} 
+                      alt="Uploaded Payment Proof" 
+                      width={200}
+                      height={200}
+                      />
                   </div>
                 </div>
               </Col>
