@@ -348,7 +348,7 @@ function IrebReports() {
           <div className="adminmain-content">
             <div className="ireb-header-container">
               <div className="ireb-header">
-                <h1>IREB Dashboard</h1>
+                <h1>IREB Reports</h1>
                 <p>Overview of UST-IREB Submissions and RECs.</p>
               </div>
               <UserLoggedIn className="userloggedin" />
@@ -357,12 +357,10 @@ function IrebReports() {
           <div className="ireb-header-container-mobile">
               <div className="ireb-header">
               <UserLoggedIn className="userloggedin-mobile" />
-                <h1>IREB Dashboard</h1>
+                <h1>IREB Reports</h1>
                 <p>Overview of UST-IREB Submissions and RECs.</p>
               </div>
           </div>
-
-            <br />
 
             <div className="report-page-header">
               <button className="download-btn" onClick={downloadReport}>
