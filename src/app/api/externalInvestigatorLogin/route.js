@@ -34,6 +34,7 @@ export async function POST(req) {
         );
       }
       console.log("Password matches, login successful");
+      // await new Promise((resolve) => setTimeout(resolve, 10000)); // 10 seconds delay
       return NextResponse.json(
         { success: true, message: "Login successful" },
         { status: 200 }

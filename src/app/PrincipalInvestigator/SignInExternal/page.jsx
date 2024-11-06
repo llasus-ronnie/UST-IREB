@@ -66,14 +66,30 @@ function SignIn() {
         accessToken, // Could be either the access token or password
       });
 
-      if (response.data.message.includes("set your password")) {
-        toast.success("Sign in successful, please create a password");
-        router.push(
-          `/PrincipalInvestigator/SignInExternal/SetPassword?accessToken=${accessToken}`
-        );
+      if (response.data.success) {
+        // If successful, try to establish a session with NextAuth
+        const nextAuthSignIn = await signIn("credentials", {
+          redirect: false,
+          email,
+          password: accessToken, // Use accessToken here as it might be password or access token
+        });
+
+        if (nextAuthSignIn && !nextAuthSignIn.error) {
+          toast.success("Login successful");
+          router.push("/"); // Redirect to home or another protected page
+        } else {
+          toast.error("Failed to create session");
+        }
+
+        // If first-time login, redirect to password setup
+        if (response.data.message.includes("set your password")) {
+          toast.success("Sign in successful, please create a password");
+          router.push(
+            `/PrincipalInvestigator/SignInExternal/SetPassword?accessToken=${accessToken}`
+          );
+        }
       } else {
-        toast.success("Login successful");
-        router.push("/");
+        toast.error(response.data.error || "Invalid email or password");
       }
     } catch (error) {
       console.error(

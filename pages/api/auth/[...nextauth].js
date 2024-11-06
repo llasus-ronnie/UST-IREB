@@ -7,6 +7,8 @@ import ExternalInvestigator from "../../../models/externalInvestigatorModel";
 import bcrypt from "bcryptjs";
 
 const handler = NextAuth({
+  debug: true,
+  session: { strategy: "jwt" },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
@@ -21,25 +23,12 @@ const handler = NextAuth({
       async authorize(credentials) {
         await connectDB();
 
-        const user = await User.findOne({ email: credentials.email });
         const externalInvestigator = await ExternalInvestigator.findOne({
           email: credentials.email,
         });
 
-        // Validate regular user
-        if (user && bcrypt.compareSync(credentials.password, user.password)) {
-          console.log("User validated:", user);
-          return {
-            email: user.email,
-            name: user.name,
-            role: user.role,
-            password: user.password, // Include password in user object
-          };
-        }
-
-        // Validate external investigator
         if (externalInvestigator) {
-          const isPasswordValid = bcrypt.compareSync(
+          const isPasswordValid = await bcrypt.compare(
             credentials.password,
             externalInvestigator.password
           );
@@ -49,26 +38,11 @@ const handler = NextAuth({
               "External investigator validated:",
               externalInvestigator
             );
-            if (!user) {
-              const newUser = await User.create({
-                email: externalInvestigator.email,
-                name: externalInvestigator.name,
-                role: "ExternalInvestigator",
-              });
-              return {
-                email: newUser.email,
-                name: newUser.name,
-                role: newUser.role,
-                password: newUser.password, // Include password in user object
-              };
-            } else {
-              return {
-                email: user.email,
-                name: user.name,
-                role: user.role,
-                password: user.password, // Include password in user object
-              };
-            }
+            return {
+              email: externalInvestigator.email,
+              name: externalInvestigator.name,
+              role: "ExternalInvestigator",
+            };
           }
         }
 
@@ -79,17 +53,14 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role || (await getRoleFromDB(user.email));
-        token.password = user.password;
-        console.log("JWT token set:", token);
+        token.email = user.email;
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
       session.user.role = token.role;
-      if (token.password) {
-        session.user.password = token.password;
-      }
+      session.user.email = token.email;
       return session;
     },
     async signIn({ user, profile, account }) {

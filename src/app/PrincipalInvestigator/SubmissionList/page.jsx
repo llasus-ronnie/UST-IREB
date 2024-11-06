@@ -26,7 +26,6 @@ function SubmissionList() {
     fetchData();
   }, []);
 
-
   return (
     <>
       <div className="header">
@@ -59,9 +58,7 @@ function SubmissionList() {
                 <td>{form.title}</td>
                 <td>{new Date(form.date).toLocaleDateString("en-US")}</td>
                 <td>{form.researchEthicsCommittee}</td>
-                <td>
-                  {form.status}
-                </td>
+                <td>{form.status}</td>
                 <td className="view-btn-cell">
                   <Link
                     href={`/PrincipalInvestigator/SubmissionStatus/${form._id}`}
@@ -84,4 +81,7 @@ function SubmissionList() {
   );
 }
 
-export default withAuthorization(SubmissionList, "PrincipalInvestigator");
+export default withAuthorization(SubmissionList, [
+  "PrincipalInvestigator",
+  "ExternalInvestigator",
+]);
