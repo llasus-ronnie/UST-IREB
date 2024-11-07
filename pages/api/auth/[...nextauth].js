@@ -53,10 +53,15 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.email = user.email;
-        token.role = user.role;
+        token.role = user.role || (await getRoleFromDB(user.email)); // Retrieve role if not set
       }
       return token;
+    },
+    async session({ session, token }) {
+      if (token.role) {
+        session.user.role = token.role;
+      }
+      return session;
     },
     async session({ session, token }) {
       session.user.role = token.role;
