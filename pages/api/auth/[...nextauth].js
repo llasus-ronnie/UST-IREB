@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import connectDB from "../../../utils/database";
 import User from "../../../models/users/user";
 import ExternalInvestigator from "../../../models/externalInvestigatorModel";
+import ExternalReviewer from "../../../models/externalReviewerModel";
 import bcrypt from "bcryptjs";
 
 const handler = NextAuth({
@@ -23,6 +24,7 @@ const handler = NextAuth({
       async authorize(credentials) {
         await connectDB();
 
+        // First, check if the user is an external investigator
         const externalInvestigator = await ExternalInvestigator.findOne({
           email: credentials.email,
         });
@@ -42,6 +44,27 @@ const handler = NextAuth({
               email: externalInvestigator.email,
               name: externalInvestigator.name,
               role: "ExternalInvestigator",
+            };
+          }
+        }
+
+        // If not an investigator, check if the user is an external reviewer
+        const externalReviewer = await ExternalReviewer.findOne({
+          email: credentials.email,
+        });
+
+        if (externalReviewer) {
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            externalReviewer.password
+          );
+
+          if (isPasswordValid) {
+            console.log("External reviewer validated:", externalReviewer);
+            return {
+              email: externalReviewer.email,
+              name: externalReviewer.name,
+              role: "ExternalReviewer",
             };
           }
         }

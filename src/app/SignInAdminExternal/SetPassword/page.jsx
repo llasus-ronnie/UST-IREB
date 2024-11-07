@@ -9,19 +9,18 @@ import { toast, ToastContainer } from "react-toastify";
 
 // Images
 import Image from "next/image";
-import GoogleLogo from "../../../public/images/signin/signin-google-logo.png";
-import bgAdmin from "../../../public/images/signin/AdminBg.jpg";
-import USTLogo from "../../../public/images/signin/USTLogo.png";
+import GoogleLogo from "../../../../public/images/signin/signin-google-logo.png";
+import bgAdmin from "../../../../public/images/signin/AdminBg.jpg";
+import USTLogo from "../../../../public/images/signin/USTLogo.png";
 
 // CSS
-import "../styles/signin/SignInAdminExternal.css";
+import "../../styles/signin/SignInAdminExternal.css";
 
 export default function SignIn() {
-  const { data: session } = useSession();
   const [email, setEmail] = useState("");
-  const [accessToken, setAccessToken] = useState("");
+  const [password, setPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
-  const [isTokenValid, setIsTokenValid] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
   const router = useRouter();
 
@@ -31,10 +30,10 @@ export default function SignIn() {
     setIsEmailValid(validateEmail(emailValue));
   };
 
-  const handleAccessTokenChange = (e) => {
-    const tokenValue = e.target.value;
-    setAccessToken(tokenValue);
-    setIsTokenValid(tokenValue.length > 0);
+  const handlePasswordChange = (e) => {
+    const passwordValue = e.target.value;
+    setPassword(passwordValue);
+    setIsPasswordValid(passwordValue.length >= 6);
   };
 
   const validateEmail = (email) => {
@@ -49,43 +48,36 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post("/api/externalReviewerLogin", {
-        email,
-        accessToken, // Could be either the access token or password
-      });
-
-      if (response.data.success) {
-        // If successful, try to establish a session with NextAuth
-        const nextAuthSignIn = await signIn("credentials", {
-          redirect: false,
+    if (isEmailValid && isPasswordValid && isRecaptchaVerified) {
+      try {
+        // Send email and password to the API to update the password
+        const response = await axios.post("/api/set-password", {
           email,
-          password: accessToken, // Use accessToken here as it might be password or access token
+          password,
         });
 
-        if (nextAuthSignIn && !nextAuthSignIn.error) {
-          toast.success("Login successful");
-          router.push("/PrimaryReviewer/PRDashboard"); // Redirect to admin dashboard or another protected page
-        } else {
-          toast.error("Failed to create session");
-        }
+        if (response.data.success) {
+          // Automatically log the user in after setting the password
+          const loginResult = await signIn("credentials", {
+            redirect: false,
+            email,
+            password,
+          });
 
-        // If first-time login, redirect to password setup
-        if (response.data.message.includes("set your password")) {
-          toast.success("Sign in successful, please create a password");
-          router.push(
-            `/SignInAdminExternal/SetPassword?accessToken=${accessToken}`
-          );
+          if (loginResult.error) {
+            toast.error("Login failed. Please check your credentials.");
+          } else {
+            toast.success("Password set successfully and logged in.");
+            router.push("/"); // Redirect to homepage or dashboard
+          }
+        } else {
+          toast.error("Error setting password: " + response.data.message);
         }
-      } else {
-        toast.error(response.data.error || "Invalid email or password");
+      } catch (error) {
+        toast.error("Failed to set password: " + error.message);
       }
-    } catch (error) {
-      console.error(
-        "Error:",
-        error.response ? error.response.data : error.message
-      );
-      toast.error("Invalid email or password");
+    } else {
+      toast.warn("Please complete all fields and verify the reCAPTCHA.");
     }
   };
   return (
@@ -108,10 +100,9 @@ export default function SignIn() {
         </div>
 
         <div className="admin-signin-box">
-          <h1 className="admin-signin-title">External Reviewer Sign In</h1>
+          <h1 className="admin-signin-title">Set Password</h1>
           <p className="admin-signin-text">
-            Welcome, External Reviewer! To access the features of the UST IREB
-            Research Portal, please enter your credentials below.
+            Please set your password to complete the sign in process.
           </p>
 
           <input
@@ -124,9 +115,9 @@ export default function SignIn() {
 
           <input
             type="password"
-            value={accessToken}
-            onChange={handleAccessTokenChange}
-            placeholder="Password or Access Token"
+            value={password}
+            onChange={handlePasswordChange}
+            placeholder="Password"
             className="admin-input"
           />
 
