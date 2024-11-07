@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); 
+
+:root{
+    --primary-color: #121212;
+    --secondary-color: #D9D9D9; 
+    --tertiary-color: #FCBF15;
+    --quaternary-color: #FFFCF7;
+
+    --poppins: 'Poppins', sans-serif;
+
+    --title-size: 2rem;
+    --heading-1-size: 1.5rem;
+    --paragraph-size: 0.85rem;
+}
+
+.submission-process-container {
+    font-family: var(--poppins);
+    color: var(--primary-color);
+    gap: 2rem;
+}
+
+.submission-process-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.submission-process-title h1 {
+    font-weight: bold;
+}
+
+.steps-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.steps-instructions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 0;
+    margin: 1rem;
+    height: auto;
+    box-shadow: 0 0 9px #0000003a;
+}
+
+.step-number {
+    background-color: var(--tertiary-color);
+    border-radius: 15px 0 0 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    flex-shrink: 0;
+    width: 25px;
+    height: 100%;
+    margin: 0;
+}
+
+.step-number h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--quaternary-color);
+}
+
+.step-content {
+    text-align: left;
+    flex-grow: 1;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-radius: 0 15px 15px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--quaternary-color);
+}
+
+.step-content h2 {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+.step-content p {
+    color: var(--primary-color);
+    font-size: var(--paragraph-size);
+}
+
+/* Responsiveness */
+
+/* Larger Screens */
+@media only screen and (min-width: 1201px) {
+}
+
+/* Laptops & Desktops */
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
+}
+
+/* Tablet */
+@media only screen and (min-width: 577px) and (max-width: 768px) {
+    .steps-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .steps-instructions {
+        flex-direction: column;
+        align-items: flex-start;
+        margin: 1rem 0;
+        box-shadow: none;
+        padding: 1rem;
+    }
+
+    .step-number {
+        width: auto;
+        padding: 0.5rem;
+        margin: 0;
+        height: auto;
+    }
+
+    .step-number h1 {
+        font-size: 2rem;
+    }
+
+    .step-content {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* Mobile */
+@media only screen and (max-width: 576px) {
+    .steps-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .steps-instructions {
+        flex-direction: column;
+        align-items: flex-start;
+        margin: 1rem 0;
+        box-shadow: none;
+        padding: 1rem;
+    }
+
+    .step-number {
+        width: auto;
+        padding: 0.5rem;
+        margin: 0;
+        height: auto;
+    }
+
+    .step-number h1 {
+        font-size: 2rem;
+    }
+
+    .step-content {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}

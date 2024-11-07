@@ -153,7 +153,7 @@
 /* section 1 tablet view */
 @media screen and (max-width: 912px) {
     .section-1-content{
-        top: 10%;
+        top: -5%;
         left:0;
         position: relative;
         bottom: 15rem;
@@ -161,11 +161,12 @@
     }
 
     .section-1-content p{
-        text-align: center;
+        text-align: left;
     }
 
     .section-1{
         background-position: 82%;
+        overflow: hidden;
     }
 }
 
@@ -268,22 +269,11 @@
 
 /************** Section 4 **************/
 .section-4 {
-    color: var(--primary-color);  
-    padding: 8rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    p {
-        color: black;
-    }
-}
-
-.section-4 h1 {
-    font-size: var(--title-size);
-    font-weight: 600;
-    margin-top: 2rem;
+    padding: 6rem 2rem;
 }
 
 .section-4-flowchart {
@@ -291,12 +281,28 @@
     height: auto;
     display: flex;
     justify-content: center;
+    margin: 1rem;
 }
 
 .section-4-flowchart img {
-    border-radius: 20px;
+    border-radius: 15px;
     box-shadow: 0px 0px 6px 5px rgba(0, 0, 0, 0.121);
 }
+
+/* section 4 mobile view */
+@media screen and (max-width: 768px) {
+    .section-4-flowchart {
+        width: 100%;
+        margin: 0.5rem;
+    }
+
+    .section-4-flowchart img {
+        width: 100%;
+        border-radius: 10px;
+    }
+}
+
+
 
 
 /* scroll design  */
