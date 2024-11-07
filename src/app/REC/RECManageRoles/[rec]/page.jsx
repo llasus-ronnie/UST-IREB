@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Spinner } from "react-bootstrap";
 
-import IrebNav from "../../../components/navbaradmin/IrebNav";
-import IrebNavMobile from "../../../components/navbaradmin/IrebNavMobile";
+import RecNav from "../../../components/navbaradmin/RecNav";
+import RecNavMobile from "../../../components/navbaradmin/RecNavMobile";
 import SearchBar from "../../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../../components/userloggedin/UserLoggedIn";
 import AddRECMemberModal from "../../../components/modals/AddRECMemberModal";
@@ -130,15 +130,15 @@ function IrebManageRECRoles({ params }) {
 
   return (
     <div className="adminpage-container">
-      <div className="irebnav-mobile">
-        <IrebNavMobile />
+      <div className="adminnav-mobile">
+        <RecNavMobile />
       </div>
-      <IrebNav />
+      <RecNav />
       <div className="ireb-manageaccounts">
         <div className="adminmain-content">
           <div className="ireb-header-container">
             <div className="adminheader-container">
-              <a href="../IREBManageREC" className="back-button">
+              {/* <a href="../IREBManageREC" className="back-button">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -153,7 +153,7 @@ function IrebManageRECRoles({ params }) {
                   />
                 </svg>
                 Go Back to REC Accounts
-              </a>
+              </a> */}
               <UserLoggedIn className="user-loggedin" />
             </div>
           </div>
@@ -283,4 +283,4 @@ function IrebManageRECRoles({ params }) {
   );
 }
 
-export default withAuthorization(IrebManageRECRoles, "IREB");
+export default withAuthorization(IrebManageRECRoles, "REC");

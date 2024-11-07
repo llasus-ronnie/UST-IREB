@@ -65,17 +65,17 @@ export async function GET(req) {
 export async function PATCH(req) {
   await connectDB();
 
-  const { id, name, email, rec, recRole } = await req.json();
+  const { rec, name, email, recRole } = await req.json();
 
   try {
-    const updatedMember = await RECMembers.findByIdAndUpdate(
-      id,
+    const updatedMember = await RECMembers.findOneAndUpdate(
+      { rec },
       { name, email, rec, recRole },
       { new: true }
     );
 
     if (!updatedMember) {
-      console.error("Member not found for ID:", id);
+      console.error("Member not found for REC:", rec);
       return NextResponse.json(
         { success: false, error: "Member not found" },
         { status: 404 }

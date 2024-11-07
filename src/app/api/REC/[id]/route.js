@@ -4,11 +4,11 @@ import { NextResponse } from "next/server";
 
 export async function PUT(req, context) {
   const { params } = await context;
-  const { id } = params;
+  const { rec } = params;
   try {
     await connectDB();
     const newREC = await req.json();
-    const updatedREC = await REC.findByIdAndUpdate(id, newREC, {
+    const updatedREC = await REC.findOneAndUpdate({ rec }, newREC, {
       new: true,
     });
     return NextResponse.json(updatedREC, { status: 200 });
@@ -23,8 +23,8 @@ export async function PUT(req, context) {
 
 export async function GET(req, context) {
   const { params } = await context;
-  const { id } = params;
+  const { rec } = params;
   await connectDB();
-  const rec = await REC.findOne({ _id: id });
-  return NextResponse.json({ rec }, { status: 200 });
+  const recData = await REC.findOne({ rec });
+  return NextResponse.json({ rec: recData }, { status: 200 });
 }

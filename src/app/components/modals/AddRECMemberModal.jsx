@@ -73,7 +73,7 @@ export default function AddRECMemberModal(props) {
 
   const handleConfirmCancel = () => {
     setName("");
-    setRole("");
+    setrecRole("");
     setEmail("");
     setIsEmailValid(false);
     setShowCancelConfirmation(false);
