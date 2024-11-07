@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AddAccModal(props) {
+export default function AddAccModal({ rec, ...props }) {
   const [name, setName] = useState("");
   const [affiliation, setAffiliation] = useState("");
   const [email, setEmail] = useState("");
@@ -47,6 +47,7 @@ export default function AddAccModal(props) {
         affiliation,
         email,
         token: accessToken,
+        rec,
       });
       console.log("Account added to database");
 

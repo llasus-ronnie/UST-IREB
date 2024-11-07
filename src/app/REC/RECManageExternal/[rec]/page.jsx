@@ -14,7 +14,7 @@ import "../../../styles/ireb/IrebManageAccounts.css";
 import withAuthorization from "../../../../hoc/withAuthorization";
 import { Spinner } from "react-bootstrap";
 
-function IrebManageExternal() {
+function IrebManageExternal({ params }) {
   const [modalShowAddAcc, setModalShowAddAcc] = useState(false);
   const [modalShowEditAcc, setModalShowEditAcc] = useState(false);
   const [modalShowArchiveConfirmation, setModalShowArchiveConfirmation] =
@@ -35,33 +35,31 @@ function IrebManageExternal() {
   const handleCloseArchiveModal = () => setModalShowArchiveConfirmation(false);
 
   const handleSearch = (query) => {
-    const lowercasedQuery = query.toLowerCase();
-    const filtered = external.filter(
-      (investigator) =>
-        investigator.name.toLowerCase().includes(lowercasedQuery) ||
-        investigator.email.toLowerCase().includes(lowercasedQuery) ||
-        investigator.affiliation.toLowerCase().includes(lowercasedQuery)
+    setFilteredExternal(
+      external.filter((reviewer) =>
+        reviewer.name.toLowerCase().includes(query.toLowerCase())
+      )
     );
-    setFilteredExternal(filtered);
   };
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchExternalReviewers = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get("/api/addExternalReviewer");
-        console.log("API Response:", response.data);
+        const response = await axios.get(
+          `/api/addExternalReviewer?rec=${params.rec}`
+        );
         setExternal(response.data.data);
         setFilteredExternal(response.data.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching external reviewers:", error);
       } finally {
         setIsLoading(false);
       }
-    }
+    };
 
-    fetchData();
-  }, []);
+    fetchExternalReviewers();
+  }, [params.rec]);
 
   //loading
 
@@ -157,16 +155,16 @@ function IrebManageExternal() {
                 </thead>
                 <tbody>
                   {filteredExternal && filteredExternal.length > 0 ? (
-                    filteredExternal.map((form, index) => (
+                    filteredExternal.map((reviewer, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td>{form.name}</td>
-                        <td>{form.email}</td>
-                        <td>{form.affiliation}</td>
+                        <td>{reviewer.name}</td>
+                        <td>{reviewer.email}</td>
+                        <td>{reviewer.affiliation}</td>
                         <td>
                           <button
                             className="edit-icon"
-                            onClick={() => handleShowEditAccModal(form)}
+                            onClick={() => handleShowEditAccModal(reviewer)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -209,7 +207,11 @@ function IrebManageExternal() {
         </div>
       </div>
 
-      <AddAccModal show={modalShowAddAcc} onHide={handleCloseAddAccModal} />
+      <AddAccModal
+        show={modalShowAddAcc}
+        onHide={handleCloseAddAccModal}
+        rec={params.rec}
+      />
       <EditAccModal
         show={modalShowEditAcc}
         onHide={handleCloseEditAccModal}

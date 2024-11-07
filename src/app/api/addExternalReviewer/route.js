@@ -5,7 +5,9 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   await connectDB();
 
-  const { name, affiliation, email, token } = await req.json();
+  const { name, affiliation, email, token, rec } = await req.json();
+
+  console.log("Received data:", { name, affiliation, email, token, rec });
 
   try {
     const newReviewer = new ExternalReviewer({
@@ -13,6 +15,7 @@ export async function POST(req) {
       affiliation,
       email,
       accessToken: token,
+      rec,
     });
     await newReviewer.save();
     return NextResponse.json(
@@ -27,11 +30,17 @@ export async function POST(req) {
   }
 }
 
-export async function GET() {
+export async function GET(req) {
   await connectDB();
 
+  const { searchParams } = new URL(req.url);
+  const rec = searchParams.get("rec");
+
+  const filter = {};
+  if (rec) filter.rec = rec;
+
   try {
-    const externalReviewers = await ExternalReviewer.find({});
+    const externalReviewers = await ExternalReviewer.find(filter);
     return NextResponse.json(
       { success: true, data: externalReviewers },
       { status: 200 }
