@@ -8,7 +8,7 @@ import RecNavMobile from "../../../components/navbaradmin/RecNavMobile";
 import SearchBar from "../../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../../components/userloggedin/UserLoggedIn";
 import AddAccModal from "../../../components/modals/AddExternalReviewerModal";
-import EditAccModal from "../../../components/modals/EditExternalAccModal";
+import EditAccModal from "../../../components/modals/EditExternalAccReviewerModal";
 import ArchiveConfirmationModal from "../../../components/modals/ArchiveConfirmationModal";
 import "../../../styles/ireb/IrebManageAccounts.css";
 import withAuthorization from "../../../../hoc/withAuthorization";
