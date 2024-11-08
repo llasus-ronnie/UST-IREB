@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import Card from "../components/card/Card";
 import Carousel from "../components/carousel/Slider";
 import SubmissionProcess from "../components/submissionprocess/SubmissionProcess";
+import ImageZoom from "../components/imagezoom/ImageZoom";
 
 //images
 
@@ -78,11 +79,7 @@ function Home() {
               <SubmissionProcess />
 
               <div className="section-4-flowchart">
-                <Image
-                  src={flowchart}
-                  alt="flowchart"
-                  className="section-4-flowchart"
-                />
+                <ImageZoom />
               </div>
             </div>
 

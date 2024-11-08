@@ -20,7 +20,7 @@ export default function SubmissionProcess() {
                 <Col>
                     <div className="submission-process-container">
                         <div className="submission-process-title">
-                            <h1>Process of Submission</h1>
+                            <h1>Ethics Review Guidelines</h1>
                         </div>
 
                         <div className="steps-container">
