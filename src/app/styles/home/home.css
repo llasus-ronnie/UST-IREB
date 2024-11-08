@@ -236,7 +236,7 @@
 /* section 2 small tablet view */
 @media screen and (max-width: 912px) {
     .section-2-content{
-        gap: 1em;
+       padding: 3rem 5rem;
     }
 }
 
