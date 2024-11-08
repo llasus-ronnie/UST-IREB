@@ -8,9 +8,8 @@ import UserLoggedIn from "../../../../components/userloggedin/UserLoggedIn";
 import "../../../../styles/rec/RECViewSubmission.css";
 import axios from "axios";
 import withAuthorization from "../../../../../hoc/withAuthorization";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-
 
 function RECViewSubmission({ params }) {
   const [forms, setForms] = useState([]);
@@ -29,7 +28,7 @@ function RECViewSubmission({ params }) {
     fetchData();
   }, []);
 
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState("");
 
   const updateData = async (newStatus) => {
     try {
@@ -42,17 +41,17 @@ function RECViewSubmission({ params }) {
   const handleStatusChange = (event) => {
     const newStatus = event.target.value;
     setStatus(newStatus);
-    console.log(newStatus)
+    console.log(newStatus);
   };
 
   const updateStatus = () => {
     updateData(status);
     router.push(`/REC/RECSubmissions/${params.rec}`);
-  }
+  };
 
   const handleBack = () => {
     router.push(`/REC/RECSubmissions/${params.rec}`);
-  }
+  };
 
   return (
     <div className="adminpage-container">
@@ -85,48 +84,80 @@ function RECViewSubmission({ params }) {
             </div>
           </div>
 
-            <Row className="viewsubmission-container">
-              <Col xs={12} lg={8} className="viewsub-content-container">
-              </Col>
-              <Col xs={12} lg={4} className="viewsub-details-container">
-                  <h1>Submission Details</h1>
+          <Row className="viewsubmission-container">
+            <Col xs={12} lg={8} className="viewsub-content-container"></Col>
+            <Col xs={12} lg={4} className="viewsub-details-container">
+              <h1>Submission Details</h1>
 
-                  <span>Research Title:</span>
-                  <p>{forms?.title || "No title available"}</p>
+              <span>Research Title:</span>
+              <p>{forms?.title || "No title available"}</p>
 
-                  <span>Date of Submission:</span>
-                  <p>{forms?.date
+              <span>Date of Submission:</span>
+              <p>
+                {forms?.date
                   ? new Date(forms.date).toLocaleDateString("en-US")
-                  : "No date available"}</p>
+                  : "No date available"}
+              </p>
 
-                  <span>Review Classification:</span>
-                  <p>{forms?.classification || "No classification available"}</p>
+              <span>Review Classification:</span>
+              <p>{forms?.classification || "No classification available"}</p>
 
+              <span>Status:</span>
+              <select
+                className="viewsub-changestatus"
+                value={status}
+                onChange={handleStatusChange}
+              >
+                <option value="default">Choose Status</option>
+                <option value="Pending-Payment">Pending Payment</option>
+                <option value="For-Classification">For Classification</option>
+                <option value="In-Progress">In Progress</option>
+                <option value="Initial-Result">Initial Result</option>
+                <option value="Resubmission">Resubmission</option>
+                <option value="Approved">Approved</option>
+              </select>
 
-                  <span>Status:</span>
-                  <select className="viewsub-changestatus" value={status} onChange={handleStatusChange}>
-                  <option value="default">Choose Status</option>
-                    <option value="Pending-Payment">Pending Payment</option>
-                    <option value="For-Classification">For Classification</option>
-                    <option value="In-Progress">In Progress</option>
-                    <option value="Initial-Result">Initial Result</option>
-                    <option value="Resubmission">Resubmission</option>
-                    <option value="Approved">Approved</option>
-                  </select>
+              {/* can be edited hehe */}
+              <span>Research Classification:</span>
+              <select
+                className="viewsub-changestatus"
+                // value={status}
+                // onChange={handleStatusChange}
+              >
+                <option value="default">Choose Classification</option>
+                <option value="Expedited">Expedited</option>
+                <option value="Full-Board">Full Board</option>
+                <option value="Exempt">Exempt</option>
+              </select>
 
-                  <div className="viewsub-proofofpayment">
-                    <span>Proof of Payment:</span>
+              <span>Assign Reviewer:</span>
+              <select
+                className="viewsub-changestatus"
+                // value={status}
+                // onChange={handleStatusChange}
+              >
+                <option value="default">Choose Reviewer</option>
+                <option value="">Tricia Cuaresma</option>
+                <option value="">Franceska Flores</option>
+                <option value="">Danielle Foronda</option>
+              </select>
 
-                    <button>Proof of Payment Button</button>
-                  </div>
+              <div className="viewsub-proofofpayment">
+                <span>Proof of Payment:</span>
 
-                  <div className="viewsub-buttons">
-                  <button className="viewsub-save" onClick={updateStatus}>Save Changes</button>
-                  <button className="viewsub-back" onClick={handleBack}>Back</button>
-                  </div>
+                <button>Acknowledge Payment</button>
+              </div>
 
-              </Col>
-            </Row>
+              <div className="viewsub-buttons">
+                <button className="viewsub-save" onClick={updateStatus}>
+                  Save Changes
+                </button>
+                <button className="viewsub-back" onClick={handleBack}>
+                  Back
+                </button>
+              </div>
+            </Col>
+          </Row>
         </div>
       </div>
     </div>

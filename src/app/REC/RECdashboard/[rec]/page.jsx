@@ -163,7 +163,6 @@ function RECDashboard({ params }) {
                     <th>Author</th>
                     <th>Title</th>
                     <th>Date of Submission</th>
-                    <th>Assigned Evaluator</th>
                     <th>Assigned REC Staff</th>
                     <th>Submission Status</th>
                   </tr>
@@ -179,7 +178,7 @@ function RECDashboard({ params }) {
                           ? new Date(form.date).toLocaleDateString("en-US")
                           : "No date available"}
                       </td>
-                      <td>John Doe</td>
+
                       <td>John Doe</td>
                       <td>
                         {form && form.status

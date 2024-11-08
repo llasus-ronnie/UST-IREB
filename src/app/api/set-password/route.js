@@ -1,27 +1,22 @@
 import connectDB from "../../../../utils/database";
 import ExternalInvestigator from "../../../../models/externalInvestigatorModel";
 import ExternalReviewer from "../../../../models/externalReviewerModel";
+import User from "../../../../models/users/user";
 import { hashPassword } from "../../../../pages/api/auth/[...nextauth]";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
   await connectDB();
 
-  const { email, password } = await req.json();
-  console.log("Received data:", { email, password });
+  const { email, password, role } = await req.json();
+  console.log("Received data:", { email, password, role });
 
   try {
-    // Try to find user as an external investigator
-    let user = await ExternalInvestigator.findOne({ email });
-    let userRole = "ExternalInvestigator";
+    // Determine the model based on the role
+    const Model =
+      role === "ExternalReviewer" ? ExternalReviewer : ExternalInvestigator;
+    const user = await Model.findOne({ email });
 
-    // If not found, check if the user is an external reviewer
-    if (!user) {
-      user = await ExternalReviewer.findOne({ email });
-      userRole = user ? "ExternalReviewer" : null;
-    }
-
-    // If no user found, respond with a 404
     if (!user) {
       return NextResponse.json(
         { success: false, message: "User not found" },
@@ -39,9 +34,19 @@ export async function POST(req) {
 
     await user.save();
 
-    // Respond with a success message, specifying the role updated
+    // Check if the user already exists in User table
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      // Create a new entry in the User table
+      await User.create({
+        email,
+        name: user.name,
+        role,
+      });
+    }
+
     return NextResponse.json(
-      { success: true, message: `${userRole} password updated successfully` },
+      { success: true, message: "Password updated successfully" },
       { status: 200 }
     );
   } catch (error) {

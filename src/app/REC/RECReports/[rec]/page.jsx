@@ -259,25 +259,25 @@ function RECReports({ params }) {
 
         <div className="rec-reports">
           <div className="recreports-content">
-          <div className="rec-header-container">
-            <div className="rec-header">
-              <h1>REC User Profile</h1>
-              <p>View Admin Account Information</p>
+            <div className="rec-header-container">
+              <div className="rec-header">
+                <h1>REC Reports</h1>
+                <p>Overview of REC Submissions and Primary Reviewer</p>
+              </div>
+              <div className="userloggedin">
+                <UserLoggedIn />
+              </div>
             </div>
-            <div className="userloggedin">
-              <UserLoggedIn />
-            </div>
-          </div>
 
-          <div className="admin-header-container-mobile">
-            <div className="userloggedin-mobile">
-              <UserLoggedIn />
+            <div className="admin-header-container-mobile">
+              <div className="userloggedin-mobile">
+                <UserLoggedIn />
+              </div>
+              <div className="admin-header">
+                <h1>REC User Profile</h1>
+                <p>View Admin Account Information</p>
+              </div>
             </div>
-            <div className="admin-header">
-              <h1>REC User Profile</h1>
-              <p>View Admin Account Information</p>
-            </div>
-          </div>
 
             <div className="report-page-header">
               <button className="download-btn">Download Reports</button>
