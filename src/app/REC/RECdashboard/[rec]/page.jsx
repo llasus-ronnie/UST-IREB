@@ -67,7 +67,8 @@ function RECDashboard({ params }) {
       "Pending-Payment": 0,
       "For-Classification": 0,
       "In-Progress": 0,
-      "Final-Review": 0,
+      "Initial-Result": 0,
+      "Resubmission": 0,
       Approved: 0,
     };
 
@@ -153,8 +154,13 @@ function RECDashboard({ params }) {
                 </div>
 
                 <div className="recdashboard-card">
-                  <h2>For Final Review</h2>
-                  <h3>{statusCounts["Final-Review"]}</h3>
+                  <h2>Initial Result</h2>
+                  <h3>{statusCounts["Initial-Result"]}</h3>
+                </div>
+
+                <div className="recdashboard-card">
+                  <h2>Resubmission</h2>
+                  <h3>{statusCounts["Resubmission"]}</h3>
                 </div>
 
                 <div className="recdashboard-card">
