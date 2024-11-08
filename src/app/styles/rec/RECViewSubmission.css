@@ -201,6 +201,29 @@
   transition: background-color 0.3s ease;
 }
 
+.back-button {
+  color: var(--primary-color);
+  font-size: var(--paragraph-size);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 1.2rem;
+  margin-right: auto;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.back-button:hover {
+  color: #369ad2;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-button svg {
+  vertical-align: middle;
+  margin-right: 0.8rem;
+}
+
 
 /* scroll design  */
 ::-webkit-scrollbar {
