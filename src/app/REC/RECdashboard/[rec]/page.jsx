@@ -171,10 +171,14 @@ function RECDashboard({ params }) {
                   {overdueForms.map((overdueForms, index) => (
                     <li key={index}>
                       <Link href={`REC/RECViewSubmission`}>
-                          <div className="deadline-links">
+                        <div className="deadline-links">
                           <p>{overdueForms.title}</p>
-                          <p>{new Date(overdueForms.date).toISOString().split("T")[0]}</p>
-                          </div>
+                          <p>{new Date(overdueForms.date).toLocaleDateString("en-US", {
+                            month: "2-digit",
+                            day: "2-digit",
+                            year: "numeric"
+                          })}</p>
+                        </div>
                       </Link>
                     </li>
                   ))}
