@@ -70,8 +70,14 @@ function SubmissionStatus({ params }) {
         "Your submission is currently with the primary reviewer for ethical review",
     },
     {
-      id: "Final-Review",
-      title: "Final Review",
+      id: "Initial-Result",
+      title: "Initial Result",
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    },
+    {
+      id: "Resubmission",
+      title: "Resubmission",
       description:
         "After all revisions, your submission will be sent to the REC Chair for the final review stage.",
     },
