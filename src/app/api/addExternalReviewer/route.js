@@ -1,86 +1,35 @@
 import connectDB from "../../../../utils/database";
 import ExternalReviewer from "../../../../models/externalReviewerModel";
+import { hashPassword } from "../../../../pages/api/auth/[...nextauth]";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
   await connectDB();
-
-  const { name, affiliation, email, token, rec } = await req.json();
-
-  console.log("Received data:", { name, affiliation, email, token, rec });
-
+  const { email, password } = await req.json();
+  console.log("Received data:", { email, password });
   try {
-    const newReviewer = new ExternalReviewer({
-      name,
-      affiliation,
-      email,
-      accessToken: token,
-      rec,
-    });
-    await newReviewer.save();
-    return NextResponse.json(
-      { success: true, data: newReviewer },
-      { status: 201 }
-    );
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 400 }
-    );
-  }
-}
-
-export async function GET(req) {
-  await connectDB();
-
-  const { searchParams } = new URL(req.url);
-  const rec = searchParams.get("rec");
-
-  const filter = {};
-  if (rec) filter.rec = rec;
-
-  try {
-    const externalReviewers = await ExternalReviewer.find(filter);
-    return NextResponse.json(
-      { success: true, data: externalReviewers },
-      { status: 200 }
-    );
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    );
-  }
-}
-
-export async function PATCH(req) {
-  await connectDB();
-
-  const { id, name, affiliation } = await req.json();
-
-  console.log("Updating reviewer with ID:", id); // Log the ID
-
-  try {
-    const updatedReviewer = await ExternalReviewer.findByIdAndUpdate(
-      id,
-      { name, affiliation },
-      { new: true }
-    );
-
-    if (!updatedReviewer) {
-      console.error("Reviewer not found for ID:", id); // Log if not found
+    // Check if the user exists
+    const reviewer = await ExternalReviewer.findOne({ email });
+    if (!reviewer) {
       return NextResponse.json(
-        { success: false, error: "Reviewer not found" },
+        { success: false, message: "User not found" },
         { status: 404 }
       );
     }
-
+    // Hash the new password
+    const hashedPassword = await hashPassword(password);
+    console.log("Hashed password:", hashedPassword);
+    // Update the user's password and remove the access token
+    reviewer.password = hashedPassword;
+    delete reviewer.accessToken; // Invalidate token
+    await reviewer.save();
+    // Respond with success message, do not log in here
     return NextResponse.json(
-      { success: true, data: updatedReviewer },
+      { success: true, message: "Password updated successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error in PATCH:", error);
+    console.error("Error during password update:", error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }

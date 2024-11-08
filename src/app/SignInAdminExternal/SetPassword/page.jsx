@@ -68,7 +68,7 @@ export default function SignIn() {
             toast.error("Login failed. Please check your credentials.");
           } else {
             toast.success("Password set successfully and logged in.");
-            router.push("/"); // Redirect to homepage or dashboard
+            router.push("/PrimaryReviewer/PRDashboard"); // Redirect to homepage or dashboard
           }
         } else {
           toast.error("Error setting password: " + response.data.message);

@@ -50,8 +50,8 @@ function PrDashboard() {
             </div>
           </div>
 
-        <Row className="admindashboard-container">
-          <Col className="admindashboard-cards">
+          <Row className="admindashboard-container">
+            <Col className="admindashboard-cards">
               <div className="admindashboard-card">
                 <h2>Newly Assigned</h2>
                 <h3>2</h3>
@@ -72,12 +72,12 @@ function PrDashboard() {
                 <h3>3</h3>
                 <p>Tasks</p>
               </div>
-           </Col>
+            </Col>
             <Col className="needs-attention">
-              <h1>Assigned Tasks that Need Attention</h1>  
+              <h1>Assigned Tasks that Need Attention</h1>
               <p className="needs-attention-content mt-3">No data available.</p>
-           </Col>
-        </Row>
+            </Col>
+          </Row>
 
           <div className="pr-tables">
             <div className="prdashboard-table">
@@ -99,7 +99,7 @@ function PrDashboard() {
                     <td>2024-09-11</td>
                     <td>Impact of Climate Change on Marine Life</td>
                     <td>
-                    <Link
+                      <Link
                         href={`/PrimaryReviewer/PRSubmissions`}
                         className="pr-view-btn"
                       >
@@ -135,4 +135,7 @@ function PrDashboard() {
   );
 }
 
-export default withAuthorization(PrDashboard, "PrimaryReviewer");
+export default withAuthorization(PrDashboard, [
+  "PrimaryReviewer",
+  "ExternalReviewer",
+]);

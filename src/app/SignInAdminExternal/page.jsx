@@ -53,8 +53,8 @@ export default function SignIn() {
     try {
       const response = await axios.post("/api/externalReviewerLogin", {
         email,
-        accessToken, // Could be either the access token or password
-        role, // Include the role in the request
+        accessToken,
+        role,
       });
 
       if (response.data.success) {
@@ -62,12 +62,12 @@ export default function SignIn() {
         const nextAuthSignIn = await signIn("credentials", {
           redirect: false,
           email,
-          password: accessToken, // Use accessToken here as it might be password or access token
+          password: accessToken,
         });
 
         if (nextAuthSignIn && !nextAuthSignIn.error) {
           toast.success("Login successful");
-          router.push("/PrimaryReviewer/PRDashboard"); // Redirect to admin dashboard or another protected page
+          router.push("/PrimaryReviewer/PRDashboard");
         } else {
           toast.error("Failed to create session");
         }

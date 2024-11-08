@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import connectDB from "../../../utils/database";
 import User from "../../../models/users/user";
 import ExternalInvestigator from "../../../models/externalInvestigatorModel";
+import ExternalReviewer from "../../../models/externalReviewerModel";
 import bcrypt from "bcryptjs";
 
 const handler = NextAuth({
@@ -46,6 +47,26 @@ const handler = NextAuth({
           }
         }
 
+        const externalReviewer = await ExternalReviewer.findOne({
+          email: credentials.email,
+        });
+
+        if (externalReviewer) {
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            externalReviewer.password
+          );
+
+          if (isPasswordValid) {
+            console.log("External reviewer validated:", externalReviewer);
+            return {
+              email: externalReviewer.email,
+              name: externalReviewer.name,
+              role: "ExternalReviewer",
+            };
+          }
+        }
+
         throw new Error("Invalid email or password");
       },
     }),
@@ -61,11 +82,6 @@ const handler = NextAuth({
       if (token.role) {
         session.user.role = token.role;
       }
-      return session;
-    },
-    async session({ session, token }) {
-      session.user.role = token.role;
-      session.user.email = token.email;
       return session;
     },
     async signIn({ user, profile, account }) {
