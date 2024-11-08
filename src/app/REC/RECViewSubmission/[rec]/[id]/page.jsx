@@ -109,7 +109,8 @@ function RECViewSubmission({ params }) {
                     <option value="Pending-Payment">Pending Payment</option>
                     <option value="For-Classification">For Classification</option>
                     <option value="In-Progress">In Progress</option>
-                    <option value="Final-Review">Final Review</option>
+                    <option value="Initial-Result">Initial Result</option>
+                    <option value="Resubmission">Resubmission</option>
                     <option value="Approved">Approved</option>
                   </select>
 

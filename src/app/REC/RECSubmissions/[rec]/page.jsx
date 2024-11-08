@@ -110,9 +110,13 @@ function RecSubmissions({ params }) {
                 <span>{statusCount["In-Progress"] || 0}</span>{" "}
                 <p>In Progress</p>
               </button>
-              <button onClick={() => handleTableChange("Final-Review")}>
-                <span>{statusCount["Final-Review"] || 0}</span>{" "}
-                <p>Final Review</p>
+              <button onClick={() => handleTableChange("Initial-Result")}>
+                <span>{statusCount["Initial-Result"] || 0}</span>{" "}
+                <p>Initial Result</p>
+              </button>
+              <button onClick={() => handleTableChange("Resubmission")}>
+                <span>{statusCount["Resubmission"] || 0}</span>{" "}
+                <p>Resubmission</p>
               </button>
               <button onClick={() => handleTableChange("Approved")}>
                 <span>{statusCount["Approved"] || 0}</span> <p>Approved</p>
@@ -125,7 +129,8 @@ function RecSubmissions({ params }) {
                 <option value="Pending-Payment">Pending Payment</option>
                 <option value="For-Classification">For Classification</option>
                 <option value="In-Progress">In Progress</option>
-                <option value="Final-Review">Final Review</option>
+                <option value="Initial-Result">Initial Result</option>
+                <option value="Resubmission">Resubmission</option>
                 <option value="Approved">Approved</option>
               </select>
             </div>
@@ -135,7 +140,8 @@ function RecSubmissions({ params }) {
               "Pending-Payment",
               "For-Classification",
               "In-Progress",
-              "Final-Review",
+              "Initial-Result",
+              "Resubmission",
               "Approved",
             ].map(
               (status) =>
