@@ -6,6 +6,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/navigation";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Images
 import Image from "next/image";
@@ -34,6 +36,8 @@ export default function SignIn() {
           const recMemberData = response.data.data;
 
           console.log("REC Member Data:", recMemberData);
+
+          toast.success("Successfully logged in!");
 
           if (role === "IREB") {
             router.push("/IREB/IREBDashboard");
@@ -80,7 +84,7 @@ export default function SignIn() {
   }
 
   return (
-    <>
+    <div>
       <div className="admin-signin-container">
         <Image
           src={bgAdmin}
@@ -127,7 +131,7 @@ export default function SignIn() {
 
           <div className="admin-signin-footer">
             <p>
-              Need help signing in? <a href="#">Learn More</a>
+              Need help signing in? <a href="/faqs">Learn More</a>
             </p>
             <p>
               <a href="/">Return to Home</a>
@@ -135,6 +139,7 @@ export default function SignIn() {
           </div>
         </div>
       </div>
-    </>
+      <ToastContainer position="bottom-right" />
+    </div>
   );
 }

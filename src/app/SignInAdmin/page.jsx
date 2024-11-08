@@ -61,7 +61,7 @@ const SignInAdmin = () => {
 
           <div className="admin-signin-footer">
             <p>
-              Need help signing in? <a href="#">Learn More</a>
+              Need help signing in? <a href="/faqs">Learn More</a>
             </p>
             <p>
               <a href="/">Return to Home</a>
