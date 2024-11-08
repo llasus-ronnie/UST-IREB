@@ -85,7 +85,10 @@ function RECViewSubmission({ params }) {
           </div>
 
           <Row className="viewsubmission-container">
-          <a href="../PrimaryReviewer/PRSubmissions" className="back-button">
+            <a
+              href={`/REC/RECSubmissions/${params.rec}`}
+              className="back-button"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"

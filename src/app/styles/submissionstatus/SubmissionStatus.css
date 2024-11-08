@@ -18,7 +18,7 @@ body {
 }
 
 .header {
-    z-index: 10;
+  z-index: 10;
 }
 
 .submission_header {
@@ -42,337 +42,349 @@ body {
 }
 
 .submission-divider {
-    width: 100%;
-    height: 0.938rem;
-    background-color: var(--tertiary-color);
-    margin: 0;
-    padding: 0;
+  width: 100%;
+  height: 0.938rem;
+  background-color: var(--tertiary-color);
+  margin: 0;
+  padding: 0;
 }
 
 /* Submission Status Main Content */
 
 .submissionstatus-container {
-    font-family: Poppins;
-    display: flex;
-    margin: 2rem 4rem;
-  }
+  font-family: Poppins;
+  display: flex;
+  margin: 2rem 4rem;
+}
 
 .submissionstatus-container h1 {
-    color: var(--tertiary-color);
-    font-size: var(--heading-1-size);
-    font-weight: 700;
-    margin: 0 0 0.5rem 0;
-    padding: 0;
+  color: var(--tertiary-color);
+  font-size: var(--heading-1-size);
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  padding: 0;
 }
 
 .submissionstatus-container span {
-    color: var(--primary-color);
-    font-size: var(--paragraph-size);
-    font-weight: bold;
-    margin: 1rem 0 0.2rem 0;
-    padding: 0;
+  color: var(--primary-color);
+  font-size: var(--paragraph-size);
+  font-weight: bold;
+  margin: 1rem 0 0.2rem 0;
+  padding: 0;
 }
 
 .submissionstatus-container p {
-    color: var(--primary-color);
-    font-size: var(--paragraph-size);
-    margin: 0.2rem 0;
-    padding: 0;
+  color: var(--primary-color);
+  font-size: var(--paragraph-size);
+  margin: 0.2rem 0;
+  padding: 0;
 }
 
 .back-button {
-    color: var(--primary-color);
-    font-size: var(--paragraph-size);
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    margin: 0 auto 2rem;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .back-button:hover {
-    color: var(--tertiary-color);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .back-button svg {
-    vertical-align: middle;
-    margin-right: 0.8rem;
-  }
-  
-  /* Left Side of Main Content */
-  
+  color: var(--primary-color);
+  font-size: var(--paragraph-size);
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  margin: 0 auto 2rem;
+  border: none;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  color: var(--tertiary-color);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-button svg {
+  vertical-align: middle;
+  margin-right: 0.8rem;
+}
+
+/* Left Side of Main Content */
+
 .submissionstatus-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 0 1rem 0 0;
-    width: fit-content;
-    max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0 1rem 0 0;
+  width: fit-content;
+  max-width: 50%;
 }
 
 .submissionstatus-card-details {
-    background-color: var(--quaternary-color);
-    border-radius: 10px;
-    padding: 2.5rem 3rem;
-    width: 100%;
+  background-color: var(--quaternary-color);
+  border-radius: 10px;
+  padding: 2.5rem 3rem;
+  width: 100%;
 }
 
 .submissionstatus-card-remarks {
-    background-color: var(--quaternary-color);
-    border-radius: 10px;
-    padding: 2.5rem 3rem;
-    width: 100%;
-    margin-top: 2rem;
+  background-color: var(--quaternary-color);
+  border-radius: 10px;
+  padding: 2.5rem 3rem;
+  width: 100%;
+  margin-top: 2rem;
 }
 
 .submissionstatus-remarks-table {
-    width: 100%;
-    margin: 1rem 0;
+  width: 100%;
+  margin: 1rem 0;
 }
 
 .submissionstatus-remarks-table table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .submissionstatus-remarks-table th,
 .submissionstatus-remarks-table td {
-    padding: 0.75rem;
-    text-align: left;
+  padding: 0.75rem;
+  text-align: left;
 }
 
 .submissionstatus-remarks-table th {
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 .submissionstatus-remarks-table td {
-    border-bottom: 1px solid #dcdcdc;
+  border-bottom: 1px solid #dcdcdc;
 }
 
 .submissionstatus-remarks-table td br {
-    display: block;
+  display: block;
 }
 
-
 .submissionstatus-buttons {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2rem;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  width: 100%;
 }
 
 .submissionstatus-view-sub {
-    background-color: #2f2f2f;
-    color: var(--quaternary-color);
-    border: none;
-    border-radius: 10px;
-    padding: 0.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 1rem;
-    cursor: pointer;
-    font-size: var(--paragraph-size);
-    font-weight: bold;
-    width: 100%;
+  background-color: #2f2f2f;
+  color: var(--quaternary-color);
+  border: none;
+  border-radius: 10px;
+  padding: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  cursor: pointer;
+  font-size: var(--paragraph-size);
+  font-weight: bold;
+  width: 100%;
 }
 
 .submissionstatus-view-sub:hover {
-    background-color: #272727;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
+  background-color: #272727;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
 .submissionstatus-edit-sub {
-    background-color: var(--tertiary-color);
-    color: var(--quaternary-color);
-    border: none;
-    border-radius: 10px;
-    padding: 0.8rem;
-    margin-top: 1rem;
-    cursor: pointer;
-    font-size: var(--paragraph-size);
-    font-weight: bold;
-    width: 100%;
+  background-color: var(--tertiary-color);
+  color: var(--quaternary-color);
+  border: none;
+  border-radius: 10px;
+  padding: 0.8rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  font-size: var(--paragraph-size);
+  font-weight: bold;
+  width: 100%;
 }
 
 .submissionstatus-edit-sub:hover {
-    background-color: #e9ac04;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: #e9ac04;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .submissionstatus-uploadproof-container {
-    width: 100%;
-    margin: 1rem 0;
+  width: 100%;
+  margin: 1rem 0;
 }
 
 .submissionstatus-uploadproof {
-    background-color: #369AD2;
-    color: var(--quaternary-color);
-    border: none;
-    border-radius: 10px;
-    padding: 0.8rem;
-    cursor: pointer;
-    font-size: var(--paragraph-size);
-    font-weight: bold;
-    width: 100%;
+  background-color: #369ad2;
+  color: var(--quaternary-color);
+  border: none;
+  border-radius: 10px;
+  padding: 0.8rem;
+  cursor: pointer;
+  font-size: var(--paragraph-size);
+  font-weight: bold;
+  width: 100%;
 }
 
 .submissionstatus-uploadproof:hover {
-    background-color: #137ab5;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: #137ab5;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .submissionstatus-paymentfile {
-    background-color: var(--quaternary-color);
-    padding: 2rem;
-    margin: 1rem 0;
-    border-radius: 10px;
-    height: auto;
-    display: flex;
-    align-items: left;
-    text-align: left;
+  background-color: var(--quaternary-color);
+  padding: 2rem;
+  margin: 1rem 0;
+  border-radius: 10px;
+  height: auto;
+  display: flex;
+  align-items: left;
+  text-align: left;
 
-    flex-direction: column;
+  flex-direction: column;
 }
-  
+
 /* Right Side of Main Content */
 
 .submissionstatus-right {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: left;
-    margin: 0 0 0 1rem;
-    width: fit-content;
-    max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+  margin: 0 0 0 1rem;
+  width: fit-content;
+  max-width: 50%;
 }
 
 .submissionstatus-card-breadcrumbs {
-    background-color: var(--quaternary-color);
-    border-radius: 10px;
-    padding: 2.5rem 3rem;
+  background-color: var(--quaternary-color);
+  border-radius: 10px;
+  padding: 2.5rem 3rem;
+}
+
+.center-spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
 
 /* scroll design  */
 ::-webkit-scrollbar {
-    background-color: var(--primary-color);
-    width: 5px;
+  background-color: var(--primary-color);
+  width: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--tertiary-color);
-    border-radius: 10px;
+  background-color: var(--tertiary-color);
+  border-radius: 10px;
 }
 
 /* Responsiveness */
 
 /* Mobile */
 @media only screen and (max-width: 576px) {
-    .submissionstatus-container {
-        flex-direction: column;
-        align-items: center;
-        margin: 1rem;
-    }
+  .submissionstatus-container {
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem;
+  }
 
-    .submissionstatus-left,
-    .submissionstatus-right {
-        margin: 1rem 0;
-        width: 100%;
-        max-width: 100%;
-    }
+  .submissionstatus-left,
+  .submissionstatus-right {
+    margin: 1rem 0;
+    width: 100%;
+    max-width: 100%;
+  }
 
-    .submissionstatus-card-details,
-    .submissionstatus-card-remarks,
-    .submissionstatus-card-breadcrumbs {
-        padding: 2rem;
-    }
+  .submissionstatus-card-details,
+  .submissionstatus-card-remarks,
+  .submissionstatus-card-breadcrumbs {
+    padding: 2rem;
+  }
 
-    .submissionstatus-view-sub,
-    .submissionstatus-edit-sub {
-        padding: 0.8rem 2rem;
-    }
+  .submissionstatus-view-sub,
+  .submissionstatus-edit-sub {
+    padding: 0.8rem 2rem;
+  }
 
-    .submissionstatus-buttons {
-        flex-direction: column;
-        align-items: stretch;
-    }
+  .submissionstatus-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-    .submission_header {
-        height: 160px;
-    }
+  .submission_header {
+    height: 160px;
+  }
 
-    .submission_header h1 {
-        font-size: var(--heading-1-size);
-    }
+  .submission_header h1 {
+    font-size: var(--heading-1-size);
+  }
 
-    .submission-divider {
-        height: 0.5rem;
-    }
+  .submission-divider {
+    height: 0.5rem;
+  }
 
-    .submissionstatus-left h1,
-    .submissionstatus-right h1 {
-        font-size: 20px;
-    }
+  .submissionstatus-left h1,
+  .submissionstatus-right h1 {
+    font-size: 20px;
+  }
 
-    .submissionstatus-card-title {
-        margin: 2rem 0;
-    }
+  .submissionstatus-card-title {
+    margin: 2rem 0;
+  }
 
-    .back-button {
-        margin: 0 auto 1rem;
-    }
+  .back-button {
+    margin: 0 auto 1rem;
+  }
 }
 
 /* Tablet */
 @media only screen and (min-width: 577px) and (max-width: 768px) {
-    .submissionstatus-container {
-        flex-direction: column;
-        align-items: center;
-        margin: 1.5rem;
-    }
+  .submissionstatus-container {
+    flex-direction: column;
+    align-items: center;
+    margin: 1.5rem;
+  }
 
-    .submissionstatus-left {
-        margin: 2rem 0 0 0;
-        width: 100%;
-        max-width: 100%;
-    }
+  .submissionstatus-left {
+    margin: 2rem 0 0 0;
+    width: 100%;
+    max-width: 100%;
+  }
 
-    .submissionstatus-right {
-        margin: 1rem 0;
-        width: 100%;
-        max-width: 100%;
-    }
+  .submissionstatus-right {
+    margin: 1rem 0;
+    width: 100%;
+    max-width: 100%;
+  }
 
-    .submissionstatus-view-sub,
-    .submissionstatus-edit-sub {
-        padding: 0.8rem 4rem;
-    }
+  .submissionstatus-view-sub,
+  .submissionstatus-edit-sub {
+    padding: 0.8rem 4rem;
+  }
 
-    .submissionstatus-buttons {
-        flex-direction: row;
-        justify-content: space-between;
-    }
+  .submissionstatus-buttons {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 
-    .submissionstatus-view-sub,
-    .submissionstatus-edit-sub {
-        width: 48%;
-    }
+  .submissionstatus-view-sub,
+  .submissionstatus-edit-sub {
+    width: 48%;
+  }
 
-    .submission_header {
-        height: 180px;
-    }
+  .submission_header {
+    height: 180px;
+  }
 
-    .submission_header h1 {
-        font-size: 28px;
-    }
+  .submission_header h1 {
+    font-size: 28px;
+  }
 
-    .back-button {
-        margin: 0 auto;
-    }
+  .back-button {
+    margin: 0 auto;
+  }
 }

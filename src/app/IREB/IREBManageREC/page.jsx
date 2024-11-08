@@ -137,7 +137,7 @@ function IrebManageExternal() {
                   <a
                     key={index}
                     className="managerec-card"
-                    href={`../IREB/IREBManageRECRoles/${form._id}`}
+                    // href={`../IREB/IREBManageRECRoles/${form._id}`}
                   >
                     <div className="edit-icon-container">
                       <button

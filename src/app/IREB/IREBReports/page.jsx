@@ -281,23 +281,61 @@ function IrebReports() {
   //download
   const downloadReport = async () => {
     const doc = new jsPDF("portrait", "pt", "a4");
-    doc.text("IREB Reports", 20, 20);
+
+    // Header for the PDF
+    doc.setFontSize(18);
+    doc.text("IREB Reports", 40, 40);
+    doc.setFontSize(12);
+    doc.text("Overview of UST-IREB Submissions and REC Analytics", 40, 60);
 
     // Capture charts as images
     const barChartElement = document.getElementById("bar-chart");
     const doughnutChartElement = document.getElementById("doughnut-chart");
+    const recStatusChartElement = document.querySelector(
+      ".ireb-rec-status-chart canvas"
+    );
 
-    if (barChartElement && doughnutChartElement) {
+    // Convert charts to images and add them to the PDF
+    if (barChartElement && doughnutChartElement && recStatusChartElement) {
       const barChartImage = await html2canvas(barChartElement).then((canvas) =>
         canvas.toDataURL("image/png")
       );
       const doughnutChartImage = await html2canvas(doughnutChartElement).then(
         (canvas) => canvas.toDataURL("image/png")
       );
+      const recStatusChartImage = await html2canvas(recStatusChartElement).then(
+        (canvas) => canvas.toDataURL("image/png")
+      );
 
-      doc.addImage(barChartImage, "PNG", 20, 40, 550, 300);
+      // Add Bar Chart to the PDF
+      doc.setFontSize(16);
+      doc.text("Submission Overview", 40, 100);
+      doc.addImage(barChartImage, "PNG", 40, 120, 500, 300);
+
+      // Move to new page for Doughnut and REC Status Charts
       doc.addPage();
-      doc.addImage(doughnutChartImage, "PNG", 20, 40, 300, 300);
+
+      // Center the Doughnut Chart on the page
+      const pageWidth = doc.internal.pageSize.width;
+      const doughnutImageWidth = 300; // Width of the doughnut chart image
+      const centerX = (pageWidth - doughnutImageWidth) / 2;
+
+      // Add Doughnut Chart to the PDF
+      doc.text("REC Analytics", 40, 40);
+      doc.addImage(
+        doughnutChartImage,
+        "PNG",
+        centerX,
+        60,
+        doughnutImageWidth,
+        300
+      );
+
+      doc.addPage();
+
+      // Add REC Status Chart to the PDF
+      doc.text("Task Status by RECs", 40, 40);
+      doc.addImage(recStatusChartImage, "PNG", 40, 60, 500, 300);
     }
 
     doc.save("IREB_Report.pdf");
@@ -354,13 +392,13 @@ function IrebReports() {
               <UserLoggedIn className="userloggedin" />
             </div>
 
-          <div className="ireb-header-container-mobile">
+            <div className="ireb-header-container-mobile">
               <div className="ireb-header">
-              <UserLoggedIn className="userloggedin-mobile" />
+                <UserLoggedIn className="userloggedin-mobile" />
                 <h1>IREB Reports</h1>
                 <p>Overview of UST-IREB Submissions and RECs.</p>
               </div>
-          </div>
+            </div>
 
             <div className="report-page-header">
               <button className="download-btn" onClick={downloadReport}>
