@@ -4,7 +4,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import connectDB from "../../../utils/database";
 import User from "../../../models/users/user";
 import ExternalInvestigator from "../../../models/externalInvestigatorModel";
-import ExternalReviewer from "../../../models/externalReviewerModel";
 import bcrypt from "bcryptjs";
 
 const handler = NextAuth({
@@ -24,48 +23,25 @@ const handler = NextAuth({
       async authorize(credentials) {
         await connectDB();
 
-        // Check if the user is an external investigator
         const externalInvestigator = await ExternalInvestigator.findOne({
           email: credentials.email,
         });
+
         if (externalInvestigator) {
           const isPasswordValid = await bcrypt.compare(
             credentials.password,
             externalInvestigator.password
           );
+
           if (isPasswordValid) {
-            await addUserToUserTableIfNotExist(
-              externalInvestigator.email,
-              externalInvestigator.name,
-              "ExternalInvestigator" // Passing role explicitly
+            console.log(
+              "External investigator validated:",
+              externalInvestigator
             );
             return {
               email: externalInvestigator.email,
               name: externalInvestigator.name,
               role: "ExternalInvestigator",
-            };
-          }
-        }
-
-        // Check if the user is an external reviewer
-        const externalReviewer = await ExternalReviewer.findOne({
-          email: credentials.email,
-        });
-        if (externalReviewer) {
-          const isPasswordValid = await bcrypt.compare(
-            credentials.password,
-            externalReviewer.password
-          );
-          if (isPasswordValid) {
-            await addUserToUserTableIfNotExist(
-              externalReviewer.email,
-              externalReviewer.name,
-              "ExternalReviewer" // Passing role explicitly
-            );
-            return {
-              email: externalReviewer.email,
-              name: externalReviewer.name,
-              role: "ExternalReviewer",
             };
           }
         }
@@ -77,12 +53,19 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role || (await getRoleFromDB(user.email));
+        token.role = user.role || (await getRoleFromDB(user.email)); // Retrieve role if not set
       }
       return token;
     },
     async session({ session, token }) {
+      if (token.role) {
+        session.user.role = token.role;
+      }
+      return session;
+    },
+    async session({ session, token }) {
       session.user.role = token.role;
+      session.user.email = token.email;
       return session;
     },
     async signIn({ user, profile, account }) {
@@ -105,18 +88,6 @@ const handler = NextAuth({
     },
   },
 });
-
-// Helper function to add user to User table if not existing
-async function addUserToUserTableIfNotExist(email, name, role) {
-  await connectDB();
-  const userExist = await User.findOne({ email });
-  if (!userExist) {
-    console.log(`Creating new user with role: ${role}`); // Log role
-    await User.create({ email, name, role });
-  } else {
-    console.log(`User already exists: ${email} with role ${userExist.role}`);
-  }
-}
 
 async function getRoleFromDB(email) {
   await connectDB();
