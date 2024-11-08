@@ -131,7 +131,6 @@ function IrebManageExternal({ params }) {
                   <SearchBar onSearch={handleSearch} />
                 </div>
 
-                <button className="me-buttonfilter"> Filter & Sort </button>
                 <button
                   className="me-buttonaddacc"
                   onClick={handleShowAddAccModal}

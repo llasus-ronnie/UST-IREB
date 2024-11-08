@@ -154,7 +154,6 @@
   color: var(--quaternary-color);
   background-color: #369ad2;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  width: 100%;
 }
 
 .me-buttonaddacc:hover {
@@ -303,6 +302,10 @@ tr:hover {
     display: none;
   }
 
+  .adminnav-mobile {
+    display: none;
+  }
+
   .ireb-header-container-mobile {
     display: none;
   }
@@ -314,6 +317,10 @@ tr:hover {
     display: none;
   }
 
+  .adminnav-mobile {
+    display: none;
+  }
+
   .ireb-header-container-mobile {
     display: none;
   }
@@ -322,6 +329,10 @@ tr:hover {
 /* Mobile */
 @media only screen and (max-width: 576px) {
   .irebnav {
+    display: none;
+  }
+
+  .recnav {
     display: none;
   }
 

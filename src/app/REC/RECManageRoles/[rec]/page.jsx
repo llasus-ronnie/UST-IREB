@@ -138,43 +138,11 @@ function IrebManageRECRoles({ params }) {
         <div className="adminmain-content">
           <div className="ireb-header-container">
             <div className="adminheader-container">
-              {/* <a href="../IREBManageREC" className="back-button">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-arrow-left"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
-                  />
-                </svg>
-                Go Back to REC Accounts
-              </a> */}
               <UserLoggedIn className="user-loggedin" />
             </div>
           </div>
 
           <div className="ireb-header-container-mobile">
-            <button className="back-button">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-arrow-left"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
-                />
-              </svg>
-              Go Back to REC Accounts
-            </button>
             <div className="userloggedin-mobile">
               <UserLoggedIn />
             </div>
@@ -182,12 +150,12 @@ function IrebManageRECRoles({ params }) {
 
           <div className="manage-accounts">
             <div className="me-title">
-              <h1>{REC?.name || "No title available"}</h1>
+              <h1>Manage REC Roles</h1>
             </div>
 
             <div className="acctype-container">
               <div className="acctype">
-                <h2>Manage REC Roles</h2>
+                <h2>{REC?.name || "No title available"}</h2>
               </div>
 
               <div className="acctype-toggles">
@@ -195,7 +163,6 @@ function IrebManageRECRoles({ params }) {
                   <SearchBar className="search-bar" onSearch={handleSearch} />
                 </div>
 
-                <button className="me-buttonfilter">Filter & Sort</button>
                 <button
                   className="me-buttonaddacc"
                   onClick={handleShowModalAddRECMember}
