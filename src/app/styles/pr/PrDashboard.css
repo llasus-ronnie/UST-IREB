@@ -251,6 +251,10 @@
     margin-top: 0.5rem;
     height: 100%;
   }
+
+  .needs-attention-content {
+    padding: 2rem 0; /* ayaw mabasa ?? kaya nag inline nlng ako */
+  }
 }
 
   /* Tablet */

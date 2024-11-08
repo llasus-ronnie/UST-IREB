@@ -6,6 +6,7 @@ import PrNavMobile from "../../components/navbaradmin/PrNavMobile";
 import SearchBar from "../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
 import "../../styles/pr/PrSubmissions.css";
+import Link from "next/link";
 
 import withAuthorization from "../../../hoc/withAuthorization";
 
@@ -82,7 +83,12 @@ function PrSubmissions() {
                     <td>2024-09-11</td>
                     <td>Impact of Climate Change on Marine Life</td>
                     <td>
-                      <button className="pr-view-btn">View</button>
+                    <Link
+                        href={`/PrimaryReviewer/PRViewSubmission`}
+                        className="pr-view-btn"
+                      >
+                        View
+                      </Link>
                     </td>
                   </tr>
                   <tr>
