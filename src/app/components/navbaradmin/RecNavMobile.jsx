@@ -9,6 +9,9 @@ const RecNavMobile = (props) => {
   const { params } = props;
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollTop, setLastScrollTop] = useState(0);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startY, setStartY] = useState(0);
   const [isActive, setIsActive] = useState("");
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -28,6 +31,28 @@ const RecNavMobile = (props) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollTop]);
 
+  const handlePopupToggle = () => {
+    setIsPopupVisible(!isPopupVisible);
+  };
+
+  const handleDragStart = (e) => {
+    setIsDragging(true);
+    setStartY(e.clientY || e.touches[0].clientY);
+  };
+
+  const handleDragMove = (e) => {
+    if (!isDragging) return;
+    const currentY = e.clientY || e.touches[0].clientY;
+    if (currentY - startY > 50) {
+      setIsPopupVisible(false);
+      setIsDragging(false);
+    }
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+  };
+
   useEffect(() => {
     const path = window.location.pathname;
 
@@ -37,8 +62,10 @@ const RecNavMobile = (props) => {
       setIsActive("profile");
     } else if (path.includes(`RECSubmissions/${props.rec}`)) {
       setIsActive("submissions");
-    } else if (path.includes("RECManageContent")) {
-      setIsActive("content");
+    } else if (path.includes(`RECManageRoles/${props.rec}`)) {
+      setIsActive("manage");
+    } else if (path.includes(`RECManageContent/${props.rec}`)) {
+      setIsActive("manage");
     } else if (path.includes("RECReports")) {
       setIsActive("reports");
     } else {
@@ -122,27 +149,29 @@ const RecNavMobile = (props) => {
             </li>
 
             <li
-              className={`${isActive === "content" ? "active-linkline" : ""}`}
+              className={`${
+                isActive === "manage" ? "active-linkline" : ""
+              }`}
             >
-              <a href={`/REC/RECManageContent/${props.rec}`}>
+              <a onClick={handlePopupToggle}>
                 <div>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="30"
-                        height="30"
-                        fill="#a58324"
-                        className={`bi bi-pencil-square ${
-                          isActive === "content" ? "active-link" : ""
-                        }`}
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                        <path
-                          fillRule="evenodd"
-                          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-                        />
-                      </svg>
-                  <p>Content</p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="30"
+                    height="30"
+                    fill="#a58324"
+                    viewBox="0 0 16 16"
+                    className={`bi bi-pencil-square ${
+                      isActive === "manage" ? "active-link" : ""
+                    }`}
+                  >
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                    <path
+                      fillRule="evenodd"
+                      d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                    />
+                  </svg>
+                  <p>REC</p>
                 </div>
               </a>
             </li>
@@ -213,6 +242,24 @@ const RecNavMobile = (props) => {
             </li>
           </ul>
         </div>
+      </div>
+
+      <div
+          className={`adminnav-pop-up ${isPopupVisible ? "show" : "hide"}`}
+          onMouseDown={handleDragStart}
+          onTouchStart={handleDragStart}
+          onMouseMove={handleDragMove}
+          onTouchMove={handleDragMove}
+          onMouseUp={handleDragEnd}
+          onTouchEnd={handleDragEnd}
+        >
+          <div className="grab-handle"></div>
+          <a href={`/REC/RECManageRoles/${props.rec}`}>
+            <p>Manage REC Roles</p>
+          </a>
+          <a href={`/REC/RECManageContent/${props.rec}`}>
+            <p>Manage REC Content</p>
+          </a>
       </div>
 
       <ConfirmLogOut

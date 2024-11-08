@@ -8,10 +8,20 @@ import ConfirmLogOut from "../modals/ConfirmLogOutModal";
 const RecNav = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isActive, setIsActive] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const toggleNav = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleImageClick = (event) => {
+    event.preventDefault();
+    toggleNav();
   };
 
   useEffect(() => {
@@ -23,8 +33,10 @@ const RecNav = (props) => {
       setIsActive("profile");
     } else if (path.includes(`RECSubmissions/${props.rec}`)) {
       setIsActive("submissions");
-    } else if (path.includes("RECManageContent")) {
-      setIsActive("content");
+    } else if (path.includes(`RECManageRoles/${props.rec}`)) {
+      setIsActive("manage");
+    } else if (path.includes(`RECManageContent/${props.rec}`)) {
+      setIsActive("manage");
     } else if (path.includes("RECReports")) {
       setIsActive("reports");
     } else {
@@ -125,25 +137,24 @@ const RecNav = (props) => {
               </a>
             </li>
 
+
+            {/* Manage REC */}
             <li
-              className={`adminnavline ${
-                isActive === "content" ? "active-linkline" : ""
+              className={`dropdown adminnavline ${
+                isActive === "manage" ? "active-linkline" : ""
               }`}
             >
-              <a
-                href={`/REC/RECManageContent/${props.rec}`}
-                onClick={() => isActive("content")}
-              >
-                <div>
+              <div className="dropdown-div">
+                <div onClick={handleImageClick}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="30"
                     height="30"
                     fill="#a58324"
-                    className={`bi bi-pencil-square ${
-                      isActive === "content" ? "active-link" : ""
-                    }`}
                     viewBox="0 0 16 16"
+                    className={`bi bi-pencil-square ${
+                      isActive === "manage" ? "active-link" : ""
+                    }`}
                   >
                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                     <path
@@ -152,8 +163,44 @@ const RecNav = (props) => {
                     />
                   </svg>
                 </div>
-                {isOpen && <span>Content</span>}
-              </a>
+
+                {isOpen && (
+                  <>
+                    <div className="dropdown-div" onClick={toggleDropdown}>
+                      <span>Manage REC</span>
+                      <span className="dropdown-toggle" />
+                    </div>
+                  </>
+                )}
+              </div>
+            
+              {/* Dropdown Menu */}
+              {isDropdownOpen && isOpen && (
+                <ul className="adminnav-dropdown">
+                  <li>
+                    <a
+                      href={`/REC/RECManageRoles/${props.rec}`}
+                      legacyBehavior
+                      onClick={() => isActive("manage")}
+                    >
+                      <a>
+                        <span>REC Roles</span>
+                      </a>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={`/REC/RECManageContent/${props.rec}`}
+                      legacyBehavior
+                      onClick={() => isActive("manage")}
+                    >
+                      <a>
+                        <span>REC Content</span>
+                      </a>
+                    </a>
+                  </li>
+                </ul>
+              )}
             </li>
 
             <li
