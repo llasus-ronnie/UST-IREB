@@ -1,21 +1,22 @@
 import connectDB from "../../../../utils/database";
 import ExternalInvestigator from "../../../../models/externalInvestigatorModel";
 import ExternalReviewer from "../../../../models/externalReviewerModel";
-import User from "../../../../models/users/user";
 import { hashPassword } from "../../../../pages/api/auth/[...nextauth]";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
   await connectDB();
-
-  const { email, password, role } = await req.json();
-  console.log("Received data:", { email, password, role });
+  const { email, password } = await req.json();
+  console.log("Received data:", { email, password });
 
   try {
-    // Determine the model based on the role
-    const Model =
-      role === "ExternalReviewer" ? ExternalReviewer : ExternalInvestigator;
-    const user = await Model.findOne({ email });
+    // Check if the user exists in ExternalInvestigator collection
+    let user = await ExternalInvestigator.findOne({ email });
+
+    // If not found, check in ExternalReviewer collection
+    if (!user) {
+      user = await ExternalReviewer.findOne({ email });
+    }
 
     if (!user) {
       return NextResponse.json(
@@ -31,26 +32,15 @@ export async function POST(req) {
     // Update the user's password and remove the access token
     user.password = hashedPassword;
     delete user.accessToken; // Invalidate token
-
     await user.save();
 
-    // Check if the user already exists in User table
-    const existingUser = await User.findOne({ email });
-    if (!existingUser) {
-      // Create a new entry in the User table
-      await User.create({
-        email,
-        name: user.name,
-        role,
-      });
-    }
-
+    // Respond with success message, do not log in here
     return NextResponse.json(
       { success: true, message: "Password updated successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error in set-password API:", error);
+    console.error("Error during password update:", error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }

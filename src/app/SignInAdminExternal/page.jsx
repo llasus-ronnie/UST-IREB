@@ -23,6 +23,7 @@ export default function SignIn() {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isTokenValid, setIsTokenValid] = useState(false);
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+  const [role, setRole] = useState("ExternalReviewer");
   const router = useRouter();
 
   const handleEmailChange = (e) => {
@@ -52,7 +53,8 @@ export default function SignIn() {
     try {
       const response = await axios.post("/api/externalReviewerLogin", {
         email,
-        accessToken, // Could be either the access token or password
+        accessToken,
+        role,
       });
 
       if (response.data.success) {
@@ -60,12 +62,12 @@ export default function SignIn() {
         const nextAuthSignIn = await signIn("credentials", {
           redirect: false,
           email,
-          password: accessToken, // Use accessToken here as it might be password or access token
+          password: accessToken,
         });
 
         if (nextAuthSignIn && !nextAuthSignIn.error) {
           toast.success("Login successful");
-          router.push("/PrimaryReviewer/PRDashboard"); // Redirect to admin dashboard or another protected page
+          router.push("/PrimaryReviewer/PRDashboard");
         } else {
           toast.error("Failed to create session");
         }
@@ -74,7 +76,7 @@ export default function SignIn() {
         if (response.data.message.includes("set your password")) {
           toast.success("Sign in successful, please create a password");
           router.push(
-            `/SignInAdminExternal/SetPassword?accessToken=${accessToken}`
+            `/SignInAdminExternal/SetPassword?accessToken=${accessToken}&role=${role}`
           );
         }
       } else {

@@ -83,7 +83,7 @@ function PrSubmissions() {
                     <td>2024-09-11</td>
                     <td>Impact of Climate Change on Marine Life</td>
                     <td>
-                    <Link
+                      <Link
                         href={`/PrimaryReviewer/PRViewSubmission`}
                         className="pr-view-btn"
                       >
@@ -206,4 +206,7 @@ function PrSubmissions() {
   );
 }
 
-export default withAuthorization(PrSubmissions, "PrimaryReviewer");
+export default withAuthorization(PrSubmissions, [
+  "PrimaryReviewer",
+  "ExternalReviewer",
+]);

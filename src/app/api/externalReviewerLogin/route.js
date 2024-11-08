@@ -1,5 +1,6 @@
 import connectDB from "../../../../utils/database";
 import ExternalReviewer from "../../../../models/externalReviewerModel";
+import User from "../../../../models/users/user";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
@@ -34,7 +35,14 @@ export async function POST(req) {
         );
       }
       console.log("Password matches, login successful");
-      // await new Promise((resolve) => setTimeout(resolve, 10000)); // 10 seconds delay
+
+      // Add user to User table if not already present
+      await addUserToUserTableIfNotExist(
+        reviewer.email,
+        reviewer.name,
+        "ExternalReviewer"
+      );
+
       return NextResponse.json(
         { success: true, message: "Login successful" },
         { status: 200 }
@@ -45,6 +53,14 @@ export async function POST(req) {
         reviewer.tokenUsed = true;
         await reviewer.save();
         console.log("Access token matches, please set your password");
+
+        // Add user to User table if not already present
+        await addUserToUserTableIfNotExist(
+          reviewer.email,
+          reviewer.name,
+          "ExternalReviewer"
+        );
+
         return NextResponse.json(
           {
             success: true,
@@ -66,5 +82,12 @@ export async function POST(req) {
       { success: false, error: error.message },
       { status: 500 }
     );
+  }
+}
+
+async function addUserToUserTableIfNotExist(email, name, role) {
+  const existingUser = await User.findOne({ email });
+  if (!existingUser) {
+    await User.create({ email, name, role });
   }
 }

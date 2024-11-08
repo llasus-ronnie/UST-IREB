@@ -4,6 +4,7 @@ const roles = [
   "REC",
   "PrincipalInvestigator",
   "ExternalInvestigator",
+  "ExternalReviewer",
 ];
 
 export default roles;
