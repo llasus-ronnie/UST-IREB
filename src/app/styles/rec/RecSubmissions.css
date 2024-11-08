@@ -90,7 +90,7 @@
   padding: 0.625rem 1.8rem;
   color: var(--primary-color);
   cursor: pointer;
-  font-size: var(--paragraph-size);
+  font-size: 0.9rem;
   border-radius: 15px 15px 0 0;
   transition: background-color 0.3s ease, transform 0.2s ease;
   text-align: left;
@@ -289,8 +289,12 @@
     font-size: 1.1rem;
   }
 
-  .rec-buttons-container p{
+  .rec-buttons-container button {
     font-size: 0.8rem;
+  }
+
+  .rec-tables {
+    border-radius: 0 0 15px 15px;
   }
 }
 
