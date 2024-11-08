@@ -53,7 +53,7 @@ function Home() {
                   <a href="/SignInOption">
                     <button className="get-started">Get Started</button>
                   </a>
-                  <a href="#home-cards">
+                  <a href="#submission-process">
                     <button className="learn-more">Learn More</button>
                   </a>
                 </div>
@@ -63,7 +63,7 @@ function Home() {
             <div className="yellow-bar"></div>
 
             {/* section 2 */}
-            <div className="section-2" id="home-cards">
+            <div className="section-2">
               <Card />
             </div>
 
@@ -75,7 +75,7 @@ function Home() {
             <div className="yellow-bar"></div>
 
             {/* section 4 */}
-            <div className="section-4" id="ethics-review-guidelines">
+            <div className="section-4" id="submission-process">
               <SubmissionProcess />
 
               <div className="section-4-flowchart">

@@ -85,6 +85,93 @@
   width: 100%;
 }
 
+/* Ethics Review Guidelines css */
+
+.erg-container {
+  font-family: var(--poppins);
+  justify-content: center;
+  align-items: center;
+  width: 55rem;
+}
+
+.erg-maincontent {
+  margin: 0;
+  padding: 3rem 4rem;
+  background-color: var(--quaternary-color);
+  text-wrap: break-word;
+}
+
+.erg-container h1 {
+  font-size: var(--title-size);
+  font-weight: bold;
+  color: var(--primary-color);
+  padding: 1rem 0;
+}
+
+.erg-description {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+.erg-description svg {
+  margin-right: 0.5rem;
+}
+
+.erg-container p {
+  font-size: var(--paragraph-size);
+  color: var(--primary-color);
+  padding: 0.5rem 0;
+  font-style: italic;
+}
+
+.erg-container ul {
+  padding: 1.5rem 0;
+}
+
+.erg-container li {
+  font-size: var(--paragraph-size);
+  color: #369ad2;
+  padding: 0.5rem 0;
+}
+
+/* Mobile Ethics Review Guidelines */
+@media only screen and (max-width: 576px) {
+  .erg-container {
+    width: 100%;
+  }
+
+  .erg-maincontent {
+    padding: 2rem;
+    font-size: calc(var(--paragraph-size) - 0.2rem);
+  }
+
+  .erg-container h1 {
+    font-size: calc(var(--title-size) - 0.5rem);
+    padding: 0.5rem 0;
+  }
+
+  .erg-description svg {
+    margin-bottom: 0.5rem;
+  }
+
+  .erg-container p {
+    font-size: calc(var(--paragraph-size) - 0.2rem);
+    padding: 0.25rem 0;
+  }
+
+  .erg-container ul {
+    padding: 1rem 0;
+  }
+
+  .erg-container li {
+    font-size: calc(var(--paragraph-size) - 0.2rem);
+    padding: 0.25rem 0;
+  }
+}
+
+
 /* scroll design  */
 ::-webkit-scrollbar {
   background-color: var(--primary-color);

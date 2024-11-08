@@ -20,10 +20,9 @@ export default function Card(props) {
               </div>
               <h1>Ethics Review Guidelines</h1>
               <p>
-                View an overview of the ethics review process and guidelines
-                here.
+                Access the ethics review guidelines and all the essential links you need.
               </p>
-              <a href="#ethics-review-guidelines">
+              <a href="/EthicsReviewGuidelines">
                 <button>Click here</button>
               </a>
             </div>
@@ -37,10 +36,9 @@ export default function Card(props) {
               </div>
               <h1>Submission Requirements</h1>
               <p>
-                Access the submission requirements of RECs and necessary links
-                here.
+              Stay informed with comprehensive submission requirements for each REC.
               </p>
-              <a href="/RECGuidelines">
+              <a href="/RECRequirements">
                 <button>Click here</button>
               </a>
             </div>

@@ -6,7 +6,7 @@ import Footer from "../components/footer/Footer";
 import "../styles/subreqs/faqs.css";
 import { Container, Row, Accordion } from "react-bootstrap";
 
-function Guidelines() {
+function Requirements() {
   const [content, setContent] = useState([]);
 
   useEffect(() => {
@@ -65,4 +65,4 @@ function Guidelines() {
   );
 }
 
-export default Guidelines;
+export default Requirements;

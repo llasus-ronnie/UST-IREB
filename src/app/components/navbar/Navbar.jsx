@@ -97,8 +97,9 @@ export default function Navbar() {
 
         <div className="sidenav-links">
           <a href="/">Home</a>
+          <a href="/EthicsReviewGuidelines">Ethics Review Guidelines</a>
+          <a href="/RECRequirements">Submission Requirements</a>
           <a href="/faqs">FAQs</a>
-          <a href="/RECGuidelines">Submission Requirements</a>
 
           {session ? (
             <>
