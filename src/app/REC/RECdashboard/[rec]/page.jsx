@@ -29,13 +29,30 @@ function RECDashboard({ params }) {
   const { rec } = useParams(); // Get the current route parameter
   const parameter = React.use(params);
 
+  const [overdueForms, setOverdueForms] = useState([]);
+
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get("/api/forms", {
           params: { rec: rec.trim() },
         });
+        const fetchForms = response.data.forms;
+
+        // Filter forms that need attention (submitted over 7 days ago)
+        const overdueForms = fetchForms.filter((form) => {
+          if (form.date) {
+            const today = new Date();
+            const formDate = new Date(form.date);
+            const dateSinceSubmission = today - formDate;
+
+            // Check if the form is more than 7 days old
+            return dateSinceSubmission > 7 * 24 * 60 * 60 * 1000;
+          }
+          return false;
+        });
         setForms(response.data.forms);
+        setOverdueForms(overdueForms);
       } catch (error) {
         console.error("Error fetching forms:", error);
       }
@@ -94,6 +111,7 @@ function RECDashboard({ params }) {
     );
   };
 
+
   return (
     <>
       {isClient && (
@@ -149,6 +167,18 @@ function RECDashboard({ params }) {
               {/* Deadline Cards */}
               <div className="deadline-card">
                 <h2>Needs Attention</h2>
+                <ul>
+                  {overdueForms.map((overdueForms, index) => (
+                    <li key={index}>
+                      <Link href={`REC/RECViewSubmission`}>
+                          <div className="deadline-links">
+                          <p>{overdueForms.title}</p>
+                          <p>{new Date(overdueForms.date).toISOString().split("T")[0]}</p>
+                          </div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
@@ -194,7 +224,6 @@ function RECDashboard({ params }) {
           </div>
         </div>
       )}
-      ;
     </>
   );
 }
