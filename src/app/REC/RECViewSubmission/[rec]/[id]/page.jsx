@@ -33,6 +33,10 @@ function RECViewSubmission({ params }) {
   const updateData = async (newStatus) => {
     try {
       await axios.put(`/api/forms/${params.id}`, { status: newStatus });
+      await axios.post("/api/auth/send-email-status", {
+        email: forms.email,
+        status: newStatus,
+      });
     } catch (error) {
       console.error(error);
     }
