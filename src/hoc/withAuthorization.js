@@ -12,7 +12,11 @@ const AuthorizationWrapper = ({ children, requiredRoles }) => {
     if (status === "authenticated") {
       const userRole = session?.user?.role;
       if (!userRole || !requiredRoles.includes(userRole)) {
-        router.replace(requiredRoles.includes("REC") ? "../../Unauthorized" : "../Unauthorized");
+        router.replace(
+          requiredRoles.includes("REC")
+            ? "../../Unauthorized"
+            : "../Unauthorized"
+        );
       }
     } else if (status === "unauthenticated") {
       router.replace("../SignInOption");
@@ -25,9 +29,7 @@ const AuthorizationWrapper = ({ children, requiredRoles }) => {
         <Spinner animation="border" role="status" style={spinnerStyle}>
           <span className="visually-hidden">Loading...</span>
         </Spinner>
-        <p style={loadingTextStyle}>
-          Please wait, we are verifying your access...
-        </p>
+        <p style={loadingTextStyle}>Loading...</p>
       </div>
     );
   }
