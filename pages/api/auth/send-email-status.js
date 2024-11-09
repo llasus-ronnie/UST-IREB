@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     let mailOptions = {
       from: `"UST IREB Research Portal" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: "Status Update",
+      subject: "UST IREB Research Portal | Submission Status Update",
       html: `
         <!DOCTYPE html>
         <html lang="en">
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
             <meta charset="UTF-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <title>UST IREB Research Portal Access Token Email Template</title>
+            <title>UST IREB Research Portal: Status Update</title>
             <style type="text/css">
               body, table {
                 font-family: 'Poppins', Arial, sans-serif;
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
                 object-fit: cover;
               }
               .content {
-                padding: 80px 20px;
+                padding: 60px 20px;
                 color: #121212;
                 text-align: center;
               }
@@ -55,16 +55,27 @@ export default async function handler(req, res) {
                 font-size: 36px;
                 font-weight: bold;
                 color: #fcbf15;
-                margin: 20px 0 10px 0;
+                margin: 10px 0;
               }
               .content h2 {
-                margin: 10px 0 20px 0;
+                margin: 10px 0;
                 font-weight: bold;
-                font-size: 20px;
+                font-size: 16px;
               }
               .content p {
-                margin: 0;
-                font-size: 16px;
+                margin: 10px 0;
+                font-size: 13px;
+              }
+              .email-disclaimer {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                margin: 30px auto 0;
+              }
+              .email-disclaimer p {
+                font-size: 11px;
+                font-style: italic;
               }
               .button {
                 background-color: #fcbf15;
@@ -79,7 +90,7 @@ export default async function handler(req, res) {
               /* Responsiveness */
               @media (max-width: 600px) {
                 .content {
-                  padding: 50px 10px;
+                  padding: 50px 40px;
                 }
                 .content h1 {
                   font-size: 28px;
@@ -89,6 +100,13 @@ export default async function handler(req, res) {
                 }
                 .content p {
                   font-size: 14px;
+                }
+                .email-disclaimer {
+                  width: 90%;
+                }
+                .email-disclaimer p {
+                  font-size: 10px;
+                  font-style: italic;
                 }
               }
             </style>
@@ -105,13 +123,20 @@ export default async function handler(req, res) {
                     </tr>
                     <tr>
                       <td class="content">
-                        <p>Welcome to UST IREB Research Portal!</p>
-                        <h1>Status Update:</h1>
-                        <h2>${status}</h2>
-                        <p>The status of your submission has been updated. <br/> You may check by viewing your submission <br/> in the "View Submissions" tab. Thank you.</p>
+                        <p>Dear Ronnie Llasus,</p>
+                        <h2>Your submission status has been updated to:</h2>
+                        <h1>Pending Payment</h1>
+                        <p>
+                        Log in to the UST IREB Research Portal to review the details and any next steps under the "View My Submissions" page. Thank you.
+                        </p>
                         <a href="" target="_blank" class="button">
                           Redirect to Research Portal
                         </a>
+                        <div class="email-disclaimer">
+                          <p>
+                            This is an automatically generated email, please do not reply. If you have any questions regarding your submission, kindly reach out to your respective REC.
+                          </p>
+                        </div>
                       </td>
                     </tr>
                   </table>
