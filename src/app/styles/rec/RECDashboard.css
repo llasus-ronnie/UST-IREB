@@ -123,7 +123,7 @@ html {
   padding: 1rem;
   height: 170px;
   flex-shrink: 0;
-  width: 200px;
+  width: 90%;
   box-sizing: border-box;
   }
   
@@ -150,42 +150,103 @@ html {
   font-family: var(--poppins);
 }
 
+
+.release-card {
+  background-color: var(--quaternary-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-left: 40px;
+  padding: 1rem;
+  height: 170px;
+  flex-shrink: 0;
+  width: 90%;
+  height: 90%;
+  box-sizing: border-box;
+  grid-column: 4;
+}
+
 /* Deadline */
 
 
-.deadline-card {
-  flex: 2;
-  background-color: var(--quaternary-color);
-  border-radius: 15px;
-  padding: 1.5rem;
+/* Deadline Table Container */
+.deadline-table-container {
+  background-color: white;
+  border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  height: 350px; 
-  margin-right: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  position: relative;
+  margin: 2rem auto;
+  padding: 1rem;
+  max-width: 95%;
+  overflow-x: auto;
+  box-sizing: border-box;
+  font-family: var(--poppins);
+  width: 100%;
 }
 
-.deadline-card h2 {
+
+/* Table Header Styling for Deadline Table */
+.deadline-table-container h2 {
   font-size: var(--heading-1-size);
   font-weight: bold;
-  color: var(--primary-color);
-  margin: 0;
-  font-family: var(--poppins);
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-}
-
-.deadline-links {
-  display: flex !important;
-  flex-direction: column;
-  margin-bottom: 1rem;
   color: red;
+  margin-bottom: 1rem;
+  font-family: var(--poppins);
 }
 
+/* Table Styling */
+.deadline-table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--poppins);
+}
+
+.deadline-table-container th,
+.deadline-table-container td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: var(--paragraph-size);
+  color: #333;
+}
+
+.deadline-table-container th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.deadline-table-container td {
+  word-wrap: break-word;
+}
+
+/* Status Badge Styling for Deadline Table */
+.deadline-table-container .status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  font-size: var(--paragraph-size);
+  font-weight: bold;
+  text-align: center;
+  font-family: var(--poppins);
+}
+
+.deadline-table-container .status-ongoing {
+  background-color: #ffd433;
+  color: white;
+}
+
+.deadline-table-container .status-release {
+  background-color: #fccc1a;
+  color: white;
+}
+
+.deadline-table-container .status-complete {
+  background-color: #fcbf15;
+  color: white;
+}
 
 
 
