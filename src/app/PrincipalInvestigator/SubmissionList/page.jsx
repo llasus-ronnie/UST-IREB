@@ -6,25 +6,30 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"; // You can use any library for HTTP requests
 import Navbar from "../../components/navbar/Navbar";
 import { Row } from "react-bootstrap";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 import withAuthorization from "../../../hoc/withAuthorization";
 
 function SubmissionList() {
+  const { data: session } = useSession();
   const [forms, setForms] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-      try {
-        const response = await axios.get("/api/forms"); // Replace with your actual API endpoint
-        setForms(response.data.forms);
-      } catch (error) {
-        console.error(error);
+      if (session?.user?.email) {
+        try {
+          const response = await axios.get("/api/forms", {
+            params: { email: session.user.email },
+          });
+          setForms(response.data.forms);
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
-
     fetchData();
-  }, []);
+  }, [session]);
 
   return (
     <>

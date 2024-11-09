@@ -7,6 +7,7 @@ import cors from "cors";
 //cors
 const app = express();
 app.use(cors());
+
 export async function POST(req, res) {
   try {
     await connectDB();
@@ -27,12 +28,20 @@ export async function GET(req) {
 
   const { searchParams } = new URL(req.url);
   const rec = searchParams.get("rec");
+  const email = searchParams.get("email"); // Get the email from query params
   console.log("REC Parameter: ", rec);
+  console.log("Email Parameter: ", email);
 
   try {
-    const forms = rec
-      ? await SubmissionForm.find({ researchEthicsCommittee: rec.trim() })
-      : await SubmissionForm.find({});
+    const query = {};
+    if (rec) {
+      query.researchEthicsCommittee = rec.trim();
+    }
+    if (email) {
+      query.email = email.trim(); // Add email to the query
+    }
+
+    const forms = await SubmissionForm.find(query);
 
     return NextResponse.json({ forms }, { status: 200 });
   } catch (error) {

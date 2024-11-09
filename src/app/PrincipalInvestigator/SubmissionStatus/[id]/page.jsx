@@ -242,7 +242,7 @@ function SubmissionStatus({ params }) {
 
                 <div className="submissionstatus-buttons">
                   <Link
-                    href="/PrincipalInvestigator/SubmissionHistory"
+                    href={`/PrincipalInvestigator/SubmissionHistory?formId=${form?._id}`}
                     className="submissionstatus-view-sub"
                   >
                     View Submission
