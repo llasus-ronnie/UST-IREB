@@ -112,7 +112,6 @@ function RECDashboard({ params }) {
     );
   };
 
-
   return (
     <>
       {isClient && (
@@ -163,37 +162,51 @@ function RECDashboard({ params }) {
                   <h3>{statusCounts["Resubmission"]}</h3>
                 </div>
 
-                <div className="recdashboard-card">
+                <div className="cert-release">
+                <div className="release-card">
                   <h2>Certificates Released</h2>
                   <h3>{statusCounts["Approved"]}</h3>
                 </div>
+                </div>
+                
               </div>
               <br />
-
-              {/* Deadline Cards */}
-              <div className="deadline-card">
-                <h2>Needs Attention</h2>
-                <ul>
-                  {overdueForms.map((overdueForms, index) => (
-                    <li key={index}>
-                      <Link href={`REC/RECViewSubmission`}>
-                        <div className="deadline-links">
-                          <p>{overdueForms.title}</p>
-                          <p>{new Date(overdueForms.date).toLocaleDateString("en-US", {
-                            month: "2-digit",
-                            day: "2-digit",
-                            year: "numeric"
-                          })}</p>
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
 
-            {/* Submission Overview Table */}
+            {/* Deadline Cards Converted to Table */}
+            <div className="deadline-table-container">
+                <h2>Needs Attention</h2>
+                <table className="deadline-table">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Submission Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {overdueForms.map((form, index) => (
+                      <tr key={index}>
+                        <td>
+                          <Link href={`REC/RECViewSubmission`}>
+                            <div className="deadline-links">
+                              <p>{form.title}</p>
+                            </div>
+                          </Link>
+                        </td>
+                        <td>
+                          {new Date(form.date).toLocaleDateString("en-US", {
+                            month: "2-digit",
+                            day: "2-digit",
+                            year: "numeric",
+                          })}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
+            {/* Submission Overview Table */}
             <div className="rec-overview-table">
               <h1>Submission Overview</h1>
               <table>
