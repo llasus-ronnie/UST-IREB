@@ -35,6 +35,7 @@ function RECViewSubmission({ params }) {
       await axios.put(`/api/forms/${params.id}`, { status: newStatus });
       await axios.post("/api/auth/send-email-status", {
         email: forms.email,
+        name: forms.fullName,
         status: newStatus,
       });
     } catch (error) {
