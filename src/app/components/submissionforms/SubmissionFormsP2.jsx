@@ -370,7 +370,12 @@ function SubmissionFormsP2() {
           </Container>
 
           <hr></hr>
-          <h1 className="PIforms-headtext">3. Proposal Details</h1>
+          <h1 className="PIforms-headtext">
+            3. Proposal Details <br />{" "}
+            <i style={{ fontSize: "15px", color: "grey" }}>
+              Put N/A if not applicable.
+            </i>
+          </h1>
 
           <Container className="PIforms-rescont2">
             <Row>
@@ -692,7 +697,10 @@ function SubmissionFormsP2() {
           <hr />
 
           <h1 className="PIforms-headtext">
-            4. Sources of Monetary or Material Support
+            4. Sources of Monetary or Material Support <br />{" "}
+            <i style={{ fontSize: "15px", color: "grey" }}>
+              Put N/A and 0 if not applicable.
+            </i>
           </h1>
 
           <Container className="PIforms-rescont2">
