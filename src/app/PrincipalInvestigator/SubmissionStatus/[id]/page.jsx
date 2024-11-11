@@ -82,10 +82,10 @@ function SubmissionStatus({ params }) {
         "After all revisions, your submission will be sent to the REC Chair for the final review stage.",
     },
     {
-      id: "Approved",
-      title: "Approved",
+      id: "Final-Decision",
+      title: "Final Decision",
       description:
-        "Your submission has been approved. You may now view and download the certificate of ethics review. Thank you!",
+        "A final decision for your submission is being made. Kindly wait for the result. Thank you!",
     },
   ];
 

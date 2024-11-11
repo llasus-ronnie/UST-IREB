@@ -10,6 +10,8 @@ import axios from "axios";
 import withAuthorization from "../../../../../hoc/withAuthorization";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { getCldImageUrl } from 'next-cloudinary';
+
 
 function RECViewSubmission({ params }) {
   const [forms, setForms] = useState([]);
@@ -56,6 +58,12 @@ function RECViewSubmission({ params }) {
   const handleBack = () => {
     router.push(`/REC/RECSubmissions/${params.rec}`);
   };
+
+  const url = getCldImageUrl({
+    width: 960,
+    height: 600,
+    src: `${forms?.mainFileLink}`,
+  });
 
   return (
     <div className="adminpage-container">
@@ -108,7 +116,9 @@ function RECViewSubmission({ params }) {
               </svg>
               Go Back to Manage Submissions
             </a>
-            <Col xs={12} lg={8} className="viewsub-content-container"></Col>
+            <Col xs={12} lg={8} className="viewsub-content-container">
+
+            </Col>
             <Col xs={12} lg={4} className="viewsub-details-container">
               <h1>Submission Details</h1>
 
@@ -137,7 +147,7 @@ function RECViewSubmission({ params }) {
                 <option value="In-Progress">In Progress</option>
                 <option value="Initial-Result">Initial Result</option>
                 <option value="Resubmission">Resubmission</option>
-                <option value="Approved">Approved</option>
+                <option value="Final-Decision">Final Decision</option>
               </select>
 
               {/* can be edited hehe */}
