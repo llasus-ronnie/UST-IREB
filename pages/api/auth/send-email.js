@@ -111,7 +111,7 @@ export default async function handler(req, res) {
                         <h1>Access Token:</h1>
                         <h2>${token}</h2>
                         <p>Use the access token above to sign in <br/> and set up your password.</p>
-                        <a href="" target="_blank" class="button">
+                        <a href="https://ust-ireb.site" target="_blank" class="button">
                           Redirect to Research Portal
                         </a>
                       </td>

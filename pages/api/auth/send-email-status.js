@@ -129,7 +129,7 @@ export default async function handler(req, res) {
                         <p>
                         Log in to the UST IREB Research Portal to review the details and any next steps under the "View My Submissions" page. Thank you.
                         </p>
-                        <a href="" target="_blank" class="button">
+                        <a href="https://ust-ireb.site" target="_blank" class="button">
                           Redirect to Research Portal
                         </a>
                         <div class="email-disclaimer">
