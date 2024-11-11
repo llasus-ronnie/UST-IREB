@@ -16,25 +16,41 @@ import { getCldImageUrl } from 'next-cloudinary';
 function RECViewSubmission({ params }) {
   const [forms, setForms] = useState([]);
   const router = useRouter();
+  const [rec, setRec] = useState('');
+  const [id, setId] = useState('');
+
+  useEffect(() => {
+    async function unwrapParams() {
+      const unwrappedParams = await params;
+      setRec(unwrappedParams.rec);
+      setId(unwrappedParams.id);
+    }
+    unwrapParams();
+  },[params]);
+
+  console.log("REC ID: " + rec);
+  console.log("ID: " + id);
 
   useEffect(() => {
     async function fetchData() {
-      try {
-        const response = await axios.get(`/api/forms/${params.id}`);
-        console.log("Working on URlID:" + `${params.id}`);
-        setForms(response.data.submission);
-      } catch (error) {
-        console.error(error);
+      if (id) {
+        try {
+          const response = await axios.get(`/api/forms/${id}`);
+          console.log("Working on URlID:" + id);
+          setForms(response.data.submission);
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
     fetchData();
-  }, []);
+  }, [id]);
 
   const [status, setStatus] = useState("");
 
   const updateData = async (newStatus) => {
     try {
-      await axios.put(`/api/forms/${params.id}`, { status: newStatus });
+      await axios.put(`/api/forms/${id}`, { status: newStatus });
       await axios.post("/api/auth/send-email-status", {
         email: forms.email,
         name: forms.fullName,
@@ -53,11 +69,11 @@ function RECViewSubmission({ params }) {
 
   const updateStatus = () => {
     updateData(status);
-    router.push(`/REC/RECSubmissions/${params.rec}`);
+    router.push(`/REC/RECSubmissions/${rec}`);
   };
 
   const handleBack = () => {
-    router.push(`/REC/RECSubmissions/${params.rec}`);
+    router.push(`/REC/RECSubmissions/${rec}`);
   };
 
   const url = getCldImageUrl({
@@ -99,7 +115,7 @@ function RECViewSubmission({ params }) {
 
           <Row className="viewsubmission-container">
             <a
-              href={`/REC/RECSubmissions/${params.rec}`}
+              href={`/REC/RECSubmissions/${rec}`}
               className="back-button"
             >
               <svg
@@ -119,6 +135,7 @@ function RECViewSubmission({ params }) {
             </a>
             <Col xs={12} lg={8} className="viewsub-content-container">
               <iframe src={url} className="viewsub-iframe" />
+              <a href={url} className="viewsub-download" download={url} style={{color:"blue"}}> Download </a>
             </Col>
             <Col xs={12} lg={4} className="viewsub-details-container">
               <h1>Submission Details</h1>
