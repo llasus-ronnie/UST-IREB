@@ -17,19 +17,20 @@ function SubmissionList() {
 
   useEffect(() => {
     async function fetchData() {
-      if (session?.user?.email) {
         try {
-          const response = await axios.get("/api/forms", {
-            params: { email: session.user.email },
+          const response = await axios.get("/api/forms",{
+            params: { userEmail: session.user.email } // Add email as query param
           });
-          setForms(response.data.forms);
+          const userForms = response.data.forms;
+        setForms(userForms);
         } catch (error) {
-          console.error(error);
-        }
-      }
+          console.error("Error fetching data:", error);
+        } 
+      
     }
     fetchData();
   }, [session]);
+
 
   return (
     <>
@@ -58,22 +59,30 @@ function SubmissionList() {
             </tr>
           </thead>
           <tbody>
-            {forms.map((form, index) => (
-              <tr key={index}>
-                <td>{form.title}</td>
-                <td>{new Date(form.date).toLocaleDateString("en-US")}</td>
-                <td>{form.researchEthicsCommittee}</td>
-                <td>{form.status}</td>
-                <td className="view-btn-cell">
-                  <Link
-                    href={`/PrincipalInvestigator/SubmissionStatus/${form._id}`}
-                    className="view-btn"
-                  >
-                    View
-                  </Link>
+            {forms.length > 0 ? (
+              forms.map((form, index) => (
+                <tr key={index}>
+                  <td>{form.title}</td>
+                  <td>{new Date(form.date).toLocaleDateString("en-US")}</td>
+                  <td>{form.researchEthicsCommittee}</td>
+                  <td>{form.status}</td>
+                  <td className="view-btn-cell">
+                    <Link
+                      href={`/PrincipalInvestigator/SubmissionStatus/${form._id}`}
+                      className="view-btn"
+                    >
+                      View
+                    </Link>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="text-center">
+                  No submissions found.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
         <div className="submission-footer">

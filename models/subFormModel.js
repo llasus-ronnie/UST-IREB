@@ -4,11 +4,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const researcherSchema = new Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    require: true,
-  },
   index: {
     type: Number,
     require: true,
@@ -36,6 +31,10 @@ const researcherSchema = new Schema({
 });
 
 const subFormSchema = new Schema({
+  userEmail:{
+    type: String,
+    require: true,
+  },
   institution: {
     type: String,
     require: true,
@@ -323,6 +322,11 @@ const subFormSchema = new Schema({
     require: true,
     default: "Initial-Submission",
   },
+  remarks:{
+    type: String,
+    require: false,
+    default: "Kindly wait for any remarks",
+  }
 });
 
 const subForm =

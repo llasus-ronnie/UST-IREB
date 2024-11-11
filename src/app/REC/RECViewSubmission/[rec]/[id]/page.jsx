@@ -167,6 +167,21 @@ function RECViewSubmission({ params }) {
                 <option value="Resubmission">Resubmission</option>
                 <option value="Final-Decision">Final Decision</option>
               </select>
+
+              {/* conditional rendering */}
+
+              {forms.status === "Initial-Submission" ? (
+                    <>
+              <span>Remarks:</span>
+              <select
+                className="viewsub-changestatus"
+              >
+                <option value="Complete">Complete</option>
+                <option value="Incomplete">Incomplete</option>
+              </select>
+                    </>
+                  ): null}
+
                   {status === "For-Classification" ? (
                     <>
               <span>Review Classification:</span>
@@ -180,6 +195,8 @@ function RECViewSubmission({ params }) {
               </select>
                     </>
                   ): null}
+
+                
               <span>Assign Reviewer:</span>
               <select
                 className="viewsub-changestatus"

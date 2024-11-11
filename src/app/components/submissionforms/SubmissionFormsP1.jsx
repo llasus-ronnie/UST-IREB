@@ -17,6 +17,8 @@ import {
   setCurrentStep,
 } from "../../../redux/slices/submissionFormSlice";
 import axios from "axios";
+import { useSession } from "next-auth/react";
+
 
 function SubmissionFormsP1() {
   const [validated, setValidated] = useState(false);
@@ -56,6 +58,12 @@ function SubmissionFormsP1() {
     fetchRecOptions();
   }, []);
 
+  const { data: session } = useSession();
+  useEffect(()=>{
+  if(session){
+  setValue("userEmail", session.user.email);}
+  },[session, setValue]);
+  
   async function processForm(data) {
     const sanitizedData = {
       ...data,
