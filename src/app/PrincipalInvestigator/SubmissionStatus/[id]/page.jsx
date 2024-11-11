@@ -67,25 +67,25 @@ function SubmissionStatus({ params }) {
       id: "In-Progress",
       title: "In Progress",
       description:
-        "Your submission is currently with the primary reviewer for ethical review",
+        "Your submission is currently with the primary reviewer for ethical review.",
     },
     {
       id: "Initial-Result",
       title: "Initial Result",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        "Your submission has been reviewed, and an initial result has been determined. Please check the remarks for further details and next steps.",
     },
     {
       id: "Resubmission",
       title: "Resubmission",
       description:
-        "After all revisions, your submission will be sent to the REC Chair for the final review stage.",
+        "Revisions are required based on the reviewer’s feedback. Kindly check the remarks for details, submit the updates, and await your primary reviewer’s response.",
     },
     {
       id: "Final-Decision",
       title: "Final Decision",
       description:
-        "A final decision for your submission is being made. Kindly wait for the result. Thank you!",
+        "Once all revisions are complete, your submission will be forwarded to the REC Chair for the final review. You will be notified of the final decision shortly thereafter in the remarks section. Thank you!",
     },
   ];
 
@@ -275,7 +275,7 @@ function SubmissionStatus({ params }) {
                         height={200}
                       />
                     ) : (
-                      <p> no payment uploaded yet </p>
+                      <p> No payment uploaded yet. </p>
                     )}
                   </div>
                 </div>
