@@ -159,7 +159,7 @@ function RECViewSubmission({ params }) {
                 value={status}
                 onChange={handleStatusChange}
               >
-                <option value="default">Choose Status</option>
+                <option value="" disabled>Choose Status</option>
                 <option value="Pending-Payment">Pending Payment</option>
                 <option value="For-Classification">For Classification</option>
                 <option value="In-Progress">In Progress</option>
@@ -167,27 +167,24 @@ function RECViewSubmission({ params }) {
                 <option value="Resubmission">Resubmission</option>
                 <option value="Final-Decision">Final Decision</option>
               </select>
-
-              {/* can be edited hehe */}
-              <span>Research Classification:</span>
+                  {status === "For-Classification" ? (
+                    <>
+              <span>Review Classification:</span>
               <select
                 className="viewsub-changestatus"
-                // value={status}
-                // onChange={handleStatusChange}
               >
-                <option value="default">Choose Classification</option>
+                <option value="" disabled>Choose Classification</option>
                 <option value="Expedited">Expedited</option>
                 <option value="Full-Board">Full Board</option>
                 <option value="Exempt">Exempt</option>
               </select>
-
+                    </>
+                  ): null}
               <span>Assign Reviewer:</span>
               <select
                 className="viewsub-changestatus"
-                // value={status}
-                // onChange={handleStatusChange}
               >
-                <option value="default">Choose Reviewer</option>
+                <option value="" disabled >Choose Reviewer</option>
                 <option value="">Tricia Cuaresma</option>
                 <option value="">Franceska Flores</option>
                 <option value="">Danielle Foronda</option>

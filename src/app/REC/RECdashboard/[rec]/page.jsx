@@ -8,9 +8,13 @@ import RecHeader from "../../../components/recheader/RecHeader";
 import axios from "axios"; // You can use any library for HTTP requests
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 
 //css
 import "../../../styles/rec/RECDashboard.css";
+
+//images
+import error from "../../../../../public/images/rec/needs-attention.png";
 
 import withAuthorization from "../../../../hoc/withAuthorization";
 
@@ -163,46 +167,49 @@ function RECDashboard({ params }) {
                 </div>
               </div>
               <div className="release-card">
-                  <h2>Certificates Released</h2>
-                  <h3>{statusCounts["Approved"]}</h3>
-                </div>
+                <h2>Certificates Released</h2>
+                <h3>{statusCounts["Approved"]}</h3>
+              </div>
             </div>
 
             {/* Deadline Cards Converted to Table */}
             <div className="deadline-table-container">
-                <h2>Needs Attention</h2>
-                <table className="deadline-table">
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Submission Date</th>
-                      <th>Assigned Reviewer</th>
-                      <th>Task</th>
-                      <th>Deadline</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {overdueForms.map((form, index) => (
-                      <tr key={index}>
-                        <td>
-                          <Link href={`REC/RECViewSubmission`}>
-                            <div className="deadline-links">
-                              <p>{form.title}</p>
-                            </div>
-                          </Link>
-                        </td>
-                        <td>
-                          {new Date(form.date).toLocaleDateString("en-US", {
-                            month: "2-digit",
-                            day: "2-digit",
-                            year: "numeric",
-                          })}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="deadline-table-header">
+              <h2>Needs Attention</h2>
+              <Image src={error} alt="Needs Attention" style={{ height: '18px', width: '20px' }}/>
               </div>
+              <table className="deadline-table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Submission Date</th>
+                    <th>Assigned Reviewer</th>
+                    <th>Task</th>
+                    <th>Deadline</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {overdueForms.map((form, index) => (
+                    <tr key={index}>
+                      <td>
+                        <Link href={`REC/RECViewSubmission`}>
+                          <div className="deadline-links">
+                            <p>{form.title}</p>
+                          </div>
+                        </Link>
+                      </td>
+                      <td>
+                        {new Date(form.date).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
             {/* Submission Overview Table */}
             <div className="rec-overview-table">
