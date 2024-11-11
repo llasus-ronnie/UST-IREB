@@ -118,7 +118,7 @@ function RECViewSubmission({ params }) {
               Go Back to Manage Submissions
             </a>
             <Col xs={12} lg={8} className="viewsub-content-container">
-
+              <iframe src={url} className="viewsub-iframe" />
             </Col>
             <Col xs={12} lg={4} className="viewsub-details-container">
               <h1>Submission Details</h1>
