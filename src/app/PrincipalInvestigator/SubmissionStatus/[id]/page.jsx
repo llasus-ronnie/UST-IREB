@@ -85,7 +85,7 @@ function SubmissionStatus({ params }) {
       id: "Final-Decision",
       title: "Final Decision",
       description:
-        "A final decision for your submission is being made. Kindly wait for the result. Thank you!",
+        "Once all revisions are complete, your submission will be forwarded to the REC Chair for the final review. You will be notified of the final decision shortly thereafter in the remarks section. Thank you!",
     },
   ];
 
