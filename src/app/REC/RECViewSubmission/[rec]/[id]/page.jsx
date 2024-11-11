@@ -18,6 +18,8 @@ function RECViewSubmission({ params }) {
   const router = useRouter();
   const [rec, setRec] = useState('');
   const [id, setId] = useState('');
+  const [status, setStatus] = useState("Initial-Submission");
+
 
   useEffect(() => {
     async function unwrapParams() {
@@ -26,7 +28,7 @@ function RECViewSubmission({ params }) {
       setId(unwrappedParams.id);
     }
     unwrapParams();
-  },[params]);
+  }, [params]);
 
   console.log("REC ID: " + rec);
   console.log("ID: " + id);
@@ -38,6 +40,7 @@ function RECViewSubmission({ params }) {
           const response = await axios.get(`/api/forms/${id}`);
           console.log("Working on URlID:" + id);
           setForms(response.data.submission);
+          setStatus(formData.status || "Initial-Submission"); // Set initial status
         } catch (error) {
           console.error(error);
         }
@@ -46,7 +49,6 @@ function RECViewSubmission({ params }) {
     fetchData();
   }, [id]);
 
-  const [status, setStatus] = useState("");
 
   const updateData = async (newStatus) => {
     try {
@@ -64,13 +66,11 @@ function RECViewSubmission({ params }) {
   const handleStatusChange = (event) => {
     const newStatus = event.target.value;
     setStatus(newStatus);
+    setRemarks(""); 
     console.log(newStatus);
   };
 
-  const updateStatus = () => {
-    updateData(status);
-    router.push(`/REC/RECSubmissions/${rec}`);
-  };
+
 
   const handleBack = () => {
     router.push(`/REC/RECSubmissions/${rec}`);
@@ -81,6 +81,34 @@ function RECViewSubmission({ params }) {
     height: 600,
     src: `${forms?.mainFileLink}`,
   });
+
+  // LONG POST FUNCTION COMING UP!
+  async function submitRemarks(data) {
+    try {
+      const remarkData = { ...data, subFormId: id };
+      console.log("Sending remarks with subFormId:", remarkData);
+        const response = await axios.post("/api/remarks", remarkData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("REMARKS submitted successfully:", response.data); 
+    } catch (error) {
+      console.error("Error submitting form:", error.response?.data || error.message);
+    }
+  }
+  
+  const [remarks, setRemarks] = useState("");
+
+  const handleChange = (event) => {
+    setRemarks(event.target.value);
+  };
+
+  const updateStatus = () => {
+    updateData(status);
+    submitRemarks(remarks);
+  };
+
 
   return (
     <div className="adminpage-container">
@@ -135,7 +163,7 @@ function RECViewSubmission({ params }) {
             </a>
             <Col xs={12} lg={8} className="viewsub-content-container">
               <iframe src={url} className="viewsub-iframe" />
-              <a href={url} className="viewsub-download" download={url} style={{color:"blue"}}> Download </a>
+              <a href={url} className="viewsub-download" download={url} style={{ color: "blue" }}> Download </a>
             </Col>
             <Col xs={12} lg={4} className="viewsub-details-container">
               <h1>Submission Details</h1>
@@ -159,7 +187,7 @@ function RECViewSubmission({ params }) {
                 value={status}
                 onChange={handleStatusChange}
               >
-                <option value="" disabled>Choose Status</option>
+                <option value="Initial-Submission" selected>Choose Status</option>
                 <option value="Pending-Payment">Pending Payment</option>
                 <option value="For-Classification">For Classification</option>
                 <option value="In-Progress">In Progress</option>
@@ -170,33 +198,39 @@ function RECViewSubmission({ params }) {
 
               {/* conditional rendering */}
 
-              {forms.status === "Initial-Submission" ? (
-                    <>
-              <span>Remarks:</span>
-              <select
-                className="viewsub-changestatus"
-              >
-                <option value="Complete">Complete</option>
-                <option value="Incomplete">Incomplete</option>
-              </select>
-                    </>
-                  ): null}
+              {status === "Initial-Submission" ? (
+                <>
+                  <span>Remarks:</span>
+                  <select
+                    className="viewsub-changestatus"
+                    value={remarks}
+                    onChange={handleChange}
+                  >
+                    <option value="Complete">Complete</option>
+                    <option value="Incomplete">Incomplete</option>
+                  </select>
+                </>
+              ): null}
 
-                  {status === "For-Classification" ? (
-                    <>
-              <span>Review Classification:</span>
-              <select
-                className="viewsub-changestatus"
-              >
-                <option value="" disabled>Choose Classification</option>
-                <option value="Expedited">Expedited</option>
-                <option value="Full-Board">Full Board</option>
-                <option value="Exempt">Exempt</option>
-              </select>
-                    </>
-                  ): null}
+              {status === "For-Classification" ? (
+                <>
+                  <span>Review Classification:</span>
+                  <select
+                    className="viewsub-changestatus"
+                    value={remarks}
+                    onChange={handleChange}
+                  >
+                    <option value="" disabled>
+                      Choose Classification
+                    </option>
+                    <option value="Expedited">Expedited</option>
+                    <option value="Full-Board">Full Board</option>
+                    <option value="Exempt">Exempt</option>
+                  </select>
+                </>
+              ): null }
 
-                
+
               <span>Assign Reviewer:</span>
               <select
                 className="viewsub-changestatus"

@@ -214,9 +214,9 @@ function SubmissionStatus({ params }) {
                           <th>Remarks</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      {/* <tbody>
                         {form?.remarks?.length > 0 ? (
-                          form.remarks.map((remark, index) => (
+                          form.map((remark, index) => (
                             <tr key={index}>
                               <td>
                                 {new Date(remark.date).toLocaleDateString(
@@ -235,7 +235,7 @@ function SubmissionStatus({ params }) {
                             <td colSpan="2">No remarks available.</td>
                           </tr>
                         )}
-                      </tbody>
+                      </tbody> */}
                     </table>
                   </div>
                 </div>
