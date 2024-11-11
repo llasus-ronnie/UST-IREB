@@ -175,7 +175,15 @@
   font-size: var(--title-size);
   font-weight: bold;
   color: var(--tertiary-color);
+  margin-bottom: 0.8rem;
+}
+
+.rec-tables p {
+  font-size: 0.85rem;
+  color: var(--primary-color);
+  font-style: italic;
   margin-bottom: 1.5rem;
+  text-align: justify;
 }
 
 

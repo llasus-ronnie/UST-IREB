@@ -58,6 +58,16 @@ function RecSubmissions({ params }) {
     return forms.filter((form) => form.status === status);
   };
 
+  const statusDescriptions = {
+    "Initial-Submission": "This status indicates that the submission is under review for completeness. The REC must verify that all required documents are provided and request revisions if necessary.",
+    "Pending-Payment": "This status signifies that the submission is awaiting payment for ethical review fees. The REC must verify the proof of payment and proceed to classification upon confirmation of receipt.",
+    "For-Classification": "This status occurs once proof of payment is received. The REC is responsible for classifying the research submission into the appropriate review type—expedited, full board, or exempt.",
+    "In-Progress": "This status indicates that the submission is currently with the primary reviewer for ethical review. The REC must monitor the progress of the review and ensure timely feedback.",
+    "Initial-Result": "This status means the submission has been initially reviewed by the primary reviewer.",
+    "Resubmission": "This status indicates that revisions are required based on the primary reviewer’s feedback and is awaiting resubmission from the principal investigator.",
+    "Approved": "This status indicates that all revisions have been reviewed. The Primary Reviewer has forwarded the submission to the REC Chair for the final decision. If approved, the REC is responsible for issuing the ethics review certificate.",
+  };
+  
   return (
     <div className="adminpage-container">
       <div className="recnav-mobile">
@@ -119,7 +129,7 @@ function RecSubmissions({ params }) {
                 <p>Resubmission</p>
               </button>
               <button onClick={() => handleTableChange("Approved")}>
-                <span>{statusCount["Approved"] || 0}</span> <p>Approved</p>
+                <span>{statusCount["Approved"] || 0}</span> <p>Final Decision</p>
               </button>
             </div>
 
@@ -131,7 +141,7 @@ function RecSubmissions({ params }) {
                 <option value="In-Progress">In Progress</option>
                 <option value="Initial-Result">Initial Result</option>
                 <option value="Resubmission">Resubmission</option>
-                <option value="Approved">Approved</option>
+                <option value="Approved">Final Decision</option>
               </select>
             </div>
 
@@ -149,6 +159,7 @@ function RecSubmissions({ params }) {
                   <div className="rec-tables" key={status}>
                     <div className={status}>
                       <h1>{status.replace(/-/g, " ")}</h1>
+                      <p>{statusDescriptions[status]}</p>
                       <table className="rec-table">
                         <thead>
                           <tr>
