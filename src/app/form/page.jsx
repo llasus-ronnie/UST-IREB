@@ -40,4 +40,7 @@ function page() {
   );
 }
 
-export default withAuthorization(page, "PrincipalInvestigator");
+export default withAuthorization(page, [
+  "PrincipalInvestigator",
+  "ExternalInvestigator",
+]);

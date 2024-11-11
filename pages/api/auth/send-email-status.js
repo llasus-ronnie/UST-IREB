@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { email, status } = req.body;
+    const { email, status, name } = req.body;
 
     let transporter = nodemailer.createTransport({
       service: "gmail",
@@ -123,9 +123,9 @@ export default async function handler(req, res) {
                     </tr>
                     <tr>
                       <td class="content">
-                        <p>Dear Ronnie Llasus,</p>
+                        <p>Dear ${name},</p>
                         <h2>Your submission status has been updated to:</h2>
-                        <h1>Pending Payment</h1>
+                        <h1>${status}</h1>
                         <p>
                         Log in to the UST IREB Research Portal to review the details and any next steps under the "View My Submissions" page. Thank you.
                         </p>
