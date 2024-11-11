@@ -82,10 +82,10 @@ function SubmissionStatus({ params }) {
         "Revisions are required based on the reviewer’s feedback. Kindly check the remarks for details, submit the updates, and await your primary reviewer’s response.",
     },
     {
-      id: "Approved",
+      id: "Final-Decision",
       title: "Final Decision",
       description:
-        "Once all revisions are complete, your submission will be forwarded to the REC Chair for the final review. You will be notified of the final decision shortly thereafter in the remarks section.",
+        "A final decision for your submission is being made. Kindly wait for the result. Thank you!",
     },
   ];
 

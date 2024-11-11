@@ -10,31 +10,50 @@ import axios from "axios";
 import withAuthorization from "../../../../../hoc/withAuthorization";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { getCldImageUrl } from 'next-cloudinary';
+
 
 function RECViewSubmission({ params }) {
   const [forms, setForms] = useState([]);
   const router = useRouter();
+  const [rec, setRec] = useState('');
+  const [id, setId] = useState('');
+
+  useEffect(() => {
+    async function unwrapParams() {
+      const unwrappedParams = await params;
+      setRec(unwrappedParams.rec);
+      setId(unwrappedParams.id);
+    }
+    unwrapParams();
+  },[params]);
+
+  console.log("REC ID: " + rec);
+  console.log("ID: " + id);
 
   useEffect(() => {
     async function fetchData() {
-      try {
-        const response = await axios.get(`/api/forms/${params.id}`);
-        console.log("Working on URlID:" + `${params.id}`);
-        setForms(response.data.submission);
-      } catch (error) {
-        console.error(error);
+      if (id) {
+        try {
+          const response = await axios.get(`/api/forms/${id}`);
+          console.log("Working on URlID:" + id);
+          setForms(response.data.submission);
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
     fetchData();
-  }, []);
+  }, [id]);
 
   const [status, setStatus] = useState("");
 
   const updateData = async (newStatus) => {
     try {
-      await axios.put(`/api/forms/${params.id}`, { status: newStatus });
+      await axios.put(`/api/forms/${id}`, { status: newStatus });
       await axios.post("/api/auth/send-email-status", {
         email: forms.email,
+        name: forms.fullName,
         status: newStatus,
       });
     } catch (error) {
@@ -50,12 +69,18 @@ function RECViewSubmission({ params }) {
 
   const updateStatus = () => {
     updateData(status);
-    router.push(`/REC/RECSubmissions/${params.rec}`);
+    router.push(`/REC/RECSubmissions/${rec}`);
   };
 
   const handleBack = () => {
-    router.push(`/REC/RECSubmissions/${params.rec}`);
+    router.push(`/REC/RECSubmissions/${rec}`);
   };
+
+  const url = getCldImageUrl({
+    width: 960,
+    height: 600,
+    src: `${forms?.mainFileLink}`,
+  });
 
   return (
     <div className="adminpage-container">
@@ -90,7 +115,7 @@ function RECViewSubmission({ params }) {
 
           <Row className="viewsubmission-container">
             <a
-              href={`/REC/RECSubmissions/${params.rec}`}
+              href={`/REC/RECSubmissions/${rec}`}
               className="back-button"
             >
               <svg
@@ -108,7 +133,10 @@ function RECViewSubmission({ params }) {
               </svg>
               Go Back to Manage Submissions
             </a>
-            <Col xs={12} lg={8} className="viewsub-content-container"></Col>
+            <Col xs={12} lg={8} className="viewsub-content-container">
+              <iframe src={url} className="viewsub-iframe" />
+              <a href={url} className="viewsub-download" download={url} style={{color:"blue"}}> Download </a>
+            </Col>
             <Col xs={12} lg={4} className="viewsub-details-container">
               <h1>Submission Details</h1>
 
@@ -137,7 +165,7 @@ function RECViewSubmission({ params }) {
                 <option value="In-Progress">In Progress</option>
                 <option value="Initial-Result">Initial Result</option>
                 <option value="Resubmission">Resubmission</option>
-                <option value="Approved">Approved</option>
+                <option value="Final-Decision">Final Decision</option>
               </select>
 
               {/* can be edited hehe */}

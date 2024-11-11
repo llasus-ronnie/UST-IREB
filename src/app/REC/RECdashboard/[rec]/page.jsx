@@ -161,16 +161,11 @@ function RECDashboard({ params }) {
                   <h2>Resubmission</h2>
                   <h3>{statusCounts["Resubmission"]}</h3>
                 </div>
-
-                <div className="cert-release">
-                <div className="release-card">
+              </div>
+              <div className="release-card">
                   <h2>Certificates Released</h2>
                   <h3>{statusCounts["Approved"]}</h3>
                 </div>
-                </div>
-                
-              </div>
-              <br />
             </div>
 
             {/* Deadline Cards Converted to Table */}
@@ -181,6 +176,9 @@ function RECDashboard({ params }) {
                     <tr>
                       <th>Title</th>
                       <th>Submission Date</th>
+                      <th>Assigned Reviewer</th>
+                      <th>Task</th>
+                      <th>Deadline</th>
                     </tr>
                   </thead>
                   <tbody>
