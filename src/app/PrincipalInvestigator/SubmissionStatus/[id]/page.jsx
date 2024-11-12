@@ -245,7 +245,6 @@ function SubmissionStatus({ params }) {
                         </tr>
                       </thead>
                       <tbody>
-                        <tbody>
                           {Array.isArray(remarksFile) && remarksFile.length > 0 ? (
                             remarksFile.map((remark, index) => (
                               <tr key={index}>
@@ -261,10 +260,8 @@ function SubmissionStatus({ params }) {
                               <td colSpan="3">No remarks available</td>
                             </tr>
                           )}
-                        </tbody>
                       </tbody>
                     </table>
-
                   </div>
                 </div>
 
