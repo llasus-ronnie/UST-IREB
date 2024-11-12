@@ -11,6 +11,7 @@ import withAuthorization from "../../../../../hoc/withAuthorization";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getCldImageUrl } from 'next-cloudinary';
+import { CldUploadWidget } from "next-cloudinary";
 
 
 function RECViewSubmission({ params }) {
@@ -67,7 +68,7 @@ function RECViewSubmission({ params }) {
   const handleStatusChange = (event) => {
     const newStatus = event.target.value;
     setStatus(newStatus);
-    setRemarks({ content: "" }); 
+    setRemarks({ content: "" });
     console.log(newStatus);
   };
 
@@ -86,10 +87,10 @@ function RECViewSubmission({ params }) {
   // LONG POST FUNCTION COMING UP!
   async function submitRemarks(data) {
     try {
-      const remarkData = { 
+      const remarkData = {
         remarks: data.content, // use `remarks` instead of `content`
-        subFormId: id, 
-        status: status 
+        subFormId: id,
+        status: status
       };
       console.log("Sending remarks with subFormId:", remarkData);
       const response = await axios.post("/api/remarks", remarkData, {
@@ -97,22 +98,22 @@ function RECViewSubmission({ params }) {
           "Content-Type": "application/json",
         },
       });
-      console.log("REMARKS submitted successfully:", response.data); 
+      console.log("REMARKS submitted successfully:", response.data);
     } catch (error) {
       console.error("Error submitting form:", error.response?.data || error.message);
     }
   }
-  
+
 
   const handleChange = (event) => {
-    setRemarks({ content: event.target.value }); 
+    setRemarks({ content: event.target.value });
     console.log(event.target.value);
   };
 
   const updateStatus = () => {
-  updateData(status);
-  submitRemarks(remarks); // Use remarks directly here
-};
+    updateData(status);
+    submitRemarks(remarks); // Use remarks directly here
+  };
 
 
   return (
@@ -202,39 +203,32 @@ function RECViewSubmission({ params }) {
               </select>
 
               {/* conditional rendering */}
-
-              {status === "Initial-Submission" ? (
-                <>
                   <span>Remarks:</span>
-                  <select
-                    className="viewsub-changestatus"
-                    value={remarks.content}
-                    onChange={handleChange}
-                  >
-                    <option value="Complete">Complete</option>
-                    <option value="Incomplete">Incomplete</option>
-                  </select>
-                </>
-              ): null}
-
-              {status === "For-Classification" ? (
-                <>
-                  <span>Review Classification:</span>
-                  <select
-                    className="viewsub-changestatus"
-                    value={remarks}
-                    onChange={handleChange}
-                  >
-                    <option value="" disabled>
-                      Choose Classification
-                    </option>
-                    <option value="Expedited">Expedited</option>
-                    <option value="Full-Board">Full Board</option>
-                    <option value="Exempt">Exempt</option>
-                  </select>
-                </>
-              ): null }
-
+                    <CldUploadWidget
+                signatureEndpoint="/api/sign-cloudinary-params"
+                onSuccess={(res) => {
+                  if (res.info.format !== "pdf") {
+                    toast.error(
+                      "Only PDF files are allowed. Please upload a PDF."
+                    );
+                    return;
+                  }
+                  console.log(res.info.secure_url);
+                  setRemarks( {content: res.info.secure_url});
+                }}
+              >
+                {({ open }) => {
+                  return (
+                    <button
+                      type="button"
+                      onClick={() => open()}
+                      className="form-control PIforms-formtext PIforms-file"
+                    >
+                      Upload file
+                    </button>
+                  );
+                }}
+              </CldUploadWidget>
 
               <span>Assign Reviewer:</span>
               <select

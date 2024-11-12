@@ -22,3 +22,21 @@ export async function POST(req, res) {
     );
   }
 }
+
+export async function GET(req) {
+  try {
+      await connectDB();
+      const url = new URL(req.url);
+      const subFormId = url.searchParams.get('subFormId');
+      console.log("Form ID Parameter: ", subFormId);
+      const remarksData = await RemarksModel.findOne({ subFormId });
+      if (!remarksData) {
+          return NextResponse.json({ error: "Remarks not found" }, { status: 404 });
+      }
+
+      return NextResponse.json({ remarksData }, { status: 200 });
+  } catch (error) {
+      console.error(error);
+      return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}

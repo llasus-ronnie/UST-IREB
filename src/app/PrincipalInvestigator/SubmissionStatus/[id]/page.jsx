@@ -14,7 +14,7 @@ import ResubmissionModal from "../../../components/modals/ResubmissionModal.jsx"
 
 import withAuthorization from "../../../../hoc/withAuthorization";
 import { useSession, getSession } from "next-auth/react";
-import { getCldImageUrl } from "next-cloudinary";
+import { CldImage, getCldImageUrl } from "next-cloudinary";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -147,6 +147,35 @@ function SubmissionStatus({ params }) {
     });
   }
 
+  //remarks
+  const [remarksFile, setRemarksFile] = useState();
+  useEffect(() => {
+    async function getRemarks() {
+        try {
+          const response = await axios.get(`/api/remarks/`, {
+            params: { subFormId: form._id },
+          });
+          setRemarksFile(response.data.remarksData.remarks);
+          console.log("All data:", response.data);
+          console.log("GET FOR REMARKS", response.data.remarksData.remarks);
+        } catch (error) {
+          console.error("Error fetching remarks file:", error);
+        }
+    }
+    getRemarks();
+  }, [form]);
+
+  console.log("REMARKS FILE", remarksFile);
+
+  let remarksUrl = null;
+  if (remarksFile) {
+    remarksUrl = getCldImageUrl({
+      width: 960,
+      height: 600,
+      src: remarksFile,
+    });
+  }
+
   if (loading) {
     return (
       <div className="center-spinner">
@@ -207,36 +236,7 @@ function SubmissionStatus({ params }) {
                 <div className="submissionstatus-card-remarks">
                   <h1>Remarks</h1>
                   <div className="submissionstatus-remarks-table">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Date</th>
-                          <th>Remarks</th>
-                        </tr>
-                      </thead>
-                      {/* <tbody>
-                        {form?.remarks?.length > 0 ? (
-                          form.map((remark, index) => (
-                            <tr key={index}>
-                              <td>
-                                {new Date(remark.date).toLocaleDateString(
-                                  "en-US"
-                                )}
-                                <br />
-                                {new Date(remark.date).toLocaleTimeString(
-                                  "en-US"
-                                )}
-                              </td>
-                              <td>{remark.text}</td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="2">No remarks available.</td>
-                          </tr>
-                        )}
-                      </tbody> */}
-                    </table>
+                    <iframe src={remarksUrl} className="submissionstatus-iframe" />
                   </div>
                 </div>
 

@@ -271,6 +271,12 @@ body {
   z-index: 9999;
 }
 
+.submissionstatus-iframe{
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
 /* scroll design  */
 ::-webkit-scrollbar {
   background-color: var(--primary-color);
