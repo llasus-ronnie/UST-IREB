@@ -19,6 +19,7 @@ function RECViewSubmission({ params }) {
   const [rec, setRec] = useState('');
   const [id, setId] = useState('');
   const [status, setStatus] = useState("Initial-Submission");
+  const [remarks, setRemarks] = useState({ content: "" }); // Make remarks an object
 
 
   useEffect(() => {
@@ -66,7 +67,7 @@ function RECViewSubmission({ params }) {
   const handleStatusChange = (event) => {
     const newStatus = event.target.value;
     setStatus(newStatus);
-    setRemarks(""); 
+    setRemarks({ content: "" }); 
     console.log(newStatus);
   };
 
@@ -85,9 +86,13 @@ function RECViewSubmission({ params }) {
   // LONG POST FUNCTION COMING UP!
   async function submitRemarks(data) {
     try {
-      const remarkData = { ...data, subFormId: id };
+      const remarkData = { 
+        remarks: data.content, // use `remarks` instead of `content`
+        subFormId: id, 
+        status: status 
+      };
       console.log("Sending remarks with subFormId:", remarkData);
-        const response = await axios.post("/api/remarks", remarkData, {
+      const response = await axios.post("/api/remarks", remarkData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -98,16 +103,16 @@ function RECViewSubmission({ params }) {
     }
   }
   
-  const [remarks, setRemarks] = useState("");
 
   const handleChange = (event) => {
-    setRemarks(event.target.value);
+    setRemarks({ content: event.target.value }); 
+    console.log(event.target.value);
   };
 
   const updateStatus = () => {
-    updateData(status);
-    submitRemarks(remarks);
-  };
+  updateData(status);
+  submitRemarks(remarks); // Use remarks directly here
+};
 
 
   return (
@@ -203,7 +208,7 @@ function RECViewSubmission({ params }) {
                   <span>Remarks:</span>
                   <select
                     className="viewsub-changestatus"
-                    value={remarks}
+                    value={remarks.content}
                     onChange={handleChange}
                   >
                     <option value="Complete">Complete</option>

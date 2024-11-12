@@ -5,10 +5,13 @@ const remarkSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    status:{
+        type: String,
+        required: true,
+    },
     remarks: {
         type: String,
         required: true,
-        default: 'Initial Submission'
     },
     remarksDate: {
         type: Date,
