@@ -51,14 +51,22 @@ export async function GET(req) {
 export async function PATCH(req) {
   await connectDB();
 
-  const { heading, body } = await req.json();
+  const { id, heading, body } = await req.json();
 
   try {
-    const updatedIREBContent = await IREBContent.findOneAndUpdate(
-      { heading },
-      { body },
+    const updatedIREBContent = await IREBContent.findByIdAndUpdate(
+      id,
+      { heading, body },
       { new: true }
     );
+
+    if (!updatedIREBContent) {
+      return NextResponse.json(
+        { success: false, error: "Content not found" },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(
       { success: true, data: updatedIREBContent },
       { status: 200 }

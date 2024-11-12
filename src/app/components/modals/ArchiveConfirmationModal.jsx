@@ -5,6 +5,11 @@ import Modal from "react-bootstrap/Modal";
 import "../../styles/modals/ConfirmationModal.css";
 
 export default function ArchiveConfirmationModal(props) {
+  const handleArchive = () => {
+    props.onConfirm();
+    props.onHide();
+  };
+
   return (
     <Modal
       {...props}
@@ -18,7 +23,7 @@ export default function ArchiveConfirmationModal(props) {
           id="contained-modal-title-vcenter"
           className="confirm-modal-title"
         >
-            Are you sure you want to archive?
+          Are you sure you want to archive?
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="confirm-modal-body">
@@ -28,7 +33,7 @@ export default function ArchiveConfirmationModal(props) {
         <Button onClick={props.onHide} className="btn cancel">
           Cancel
         </Button>
-        <Button onClick={props.onConfirm} className="btn archive">
+        <Button onClick={handleArchive} className="btn archive">
           Archive
         </Button>
       </Modal.Footer>

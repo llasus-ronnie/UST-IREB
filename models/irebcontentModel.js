@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 const IREBContentSchema = new Schema({
   heading: { type: String, required: true },
   body: { type: String, required: true },
+  isArchived: { type: Boolean, default: false },
 });
 
 const IREBContent =
