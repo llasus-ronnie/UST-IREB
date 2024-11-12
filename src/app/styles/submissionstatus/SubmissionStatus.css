@@ -145,6 +145,7 @@ body {
 }
 
 .submissionstatus-remarks-table th {
+  padding: 1rem !important;
   background-color: var(--secondary-color);
   color: var(--primary-color);
 }

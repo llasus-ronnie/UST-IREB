@@ -151,30 +151,29 @@ function SubmissionStatus({ params }) {
   const [remarksFile, setRemarksFile] = useState();
   useEffect(() => {
     async function getRemarks() {
-        try {
-          const response = await axios.get(`/api/remarks/`, {
-            params: { subFormId: form._id },
-          });
-          setRemarksFile(response.data.remarksData.remarks);
-          console.log("All data:", response.data);
-          console.log("GET FOR REMARKS", response.data.remarksData.remarks);
-        } catch (error) {
-          console.error("Error fetching remarks file:", error);
-        }
+      try {
+        const response = await axios.get(`/api/remarks/`, {
+          params: { subFormId: form._id },
+        });
+        setRemarksFile(response.data.remarksData);
+        console.log("All data:", response.data.remarksData);
+      } catch (error) {
+        console.error("Error fetching remarks file:", error);
+      }
     }
     getRemarks();
   }, [form]);
 
   console.log("REMARKS FILE", remarksFile);
 
-  let remarksUrl = null;
-  if (remarksFile) {
-    remarksUrl = getCldImageUrl({
-      width: 960,
-      height: 600,
-      src: remarksFile,
-    });
-  }
+  // let remarksUrl = null;
+  // if (remarksFile) {
+  //   remarksUrl = getCldImageUrl({
+  //     width: 960,
+  //     height: 600,
+  //     src: remarksFile,
+  //   });
+  // }
 
   if (loading) {
     return (
@@ -236,7 +235,36 @@ function SubmissionStatus({ params }) {
                 <div className="submissionstatus-card-remarks">
                   <h1>Remarks</h1>
                   <div className="submissionstatus-remarks-table">
-                    <iframe src={remarksUrl} className="submissionstatus-iframe" />
+                    {/* <iframe src={remarksUrl} className="submissionstatus-iframe" /> */}
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Status</th>
+                          <th>Remarks</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tbody>
+                          {Array.isArray(remarksFile) && remarksFile.length > 0 ? (
+                            remarksFile.map((remark, index) => (
+                              <tr key={index}>
+                                <td>{new Date(remark.remarksDate).toLocaleDateString("en-US")}</td>
+                                <td>{remark.status}</td>
+                                <td>
+                                  <a href={remark.remarks}> View Remarks</a>
+                                  </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="3">No remarks available</td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </tbody>
+                    </table>
+
                   </div>
                 </div>
 

@@ -29,7 +29,7 @@ export async function GET(req) {
       const url = new URL(req.url);
       const subFormId = url.searchParams.get('subFormId');
       console.log("Form ID Parameter: ", subFormId);
-      const remarksData = await RemarksModel.findOne({ subFormId });
+      const remarksData = await RemarksModel.find({ subFormId });
       if (!remarksData) {
           return NextResponse.json({ error: "Remarks not found" }, { status: 404 });
       }
