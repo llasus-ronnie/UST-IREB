@@ -67,7 +67,7 @@ function RecSubmissions({ params }) {
     "In-Progress": "This status indicates that the submission is currently with the primary reviewer for ethical review. The REC must monitor the progress of the review and ensure timely feedback.",
     "Initial-Result": "This status means the submission has been initially reviewed by the primary reviewer.",
     "Resubmission": "This status indicates that revisions are required based on the primary reviewer’s feedback and is awaiting resubmission from the principal investigator.",
-    "Approved": "This status indicates that all revisions have been reviewed. The Primary Reviewer has forwarded the submission to the REC Chair for the final decision. If approved, the REC is responsible for issuing the ethics review certificate.",
+    "Final-Decision": "This status indicates that all revisions have been reviewed. The Primary Reviewer has forwarded the submission to the REC Chair for the final decision. If approved, the REC is responsible for issuing the ethics review certificate.",
   };
 
   return (
