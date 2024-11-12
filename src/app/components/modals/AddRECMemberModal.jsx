@@ -7,6 +7,7 @@ import CancelConfirmationModal from "../../components/modals/CancelConfirmationM
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useParams } from "next/navigation";
 
 export default function AddRECMemberModal(props) {
   const [name, setName] = useState("");
@@ -14,6 +15,7 @@ export default function AddRECMemberModal(props) {
   const [recRole, setrecRole] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+  const { rec } = useParams();
 
   const handleNameChange = (e) => {
     const nameValue = e.target.value;
@@ -41,7 +43,7 @@ export default function AddRECMemberModal(props) {
       await axios.post("/api/RECMembers", {
         name,
         email,
-        rec: props.REC?.name,
+        rec,
         recRole,
       });
       console.log("Account added to database");
