@@ -213,24 +213,91 @@ function IrebReports() {
     datasets: [
       {
         label: "Deferred",
-        data: [2, 1, 2, 2, 3],
+        data: [],
         backgroundColor: "#A0A0A0", // Light grey
         barThickness: 25,
       },
       {
-        label: "Completed",
-        data: [4, 6, 4, 7, 6],
-        backgroundColor: "#FFD700", // Bright yellow
+        label: "Waiting",
+        data: [],
+        backgroundColor: "#FFEB3B", // Yellow
         barThickness: 25,
       },
       {
-        label: "Waiting",
-        data: [2, 1, 1, 2, 1],
-        backgroundColor: "#FFEB3B", // Yellow
+        label: "Completed",
+        data: [],
+        backgroundColor: "#FFD700", // Bright yellow
         barThickness: 25,
       },
     ],
   });
+
+  useEffect(() => {
+    async function fetchFormsData() {
+      try {
+        const response = await axios.get("/api/forms");
+        const forms = response.data.forms || [];
+
+        const recStatusCounts = {};
+
+        forms.forEach((form) => {
+          const recName = form.researchEthicsCommittee;
+          const status = form.status;
+
+          if (!recStatusCounts[recName]) {
+            recStatusCounts[recName] = {
+              Deferred: 0,
+              Completed: 0,
+              Waiting: 0,
+            };
+          }
+
+          if (status === "Deferred") {
+            recStatusCounts[recName].Deferred++;
+          } else if (status === "Approved") {
+            recStatusCounts[recName].Completed++;
+          } else if (status === "In-Progress") {
+            recStatusCounts[recName].Waiting++;
+          }
+        });
+
+        const labels = Object.keys(recStatusCounts);
+        const deferredData = labels.map((rec) => recStatusCounts[rec].Deferred);
+        const completedData = labels.map(
+          (rec) => recStatusCounts[rec].Completed
+        );
+        const waitingData = labels.map((rec) => recStatusCounts[rec].Waiting);
+
+        setRecStatusData({
+          labels: labels,
+          datasets: [
+            {
+              label: "Deferred",
+              data: deferredData,
+              backgroundColor: "#A0A0A0", // Light grey
+              barThickness: 25,
+            },
+            {
+              label: "Waiting",
+              data: waitingData,
+              backgroundColor: "#FFEB3B", // Yellow
+              barThickness: 25,
+            },
+            {
+              label: "Completed",
+              data: completedData,
+              backgroundColor: "#FFD700", // Bright yellow
+              barThickness: 25,
+            },
+          ],
+        });
+      } catch (error) {
+        console.error("Error fetching forms data:", error);
+      }
+    }
+
+    fetchFormsData();
+  }, []);
 
   useEffect(() => {
     async function fetchData() {

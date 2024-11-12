@@ -41,6 +41,7 @@ function IrebDashboard() {
   const [newlyAssignedCount, setNewlyAssignedCount] = useState(0);
   const [forFinalReviewCount, setForFinalReviewCount] = useState(0);
   const [totalAssignedCount, setTotalAssignedCount] = useState(0);
+  const [resubmissionCount, setResubmissionCount] = useState(0);
   const [recChairMap, setRecChairMap] = useState({});
   const [submissionCounts, setSubmissionCounts] = useState({});
 
@@ -105,6 +106,7 @@ function IrebDashboard() {
         const recSubmissionCounts = {};
         let forFinalReviewCount = 0;
         let totalAssignedCount = 0;
+        let resubmissionCount = 0;
 
         forms.forEach((form) => {
           const submissionDate = new Date(form.date);
@@ -129,6 +131,11 @@ function IrebDashboard() {
             totalAssignedCount++;
           }
 
+          //resubmission count
+          if (form.status === "Resubmission") {
+            resubmissionCount++;
+          }
+
           // Count per REC
           if (!recSubmissionCounts[recName]) {
             recSubmissionCounts[recName] = 0;
@@ -140,6 +147,7 @@ function IrebDashboard() {
         setSubmissionCounts(recSubmissionCounts);
         setForFinalReviewCount(forFinalReviewCount);
         setTotalAssignedCount(totalAssignedCount);
+        setResubmissionCount(resubmissionCount);
 
         // Update the chart data with both submitted and approved counts
         setChartData({
@@ -256,7 +264,7 @@ function IrebDashboard() {
         <IrebNav />
         <div className="ireb-dashboard">
           <div className="adminmain-content">
-          <div className="ireb-header-container">
+            <div className="ireb-header-container">
               <div className="ireb-header">
                 <h1>IREB Dashboard</h1>
                 <p>Overview of UST-IREB Submissions and RECs.</p>
@@ -264,13 +272,13 @@ function IrebDashboard() {
               <UserLoggedIn className="userloggedin" />
             </div>
 
-          <div className="ireb-header-container-mobile">
+            <div className="ireb-header-container-mobile">
               <div className="ireb-header">
-              <UserLoggedIn className="userloggedin-mobile" />
+                <UserLoggedIn className="userloggedin-mobile" />
                 <h1>IREB Dashboard</h1>
                 <p>Overview of UST-IREB Submissions and RECs.</p>
               </div>
-          </div>
+            </div>
 
             <br />
             <br />
@@ -290,7 +298,7 @@ function IrebDashboard() {
                 </div>
                 <div className="admindashboard-card">
                   <h2>Resubmission</h2>
-                  <h3>100</h3>
+                  <h3>{resubmissionCount}</h3>
                   <p>Entries</p>
                 </div>
                 <div className="admindashboard-card">
@@ -328,14 +336,6 @@ function IrebDashboard() {
                       <td>{rec.status}</td>
                       <td>{submissionCounts[rec.name] || 0}</td>
                       <td>{recChairMap[rec.name] || "Not Assigned"}</td>
-                      <td>
-                        <Button
-                          className="btn-warning"
-                          href={`../IREB/IREBManageRECRoles/${rec._id}`}
-                        >
-                          View
-                        </Button>
-                      </td>
                     </tr>
                   ))}
                 </tbody>
