@@ -13,7 +13,9 @@ import Link from "next/link";
 import { getCldImageUrl } from 'next-cloudinary';
 import { CldUploadWidget } from "next-cloudinary";
 import { toast, ToastContainer } from "react-toastify";
+import Image from "next/image";
 import "react-toastify/dist/ReactToastify.css";
+import AcknowledgeModal from "../../../../components/modals/AcknowledgePaymentModal";
 
 
 function RECViewSubmission({ params }) {
@@ -25,6 +27,9 @@ function RECViewSubmission({ params }) {
   const [remarks, setRemarks] = useState({ content: "" }); // Make remarks an object
   const [RECMembers, setRECMembers] = useState([]);
   const [selectedReviewer, setSelectedReviewer] = useState('');
+  const [paymentLink, setPaymentLink] = useState('');
+  const [showAcknowledgeModal, setShowAcknowledgeModal] = useState(false);
+
 
   //unwrapping params
   useEffect(() => {
@@ -91,7 +96,6 @@ function RECViewSubmission({ params }) {
     }
   }
 
-
   //recmembers
   useEffect(() => {
     console.log("Current rec value:", rec);
@@ -110,6 +114,24 @@ function RECViewSubmission({ params }) {
     }
   }, [rec]);
 
+  useEffect(() => {
+    async function fetchPaymentFile() {
+      if (forms && forms._id) {
+        try {
+          const response = await axios.get(`/api/payment`, {
+            params: { formId: forms._id },
+          });
+          console.log("GET FOR PAYMENT FILE?", response.data);
+          setPaymentLink(response.data.payment?.paymentFile);
+        } catch (error) {
+          console.error("Error fetching payment file:", error);
+        }
+      }
+    }
+
+    fetchPaymentFile();
+  }, [forms]);
+
   console.log("RECMembers:", RECMembers);
 
   const handleStatusChange = (event) => {
@@ -127,6 +149,12 @@ function RECViewSubmission({ params }) {
     width: 960,
     height: 600,
     src: `${forms?.mainFileLink}`,
+  });
+
+  const paymentUrl = getCldImageUrl({
+    width: 960,
+    height: 600,
+    src: paymentLink,
   });
 
   const handleReviewerChange = (e) => {
@@ -265,9 +293,9 @@ function RECViewSubmission({ params }) {
                 value={selectedReviewer}
                 onClick={(e) => {
                   const value = e.target.value;
-                  handleReviewerChange(e);  
+                  handleReviewerChange(e);
                 }}
-                >
+              >
                 <option value="Choose Reviewer" disabled>Choose Reviewer</option>
                 {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
                   RECMembers.map((member) => (
@@ -283,8 +311,17 @@ function RECViewSubmission({ params }) {
 
               <div className="viewsub-proofofpayment">
                 <span>Proof of Payment:</span>
-
-                <button>Acknowledge Payment</button>
+                {paymentLink ? (
+                  <Image
+                    src={paymentLink}
+                    alt="Payment File"
+                    width={200}
+                    height={200}
+                  />
+                ) : (
+                  <p> No payment uploaded yet. </p>
+                )}
+                <button onClick={() => setShowAcknowledgeModal(true)}>Acknowledge Payment</button>
               </div>
 
               <div className="viewsub-buttons">
@@ -298,6 +335,14 @@ function RECViewSubmission({ params }) {
             </Col>
           </Row>
           <ToastContainer />
+          <AcknowledgeModal
+            show={showAcknowledgeModal}
+            onHide={() => setShowAcknowledgeModal(false)}
+            onConfirm={() => {
+              setShowAcknowledgeModal(false);
+              updateData("For-Classification");
+            }}
+          />
         </div>
       </div>
     </div>
