@@ -29,6 +29,8 @@ function RECViewSubmission({ params }) {
   const [selectedReviewer, setSelectedReviewer] = useState('');
   const [paymentLink, setPaymentLink] = useState('');
   const [showAcknowledgeModal, setShowAcknowledgeModal] = useState(false);
+  const [initialStatus, setInitialStatus] = useState("Initial-Submission");
+const [initialReviewer, setInitialReviewer] = useState("");
 
 
   //unwrapping params
@@ -43,30 +45,32 @@ function RECViewSubmission({ params }) {
 
 
   //forms
-  useEffect(() => {
-    async function fetchData() {
-      if (id) {
-        try {
-          const response = await axios.get(`/api/forms/${id}`);
-          console.log("Working on URlID:" + id);
-          setForms(response.data.submission);
-          setStatus(formData.status || "Initial-Submission"); // Set initial status
-        } catch (error) {
-          console.error(error);
-        }
+useEffect(() => {
+  async function fetchData() {
+    if (id) {
+      try {
+        const response = await axios.get(`/api/forms/${id}`);
+        setForms(response.data.submission);
+        setStatus(response.data.submission.status || "Initial-Submission");
+        setInitialStatus(response.data.submission.status || "Initial-Submission"); // Store initial status
+        setSelectedReviewer(response.data.submission.recMember || "");
+        setInitialReviewer(response.data.submission.recMember || ""); // Store initial reviewer
+      } catch (error) {
+        console.error(error);
       }
     }
-    fetchData();
-  }, [id]);
+  }
+  fetchData();
+}, [id]);
 
   //status
-  const updateData = async (newStatus) => {
+  const updateStatusData = async (newStatus) => {
     try {
       await axios.put(`/api/forms/${id}`, {
         status: newStatus,
-        recMember: selectedReviewer,
       });
-      toast.success('The status and REC member information has been saved successfully.');
+      toast.success('The status information has been saved successfully.');
+      
       await axios.post("/api/auth/send-email-status", {
         email: forms.email,
         name: forms.fullName,
@@ -76,6 +80,18 @@ function RECViewSubmission({ params }) {
       console.error(error);
     }
   };
+
+    //status
+    const updateReviewerData = async () => {
+      try {
+        await axios.put(`/api/forms/${id}`, {
+          recMember: selectedReviewer,
+        });
+        toast.success('The REC member information has been saved successfully.');
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
   //remarks
   async function submitRemarks(data) {
@@ -166,12 +182,20 @@ function RECViewSubmission({ params }) {
   //save data to database
   const updateStatus = async () => {
     try {
-      await updateData(status, selectedReviewer);
-      await submitRemarks(remarks);
+      if (status !== initialStatus) {
+        await updateStatusData(status);
+      }
+      if (selectedReviewer !== initialReviewer) {
+        await updateReviewerData();
+      }
+      if (remarks.content) {
+        await submitRemarks(remarks);
+      }
     } catch (error) {
-      toast.error('Failed to update status. Please try again.');
+      toast.error('Failed to update. Please try again.');
     }
   };
+  
 
   return (
     <div className="adminpage-container">
@@ -343,7 +367,7 @@ function RECViewSubmission({ params }) {
             onHide={() => setShowAcknowledgeModal(false)}
             onConfirm={() => {
               setShowAcknowledgeModal(false);
-              updateData("For-Classification");
+              updateStatusData("For-Classification");
             }}
           />
         </div>
