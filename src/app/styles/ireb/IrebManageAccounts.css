@@ -511,6 +511,8 @@ tr:hover {
 
   .manageaccounts-table {
     margin: 2rem 0;
+    width: 100%;
+    overflow-x: auto;
   }
 
   .manageaccounts-table::-webkit-scrollbar {
@@ -518,12 +520,6 @@ tr:hover {
   }
 
   .me-table {
-    font-size: var(--paragraph-size);
-    border-radius: 10px;
-    width: 100%;
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-    box-sizing: border-box;
+    overflow: auto;
   }
 }
