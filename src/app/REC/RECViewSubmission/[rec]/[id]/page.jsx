@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getCldImageUrl } from 'next-cloudinary';
 import { CldUploadWidget } from "next-cloudinary";
+import { toast } from "react-toastify";
 
 
 function RECViewSubmission({ params }) {
@@ -21,8 +22,9 @@ function RECViewSubmission({ params }) {
   const [id, setId] = useState('');
   const [status, setStatus] = useState("Initial-Submission");
   const [remarks, setRemarks] = useState({ content: "" }); // Make remarks an object
+  const [RECMembers, setRECMembers] = useState([]);
 
-
+  //unwrapping params
   useEffect(() => {
     async function unwrapParams() {
       const unwrappedParams = await params;
@@ -35,6 +37,7 @@ function RECViewSubmission({ params }) {
   console.log("REC ID: " + rec);
   console.log("ID: " + id);
 
+  //forms
   useEffect(() => {
     async function fetchData() {
       if (id) {
@@ -51,7 +54,7 @@ function RECViewSubmission({ params }) {
     fetchData();
   }, [id]);
 
-
+  //status
   const updateData = async (newStatus) => {
     try {
       await axios.put(`/api/forms/${id}`, { status: newStatus });
@@ -65,30 +68,11 @@ function RECViewSubmission({ params }) {
     }
   };
 
-  const handleStatusChange = (event) => {
-    const newStatus = event.target.value;
-    setStatus(newStatus);
-    setRemarks({ content: "" });
-    console.log(newStatus);
-  };
-
-
-
-  const handleBack = () => {
-    router.push(`/REC/RECSubmissions/${rec}`);
-  };
-
-  const url = getCldImageUrl({
-    width: 960,
-    height: 600,
-    src: `${forms?.mainFileLink}`,
-  });
-
-  // LONG POST FUNCTION COMING UP!
+  //remarks
   async function submitRemarks(data) {
     try {
       const remarkData = {
-        remarks: data.content, // use `remarks` instead of `content`
+        remarks: data.content, 
         subFormId: id,
         status: status
       };
@@ -105,16 +89,48 @@ function RECViewSubmission({ params }) {
   }
 
 
-  const handleChange = (event) => {
-    setRemarks({ content: event.target.value });
-    console.log(event.target.value);
+  //recmembers
+  useEffect(() => {
+    console.log("Current rec value:", rec);
+    async function getRECMembers() {
+      try {
+        const res = await axios.get(`/api/RECMembers`,{
+          params: {rec: rec},
+        });
+        setRECMembers(res.data.data);
+      } catch (error) {
+        console.log("Error loading REC Members");
+      }
+    }
+    if (rec) {
+      getRECMembers();
+    }
+  }, [rec]);
+
+  console.log("RECMembers:", RECMembers);
+
+  const handleStatusChange = (event) => {
+    const newStatus = event.target.value;
+    setStatus(newStatus);
+    setRemarks({ content: "" });
+    console.log(newStatus);
   };
 
+  const handleBack = () => {
+    router.push(`/REC/RECSubmissions/${rec}`);
+  };
+
+  const url = getCldImageUrl({
+    width: 960,
+    height: 600,
+    src: `${forms?.mainFileLink}`,
+  });
+
+  //save data to database
   const updateStatus = () => {
     updateData(status);
     submitRemarks(remarks); // Use remarks directly here
   };
-
 
   return (
     <div className="adminpage-container">
@@ -203,8 +219,8 @@ function RECViewSubmission({ params }) {
               </select>
 
               {/* conditional rendering */}
-                  <span>Remarks:</span>
-                    <CldUploadWidget
+              <span>Remarks:</span>
+              <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
                 onSuccess={(res) => {
                   if (res.info.format !== "pdf") {
@@ -214,7 +230,7 @@ function RECViewSubmission({ params }) {
                     return;
                   }
                   console.log(res.info.secure_url);
-                  setRemarks( {content: res.info.secure_url});
+                  setRemarks({ content: res.info.secure_url });
                 }}
               >
                 {({ open }) => {
@@ -234,10 +250,15 @@ function RECViewSubmission({ params }) {
               <select
                 className="viewsub-changestatus"
               >
-                <option value="" disabled >Choose Reviewer</option>
-                <option value="">Tricia Cuaresma</option>
-                <option value="">Franceska Flores</option>
-                <option value="">Danielle Foronda</option>
+                {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
+                  RECMembers.map((member) => (
+                    <option key={member._id} value={member.email}>
+                      {member.name}
+                    </option>
+                  ))
+                ) : (
+                  <option value="No Reviewer Available">No Reviewer Available</option>
+                )}
               </select>
 
               <div className="viewsub-proofofpayment">
