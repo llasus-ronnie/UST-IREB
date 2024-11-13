@@ -349,20 +349,17 @@ function IrebReports() {
   const downloadReport = async () => {
     const doc = new jsPDF("portrait", "pt", "a4");
 
-    // Header for the PDF
     doc.setFontSize(18);
     doc.text("IREB Reports", 40, 40);
     doc.setFontSize(12);
     doc.text("Overview of UST-IREB Submissions and REC Analytics", 40, 60);
 
-    // Capture charts as images
     const barChartElement = document.getElementById("bar-chart");
     const doughnutChartElement = document.getElementById("doughnut-chart");
     const recStatusChartElement = document.querySelector(
       ".ireb-rec-status-chart canvas"
     );
 
-    // Convert charts to images and add them to the PDF
     if (barChartElement && doughnutChartElement && recStatusChartElement) {
       const barChartImage = await html2canvas(barChartElement).then((canvas) =>
         canvas.toDataURL("image/png")
@@ -374,17 +371,15 @@ function IrebReports() {
         (canvas) => canvas.toDataURL("image/png")
       );
 
-      // Add Bar Chart to the PDF
       doc.setFontSize(16);
       doc.text("Submission Overview", 40, 100);
       doc.addImage(barChartImage, "PNG", 40, 120, 500, 300);
 
-      // Move to new page for Doughnut and REC Status Charts
       doc.addPage();
 
       // Center the Doughnut Chart on the page
       const pageWidth = doc.internal.pageSize.width;
-      const doughnutImageWidth = 300; // Width of the doughnut chart image
+      const doughnutImageWidth = 300;
       const centerX = (pageWidth - doughnutImageWidth) / 2;
 
       // Add Doughnut Chart to the PDF

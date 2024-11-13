@@ -18,6 +18,8 @@ import {
 import "chartjs-plugin-dragdata";
 import axios from "axios";
 import { useParams } from "next/navigation";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 //css
 import "../../../styles/rec/RECReports.css";
@@ -249,6 +251,70 @@ function RECReports({ params }) {
     },
   };
 
+  const downloadReport = async () => {
+    try {
+      const doc = new jsPDF("portrait", "pt", "a4");
+
+      // Header for the PDF
+      doc.setFontSize(18);
+      doc.text("REC Reports", 40, 40);
+      doc.setFontSize(12);
+      doc.text(
+        "Overview of REC Submissions and Primary Reviewer Analytics",
+        40,
+        60
+      );
+
+      const barChartElement = document.getElementById("bar-chart");
+      const doughnutChartElement = document.getElementById("doughnut-chart");
+      const recStatusChartElement = document.querySelector(
+        ".ireb-rec-status-chart canvas"
+      );
+
+      if (!barChartElement || !doughnutChartElement || !recStatusChartElement) {
+        console.error("One or more chart elements not found.");
+        return;
+      }
+
+      const barChartImage = await html2canvas(barChartElement).then((canvas) =>
+        canvas.toDataURL("image/png")
+      );
+      const doughnutChartImage = await html2canvas(doughnutChartElement).then(
+        (canvas) => canvas.toDataURL("image/png")
+      );
+      const recStatusChartImage = await html2canvas(recStatusChartElement).then(
+        (canvas) => canvas.toDataURL("image/png")
+      );
+
+      doc.setFontSize(16);
+      doc.text("Submission Overview", 40, 100);
+      doc.addImage(barChartImage, "PNG", 40, 120, 500, 300);
+      doc.addPage();
+
+      const pageWidth = doc.internal.pageSize.width;
+      const doughnutImageWidth = 300;
+      const centerX = (pageWidth - doughnutImageWidth) / 2;
+      doc.text("REC Analytics", 40, 40);
+      doc.addImage(
+        doughnutChartImage,
+        "PNG",
+        centerX,
+        60,
+        doughnutImageWidth,
+        300
+      );
+
+      doc.addPage();
+
+      doc.text("Task Status by Primary Reviewers", 40, 40);
+      doc.addImage(recStatusChartImage, "PNG", 40, 60, 500, 300);
+
+      doc.save("REC_Report.pdf");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
+  };
+
   return (
     <>
       <div className="adminpage-container">
@@ -280,20 +346,26 @@ function RECReports({ params }) {
             </div>
 
             <div className="report-page-header">
-              <button className="download-btn">Download Reports</button>
+              <button className="download-btn" onClick={downloadReport}>
+                Download Reports
+              </button>
             </div>
 
             {/* Chart */}
             <div className="twocol-container">
               <div className="rec-chart-container">
-                <Bar data={chartData} options={options} />
+                <Bar id="bar-chart" data={chartData} options={options} />
               </div>
 
               <div className="rec-report-cards">
                 <div className="recreport-card">
                   <h2>Submission Analytics</h2>
                   <div className="circle-analytics">
-                    <Doughnut data={doughnutData} options={doughnutOptions} />
+                    <Doughnut
+                      id="doughnut-chart"
+                      data={doughnutData}
+                      options={doughnutOptions}
+                    />
                   </div>
                 </div>
               </div>
