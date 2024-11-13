@@ -30,7 +30,7 @@ function RECDashboard({ params }) {
     Approved: 0,
   });
 
-  const { rec } = useParams(); // Get the current route parameter
+  const { rec } = useParams();
   const parameter = React.use(params);
 
   const [overdueForms, setOverdueForms] = useState([]);
@@ -72,7 +72,7 @@ function RECDashboard({ params }) {
       "For-Classification": 0,
       "In-Progress": 0,
       "Initial-Result": 0,
-      "Resubmission": 0,
+      Resubmission: 0,
       Approved: 0,
     };
 
@@ -128,8 +128,7 @@ function RECDashboard({ params }) {
 
           <div className="rec-dashboard">
             <div className="adminmain-content">
-              <RecHeader college={rec} />{" "}
-              {/* Pass the route parameter as a prop */}
+              <RecHeader rec={rec} />
             </div>
 
             {/* Parent of the Cards */}
@@ -175,8 +174,12 @@ function RECDashboard({ params }) {
             {/* Deadline Cards Converted to Table */}
             <div className="deadline-table-container">
               <div className="deadline-table-header">
-              <h2>Needs Attention</h2>
-              <Image src={error} alt="Needs Attention" style={{ height: '18px', width: '20px' }}/>
+                <h2>Needs Attention</h2>
+                <Image
+                  src={error}
+                  alt="Needs Attention"
+                  style={{ height: "18px", width: "20px" }}
+                />
               </div>
               <table className="deadline-table">
                 <thead>
