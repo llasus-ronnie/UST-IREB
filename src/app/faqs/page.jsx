@@ -14,7 +14,12 @@ function FAQs() {
       try {
         const response = await axios.get("/api/IREBContent");
         console.log("API Response:", response.data);
-        setContent(response.data.data);
+
+        const filteredContent = response.data.data.filter(
+          (faq) => !faq.isArchived
+        );
+
+        setContent(filteredContent);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -22,9 +27,12 @@ function FAQs() {
 
     fetchData();
   }, []);
+
   return (
     <>
-     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <div
+        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+      >
         <div className="header">
           <Navbar />
         </div>
@@ -37,17 +45,6 @@ function FAQs() {
 
         <Container>
           <Accordion style={{ paddingTop: "2em", paddingBottom: "2em" }}>
-            {/* <Accordion.Item eventKey="0">
-              <Accordion.Header className="accheader">
-                What is the UST Research Ethics Online System?
-              </Accordion.Header>
-              <Accordion.Body className="accbody">
-                The UST Research Ethics Online System is a platform that allows
-                researchers to submit their research proposals and have them
-                reviewed by the UST Research Ethics Committee.
-              </Accordion.Body>
-            </Accordion.Item> */}
-
             {content.map((faq, index) => (
               <Accordion.Item key={index} eventKey={index + 1}>
                 <Accordion.Header className="accheader">

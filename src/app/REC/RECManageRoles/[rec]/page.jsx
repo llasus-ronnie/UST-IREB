@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Spinner } from "react-bootstrap";
+import { useParams } from "next/navigation";
 
 import RecNav from "../../../components/navbaradmin/RecNav";
 import RecNavMobile from "../../../components/navbaradmin/RecNavMobile";
@@ -25,6 +26,7 @@ function IrebManageRECRoles({ params }) {
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRECMember, setFilteredRECMember] = useState([]);
+  const { rec } = useParams();
 
   const handleShowModalAddRECMember = () => setModalShowAddRECMember(true);
   const handleShowModalEditRECMember = (member) => {
@@ -48,26 +50,11 @@ function IrebManageRECRoles({ params }) {
   };
 
   useEffect(() => {
-    const fetchREC = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get(`/api/REC/${params.id}`);
-        setREC(response.data.rec);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchREC();
-  }, [params.id]);
-
-  useEffect(() => {
     const fetchRECMembersData = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`/api/RECMembers?rec=${REC?.name}`);
+        const response = await axios.get(`/api/RECMembers?rec=${rec}`);
+        console.log("API Response:", response.data); // Log the API response
         setRECMembers(response.data.data || []);
         setFilteredRECMember(response.data.data || []);
       } catch (error) {
@@ -78,10 +65,10 @@ function IrebManageRECRoles({ params }) {
       }
     };
 
-    if (REC?.name) {
+    if (rec) {
       fetchRECMembersData();
     }
-  }, [REC]);
+  }, [rec]);
 
   const roleOrder = {
     "REC Chair": 1,

@@ -24,13 +24,17 @@ function IREBManageContent(props) {
   const [selectedFaq, setSelectedFaq] = useState(null);
   const [filteredContent, setFilteredContent] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [faqs, setFaqs] = useState([]);
 
   const handleShowAddFAQModal = () => setModalShowAddFAQ(true);
   const handleShowEditFAQModal = (faq) => {
     setSelectedFaq(faq);
     setModalShowEditFAQ(true);
   };
-  const handleShowArchiveModal = () => setModalShowArchiveConfirmation(true);
+  const handleShowArchiveModal = (faq) => {
+    setSelectedFaq(faq);
+    setModalShowArchiveConfirmation(true);
+  };
   const handleCloseAddFAQModal = () => setModalShowAddFAQ(false);
   const handleCloseEditFAQModal = () => setModalShowEditFAQ(false);
   const handleCloseArchiveModal = () => setModalShowArchiveConfirmation(false);
@@ -39,10 +43,35 @@ function IREBManageContent(props) {
     const lowercasedQuery = query.toLowerCase();
     const filtered = content.filter(
       (faq) =>
-        faq.heading.toLowerCase().includes(lowercasedQuery) ||
-        faq.body.toLowerCase().includes(lowercasedQuery)
+        !faq.isArchived &&
+        (faq.heading.toLowerCase().includes(lowercasedQuery) ||
+          faq.body.toLowerCase().includes(lowercasedQuery))
     );
     setFilteredContent(filtered);
+  };
+
+  const handleArchive = async () => {
+    if (selectedFaq) {
+      try {
+        const response = await axios.patch(
+          `/api/IREBContent/${selectedFaq._id}`,
+          {
+            isArchived: true,
+          }
+        );
+        if (response.status === 200) {
+          const updatedContent = content.map((faq) =>
+            faq._id === selectedFaq._id ? { ...faq, isArchived: true } : faq
+          );
+          setContent(updatedContent);
+          setFilteredContent(updatedContent.filter((faq) => !faq.isArchived));
+        }
+      } catch (error) {
+        console.error("Error archiving FAQ:", error);
+      } finally {
+        handleCloseArchiveModal();
+      }
+    }
   };
 
   useEffect(() => {
@@ -51,8 +80,11 @@ function IREBManageContent(props) {
       try {
         const response = await axios.get("/api/IREBContent");
         console.log("API Response:", response.data);
-        setContent(response.data.data);
-        setFilteredContent(response.data.data);
+        const activeContent = response.data.data.filter(
+          (faq) => !faq.isArchived
+        );
+        setContent(activeContent);
+        setFilteredContent(activeContent);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -184,7 +216,7 @@ function IREBManageContent(props) {
                           </button>
                           <button
                             className="archive-icon"
-                            onClick={handleShowArchiveModal}
+                            onClick={() => handleShowArchiveModal(form)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -222,6 +254,7 @@ function IREBManageContent(props) {
       <ArchiveConfirmationModal
         show={modalShowArchiveConfirmation}
         onHide={handleCloseArchiveModal}
+        onConfirm={handleArchive}
       />
     </div>
   );
