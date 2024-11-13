@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import "../../styles/adminnav/adminnav.css";
 import { useSession, signOut } from "next-auth/react";
 import ConfirmLogOut from "../modals/ConfirmLogOutModal";
+import { useRouter } from "next/router";
+
 
 const RecNav = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,20 +26,37 @@ const RecNav = (props) => {
     toggleNav();
   };
 
+    const [rec, setRec] = useState(""); 
+    const [id, setId] = useState("");
+  
+    useEffect(() => {
+      if (typeof window !== "undefined") {
+        const path = window.location.pathname; 
+        const pathParts = path.split("/"); 
+  
+        const recParam = pathParts[3];
+        const idParam = pathParts[4];
+  
+        setRec(recParam);
+        setId(idParam);
+      }
+    }, []);
+    console.log("rec", rec);
+
   useEffect(() => {
     const path = window.location.pathname;
 
-    if (path.includes(`RECdashboard/${props.rec}`)) {
+    if (path.includes(`RECdashboard/${rec}`)) {
       setIsActive("home");
     } else if (path.includes("RECUserProfile")) {
       setIsActive("profile");
-    } else if (path.includes(`RECSubmissions/${props.rec}`)) {
+    } else if (path.includes(`RECSubmissions/${rec}`)) {
       setIsActive("submissions");
-    } else if (path.includes(`RECManageRoles/${props.rec}`)) {
+    } else if (path.includes(`RECManageRoles/${rec}`)) {
       setIsActive("manage");
-    } else if (path.includes(`RECManageExternal/${props.rec}`)) {
+    } else if (path.includes(`RECManageExternal/${rec}`)) {
       setIsActive("manage");
-    } else if (path.includes(`RECManageContent/${props.rec}`)) {
+    } else if (path.includes(`RECManageContent/${rec}`)) {
       setIsActive("manage");
     } else if (path.includes("RECReports")) {
       setIsActive("reports");
@@ -45,6 +64,7 @@ const RecNav = (props) => {
       setIsActive("");
     }
   }, [props.rec]);
+
 
   return (
     <>
@@ -60,7 +80,7 @@ const RecNav = (props) => {
               }`}
             >
               <a
-                href={`/REC/RECUserProfile/${props.rec}`}
+                href={`/REC/RECUserProfile/${rec}`}
                 onClick={() => isActive("profile")}
               >
                 <div>
@@ -86,7 +106,7 @@ const RecNav = (props) => {
               }`}
             >
               <a
-                href={`/REC/RECdashboard/${props.rec}`}
+                href={`/REC/RECdashboard/${rec}`}
                 onClick={() => isActive("home")}
               >
                 <div>
@@ -113,7 +133,7 @@ const RecNav = (props) => {
               }`}
             >
               <a
-                href={`/REC/RECSubmissions/${props.rec}`}
+                href={`/REC/RECSubmissions/${rec}`}
                 onClick={() => isActive("submissions")}
               >
                 <div>
@@ -222,7 +242,7 @@ const RecNav = (props) => {
               }`}
             >
               <a
-                href={`/REC/RECReports/${props.rec}`}
+                href={`/REC/RECReports/${rec}`}
                 onClick={() => isActive("reports")}
               >
                 <div>
