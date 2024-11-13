@@ -72,7 +72,7 @@
 }
 
 .adminnav ul li {
-    margin: 2.5rem 0;
+    margin: 2rem 0;
 }
 
 .adminnav ul li a {
@@ -147,6 +147,7 @@
     display: flex;
     align-items: center;
     padding: 0.9375rem; 
+    padding-bottom: 0.3rem;
     background-color: var(--primary-color);
     cursor: pointer;
     font-family: var(--poppins);
@@ -178,7 +179,7 @@
     font-family: var(--poppins);
     font-size: var(--paragraph-size);
     text-decoration: none;
-    padding: 0.1rem 0.3125rem 0.1rem 2rem !important;
+    padding: 0rem 0.3125rem 0rem 2rem !important;
     transition: color 0.1s ease, background-color 0.1s ease;
 }
 
@@ -364,6 +365,14 @@
         stroke: var(--tertiary-color);
     }
 }
+
+/* Tablet */
+@media only screen and (min-width: 577px) and (max-width: 768px) {
+    .adminnav-pop-up {
+        display: none;
+    }
+}
+
 
 /* Adminnav Popup */
 .adminnav-pop-up {

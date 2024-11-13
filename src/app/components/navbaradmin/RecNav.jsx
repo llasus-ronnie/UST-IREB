@@ -35,6 +35,8 @@ const RecNav = (props) => {
       setIsActive("submissions");
     } else if (path.includes(`RECManageRoles/${props.rec}`)) {
       setIsActive("manage");
+    } else if (path.includes(`RECManageExternal/${props.rec}`)) {
+      setIsActive("manage");
     } else if (path.includes(`RECManageContent/${props.rec}`)) {
       setIsActive("manage");
     } else if (path.includes("RECReports")) {
@@ -185,6 +187,17 @@ const RecNav = (props) => {
                     >
                       <a>
                         <span>REC Roles</span>
+                      </a>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={`/REC/RECManageExternal/${props.rec}`}
+                      legacyBehavior
+                      onClick={() => isActive("manage")}
+                    >
+                      <a>
+                        <span>REC External Reviewers</span>
                       </a>
                     </a>
                   </li>

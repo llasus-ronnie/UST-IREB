@@ -64,6 +64,8 @@ const RecNavMobile = (props) => {
       setIsActive("submissions");
     } else if (path.includes(`RECManageRoles/${props.rec}`)) {
       setIsActive("manage");
+    } else if (path.includes(`RECManageExternal/${props.rec}`)) {
+      setIsActive("manage");
     } else if (path.includes(`RECManageContent/${props.rec}`)) {
       setIsActive("manage");
     } else if (path.includes("RECReports")) {
@@ -256,6 +258,9 @@ const RecNavMobile = (props) => {
           <div className="grab-handle"></div>
           <a href={`/REC/RECManageRoles/${props.rec}`}>
             <p>Manage REC Roles</p>
+          </a>
+          <a href={`/REC/RECManageExternal/${props.rec}`}>
+            <p>Manage REC External Reviewer</p>
           </a>
           <a href={`/REC/RECManageContent/${props.rec}`}>
             <p>Manage REC Content</p>
