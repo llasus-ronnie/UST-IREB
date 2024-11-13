@@ -312,12 +312,15 @@ function RECViewSubmission({ params }) {
               <div className="viewsub-proofofpayment">
                 <span>Proof of Payment:</span>
                 {paymentLink ? (
+                  <>
                   <Image
                     src={paymentLink}
                     alt="Payment File"
                     width={200}
                     height={200}
                   />
+                  <a href={paymentLink} download={paymentLink} style={{ color: "blue" }}> Download </a>
+                  </>
                 ) : (
                   <p> No payment uploaded yet. </p>
                 )}
