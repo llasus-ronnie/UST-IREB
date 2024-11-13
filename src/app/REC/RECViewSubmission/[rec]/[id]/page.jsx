@@ -12,7 +12,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getCldImageUrl } from 'next-cloudinary';
 import { CldUploadWidget } from "next-cloudinary";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function RECViewSubmission({ params }) {
@@ -23,6 +24,7 @@ function RECViewSubmission({ params }) {
   const [status, setStatus] = useState("Initial-Submission");
   const [remarks, setRemarks] = useState({ content: "" }); // Make remarks an object
   const [RECMembers, setRECMembers] = useState([]);
+  const [selectedReviewer, setSelectedReviewer] = useState('');
 
   //unwrapping params
   useEffect(() => {
@@ -34,8 +36,6 @@ function RECViewSubmission({ params }) {
     unwrapParams();
   }, [params]);
 
-  console.log("REC ID: " + rec);
-  console.log("ID: " + id);
 
   //forms
   useEffect(() => {
@@ -57,7 +57,11 @@ function RECViewSubmission({ params }) {
   //status
   const updateData = async (newStatus) => {
     try {
-      await axios.put(`/api/forms/${id}`, { status: newStatus });
+      await axios.put(`/api/forms/${id}`, {
+        status: newStatus,
+        recMember: selectedReviewer,
+      });
+      toast.success('The status and REC member information has been saved successfully.');
       await axios.post("/api/auth/send-email-status", {
         email: forms.email,
         name: forms.fullName,
@@ -72,17 +76,16 @@ function RECViewSubmission({ params }) {
   async function submitRemarks(data) {
     try {
       const remarkData = {
-        remarks: data.content, 
+        remarks: data.content,
         subFormId: id,
         status: status
       };
-      console.log("Sending remarks with subFormId:", remarkData);
       const response = await axios.post("/api/remarks", remarkData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log("REMARKS submitted successfully:", response.data);
+      toast.success('Remarks have been submitted successfully.');
     } catch (error) {
       console.error("Error submitting form:", error.response?.data || error.message);
     }
@@ -94,8 +97,8 @@ function RECViewSubmission({ params }) {
     console.log("Current rec value:", rec);
     async function getRECMembers() {
       try {
-        const res = await axios.get(`/api/RECMembers`,{
-          params: {rec: rec},
+        const res = await axios.get(`/api/RECMembers`, {
+          params: { rec: rec },
         });
         setRECMembers(res.data.data);
       } catch (error) {
@@ -126,10 +129,20 @@ function RECViewSubmission({ params }) {
     src: `${forms?.mainFileLink}`,
   });
 
+  const handleReviewerChange = (e) => {
+    const value = e.target.value;
+    console.log("Selected Reviewer:", value);
+    setSelectedReviewer(value);
+  };
+
   //save data to database
-  const updateStatus = () => {
-    updateData(status);
-    submitRemarks(remarks); // Use remarks directly here
+  const updateStatus = async () => {
+    try {
+      await updateData(status, selectedReviewer);
+      await submitRemarks(remarks);
+    } catch (error) {
+      toast.error('Failed to update status. Please try again.');
+    }
   };
 
   return (
@@ -249,10 +262,16 @@ function RECViewSubmission({ params }) {
               <span>Assign Reviewer:</span>
               <select
                 className="viewsub-changestatus"
-              >
+                value={selectedReviewer}
+                onClick={(e) => {
+                  const value = e.target.value;
+                  handleReviewerChange(e);  
+                }}
+                >
+                <option value="Choose Reviewer" disabled>Choose Reviewer</option>
                 {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
                   RECMembers.map((member) => (
-                    <option key={member._id} value={member.email}>
+                    <option key={member._id} value={member.name}>
                       {member.name}
                     </option>
                   ))
@@ -260,6 +279,7 @@ function RECViewSubmission({ params }) {
                   <option value="No Reviewer Available">No Reviewer Available</option>
                 )}
               </select>
+
 
               <div className="viewsub-proofofpayment">
                 <span>Proof of Payment:</span>
@@ -277,6 +297,7 @@ function RECViewSubmission({ params }) {
               </div>
             </Col>
           </Row>
+          <ToastContainer />
         </div>
       </div>
     </div>

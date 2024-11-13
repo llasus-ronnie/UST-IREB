@@ -322,10 +322,10 @@ const subFormSchema = new Schema({
     require: true,
     default: "Initial-Submission",
   },
-  remarks:{
+  recMember:{
     type: String,
-    require: false,
-    default: "Kindly wait for any remarks",
+    require: true,
+    default: "kindly wait for your assigned reviewer",
   }
 });
 
