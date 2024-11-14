@@ -326,7 +326,12 @@ const subFormSchema = new Schema({
     type: String,
     require: true,
     default: "kindly wait for your assigned reviewer",
-  }
+  },
+  subRemarks:{
+    type: String,
+    require: true,
+    default: "No Sub-remarks Yet, wait for your assigned reviewer to review your submission",
+  },
 });
 
 const subForm =

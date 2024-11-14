@@ -1,16 +1,40 @@
 "use client";
 
 import React from "react";
-import PrNav from "../../components/navbaradmin/PrNav";
+import PrNav from "../../components/navbaradmin/PrNav"; 
 import PrNavMobile from "../../components/navbaradmin/PrNavMobile";
 import SearchBar from "../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
 import "../../styles/pr/PrSubmissions.css";
 import Link from "next/link";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 
 import withAuthorization from "../../../hoc/withAuthorization";
 
 function PrSubmissions() {
+  //declaration of states
+  const [forms, setForms] = useState([]);
+
+  //fetching data from the database
+  useEffect(() => {
+    async function getForms() {
+      try {
+        const response = await axios.get("/api/forms", {
+          params: { recMember: forms.recMember }
+        });
+        setForms(response.data.forms);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getForms();
+  }, []);
+
+
   const handleSearch = (query) => {
     console.log("Search query:", query);
   };
@@ -77,39 +101,33 @@ function PrSubmissions() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>2024-09-11</td>
-                    <td>Impact of Climate Change on Marine Life</td>
-                    <td>
-                      <Link
-                        href={`/PrimaryReviewer/PRViewSubmission`}
-                        className="pr-view-btn"
-                      >
-                        View
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Jane Smith</td>
-                    <td>2024-09-10</td>
-                    <td>Advances in Artificial Intelligence</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Florence Navidad</td>
-                    <td>2024-09-09</td>
-                    <td>Encryption Methods in Modern Technology</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
+                  {Array.isArray(forms) && forms.length > 0 ? (
+                    forms
+                      .filter((form) => {
+                        console.log("Filtering form with status:", form.status);
+                        return form.status === "In-Progress";  // Adjust this based on actual status value seen in console
+                      })
+                      .map((form, index) => (
+                        <tr key={index}>
+                          <td>{form._id}</td>
+                          <td>{form.fullName}</td>
+                          <td>{form.date}</td>
+                          <td>{form.title}</td>
+                          <td>
+                            <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}>View</Link>
+                          </td>
+                        </tr>
+                      ))
+                  ) : (
+                    <tr>
+                      <td colSpan={5}>No data available.</td>
+                    </tr>
+                  )}
                 </tbody>
+
+
+
+
               </table>
             </div>
             <div className="resubmission">
@@ -125,33 +143,23 @@ function PrSubmissions() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>2024-09-11</td>
-                    <td>Impact of Climate Change on Marine Life</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Jane Smith</td>
-                    <td>2024-09-10</td>
-                    <td>Advances in Artificial Intelligence</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Florence Navidad</td>
-                    <td>2024-09-09</td>
-                    <td>Encryption Methods in Modern Technology</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
+                  {forms.length > 0 ? (
+                    forms.map((form, index) => (
+                      <tr key={index}>
+                        <td>{form._id}</td>
+                        <td>{form.fullName}</td>
+                        <td>{form.date}</td>
+                        <td>{form.title}</td>
+                        <td>
+                          <Link href={`/pr/${form._id}`}>
+                            View
+                          </Link>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <td colSpan={5}>No data available.</td>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -169,33 +177,23 @@ function PrSubmissions() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>2024-09-11</td>
-                    <td>Impact of Climate Change on Marine Life</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Jane Smith</td>
-                    <td>2024-09-10</td>
-                    <td>Advances in Artificial Intelligence</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Florence Navidad</td>
-                    <td>2024-09-09</td>
-                    <td>Encryption Methods in Modern Technology</td>
-                    <td>
-                      <button className="pr-view-btn">View</button>
-                    </td>
-                  </tr>
+                  {forms.length > 0 ? (
+                    forms.map((form, index) => (
+                      <tr key={index}>
+                        <td>{form._id}</td>
+                        <td>{form.fullName}</td>
+                        <td>{form.date}</td>
+                        <td>{form.title}</td>
+                        <td>
+                          <Link href={`/pr/${form._id}`}>
+                            View
+                          </Link>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <td colSpan={5}>No data available.</td>
+                  )}
                 </tbody>
               </table>
             </div>
