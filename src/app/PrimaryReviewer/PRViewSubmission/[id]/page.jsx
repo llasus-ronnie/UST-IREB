@@ -11,6 +11,8 @@ import axios from "axios";
 import withAuthorization from "../../../../hoc/withAuthorization";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { CldUploadWidget } from "next-cloudinary";
+
 
 function PRViewSubmission({ params }) {
     const [forms, setForms] = useState([]);
@@ -120,12 +122,34 @@ function PRViewSubmission({ params }) {
 
                             <div className="viewsub-remarks">
                                 <p>Review Remarks:</p>
-                                <textarea
-                                    className="viewsub-comments"
-                                    placeholder="Enter your comments here"
-                                    rows="8"
-                                    cols="50"
-                                />
+                                <CldUploadWidget
+                                    signatureEndpoint="/api/sign-cloudinary-params"
+                                    onSuccess={(res) => {
+                                        // Check if the uploaded file is a PDF
+                                        if (res.info.format !== "pdf") {
+                                            toast.error(
+                                                "Only PDF files are allowed. Please upload a PDF."
+                                            );
+                                            return;
+                                        }
+
+                                        // If it's a PDF, save the file URL
+                                        console.log(res.info.secure_url);
+                                        setValue("mainFileLink", res.info.secure_url);
+                                    }}
+                                >
+                                    {({ open }) => {
+                                        return (
+                                            <button
+                                                type="button"
+                                                onClick={() => open()}
+                                                className="form-control PIforms-formtext PIforms-file"
+                                            >
+                                                Upload file
+                                            </button>
+                                        );
+                                    }}
+                                </CldUploadWidget>
                             </div>
 
                             <div className="viewsub-buttons">

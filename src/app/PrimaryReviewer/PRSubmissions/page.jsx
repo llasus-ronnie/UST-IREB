@@ -101,10 +101,9 @@ function PrSubmissions() {
                   </tr>
                 </thead>
                 <tbody>
-                  {Array.isArray(forms) && forms.length > 0 ? (
+                  {forms.length > 0 ? (
                     forms
                       .filter((form) => {
-                        console.log("Filtering form with status:", form.status);
                         return form.status === "In-Progress";  // Adjust this based on actual status value seen in console
                       })
                       .map((form, index) => (
