@@ -31,6 +31,7 @@ function RECViewSubmission({ params }) {
   const [showAcknowledgeModal, setShowAcknowledgeModal] = useState(false);
   const [initialStatus, setInitialStatus] = useState("Initial-Submission");
   const [initialReviewer, setInitialReviewer] = useState("");
+  const [formClassification, setFormClassification] = useState("");
 
 
   //unwrapping params
@@ -88,6 +89,19 @@ useEffect(() => {
           recMember: selectedReviewer,
         });
         toast.success('The REC member information has been saved successfully.');
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    //classification
+    const updateClassificationData = async () => {
+      try {
+        await axios.put(`/api/forms/${id}`, {
+          classification: formClassification,
+        });
+        console.log("Classification updated:", formClassification);
+        toast.success('The classification information has been saved successfully.');
       } catch (error) {
         console.error(error);
       }
@@ -179,6 +193,12 @@ useEffect(() => {
     setSelectedReviewer(value);
   };
 
+  const handleClassificationChange = (e) => {
+    const value = e.target.value;
+    console.log("Selected classification:", value);
+    setFormClassification(value);
+  };
+
   //save data to database
   const updateStatus = async () => {
     try {
@@ -190,6 +210,11 @@ useEffect(() => {
       }
       if (remarks.content) {
         await submitRemarks(remarks);
+      }
+      if (formClassification && status === "For-Classification") {
+        await updateClassificationData(formClassification);
+      } else if (status === "Pending-Payment") {
+        await updateStatusData(status);
       }
     } catch (error) {
       toast.error('Failed to update. Please try again.');
@@ -284,6 +309,20 @@ useEffect(() => {
               </select>
 
               {/* conditional rendering */}
+              {status === "For-Classification" ? ( 
+                <>
+                <span>Classification:</span>
+                <select 
+                className="viewsub-changestatus"
+                value={formClassification}
+                onChange={handleClassificationChange}>
+                  <option value="Full-Board">Full Board</option>
+                  <option value="Expedited">Expedited</option>
+                  <option value="Exempt">Exempt</option>
+                </select>
+                </>
+              ) : null}
+
               <span>Remarks:</span>
               <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
@@ -311,6 +350,8 @@ useEffect(() => {
                 }}
               </CldUploadWidget>
 
+              {status === "In-Progress" ? (
+                <>
               <span>Assign Reviewer:</span>
               <select
                 className="viewsub-changestatus"
@@ -332,6 +373,8 @@ useEffect(() => {
                   <option value="No Reviewer Available">No Reviewer Available</option>
                 )}
               </select>
+              </>
+              ) : null}
 
 
               <div className="viewsub-proofofpayment">

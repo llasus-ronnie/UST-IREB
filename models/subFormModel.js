@@ -327,7 +327,7 @@ const subFormSchema = new Schema({
     require: true,
     default: "kindly wait for your assigned reviewer",
   },
-  subRemarks:{
+  classification:{
     type: String,
     require: true,
     default: "No Sub-remarks Yet, wait for your assigned reviewer to review your submission",
