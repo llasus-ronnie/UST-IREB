@@ -30,7 +30,7 @@ function RECViewSubmission({ params }) {
   const [paymentLink, setPaymentLink] = useState('');
   const [showAcknowledgeModal, setShowAcknowledgeModal] = useState(false);
   const [initialStatus, setInitialStatus] = useState("Initial-Submission");
-const [initialReviewer, setInitialReviewer] = useState("");
+  const [initialReviewer, setInitialReviewer] = useState("");
 
 
   //unwrapping params
@@ -315,15 +315,16 @@ useEffect(() => {
               <select
                 className="viewsub-changestatus"
                 value={selectedReviewer}
-                onClick={(e) => {
+                onChange={(e) => {
                   const value = e.target.value;
                   handleReviewerChange(e);
+                  setSelectedReviewer(value);
                 }}
               >
-                <option value="Choose Reviewer" disabled>Choose Reviewer</option>
+                <option value="Choose Reviewer" >Choose Reviewer</option>
                 {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
                   RECMembers.map((member) => (
-                    <option key={member._id} value={member.name}>
+                    <option key={member._id} value={member.email}>
                       {member.name}
                     </option>
                   ))
