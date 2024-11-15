@@ -142,7 +142,7 @@ function IrebManageRECRoles({ params }) {
 
             <div className="acctype-container">
               <div className="acctype">
-                <h2>{REC?.name || "No title available"}</h2>
+                <h2>Thomasian Members</h2>
               </div>
 
               <div className="acctype-toggles">

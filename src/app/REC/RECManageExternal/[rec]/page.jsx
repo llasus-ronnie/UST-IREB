@@ -123,7 +123,7 @@ function IrebManageExternal({ params }) {
 
             <div className="acctype-container">
               <div className="acctype">
-                <h2>External Accounts</h2>
+                <h2>External Reviewers</h2>
               </div>
 
               <div className="acctype-toggles">
