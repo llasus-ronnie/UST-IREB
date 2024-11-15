@@ -12,21 +12,28 @@ import withAuthorization from "../../../../hoc/withAuthorization";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { CldUploadWidget } from "next-cloudinary";
+import { toast, ToastContainer } from "react-toastify";
+import { useForm } from "react-hook-form";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function PRViewSubmission({ params }) {
+    //state variables
     const [forms, setForms] = useState([]);
     const router = useRouter();
     const [modalShowFinalReview, setModalShowFinalReview] = useState(false);
+    const [status, setStatus] = useState("");
+    const { register, handleSubmit, setValue } = useForm();
+
 
     const handleShowFinalReviewModal = () => setModalShowFinalReview(true);
     const handleCloseFinalReviewModal = () => setModalShowFinalReview(false);
 
+    //useEffect 
     useEffect(() => {
         async function fetchData() {
             try {
                 const response = await axios.get(`/api/forms/${params.id}`);
-                console.log("Working on URlID:" + `${params.id}`);
                 setForms(response.data.submission);
             } catch (error) {
                 console.error(error);
@@ -35,27 +42,28 @@ function PRViewSubmission({ params }) {
         fetchData();
     }, []);
 
-    const [status, setStatus] = useState("");
-
-    const updateData = async (newStatus) => {
+    async function submitResubmissionRemarks(data) {
         try {
-            await axios.put(`/api/forms/${params.id}`, { status: newStatus });
+            const payload = {
+                subFormId: forms._id,
+                ...data, 
+            };
+            const response = await axios.post("/api/resubmissionRemarks", payload);
+            if (response.status === 201) {
+                toast.success("Resubmission Remarks saved successfully!");
+            } else {
+                console.error("Unexpected response status:", response.status);
+                toast.error("Unexpected error. Please try again.");
+            }
         } catch (error) {
-            console.error(error);
+            console.error("Error Response:", error.response?.data || error.message);
+            toast.error("Error saving resubmission remarks. Please try again.");
         }
-    };
+    }
+    
+    
 
-    const handleStatusChange = (event) => {
-        const newStatus = event.target.value;
-        setStatus(newStatus);
-        console.log(newStatus);
-    };
-
-    const updateStatus = () => {
-        updateData(status);
-        router.push(`/REC/RECSubmissions/${params.rec}`);
-    };
-
+    //functions
     const handleBack = () => {
         router.push(`/REC/RECSubmissions/${params.rec}`);
     };
@@ -125,17 +133,14 @@ function PRViewSubmission({ params }) {
                                 <CldUploadWidget
                                     signatureEndpoint="/api/sign-cloudinary-params"
                                     onSuccess={(res) => {
-                                        // Check if the uploaded file is a PDF
                                         if (res.info.format !== "pdf") {
                                             toast.error(
                                                 "Only PDF files are allowed. Please upload a PDF."
                                             );
                                             return;
                                         }
-
-                                        // If it's a PDF, save the file URL
-                                        console.log(res.info.secure_url);
-                                        setValue("mainFileLink", res.info.secure_url);
+                                        setValue("resubmissionRemarksFile", res.info.secure_url);
+                                        console.log("Uploaded File URL:", res.info.secure_url);
                                     }}
                                 >
                                     {({ open }) => {
@@ -153,7 +158,9 @@ function PRViewSubmission({ params }) {
                             </div>
 
                             <div className="viewsub-buttons">
-                                <button className="viewsub-save" onClick={updateStatus}>
+                                <button className="viewsub-save" onClick={handleSubmit((data)=>{
+                                    submitResubmissionRemarks(data);
+                                })}>
                                     Save Changes
                                 </button>
                                 <button className="viewsub-back" onClick={handleBack}>
@@ -175,6 +182,7 @@ function PRViewSubmission({ params }) {
                 show={modalShowFinalReview}
                 onHide={handleCloseFinalReviewModal}
             />
+            <ToastContainer/>
         </div>
     );
 }
