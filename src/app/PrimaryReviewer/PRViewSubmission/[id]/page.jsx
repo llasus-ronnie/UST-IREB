@@ -12,6 +12,7 @@ import withAuthorization from "../../../../hoc/withAuthorization";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { CldUploadWidget } from "next-cloudinary";
+import { getCldImageUrl } from "next-cloudinary";
 import { toast, ToastContainer } from "react-toastify";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,10 +21,15 @@ import "react-toastify/dist/ReactToastify.css";
 function PRViewSubmission({ params }) {
     //state variables
     const [forms, setForms] = useState([]);
+    const [resubmission, setResubmission] = useState("");
     const router = useRouter();
     const [modalShowFinalReview, setModalShowFinalReview] = useState(false);
     const [status, setStatus] = useState("");
+    const [selectedFile, setSelectedFile] = useState("Main-File");
+
+
     const { register, handleSubmit, setValue } = useForm();
+
 
 
     const handleShowFinalReviewModal = () => setModalShowFinalReview(true);
@@ -42,11 +48,36 @@ function PRViewSubmission({ params }) {
         fetchData();
     }, []);
 
+
+    useEffect(() => {
+        async function fetchResubmission() {
+            try {
+                const response = await axios.get("/api/resubmissionFile", {
+                    params: {
+                        subFormId: forms._id,  // Make sure this is correct
+                    },
+                });
+
+                if (response.data) {
+                    const { resubmission1, resubmission2 } = response.data;
+                    setResubmission({ resubmission1, resubmission2 });
+                } else {
+                    setResubmission(null); // Handle no data scenario
+                }
+            } catch (error) {
+                console.error("Failed to fetch resubmission:", error);
+            }
+        }
+
+        fetchResubmission();
+    }, [forms]);
+
+
     async function submitResubmissionRemarks(data) {
         try {
             const payload = {
                 subFormId: forms._id,
-                ...data, 
+                ...data,
             };
             const response = await axios.post("/api/resubmissionRemarks", payload);
             if (response.status === 201) {
@@ -60,13 +91,41 @@ function PRViewSubmission({ params }) {
             toast.error("Error saving resubmission remarks. Please try again.");
         }
     }
-    
-    
+
+
 
     //functions
     const handleBack = () => {
         router.push(`/REC/RECSubmissions/${params.rec}`);
     };
+
+    const handleChange = (e) => {
+        setSelectedFile(e.target.value);
+    };
+
+    const mainFileUrl = getCldImageUrl({
+        width: 960,
+        height: 600,
+        src: `${forms.mainFileLink}`,
+    });
+
+    let fileUrl = "";
+    if (selectedFile === "Main-File") {
+        fileUrl = mainFileUrl;
+    } else if (selectedFile === "Resubmission-1" && resubmission?.resubmission1) {
+        fileUrl = getCldImageUrl({
+            width: 960,
+            height: 600,
+            src: `${resubmission.resubmission1.resubmissionFile}`,
+        });
+    } else if (selectedFile === "Resubmission-2" && resubmission?.resubmission2) {
+        fileUrl = getCldImageUrl({
+            width: 960,
+            height: 600,
+            src: `${resubmission.resubmission2.resubmissionFile}`,
+        });
+    }
+
 
     return (
         <div className="adminpage-container">
@@ -110,8 +169,22 @@ function PRViewSubmission({ params }) {
                             </svg>
                             Go Back to Manage Submissions
                         </a>
-
-                        <Col xs={12} lg={8} className="viewsub-content-container"></Col>
+                        <select
+                            className="viewsub-changestatus"
+                            value={selectedFile}
+                            onChange={handleChange}
+                        >
+                            <option value="Main-File">Main File</option>
+                            <option value="Resubmission-1">Resubmission 1</option>
+                            <option value="Resubmission-2">Resubmission 2</option>
+                        </select>
+                        <Col xs={12} lg={8} className="viewsub-content-container">
+                            {fileUrl ? (
+                                <iframe src={fileUrl} width="100%" height="800px"></iframe>
+                            ) : (
+                                <p>No file available for the selected option.</p>
+                            )}
+                        </Col>
                         <Col xs={12} lg={4} className="viewsub-details-container">
                             <h1>Submission Details</h1>
 
@@ -158,7 +231,7 @@ function PRViewSubmission({ params }) {
                             </div>
 
                             <div className="viewsub-buttons">
-                                <button className="viewsub-save" onClick={handleSubmit((data)=>{
+                                <button className="viewsub-save" onClick={handleSubmit((data) => {
                                     submitResubmissionRemarks(data);
                                 })}>
                                     Save Changes
@@ -182,7 +255,7 @@ function PRViewSubmission({ params }) {
                 show={modalShowFinalReview}
                 onHide={handleCloseFinalReviewModal}
             />
-            <ToastContainer/>
+            <ToastContainer />
         </div>
     );
 }
