@@ -54,7 +54,7 @@ function IrebReports() {
       {
         label: "Approved",
         data: [],
-        backgroundColor: "#E6B800",
+        backgroundColor: "#4CAF50",
       },
     ],
   });
@@ -152,8 +152,8 @@ function IrebReports() {
             },
             {
               label: "Approved",
-              data: approvedCount,
-              backgroundColor: "#E6B800",
+              data: approvedCountsArray,
+              backgroundColor: "#4CAF50",
             },
           ],
         });
@@ -226,7 +226,7 @@ function IrebReports() {
       {
         label: "Completed",
         data: [],
-        backgroundColor: "#FFD700", // Bright yellow
+        backgroundColor: "#4CAF50", // Bright yellow
         barThickness: 25,
       },
     ],
@@ -286,11 +286,245 @@ function IrebReports() {
             {
               label: "Completed",
               data: completedData,
-              backgroundColor: "#FFD700", // Bright yellow
+              backgroundColor: "#4CAF50", // Bright yellow
               barThickness: 25,
             },
           ],
         });
+      } catch (error) {
+        console.error("Error fetching forms data:", error);
+      }
+    }
+
+    fetchFormsData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get("/api/REC");
+        console.log("API Response:", response.data);
+        setREC(response.data.data);
+
+        // Extract REC names and update recStatusData labels
+        const recNames = response.data.data.map((rec) => rec.name);
+        setRecStatusData((prevData) => ({
+          ...prevData,
+          labels: recNames,
+        }));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  //for exempt status
+  const [recStatusDataExempt, setRecStatusDataExempt] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Exempt",
+        data: [],
+        backgroundColor: "#A0A0A0", // Light grey
+        barThickness: 25,
+      },
+    ],
+  });
+
+  useEffect(() => {
+    async function fetchFormsData() {
+      try {
+        const response = await axios.get("/api/forms");
+        const forms = response.data.forms || [];
+
+        const recStatusCounts = {};
+
+        forms.forEach((form) => {
+          const recName = form.researchEthicsCommittee;
+          const status = form.status;
+
+          if (!recStatusCounts[recName]) {
+            recStatusCounts[recName] = {
+              Exempt: 0,
+            };
+          }
+
+          if (status === "Exempt") {
+            recStatusCounts[recName].Exempt++;
+          }
+        });
+
+        const labels = Object.keys(recStatusCounts);
+        const data = labels.map((label) => recStatusCounts[label].Exempt);
+
+        setRecStatusDataExempt((prevData) => ({
+          ...prevData,
+          labels,
+          datasets: [
+            {
+              ...prevData.datasets[0],
+              data,
+            },
+          ],
+        }));
+      } catch (error) {
+        console.error("Error fetching forms data:", error);
+      }
+    }
+
+    fetchFormsData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get("/api/REC");
+        console.log("API Response:", response.data);
+        setREC(response.data.data);
+
+        // Extract REC names and update recStatusData labels
+        const recNames = response.data.data.map((rec) => rec.name);
+        setRecStatusData((prevData) => ({
+          ...prevData,
+          labels: recNames,
+        }));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  //for exempt status
+  const [recStatusDataExpedited, setRecStatusDataExpedited] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Expedited",
+        data: [],
+        backgroundColor: "#A0A0A0", // Light grey
+        barThickness: 25,
+      },
+    ],
+  });
+
+  useEffect(() => {
+    async function fetchFormsData() {
+      try {
+        const response = await axios.get("/api/forms");
+        const forms = response.data.forms || [];
+
+        const recStatusCounts = {};
+
+        forms.forEach((form) => {
+          const recName = form.researchEthicsCommittee;
+          const status = form.status;
+
+          if (!recStatusCounts[recName]) {
+            recStatusCounts[recName] = {
+              Expedited: 0,
+            };
+          }
+
+          if (status === "Expedited") {
+            recStatusCounts[recName].Expedited++;
+          }
+        });
+
+        const labels = Object.keys(recStatusCounts);
+        const data = labels.map((label) => recStatusCounts[label].Expedited);
+
+        setRecStatusDataExpedited((prevData) => ({
+          ...prevData,
+          labels,
+          datasets: [
+            {
+              ...prevData.datasets[0],
+              data,
+            },
+          ],
+        }));
+      } catch (error) {
+        console.error("Error fetching forms data:", error);
+      }
+    }
+
+    fetchFormsData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get("/api/REC");
+        console.log("API Response:", response.data);
+        setREC(response.data.data);
+
+        // Extract REC names and update recStatusData labels
+        const recNames = response.data.data.map((rec) => rec.name);
+        setRecStatusData((prevData) => ({
+          ...prevData,
+          labels: recNames,
+        }));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  //for exempt status
+  const [recStatusDataFullBoard, setRecStatusDataFullBoard] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Full Board",
+        data: [],
+        backgroundColor: "#A0A0A0", // Light grey
+        barThickness: 25,
+      },
+    ],
+  });
+
+  useEffect(() => {
+    async function fetchFormsData() {
+      try {
+        const response = await axios.get("/api/forms");
+        const forms = response.data.forms || [];
+
+        const recStatusCounts = {};
+
+        forms.forEach((form) => {
+          const recName = form.researchEthicsCommittee;
+          const status = form.status;
+
+          if (!recStatusCounts[recName]) {
+            recStatusCounts[recName] = {
+              FullBoard: 0,
+            };
+          }
+
+          if (status === "Full-Board") {
+            recStatusCounts[recName].FullBoard++;
+          }
+        });
+
+        const labels = Object.keys(recStatusCounts);
+        const data = labels.map((label) => recStatusCounts[label].FullBoard);
+
+        setRecStatusDataFullBoard((prevData) => ({
+          ...prevData,
+          labels,
+          datasets: [
+            {
+              ...prevData.datasets[0],
+              data,
+            },
+          ],
+        }));
       } catch (error) {
         console.error("Error fetching forms data:", error);
       }
@@ -495,6 +729,33 @@ function IrebReports() {
               <h3>REC Status</h3>
               <div className="ireb-rec-status-chart">
                 <Bar data={recStatusData} options={recStatusOptions} />
+              </div>
+            </div>
+            <br />
+
+            {/* exempt */}
+            <div className="rec-container">
+              <h3>REC Status</h3>
+              <div className="ireb-rec-status-chart">
+                <Bar data={recStatusDataExempt} options={recStatusOptions} />
+              </div>
+            </div>
+            <br />
+
+            {/* expedited*/}
+            <div className="rec-container">
+              <h3>REC Status</h3>
+              <div className="ireb-rec-status-chart">
+                <Bar data={recStatusDataExpedited} options={recStatusOptions} />
+              </div>
+            </div>
+            <br />
+
+            {/* full board */}
+            <div className="rec-container">
+              <h3>REC Status</h3>
+              <div className="ireb-rec-status-chart">
+                <Bar data={recStatusDataFullBoard} options={recStatusOptions} />
               </div>
             </div>
             <br />

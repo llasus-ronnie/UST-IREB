@@ -56,6 +56,7 @@ function SubmissionFormP3() {
   // Submit data to the server
   async function submitDataToServer(data) {
     try {
+      // Submit the form data to the server
       const response = await fetch("/api/forms", {
         method: "POST",
         headers: {
@@ -68,9 +69,40 @@ function SubmissionFormP3() {
         dispatch(setCurrentStep(currentPage + 1));
       } else {
         console.error("Form submission failed");
+        return false;
       }
+
+      // Fetch REC details based on the committee name
+      const recResponse = await axios.get(
+        `/api/REC?name=${data.researchEthicsCommittee}`
+      );
+      console.log("REC Response Data:", recResponse.data);
+      const recList = recResponse.data.data;
+
+      // Find the specific REC
+      const rec = recList.find(
+        (rec) => rec.name === data.researchEthicsCommittee
+      );
+
+      if (!rec || !rec.email) {
+        toast.error("REC email not found.");
+        return false; // Indicating failure to find REC email
+      }
+
+      // Proceed with the email sending logic
+      const emailData = {
+        rec: rec.email,
+        title: data.title,
+        name: data.fullName,
+      };
+
+      await axios.post("/api/auth/send-email-submission", emailData);
+      toast.success("Form submitted and email sent successfully.");
+      return true; // Indicating success
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Error submitting form or sending email:", error);
+      toast.error("An error occurred while submitting the form.");
+      return false; // Indicating failure
     }
   }
 
@@ -82,7 +114,7 @@ function SubmissionFormP3() {
 
   // Confirm submission
   const handleConfirmSubmission = () => {
-    submitDataToServer(formData); // Use formData from Redux
+    submitDataToServer(formData);
     handleCloseModal();
   };
 
