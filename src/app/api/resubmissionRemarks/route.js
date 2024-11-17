@@ -18,3 +18,21 @@ export async function POST(req, res) {
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 };
+
+export async function GET(req) {
+    try {
+        await connectDB();
+        const url = new URL(req.url);
+        const subFormId = url.searchParams.get('subFormId');
+        console.log("Form ID Parameter: ", subFormId);
+        const getResubmissionRemarks = await ResubmissionRemarksModel.find({ subFormId });
+        if (!getResubmissionRemarks) {
+            return NextResponse.json({ error: "Remarks not found" }, { status: 404 });
+        }
+
+        return NextResponse.json({ getResubmissionRemarks }, { status: 200 });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    }
+}

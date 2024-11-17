@@ -77,6 +77,7 @@ function PRViewSubmission({ params }) {
         try {
             const payload = {
                 subFormId: forms._id,
+                resubmissionId: fileId,  
                 ...data,
             };
             const response = await axios.post("/api/resubmissionRemarks", payload);
@@ -110,20 +111,24 @@ function PRViewSubmission({ params }) {
     });
 
     let fileUrl = "";
+    let fileId = "";
     if (selectedFile === "Main-File") {
         fileUrl = mainFileUrl;
+        fileId = forms._id; 
     } else if (selectedFile === "Resubmission-1" && resubmission?.resubmission1) {
         fileUrl = getCldImageUrl({
             width: 960,
             height: 600,
             src: `${resubmission.resubmission1.resubmissionFile}`,
         });
+        fileId = resubmission.resubmission1._id;  // The ID of the first resubmission file
     } else if (selectedFile === "Resubmission-2" && resubmission?.resubmission2) {
         fileUrl = getCldImageUrl({
             width: 960,
             height: 600,
             src: `${resubmission.resubmission2.resubmissionFile}`,
         });
+        fileId = resubmission.resubmission2._id;  // The ID of the second resubmission file
     }
 
 
@@ -213,7 +218,6 @@ function PRViewSubmission({ params }) {
                                             return;
                                         }
                                         setValue("resubmissionRemarksFile", res.info.secure_url);
-                                        console.log("Uploaded File URL:", res.info.secure_url);
                                     }}
                                 >
                                     {({ open }) => {
