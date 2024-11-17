@@ -9,15 +9,51 @@ const app = express();
 app.use(cors());
 
 export async function POST(req, res) {
-    try{
-        const resubmissionRemarks = await req.json();
+    try {
+        const resubmission = await req.json();
+        const { subFormId } = resubmission;
         await connectDB();
-        const saveResubmissionRemarks = await ResubmissionRemarksModel.create(resubmissionRemarks);
-        return NextResponse.json(saveResubmissionRemarks, { status: 201 });
-    }catch(error){
+
+        // Fetch existing resubmissions for the given subFormId
+        const existingResubmissions = await ResubmissionRemarksModel.find({ subFormId });
+
+        console.log("Existing Resubmissions Count: ", existingResubmissions.length);
+
+        // Initialize all resubmission flags as false
+        let resubmission0 = false;
+        let resubmission1 = false;
+        let resubmission2 = false;
+
+        // Set flags based on the number of existing resubmissions
+        if (existingResubmissions.length === 0) {
+            resubmission0 = true; // First resubmission
+        } else if (existingResubmissions.length === 1) {
+            resubmission1 = true; // Second resubmission
+        } else if (existingResubmissions.length === 2) {
+            resubmission2 = true; // Third resubmission
+        }
+
+        console.log("Resubmission Flags: ", { resubmission0, resubmission1, resubmission2 });
+
+        // Construct the new resubmission object
+        const newResubmission = {
+            ...resubmission,
+            resubmission0,
+            resubmission1,
+            resubmission2,
+        };
+
+        // Save the new resubmission to the database
+        const savedResubmission = await ResubmissionRemarksModel.create(newResubmission);
+        return NextResponse.json(savedResubmission, { status: 201 });
+
+    } catch (error) {
+        console.error("Error saving resubmission:", error);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
-};
+}
+
+
 
 export async function GET(req) {
     try {

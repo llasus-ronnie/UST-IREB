@@ -26,11 +26,10 @@ function PRViewSubmission({ params }) {
     const [modalShowFinalReview, setModalShowFinalReview] = useState(false);
     const [status, setStatus] = useState("");
     const [selectedFile, setSelectedFile] = useState("Main-File");
+    const [remarksData, setRemarksData] = useState([]);
 
 
     const { register, handleSubmit, setValue } = useForm();
-
-
 
     const handleShowFinalReviewModal = () => setModalShowFinalReview(true);
     const handleCloseFinalReviewModal = () => setModalShowFinalReview(false);
@@ -48,13 +47,12 @@ function PRViewSubmission({ params }) {
         fetchData();
     }, []);
 
-
     useEffect(() => {
         async function fetchResubmission() {
             try {
                 const response = await axios.get("/api/resubmissionFile", {
                     params: {
-                        subFormId: forms._id,  // Make sure this is correct
+                        subFormId: forms._id,
                     },
                 });
 
@@ -62,7 +60,7 @@ function PRViewSubmission({ params }) {
                     const { resubmission1, resubmission2 } = response.data;
                     setResubmission({ resubmission1, resubmission2 });
                 } else {
-                    setResubmission(null); // Handle no data scenario
+                    setResubmission(null);
                 }
             } catch (error) {
                 console.error("Failed to fetch resubmission:", error);
@@ -72,12 +70,38 @@ function PRViewSubmission({ params }) {
         fetchResubmission();
     }, [forms]);
 
+    useEffect(() => {
+        const fetchResubmissionRemarks = async () => {
+            try {
+                const response = await axios.get("/api/resubmissionRemarks", {
+                    params: {
+                        subFormId: forms._id,
+                    },
+                });
+                if (response.status === 200) {
+                    const sortedRemarks = response.data.getResubmissionRemarks.sort((a, b) => {
+                        const dateA = new Date(a.resubmissionRemarksDate); // Ensure this field contains date with time
+                        const dateB = new Date(b.resubmissionRemarksDate);
+                        return dateA - dateB; // Sorting in ascending order
+                    });
+                    setRemarksData(sortedRemarks); // Set the sorted remarks data
+                } else {
+                    console.error("Failed to fetch remarks", response.status);
+                }
+            } catch (error) {
+                console.error("Error fetching remarks:", error.message);
+            }
+        };
+
+        fetchResubmissionRemarks();
+    }, [forms]);
+
 
     async function submitResubmissionRemarks(data) {
         try {
             const payload = {
                 subFormId: forms._id,
-                resubmissionId: fileId,  
+                resubmissionId: fileId,
                 ...data,
             };
             const response = await axios.post("/api/resubmissionRemarks", payload);
@@ -114,21 +138,21 @@ function PRViewSubmission({ params }) {
     let fileId = "";
     if (selectedFile === "Main-File") {
         fileUrl = mainFileUrl;
-        fileId = forms._id; 
+        fileId = forms._id;
     } else if (selectedFile === "Resubmission-1" && resubmission?.resubmission1) {
         fileUrl = getCldImageUrl({
             width: 960,
             height: 600,
             src: `${resubmission.resubmission1.resubmissionFile}`,
         });
-        fileId = resubmission.resubmission1._id;  // The ID of the first resubmission file
+        fileId = resubmission.resubmission1._id;
     } else if (selectedFile === "Resubmission-2" && resubmission?.resubmission2) {
         fileUrl = getCldImageUrl({
             width: 960,
             height: 600,
             src: `${resubmission.resubmission2.resubmissionFile}`,
         });
-        fileId = resubmission.resubmission2._id;  // The ID of the second resubmission file
+        fileId = resubmission.resubmission2._id;
     }
 
 
@@ -206,6 +230,20 @@ function PRViewSubmission({ params }) {
                             <span>Review Classification:</span>
                             <p>{forms?.status || "No classification available"}</p>
 
+                            {selectedFile === "Resubmission-1" ? (
+                                <div className="viewsub-remarks">
+                                    <p>Resubmission Text:</p>
+                                    <p style={{ fontWeight: "normal" }}>{resubmission.resubmission1?.resubmissionComments}</p>
+                                </div>
+                            ) : null}
+
+                            {selectedFile === "Resubmission-2" ? (
+                                <div className="viewsub-remarks">
+                                    <p>Resubmission Text:</p>
+                                    <p style={{ fontWeight: "normal" }}>{resubmission.resubmission2?.resubmissionComments}</p>
+                                </div>
+                            ) : null}
+
                             <div className="viewsub-remarks">
                                 <p>Review Remarks:</p>
                                 <CldUploadWidget
@@ -233,6 +271,44 @@ function PRViewSubmission({ params }) {
                                     }}
                                 </CldUploadWidget>
                             </div>
+
+                            <table className="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <thead>
+                                            <tr>
+                                                <th>File</th>
+                                                <th>Remarks</th>
+                                                <th>Date</th>
+                                                <th>Resubmission</th>
+                                            </tr>
+                                        </thead>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {remarksData.map((remark) => (
+                                        <tr key={remark._id}>
+                                            <td>
+                                                {/* Check if resubmission1 or resubmission2 is true and display accordingly */}
+                                                {remark.resubmission0
+                                                    ? 'First Remarks'
+                                                    : (remark.resubmission1
+                                                        ? 'Resubmission 1'
+                                                        : (remark.resubmission2
+                                                            ? 'Resubmission 2'
+                                                            : 'No Resubmission'))}
+                                            </td>
+                                            <td>
+                                                <a href={remark.resubmissionRemarksFile} target="_blank" rel="noopener noreferrer">
+                                                    View Remarks
+                                                </a>
+                                            </td>
+                                            <td>{new Date(remark.resubmissionRemarksDate).toLocaleString()}</td>
+                                        </tr>
+                                    ))}
+
+                                </tbody>
+                            </table>
 
                             <div className="viewsub-buttons">
                                 <button className="viewsub-save" onClick={handleSubmit((data) => {
