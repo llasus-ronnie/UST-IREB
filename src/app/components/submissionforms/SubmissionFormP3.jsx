@@ -94,6 +94,7 @@ function SubmissionFormP3() {
         rec: rec.email,
         title: data.title,
         name: data.fullName,
+        status: data.status,
       };
 
       await axios.post("/api/auth/send-email-submission", emailData);

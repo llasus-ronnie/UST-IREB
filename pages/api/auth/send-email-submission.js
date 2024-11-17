@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { rec, title, name } = req.body;
+    const { rec, title, name, status } = req.body;
 
     let transporter = nodemailer.createTransport({
       service: "gmail",
@@ -122,11 +122,11 @@ export default async function handler(req, res) {
                     </tr>
                     <tr>
                       <td class="content">
-                        <p>${name} has submitted a proposal.</p>
-                        <h2>Your submission status has been updated to:</h2>
-                        <h1>${title}</h1>
+                        <p>${name} has submitted a research proposal.</p>
+                        <h2>This submission is under the status:</h2>
+                        <h1>${status}</h1>
                         <p>
-                        Log in to the UST IREB Research Portal to review the details and any next steps under the "View My Submissions" page. Thank you.
+                        Log in to the UST IREB Research Portal to review and manage the submission on the "REC Manage Submissions" page.
                         </p>
                         <a href="https://ust-ireb.site" target="_blank" class="button">
                           Redirect to Research Portal

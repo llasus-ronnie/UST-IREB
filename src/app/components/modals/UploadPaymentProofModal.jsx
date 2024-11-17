@@ -53,6 +53,7 @@ export default function UploadPaymentProofModal({
           rec: rec.email,
           title: form.title,
           name: form.fullName,
+          status: form.status,
         };
 
         const emailResponse = await axios.post(
