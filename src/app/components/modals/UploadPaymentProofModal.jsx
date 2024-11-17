@@ -28,6 +28,50 @@ export default function UploadPaymentProofModal({
         body: JSON.stringify(data),
       });
 
+      try {
+        const encodedRECName = encodeURIComponent(form.researchEthicsCommittee);
+        const recResponse = await axios.get(`/api/REC?name=${encodedRECName}`);
+        console.log("REC Response Data:", recResponse.data);
+        const recData = recResponse.data.data; // Extract the data array
+
+        const rec = recData.find(
+          (item) => item.name === form.researchEthicsCommittee
+        ); // Find the matching REC
+
+        if (rec) {
+          if (!rec.email) {
+            toast.error("REC email not found.");
+            return false;
+          }
+        } else {
+          toast.error("REC not found for the provided name.");
+          return false;
+        }
+
+        // Proceed with the email sending logic
+        const emailData = {
+          rec: rec.email,
+          title: form.title,
+          name: form.fullName,
+        };
+
+        const emailResponse = await axios.post(
+          "/api/auth/send-email-payment",
+          emailData
+        );
+        console.log("Email Response:", emailResponse);
+        if (emailResponse.status === 200) {
+          toast.success("Email sent successfully!");
+          props.onHide();
+          return true;
+        } else {
+          toast.error("Failed to send email");
+        }
+      } catch (error) {
+        console.error("Error sending email:", error);
+        toast.error("Failed to send email");
+      }
+
       if (response.status === 201) {
         toast.success("Payment saved successfully!");
       }
