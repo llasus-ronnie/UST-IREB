@@ -16,7 +16,9 @@ const resubmissionFileSchema = new mongoose.Schema({
     resubmissionFileDate: {
         type: Date,
         default: Date.now
-    }
+    },
+    resubmission1: { type: Boolean, default: false },
+    resubmission2: { type: Boolean, default: false }, 
 });
 
 const resubmissionFile =

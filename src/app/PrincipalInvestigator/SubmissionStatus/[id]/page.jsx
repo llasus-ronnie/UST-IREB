@@ -28,6 +28,9 @@ function SubmissionStatus({ params }) {
   const [editModalShow, setEditModalShow] = useState(false);
   const [resubmissionModalShow, setResubmissionModalShow] = useState(false);
   const [status, setStatus] = useState(null);
+  const [remarksData, setRemarksData] = useState([]);
+  const [resubmission, setResubmission] = useState("");
+
 
   const handleShowModal = () => setModalShow(true);
   const handleEditModal = () => setEditModalShow(true);
@@ -167,7 +170,56 @@ function SubmissionStatus({ params }) {
     }
     getRemarks();
   }, [form]);
-    
+
+  useEffect(() => {
+    const fetchResubmissionRemarks = async () => {
+      try {
+        const response = await axios.get("/api/resubmissionRemarks", {
+          params: {
+            subFormId: form._id,
+          },
+        });
+        if (response.status === 200) {
+          const sortedRemarks = response.data.getResubmissionRemarks.sort((a, b) => {
+            const dateA = new Date(a.resubmissionRemarksDate); // Ensure this field contains date with time
+            const dateB = new Date(b.resubmissionRemarksDate);
+            return dateA - dateB; // Sorting in ascending order
+          });
+          setRemarksData(sortedRemarks); // Set the sorted remarks data
+        } else {
+          console.error("Failed to fetch remarks", response.status);
+        }
+      } catch (error) {
+        console.error("Error fetching remarks:", error.message);
+      }
+    };
+
+    fetchResubmissionRemarks();
+  }, [form]);
+
+  useEffect(() => {
+    async function fetchResubmission() {
+        try {
+            const response = await axios.get("/api/resubmissionFile", {
+                params: {
+                    subFormId: form._id,
+                },
+            });
+
+            if (response.data) {
+                const { resubmission1, resubmission2 } = response.data;
+                setResubmission({ resubmission1, resubmission2 });
+            } else {
+                setResubmission(null);
+            }
+        } catch (error) {
+            console.error("Failed to fetch resubmission:", error);
+        }
+    }
+
+    fetchResubmission();
+}, [form]);
+
 
 
   if (loading) {
@@ -240,23 +292,73 @@ function SubmissionStatus({ params }) {
                         </tr>
                       </thead>
                       <tbody>
-                          {Array.isArray(remarksFile) && remarksFile.length > 0 ? (
-                            remarksFile.map((remark, index) => (
-                              <tr key={index}>
-                                <td>{new Date(remark.remarksDate).toLocaleDateString("en-US")}</td>
-                                <td>{remark.status}</td>
-                                <td>
-                                  <a href={remark.remarks}> View Remarks</a>
-                                  </td>
-                              </tr>
-                            ))
-                          ) : (
-                            <tr>
-                              <td colSpan="3">No remarks available</td>
+                        {Array.isArray(remarksFile) && remarksFile.length > 0 ? (
+                          remarksFile.map((remark, index) => (
+                            <tr key={index}>
+                              <td>{new Date(remark.remarksDate).toLocaleDateString("en-US")}</td>
+                              <td>{remark.status}</td>
+                              <td>
+                                <a href={remark.remarks}> View Remarks</a>
+                              </td>
                             </tr>
-                          )}
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="3">No remarks available</td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
+                  </div>
+                </div>
+
+                <div className="submissionstatus-card-remarks">
+                  <h1>Resubmission Feedback</h1>
+                  <div className="submissionstatus-remarks-table">
+                    <table className="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>File</th>
+                          <th>Remarks</th>
+                          <th>Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {remarksData.map((remark) => (
+                          <tr key={remark._id}>
+                            <td>
+                              {/* Match resubmissionId and get the corresponding file */}
+                              {remark.resubmissionId === form._id ? (
+                                <a href={form.mainFileLink} target="_blank" rel="noopener noreferrer" style={{color:"blue"}}>
+                                  Main File
+                                </a>
+                              ) : (
+                                null
+                              )}
+                            </td>
+
+                            <td>
+                              {/* Match resubmissionId and get the corresponding file */}
+                              {remark.resubmissionId === resubmission.resubmission1?._id ? (
+                                <a href={resubmission.resubmission1?.resubmissionFile } target="_blank" rel="noopener noreferrer" style={{color:"blue"}}>
+                                  Resubmission 1
+                                </a>
+                              ) : (
+                                null
+                              )}
+                            </td>
+                            <td>
+                              <a href={remark.resubmissionRemarksFile} target="_blank" rel="noopener noreferrer" style={{color:"blue"}}>
+                                View Remarks
+                              </a>
+                            </td>
+                            <td>{new Date(remark.resubmissionRemarksDate).toLocaleString()}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+
+
                   </div>
                 </div>
 
@@ -267,13 +369,13 @@ function SubmissionStatus({ params }) {
                   >
                     View Submission
                   </Link>
-                  {status === "In-Progress" ? (
-                  <button
-                    className="submissionstatus-edit-sub"
-                    onClick={handleShowSubmissionModal}
-                  >
-                    Resubmission
-                  </button>
+                  {(remarksData) ? (
+                    <button
+                      className="submissionstatus-edit-sub"
+                      onClick={handleShowSubmissionModal}
+                    >
+                      Resubmission
+                    </button>
                   ) : null}
                 </div>
 

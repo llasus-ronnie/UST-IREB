@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import PrNav from "../../components/navbaradmin/PrNav"; 
+import PrNav from "../../components/navbaradmin/PrNav";
 import PrNavMobile from "../../components/navbaradmin/PrNavMobile";
 import SearchBar from "../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../components/userloggedin/UserLoggedIn";
@@ -33,6 +33,8 @@ function PrSubmissions() {
     }
     getForms();
   }, []);
+
+
 
 
   const handleSearch = (query) => {
@@ -143,22 +145,28 @@ function PrSubmissions() {
                 </thead>
                 <tbody>
                   {forms.length > 0 ? (
-                    forms.map((form, index) => (
-                      <tr key={index}>
-                        <td>{form._id}</td>
-                        <td>{form.fullName}</td>
-                        <td>{form.date}</td>
-                        <td>{form.title}</td>
-                        <td>
-                          <Link href={`/pr/${form._id}`}>
-                            View
-                          </Link>
-                        </td>
-                      </tr>
-                    ))
+                    forms
+                      .filter((form) => form.resubmission1) // Only include forms where resubmission1 is true
+                      .map((form, index) => (
+                        <tr key={index}>
+                          <td>{form._id}</td>
+                          <td>{form.fullName}</td>
+                          <td>{form.date}</td>
+                          <td>{form.title}</td>
+                          <td>Resubmission 1</td> {/* This will always show if resubmission1 is true */}
+                          <td>
+                            <Link href={`/pr/${form._id}`}>
+                              View
+                            </Link>
+                          </td>
+                        </tr>
+                      ))
                   ) : (
-                    <td colSpan={5}>No data available.</td>
+                    <tr>
+                      <td colSpan={6}>No data available.</td>
+                    </tr>
                   )}
+
                 </tbody>
               </table>
             </div>
