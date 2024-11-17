@@ -1,18 +1,73 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { CldUploadWidget } from "next-cloudinary";
 import "../../styles/modals/ResubmissionModal.css";
 import CancelConfirmationModal from "../../components/modals/CancelConfirmationModal.jsx";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function ResubmissionModal(props) {
+
+export default function ResubmissionModal({
+  subFormId,
+  ...props}) {
   const [body, setBody] = useState("");
+  const [form, setForm] = useState(null); 
+  const [uploadedFile, setUploadedFile] = useState("");
+
+  const { register, handleSubmit, setValue } = useForm();
+
+
   const handleBodyChange = (e) => {
     const bodyValue = e.target.value;
     setBody(bodyValue);
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(`/api/forms`, {
+          params: { subFormId: subFormId},
+        });
+        setForm(response.data); 
+        console.log("FetchData for resubmission:", response.data);
+      } catch (error) {
+        console.error(error);
+        setError("Failed to fetch form details.");
+      }
+    }
+  
+    fetchData();
+  }, [props.subFormId]); 
+  
+
+  //submit resubmission
+  async function submitResubmission(data) {
+    try {
+      const payload = {
+        subFormId: subFormId.id, // Flatten to string
+        resubmissionFile: data.resubmissionFile, // Rename key
+        resubmissionComments: body, // Add optional comments
+      };
+      console.log("Updated Payload:", payload); // Debug payload
+  
+      const response = await axios.post("/api/resubmissionFile", payload);
+      if (response.status === 201) {
+        toast.success("Resubmission saved successfully!");
+      } else {
+        console.error("Unexpected response status:", response.status);
+        toast.error("Unexpected error. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error Response:", error.response?.data || error.message);
+      toast.error("Error saving resubmission. Please try again.");
+    }
+  }
+  
 
   return (
     <Modal
@@ -38,9 +93,9 @@ export default function ResubmissionModal(props) {
           <CldUploadWidget
             signatureEndpoint="/api/sign-cloudinary-params"
             onSuccess={(res) => {
-              console.log(res); // This will log the entire response
               console.log(res.info.secure_url);
-              setValue("supplementaryFileLink", res.info.secure_url); // This will log the public ID of the uploaded file
+              setValue("resubmissionFile", res.info.secure_url); // This will log the public ID of the uploaded file
+              setUploadedFile(res.info.secure_url);
             }}
           >
             {({ open }) => {
@@ -66,6 +121,16 @@ export default function ResubmissionModal(props) {
               );
             }}
           </CldUploadWidget>
+          {uploadedFile && (
+            <a
+              href={uploadedFile}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="uploaded-file"
+            >
+              View Uploaded File
+            </a>
+          )}
         </div>
         <Form>
           {/* Body */}
@@ -88,7 +153,11 @@ export default function ResubmissionModal(props) {
         <Button onClick={props.onHide} className="btn cancel">
           Cancel
         </Button>
-        <Button className="btn uploadproof">Submit</Button>
+        <Button
+        className="btn uploadproof"
+        onClick={handleSubmit((data)=>{
+          submitResubmission(data);
+        })}>Submit</Button>
       </Modal.Footer>
     </Modal>
   );

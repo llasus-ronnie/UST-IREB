@@ -17,12 +17,17 @@ import { useSession, getSession } from "next-auth/react";
 import { CldImage, getCldImageUrl } from "next-cloudinary";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { toast, ToastContainer } from "react-toastify";
+import { useForm } from "react-hook-form";
+import "react-toastify/dist/ReactToastify.css";
+
 
 function SubmissionStatus({ params }) {
   const [loading, setLoading] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [editModalShow, setEditModalShow] = useState(false);
   const [resubmissionModalShow, setResubmissionModalShow] = useState(false);
+  const [status, setStatus] = useState(null);
 
   const handleShowModal = () => setModalShow(true);
   const handleEditModal = () => setEditModalShow(true);
@@ -136,8 +141,6 @@ function SubmissionStatus({ params }) {
     fetchPaymentFile();
   }, [form]);
 
-  console.log("PAYMENT LINK", paymentLink);
-
   let url = null;
   if (paymentLink) {
     url = getCldImageUrl({
@@ -156,6 +159,7 @@ function SubmissionStatus({ params }) {
           params: { subFormId: form._id },
         });
         setRemarksFile(response.data.remarksData);
+        setStatus(form.status);
         console.log("All data:", response.data.remarksData);
       } catch (error) {
         console.error("Error fetching remarks file:", error);
@@ -163,17 +167,8 @@ function SubmissionStatus({ params }) {
     }
     getRemarks();
   }, [form]);
+    
 
-  console.log("REMARKS FILE", remarksFile);
-
-  // let remarksUrl = null;
-  // if (remarksFile) {
-  //   remarksUrl = getCldImageUrl({
-  //     width: 960,
-  //     height: 600,
-  //     src: remarksFile,
-  //   });
-  // }
 
   if (loading) {
     return (
@@ -272,12 +267,14 @@ function SubmissionStatus({ params }) {
                   >
                     View Submission
                   </Link>
+                  {status === "In-Progress" ? (
                   <button
                     className="submissionstatus-edit-sub"
                     onClick={handleShowSubmissionModal}
                   >
                     Resubmission
                   </button>
+                  ) : null}
                 </div>
 
                 {/* this will only appear when investigator reach the specific status for payment*/}
@@ -325,6 +322,7 @@ function SubmissionStatus({ params }) {
             <ResubmissionModal
               show={resubmissionModalShow}
               onHide={handleCloseSubmissionModal}
+              subFormId={unwrappedParams}
             />
 
             <EditPaymentModal
