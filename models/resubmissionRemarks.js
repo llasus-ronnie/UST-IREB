@@ -16,7 +16,10 @@ const resubmissionRemarkSchema = new mongoose.Schema({
     resubmissionRemarksDate: {
         type: Date,
         default: Date.now
-    }
+    },
+    resubmission0: { type: Boolean, default: false },
+     resubmission1: { type: Boolean, default: false },
+        resubmission2: { type: Boolean, default: false }, 
 });
 
 const resubmissionRemarks =

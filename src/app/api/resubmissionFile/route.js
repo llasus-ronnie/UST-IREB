@@ -11,13 +11,36 @@ app.use(cors());
 export async function POST(req, res) {
     try {
         const resubmission = await req.json();
+        const { subFormId } = resubmission;
         await connectDB();
-        const saveResubmission = await ResubmissionModel.create(resubmission);
-        return NextResponse.json(saveResubmission, { status: 201 });
+
+        const existingResubmissions = await ResubmissionModel.find({ subFormId });
+
+        console.log("Existing Resubmissions Count: ", existingResubmissions.length);
+
+        let resubmission1 = false;
+        let resubmission2 = false;
+
+        if (existingResubmissions.length === 0) {
+            resubmission1 = true; 
+        } else if (existingResubmissions.length === 1) {
+            resubmission2 = true; 
+        }
+
+        const newResubmission = {
+            ...resubmission,
+            resubmission1,
+            resubmission2,
+        };
+        const savedResubmission = await ResubmissionModel.create(newResubmission);
+        return NextResponse.json(savedResubmission, { status: 201 });
+
     } catch (error) {
+        console.error("Error saving resubmission:", error);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 };
+
 
 export async function GET(req) {
     try {

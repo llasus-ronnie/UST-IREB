@@ -429,7 +429,7 @@ function SummaryForm() {
           </Col>
         </Container>
 
-        <Container className="PIforms-rescont">
+        {/* <Container className="PIforms-rescont">
           <Row>
             <h1 className="PIforms-resconthead">Uploaded Files</h1>
           </Row>
@@ -470,7 +470,7 @@ function SummaryForm() {
               </p>
             )}
           </Col>
-        </Container>
+        </Container> */}
 
         <Row
           style={{ marginTop: "20px", paddingBottom: "20px" }}
