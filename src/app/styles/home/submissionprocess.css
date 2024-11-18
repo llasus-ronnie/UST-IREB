@@ -129,7 +129,7 @@
 }
 
 /* Mobile */
-@media only screen and (max-width: 576px) {
+@media only screen and (min-width: 440px) and (max-width: 576px) {
     .steps-container {
         display: flex;
         flex-direction: column;
@@ -158,5 +158,12 @@
     .step-content {
         padding-left: 1rem;
         padding-right: 1rem;
+    }
+}
+
+/* Smaller Mobile */
+@media only screen and (min-width: 320px) and (max-width: 439px) {
+    .step-number.col-3 {
+        padding: 1rem;
     }
 }
