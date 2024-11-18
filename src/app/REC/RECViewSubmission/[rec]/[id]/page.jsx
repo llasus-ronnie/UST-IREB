@@ -86,15 +86,22 @@ function RECViewSubmission({ params }) {
     }
   };
 
-  //status
+  //reviewer
   const updateReviewerData = async () => {
     try {
-      await axios.put(`/api/forms/${id}`, {
+      await axios.put(`/api/forms`, {
         recMember: selectedReviewer,
-      });
-      toast.success("The REC member information has been saved successfully.");
+      },
+      { params: { id: forms._id } }
+      );
+  
+      await updateStatusData("In-Progress");
+  
+      toast.success(
+        "The REC member information has been saved successfully, and the status is updated to 'In-Progress'."
+      );
     } catch (error) {
-      console.error(error);
+      toast.error("Failed to assign REC member. Please try again.");
     }
   };
 
