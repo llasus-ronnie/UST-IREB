@@ -20,6 +20,7 @@ export default function UploadPaymentProofModal({
   const { data: session } = useSession();
   const [form, setForm] = useState(null);
 
+  //POST payment
   async function submitPayment(data) {
     try {
       const response = await axios.post("/api/payment", data, {
@@ -77,7 +78,14 @@ export default function UploadPaymentProofModal({
 
       if (response.status === 201) {
         toast.success("Payment saved successfully!");
+
+        if (onDataChange) {
+          onDataChange(); 
+        }
+
+        props.onHide();
       }
+
     } catch (error) {
       toast.error("Error saving payment. Please try again.");
       console.error(
@@ -87,6 +95,7 @@ export default function UploadPaymentProofModal({
     }
   }
 
+  //GET Form
   useEffect(() => {
     async function fetchData() {
       try {

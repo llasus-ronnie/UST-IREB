@@ -418,7 +418,19 @@ function RECViewSubmission({ params }) {
                 ) : (
                   <p> No payment uploaded yet. </p>
                 )}
-                <button onClick={() => setShowAcknowledgeModal(true)}>
+
+                <button
+                  onClick={() => setShowAcknowledgeModal(true)}
+                  disabled={!paymentLink} 
+                  style={{
+                    backgroundColor: paymentLink ? "#007bff" : "#d6d6d6", 
+                    color: paymentLink ? "#fff" : "#a9a9a9", 
+                    cursor: paymentLink ? "pointer" : "not-allowed",
+                    padding: "10px 20px",
+                    border: "none",
+                    borderRadius: "5px",
+                  }}
+                >
                   Acknowledge Payment
                 </button>
               </div>

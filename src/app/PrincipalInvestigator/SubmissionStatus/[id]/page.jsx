@@ -39,6 +39,11 @@ function SubmissionStatus({ params }) {
 
   //unwrapping the params kasi ang arte ni nextjs
   const [unwrappedParams, setUnwrappedParams] = useState(null);
+  const [form, setForm] = useState(null); 
+  const [isClient, setIsClient] = useState(null);
+  const [paymentLink, setPaymentLink] = useState(null);
+  const [remarksFile, setRemarksFile] = useState();
+
 
   useEffect(() => {
     params
@@ -95,8 +100,7 @@ function SubmissionStatus({ params }) {
     },
   ];
 
-  const [form, setForm] = useState(null); // Initialize form state
-
+//GET Form
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -113,17 +117,13 @@ function SubmissionStatus({ params }) {
     fetchData();
   }, [unwrappedParams]);
 
-  const [isClient, setIsClient] = useState(null);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  const { data: session } = useSession();
 
-  const [paymentLink, setPaymentLink] = useState(null);
-
-  //cloudinary
+  //GET Payment
   useEffect(() => {
     async function fetchPaymentFile() {
       if (form && form._id) {
@@ -142,17 +142,7 @@ function SubmissionStatus({ params }) {
     fetchPaymentFile();
   }, [form]);
 
-  let url = null;
-  if (paymentLink) {
-    url = getCldImageUrl({
-      width: 960,
-      height: 600,
-      src: paymentLink,
-    });
-  }
-
-  //remarks
-  const [remarksFile, setRemarksFile] = useState();
+  //GET remarks
   useEffect(() => {
     async function getRemarks() {
       try {
@@ -169,6 +159,7 @@ function SubmissionStatus({ params }) {
     getRemarks();
   }, [form]);
 
+//GET Resubmission Remarks
   useEffect(() => {
     const fetchResubmissionRemarks = async () => {
       try {
@@ -197,6 +188,7 @@ function SubmissionStatus({ params }) {
     fetchResubmissionRemarks();
   }, [form]);
 
+  //GET Resubmission File
   useEffect(() => {
     async function fetchResubmission() {
       try {
@@ -220,13 +212,17 @@ function SubmissionStatus({ params }) {
     fetchResubmission();
   }, [form]);
 
-  if (loading) {
-    return (
-      <div className="center-spinner">
-        <PropagateLoader color="#fcbf15" />
-      </div>
-    );
-  } else {
+  
+  let url = null;
+  if (paymentLink) {
+    url = getCldImageUrl({
+      width: 960,
+      height: 600,
+      src: paymentLink,
+    });
+  }
+
+
     return (
       <>
         {isClient && (
@@ -438,6 +434,7 @@ function SubmissionStatus({ params }) {
               show={modalShow}
               onHide={handleCloseModal}
               submissionparams={unwrappedParams}
+              onDataChange={fetchFormData}
             />
 
             <ResubmissionModal
@@ -457,7 +454,7 @@ function SubmissionStatus({ params }) {
       </>
     );
   }
-}
+
 
 export default withAuthorization(SubmissionStatus, [
   "PrincipalInvestigator",
