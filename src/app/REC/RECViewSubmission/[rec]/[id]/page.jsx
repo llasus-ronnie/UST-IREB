@@ -33,6 +33,8 @@ function RECViewSubmission({ params }) {
   const [initialReviewer, setInitialReviewer] = useState("");
   const [formClassification, setFormClassification] = useState("");
   const [remarksFile, setRemarksFile] = useState();
+  const [finalDecision, setFinalDecision] = useState("");
+
 
 
   //unwrapping params
@@ -72,7 +74,7 @@ function RECViewSubmission({ params }) {
       await axios.put(`/api/forms`, {
         status: newStatus,
       },
-      { params: { id: forms._id } }
+        { params: { id: forms._id } }
       );
       toast.success("The status information has been saved successfully.");
 
@@ -92,11 +94,11 @@ function RECViewSubmission({ params }) {
       await axios.put(`/api/forms`, {
         recMember: selectedReviewer,
       },
-      { params: { id: forms._id } }
+        { params: { id: forms._id } }
       );
-  
+
       await updateStatusData("In-Progress");
-  
+
       toast.success(
         "The REC member information has been saved successfully, and the status is updated to 'In-Progress'."
       );
@@ -110,7 +112,7 @@ function RECViewSubmission({ params }) {
     try {
       await axios.put(`/api/forms`, {
         classification: formClassification,
-      },{ params: { id: forms._id } });
+      }, { params: { id: forms._id } });
       console.log("Classification updated:", formClassification);
       toast.success(
         "The classification information has been saved successfully."
@@ -122,18 +124,18 @@ function RECViewSubmission({ params }) {
 
   //GET remarks
 
-    async function getRemarks() {
-      try {
-        const response = await axios.get(`/api/remarks`, {
-          params: { subFormId: forms._id },
-        });
-        setRemarksFile(response.data.remarksData);
-        setStatus(forms.status);
-        console.log("All data:", response.data.remarksData);
-      } catch (error) {
-        console.error("Error fetching remarks file:", error);
-      }
+  async function getRemarks() {
+    try {
+      const response = await axios.get(`/api/remarks`, {
+        params: { subFormId: forms._id },
+      });
+      setRemarksFile(response.data.remarksData);
+      setStatus(forms.status);
+      console.log("All data:", response.data.remarksData);
+    } catch (error) {
+      console.error("Error fetching remarks file:", error);
     }
+  }
   useEffect(() => {
     getRemarks();
   }, [forms]);
@@ -203,6 +205,26 @@ function RECViewSubmission({ params }) {
     fetchPaymentFile();
   }, [forms]);
 
+  async function submitFinalDecision(finalDecision) {
+    try {
+      const formUpdateResponse = await axios.put("/api/forms", {
+        finalDecision: finalDecision
+      },
+      {
+        params:{id: forms._id}
+      }
+      );
+      if (formUpdateResponse.status === 200) {
+        console.log(formUpdateResponse)
+        toast.success("Final decision has been submitted successfully.");
+      } else {
+        console.error("Failed to update final decision");
+      }
+    }catch(error){
+      toast.error("Failed to update final decision. Please try again.");
+    }
+  }
+
   const handleStatusChange = (event) => {
     const newStatus = event.target.value;
     setStatus(newStatus);
@@ -238,6 +260,11 @@ function RECViewSubmission({ params }) {
     setFormClassification(value);
   };
 
+  const handleDecisionChange = (event) => {
+    setFinalDecision(event.target.value);
+  };
+  
+
   //save data to database
   const updateStatus = async () => {
     try {
@@ -254,6 +281,9 @@ function RECViewSubmission({ params }) {
         await updateClassificationData(formClassification);
       } else if (status === "Pending-Payment") {
         await updateStatusData(status);
+      }
+      if(finalDecision){
+        await submitFinalDecision(finalDecision);
       }
     } catch (error) {
       toast.error("Failed to update. Please try again.");
@@ -308,7 +338,7 @@ function RECViewSubmission({ params }) {
               </svg>
               Go Back to Manage Submissions
             </a>
-            
+
             <Col xs={12} lg={8} className="viewsub-content-container">
               <iframe src={url} className="viewsub-iframe" />
               <a
@@ -370,7 +400,7 @@ function RECViewSubmission({ params }) {
                 </>
               ) : null}
 
-            
+
 
               {status === "For-Classification" ? (
                 <>
@@ -400,6 +430,21 @@ function RECViewSubmission({ params }) {
                 </>
               ) : null}
 
+              {status === "Final-Decision" ? (
+                <>
+                  <span>Decision:</span>
+                  <select
+                    className="viewsub-changestatus"
+                    value={finalDecision}
+                    onChange={handleDecisionChange}
+                  >
+                  <option value="Approved">Approved</option>
+                  <option value="Deferred">Deferred</option>
+
+                  </select>
+                </>
+              ) : null}
+
               <div className="viewsub-proofofpayment">
                 <span>Proof of Payment:</span>
                 {paymentLink ? (
@@ -425,10 +470,10 @@ function RECViewSubmission({ params }) {
 
                 <button
                   onClick={() => setShowAcknowledgeModal(true)}
-                  disabled={!paymentLink} 
+                  disabled={!paymentLink}
                   style={{
-                    backgroundColor: paymentLink ? "#007bff" : "#d6d6d6", 
-                    color: paymentLink ? "#fff" : "#a9a9a9", 
+                    backgroundColor: paymentLink ? "#007bff" : "#d6d6d6",
+                    color: paymentLink ? "#fff" : "#a9a9a9",
                     cursor: paymentLink ? "pointer" : "not-allowed",
                     padding: "10px 20px",
                     border: "none",
@@ -439,67 +484,67 @@ function RECViewSubmission({ params }) {
                 </button>
               </div>
 
-            <div className="submissionstatus-card-remarks">
-            <div className="upload-remarks">
-              <span>Remarks:</span>
-              <CldUploadWidget
-                signatureEndpoint="/api/sign-cloudinary-params"
-                onSuccess={(res) => {
-                  if (res.info.format !== "pdf") {
-                    toast.error(
-                      "Only PDF files are allowed. Please upload a PDF."
-                    );
-                    return;
-                  }
-                  console.log(res.info.secure_url);
-                  setRemarks({ content: res.info.secure_url });
-                }}
-              >
-                {({ open }) => {
-                  return (
-                    <button
-                      type="button"
-                      onClick={() => open()}
-                      className="form-control PIforms-formtext PIforms-file"
-                    >
-                      Upload file
-                    </button>
-                  );
-                }}
-              </CldUploadWidget>
-              </div>
+              <div className="submissionstatus-card-remarks">
+                <div className="upload-remarks">
+                  <span>Remarks:</span>
+                  <CldUploadWidget
+                    signatureEndpoint="/api/sign-cloudinary-params"
+                    onSuccess={(res) => {
+                      if (res.info.format !== "pdf") {
+                        toast.error(
+                          "Only PDF files are allowed. Please upload a PDF."
+                        );
+                        return;
+                      }
+                      console.log(res.info.secure_url);
+                      setRemarks({ content: res.info.secure_url });
+                    }}
+                  >
+                    {({ open }) => {
+                      return (
+                        <button
+                          type="button"
+                          onClick={() => open()}
+                          className="form-control PIforms-formtext PIforms-file"
+                        >
+                          Upload file
+                        </button>
+                      );
+                    }}
+                  </CldUploadWidget>
+                </div>
 
-              <table className="remarks-table">
-                      <thead>
-                        <tr>
-                          <th>Date</th>
-                          <th>Status</th>
-                          <th>Remarks</th>
+                <table className="remarks-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th>Remarks</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.isArray(remarksFile) &&
+                      remarksFile.length > 0 ? (
+                      remarksFile.map((remark, index) => (
+                        <tr key={index}>
+                          <td>
+                            {new Date(
+                              remark.remarksDate
+                            ).toLocaleDateString("en-US")}
+                          </td>
+                          <td>{remark.status}</td>
+                          <td>
+                            <a href={remark.remarks}> View Remarks</a>
+                          </td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {Array.isArray(remarksFile) &&
-                        remarksFile.length > 0 ? (
-                          remarksFile.map((remark, index) => (
-                            <tr key={index}>
-                              <td>
-                                {new Date(
-                                  remark.remarksDate
-                                ).toLocaleDateString("en-US")}
-                              </td>
-                              <td>{remark.status}</td>
-                              <td>
-                                <a href={remark.remarks}> View Remarks</a>
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="3">No remarks available</td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="3">No remarks available</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
 
 

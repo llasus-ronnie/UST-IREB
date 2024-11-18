@@ -336,7 +336,12 @@ const subFormSchema = new Schema({
     type: String,
     require: true,
     default: "Newly-Assigned"
-    }
+    },
+    finalDecision:{
+      type: String,
+      require: true,
+      default: "No Final Decision Yet"
+    },
 });
 
 const subForm =
