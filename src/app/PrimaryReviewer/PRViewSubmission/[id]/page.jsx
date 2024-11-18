@@ -357,18 +357,14 @@ function PRViewSubmission({ params }) {
                   }}
                 </CldUploadWidget>
               </div>
-
-              <table className="table table-striped">
+            
+          <div className="submissionstatus-card-remarks">
+            <table className="remarks-table">
                 <thead>
                   <tr>
-                    <thead>
-                      <tr>
-                        <th>File</th>
-                        <th>Remarks</th>
-                        <th>Date</th>
-                        <th>Resubmission</th>
-                      </tr>
-                    </thead>
+                    <th>Resubmission</th>
+                    <th>File</th>
+                    <th>Date</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -402,7 +398,8 @@ function PRViewSubmission({ params }) {
                   ))}
                 </tbody>
               </table>
-
+          </div>
+            
               <div className="viewsub-buttons">
                 <button
                   className="viewsub-save"
