@@ -101,9 +101,9 @@ function RECViewSubmission({ params }) {
   //classification
   const updateClassificationData = async () => {
     try {
-      await axios.put(`/api/forms/${id}`, {
+      await axios.put(`/api/forms`, {
         classification: formClassification,
-      });
+      },{ params: { id: forms._id } });
       console.log("Classification updated:", formClassification);
       toast.success(
         "The classification information has been saved successfully."
