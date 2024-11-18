@@ -69,9 +69,11 @@ function RECViewSubmission({ params }) {
   //status
   const updateStatusData = async (newStatus) => {
     try {
-      await axios.put(`/api/forms/${id}`, {
+      await axios.put(`/api/forms`, {
         status: newStatus,
-      });
+      },
+      { params: { id: forms._id } }
+      );
       toast.success("The status information has been saved successfully.");
 
       await axios.post("/api/auth/send-email-status", {
