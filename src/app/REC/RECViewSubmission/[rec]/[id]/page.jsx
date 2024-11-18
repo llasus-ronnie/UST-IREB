@@ -10,29 +10,28 @@ import axios from "axios";
 import withAuthorization from "../../../../../hoc/withAuthorization";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getCldImageUrl } from 'next-cloudinary';
+import { getCldImageUrl } from "next-cloudinary";
 import { CldUploadWidget } from "next-cloudinary";
 import { toast, ToastContainer } from "react-toastify";
 import Image from "next/image";
 import "react-toastify/dist/ReactToastify.css";
 import AcknowledgeModal from "../../../../components/modals/AcknowledgePaymentModal";
-
+import { title } from "process";
 
 function RECViewSubmission({ params }) {
   const [forms, setForms] = useState([]);
   const router = useRouter();
-  const [rec, setRec] = useState('');
-  const [id, setId] = useState('');
+  const [rec, setRec] = useState("");
+  const [id, setId] = useState("");
   const [status, setStatus] = useState("Initial-Submission");
   const [remarks, setRemarks] = useState({ content: "" }); // Make remarks an object
   const [RECMembers, setRECMembers] = useState([]);
-  const [selectedReviewer, setSelectedReviewer] = useState('');
-  const [paymentLink, setPaymentLink] = useState('');
+  const [selectedReviewer, setSelectedReviewer] = useState("");
+  const [paymentLink, setPaymentLink] = useState("");
   const [showAcknowledgeModal, setShowAcknowledgeModal] = useState(false);
   const [initialStatus, setInitialStatus] = useState("Initial-Submission");
   const [initialReviewer, setInitialReviewer] = useState("");
   const [formClassification, setFormClassification] = useState("");
-
 
   //unwrapping params
   useEffect(() => {
@@ -44,25 +43,26 @@ function RECViewSubmission({ params }) {
     unwrapParams();
   }, [params]);
 
-
   //forms
-useEffect(() => {
-  async function fetchData() {
-    if (id) {
-      try {
-        const response = await axios.get(`/api/forms/${id}`);
-        setForms(response.data.submission);
-        setStatus(response.data.submission.status || "Initial-Submission");
-        setInitialStatus(response.data.submission.status || "Initial-Submission"); // Store initial status
-        setSelectedReviewer(response.data.submission.recMember || "");
-        setInitialReviewer(response.data.submission.recMember || ""); // Store initial reviewer
-      } catch (error) {
-        console.error(error);
+  useEffect(() => {
+    async function fetchData() {
+      if (id) {
+        try {
+          const response = await axios.get(`/api/forms/${id}`);
+          setForms(response.data.submission);
+          setStatus(response.data.submission.status || "Initial-Submission");
+          setInitialStatus(
+            response.data.submission.status || "Initial-Submission"
+          ); // Store initial status
+          setSelectedReviewer(response.data.submission.recMember || "");
+          setInitialReviewer(response.data.submission.recMember || ""); // Store initial reviewer
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
-  }
-  fetchData();
-}, [id]);
+    fetchData();
+  }, [id]);
 
   //status
   const updateStatusData = async (newStatus) => {
@@ -70,8 +70,8 @@ useEffect(() => {
       await axios.put(`/api/forms/${id}`, {
         status: newStatus,
       });
-      toast.success('The status information has been saved successfully.');
-      
+      toast.success("The status information has been saved successfully.");
+
       await axios.post("/api/auth/send-email-status", {
         email: forms.email,
         name: forms.fullName,
@@ -82,30 +82,32 @@ useEffect(() => {
     }
   };
 
-    //status
-    const updateReviewerData = async () => {
-      try {
-        await axios.put(`/api/forms/${id}`, {
-          recMember: selectedReviewer,
-        });
-        toast.success('The REC member information has been saved successfully.');
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  //status
+  const updateReviewerData = async () => {
+    try {
+      await axios.put(`/api/forms/${id}`, {
+        recMember: selectedReviewer,
+      });
+      toast.success("The REC member information has been saved successfully.");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    //classification
-    const updateClassificationData = async () => {
-      try {
-        await axios.put(`/api/forms/${id}`, {
-          classification: formClassification,
-        });
-        console.log("Classification updated:", formClassification);
-        toast.success('The classification information has been saved successfully.');
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  //classification
+  const updateClassificationData = async () => {
+    try {
+      await axios.put(`/api/forms/${id}`, {
+        classification: formClassification,
+      });
+      console.log("Classification updated:", formClassification);
+      toast.success(
+        "The classification information has been saved successfully."
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   //remarks
   async function submitRemarks(data) {
@@ -113,16 +115,25 @@ useEffect(() => {
       const remarkData = {
         remarks: data.content,
         subFormId: id,
-        status: status
+        status: status,
       };
       const response = await axios.post("/api/remarks", remarkData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      toast.success('Remarks have been submitted successfully.');
+      toast.success("Remarks have been submitted successfully.");
+
+      await axios.post("/api/auth/send-email-remarks", {
+        email: forms.email,
+        name: forms.fullName,
+        title: forms.title,
+      });
     } catch (error) {
-      console.error("Error submitting form:", error.response?.data || error.message);
+      console.error(
+        "Error submitting form:",
+        error.response?.data || error.message
+      );
     }
   }
 
@@ -217,10 +228,9 @@ useEffect(() => {
         await updateStatusData(status);
       }
     } catch (error) {
-      toast.error('Failed to update. Please try again.');
+      toast.error("Failed to update. Please try again.");
     }
   };
-  
 
   return (
     <div className="adminpage-container">
@@ -254,10 +264,7 @@ useEffect(() => {
           </div>
 
           <Row className="viewsubmission-container">
-            <a
-              href={`/REC/RECSubmissions/${rec}`}
-              className="back-button"
-            >
+            <a href={`/REC/RECSubmissions/${rec}`} className="back-button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -275,7 +282,15 @@ useEffect(() => {
             </a>
             <Col xs={12} lg={8} className="viewsub-content-container">
               <iframe src={url} className="viewsub-iframe" />
-              <a href={url} className="viewsub-download" download={url} style={{ color: "blue" }}> Download </a>
+              <a
+                href={url}
+                className="viewsub-download"
+                download={url}
+                style={{ color: "blue" }}
+              >
+                {" "}
+                Download{" "}
+              </a>
             </Col>
             <Col xs={12} lg={4} className="viewsub-details-container">
               <h1>Submission Details</h1>
@@ -299,7 +314,9 @@ useEffect(() => {
                 value={status}
                 onChange={handleStatusChange}
               >
-                <option value="Initial-Submission" selected>Choose Status</option>
+                <option value="Initial-Submission" selected>
+                  Choose Status
+                </option>
                 <option value="Pending-Payment">Pending Payment</option>
                 <option value="For-Classification">For Classification</option>
                 <option value="In-Progress">In Progress</option>
@@ -309,17 +326,18 @@ useEffect(() => {
               </select>
 
               {/* conditional rendering */}
-              {status === "For-Classification" ? ( 
+              {status === "For-Classification" ? (
                 <>
-                <span>Classification:</span>
-                <select 
-                className="viewsub-changestatus"
-                value={formClassification}
-                onChange={handleClassificationChange}>
-                  <option value="Full-Board">Full Board</option>
-                  <option value="Expedited">Expedited</option>
-                  <option value="Exempt">Exempt</option>
-                </select>
+                  <span>Classification:</span>
+                  <select
+                    className="viewsub-changestatus"
+                    value={formClassification}
+                    onChange={handleClassificationChange}
+                  >
+                    <option value="Full-Board">Full Board</option>
+                    <option value="Expedited">Expedited</option>
+                    <option value="Exempt">Exempt</option>
+                  </select>
                 </>
               ) : null}
 
@@ -352,47 +370,57 @@ useEffect(() => {
 
               {status === "In-Progress" ? (
                 <>
-              <span>Assign Reviewer:</span>
-              <select
-                className="viewsub-changestatus"
-                value={selectedReviewer}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  handleReviewerChange(e);
-                  setSelectedReviewer(value);
-                }}
-              >
-                <option value="Choose Reviewer" >Choose Reviewer</option>
-                {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
-                  RECMembers.map((member) => (
-                    <option key={member._id} value={member.email}>
-                      {member.name}
-                    </option>
-                  ))
-                ) : (
-                  <option value="No Reviewer Available">No Reviewer Available</option>
-                )}
-              </select>
-              </>
+                  <span>Assign Reviewer:</span>
+                  <select
+                    className="viewsub-changestatus"
+                    value={selectedReviewer}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      handleReviewerChange(e);
+                      setSelectedReviewer(value);
+                    }}
+                  >
+                    <option value="Choose Reviewer">Choose Reviewer</option>
+                    {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
+                      RECMembers.map((member) => (
+                        <option key={member._id} value={member.email}>
+                          {member.name}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="No Reviewer Available">
+                        No Reviewer Available
+                      </option>
+                    )}
+                  </select>
+                </>
               ) : null}
-
 
               <div className="viewsub-proofofpayment">
                 <span>Proof of Payment:</span>
                 {paymentLink ? (
                   <>
-                  <Image
-                    src={paymentLink}
-                    alt="Payment File"
-                    width={200}
-                    height={200}
-                  />
-                  <a href={paymentLink} download={paymentLink} style={{ color: "blue" }}> Download </a>
+                    <Image
+                      src={paymentLink}
+                      alt="Payment File"
+                      width={200}
+                      height={200}
+                    />
+                    <a
+                      href={paymentLink}
+                      download={paymentLink}
+                      style={{ color: "blue" }}
+                    >
+                      {" "}
+                      Download{" "}
+                    </a>
                   </>
                 ) : (
                   <p> No payment uploaded yet. </p>
                 )}
-                <button onClick={() => setShowAcknowledgeModal(true)}>Acknowledge Payment</button>
+                <button onClick={() => setShowAcknowledgeModal(true)}>
+                  Acknowledge Payment
+                </button>
               </div>
 
               <div className="viewsub-buttons">
