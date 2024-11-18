@@ -323,10 +323,15 @@ function SubmissionStatus({ params }) {
                         </tr>
                       </thead>
                       <tbody>
-                        {remarksData.map((remark) => (
+                        {remarksData
+                        .filter(
+                          (remark) =>
+                            remark.resubmission0 === true || 
+                            remark.resubmission1 === true 
+                        )
+                        .map((remark) => (
                           <tr key={remark._id}>
                             <td>
-                              {/* Match resubmissionId and get the corresponding file */}
                               {remark.resubmissionId === form._id ? (
                                 <a
                                   href={form.mainFileLink}
@@ -340,7 +345,6 @@ function SubmissionStatus({ params }) {
                             </td>
 
                             <td>
-                              {/* Match resubmissionId and get the corresponding file */}
                               {remark.resubmissionId ===
                               resubmission.resubmission1?._id ? (
                                 <a
