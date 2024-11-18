@@ -61,7 +61,6 @@ function IrebDashboard() {
     ],
   });
 
-  // For REC data
   useEffect(() => {
     async function fetchData() {
       try {
@@ -75,7 +74,6 @@ function IrebDashboard() {
     fetchData();
   }, []);
 
-  // For forms data and chart data aggregation
   useEffect(() => {
     async function fetchFormsData() {
       try {
@@ -111,7 +109,11 @@ function IrebDashboard() {
         forms.forEach((form) => {
           const submissionDate = new Date(form.date);
           const month = submissionDate.getMonth(); // 0-11 for Jan-Dec
-          const recName = form.researchEthicsCommittee;
+
+          // Normalize the REC name in the forms
+          const recName = form.researchEthicsCommittee
+            .toLowerCase()
+            .replace(/\s+/g, ""); // Trim spaces and convert to lowercase
 
           // Increment counts for all submissions
           submissionCountsArray[month]++;
@@ -121,17 +123,17 @@ function IrebDashboard() {
             approvedCountsArray[month]++;
           }
 
-          //final review count
+          // Final review count
           if (form.status === "Final-Review") {
             forFinalReviewCount++;
           }
 
-          //total assigned count
+          // Total assigned count
           if (form.status === "In-Progress") {
             totalAssignedCount++;
           }
 
-          //resubmission count
+          // Resubmission count
           if (form.status === "Resubmission") {
             resubmissionCount++;
           }
@@ -330,14 +332,21 @@ function IrebDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {REC.map((rec) => (
-                    <tr key={rec.id}>
-                      <td>{rec.name}</td>
-                      <td>{rec.status}</td>
-                      <td>{submissionCounts[rec.name] || 0}</td>
-                      <td>{recChairMap[rec.name] || "Not Assigned"}</td>
-                    </tr>
-                  ))}
+                  {REC.map((rec) => {
+                    const normalizedRecName = rec.name
+                      .toLowerCase()
+                      .replace(/\s+/g, ""); // Normalize REC name
+                    const count = submissionCounts[normalizedRecName] || 0; // Use normalized name for lookup
+
+                    return (
+                      <tr key={rec.id}>
+                        <td>{rec.name}</td>
+                        <td>{rec.status}</td>
+                        <td>{count}</td>
+                        <td>{recChairMap[rec.name] || "Not Assigned"}</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
