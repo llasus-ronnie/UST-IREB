@@ -31,6 +31,14 @@ export default function SignIn() {
         const { role, email } = session.user;
 
         try {
+          // First check for IREB role
+          if (role === "IREB") {
+            toast.success("Successfully logged in!");
+            router.push("/IREB/IREBDashboard");
+            return;
+          }
+
+          // Then check for REC role
           const recResponse = await axios.get(`/api/REC?email=${email}`);
           const recData = recResponse.data.data;
 
@@ -38,41 +46,22 @@ export default function SignIn() {
             const userRec = recData.find((rec) => rec.email === email);
             if (userRec) {
               toast.success("Successfully logged in!");
-
-              if (role === "IREB") {
-                router.push("/IREB/IREBDashboard");
-              } else if (role === "PrimaryReviewer") {
-                router.push("/PrimaryReviewer/PRDashboard");
-              } else if (role === "REC") {
-                const recName = userRec.name.replace(/\s+/g, "");
-                console.log("Redirecting to REC Dashboard:", recName);
-                router.push(`/REC/RECdashboard/${recName}`);
-              } else {
-                router.push("../Unauthorized");
-              }
-            } else {
-              router.push("../Unauthorized");
-            }
-          } else {
-            const response = await axios.get(`/api/RECMembers?email=${email}`);
-            const recMemberData = response.data.data;
-
-            console.log("REC Member Data:", recMemberData);
-
-            toast.success("Successfully logged in!");
-
-            if (role === "IREB") {
-              router.push("/IREB/IREBDashboard");
-            } else if (role === "PrimaryReviewer") {
-              router.push("/PrimaryReviewer/PRDashboard");
-            } else if (role === "REC" && recMemberData.length > 0) {
-              const recName = recMemberData[0].rec.replace(/\s+/g, "");
+              const recName = userRec.name.replace(/\s+/g, "");
               console.log("Redirecting to REC Dashboard:", recName);
               router.push(`/REC/RECdashboard/${recName}`);
-            } else {
-              router.push("../Unauthorized");
+              return;
             }
           }
+
+          // Finally check for PrimaryReviewer role
+          if (role === "PrimaryReviewer") {
+            toast.success("Successfully logged in!");
+            router.push("/PrimaryReviewer/PRDashboard");
+            return;
+          }
+
+          // If no role matches, route to Unauthorized
+          router.push("../Unauthorized");
         } catch (error) {
           console.error("Error routing user by role:", error);
           toast.error("Error logging in. Please try again.");
