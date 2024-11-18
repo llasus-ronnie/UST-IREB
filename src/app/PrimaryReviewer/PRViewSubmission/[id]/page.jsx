@@ -68,7 +68,7 @@ function PRViewSubmission({ params }) {
     fetchResubmission();
   }, [forms]);
 
-  useEffect(() => {
+
     const fetchResubmissionRemarks = async () => {
       try {
         const response = await axios.get("/api/resubmissionRemarks", {
@@ -93,8 +93,11 @@ function PRViewSubmission({ params }) {
       }
     };
 
-    fetchResubmissionRemarks();
-  }, [forms]);
+    useEffect(() => {
+      fetchResubmissionRemarks();
+    }, [forms]);
+    
+
 
   async function submitResubmissionRemarks(data) {
     try {
@@ -104,6 +107,7 @@ function PRViewSubmission({ params }) {
         ...data,
       };
       const response = await axios.post("/api/resubmissionRemarks", payload);
+      fetchResubmissionRemarks();
       
       if (response.status===201){
         const { resubmission0, resubmission1, resubmission2 } = response.data;
