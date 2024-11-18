@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+
 import { Container, Row, Col, Button, Table } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -10,44 +11,44 @@ import {
 } from "../../../redux/slices/submissionFormSlice";
 import "../../styles/forms/Forms.css";
 
-function SummaryFormHistory() {
-  // Access form data from the Redux store
-  const formData = useSelector((store) => store.submissionForm.formData);
-  const additionalResearchers = useSelector(
-    (store) => store.submissionForm.additionalResearchers
-  );
+import axios from "axios";
+import { useRouter } from "next/router";
 
-  const dispatch = useDispatch();
+function SummaryFormHistory({ id }) {
+  const [formData, setFormData] = useState(null); // Local state for form data
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
 
-  const handlePrevious = () => {
-    dispatch(setCurrentStep(currentPage - 1));
-  };
+  useEffect(() => {
+    if (id) {
+      // Check if `id` is available
+      const fetchFormData = async () => {
+        try {
+          setLoading(true);
+          const response = await axios.get(`/api/forms/${id}`); // Replace with your actual API endpoint
+          setFormData(response.data); // Store fetched data
+        } catch (error) {
+          setError("Failed to load data.");
+        } finally {
+          setLoading(false);
+        }
+      };
 
-//   const formatResearchEthicsCommittee = (value) => {
-//     const replacements = {
-//       USTHospital: "UST Hospital",
-//       FacultyofPharmacy: "Faculty of Pharmacy",
-//       GraduateSchool: "Graduate School",
-//       CollegeofNursing: "College of Nursing",
-//       CollegeofRehabilitationSciences: "College of Rehabilitation Sciences",
-//       FacultyofMedicineandSurgery: "Faculty of Medicine and Surgery",
-//       SeniorHighSchool: "Senior High School",
-//       CollegeofEducation: "College of Education",
-//       FacultyofEngineering: "Faculty of Engineering",
-//       CollegeofInformationandComputingSciences:
-//         "College of Information and Computing Sciences",
-//     };
+      fetchFormData();
+    }
+  }, [id]); // Dependency array ensures fetch is triggered when id changes
 
-//     return (
-//       replacements[value] ||
-//       value
-//         .replace(/([A-Z])([A-Z][a-z])/g, "$1 $2")
-//         .replace(/([a-z])([A-Z])/g, "$1 $2")
-//         .replace(/\bof\b/g, "of")
-//         .replace(/\s+/g, " ")
-//         .trim()
-//     );
-//   };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!formData) {
+    return <div>No data found.</div>;
+  }
 
   return (
     <div>
@@ -66,7 +67,7 @@ function SummaryFormHistory() {
             </p>
             <p className="PIforms-formtext">
               <strong>Research Ethics Committee:</strong>{" "}
-              {/* {formatResearchEthicsCommittee(formData.researchEthicsCommittee)} */}
+              {formData.researchEthicsCommittee}
             </p>
           </Col>
         </Container>
@@ -92,31 +93,6 @@ function SummaryFormHistory() {
             </p>
           </Col>
         </Container>
-
-        {additionalResearchers && additionalResearchers.length > 0 && (
-          <Container className="PIforms-rescont">
-            {additionalResearchers.map((researcher, index) => (
-              <Row key={index}>
-                <h1 className="PIforms-resconthead">Researcher {index + 1}</h1>
-                <Col>
-                  <p className="PIforms-formtext">
-                    <strong>Full Name:</strong> {researcher.additionalFullName}
-                  </p>
-                  <p className="PIforms-formtext">
-                    <strong>Email:</strong> {researcher.additionalEmail}
-                  </p>
-                  <p className="PIforms-formtext">
-                    <strong>Phone:</strong> {researcher.additionalPhone}
-                  </p>
-                  <p className="PIforms-formtext">
-                    <strong>Institution Affiliation:</strong>{" "}
-                    {researcher.additionalInstitutionAffiliation}
-                  </p>
-                </Col>
-              </Row>
-            ))}
-          </Container>
-        )}
 
         <Container className="PIforms-rescont">
           <Row>
@@ -429,49 +405,6 @@ function SummaryFormHistory() {
             </Table>
           </Col>
         </Container>
-
-        {/* <Container className="PIforms-rescont">
-          <Row>
-            <h1 className="PIforms-resconthead">Uploaded Files</h1>
-          </Row>
-          <Col>
-            <p className="PIforms-formtext">
-              <strong>File Type:</strong> {formData.mainFile}
-            </p>
-            {formData.mainFileLink && (
-              <p className="PIforms-formtext">
-                <strong>Uploaded File:</strong>{" "}
-                <a
-                  href={formData.mainFileLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ textDecoration: "underline" }}
-                >
-                  View File
-                </a>
-              </p>
-            )}
-          </Col>
-          <Col>
-            <p className="PIforms-formtext">
-              <strong>Supplementary File Type:</strong>{" "}
-              {formData.supplementaryFileType}
-            </p>
-            {formData.supplementaryFileLink && (
-              <p className="PIforms-formtext">
-                <strong>Uploaded File:</strong>{" "}
-                <a
-                  href={formData.supplementaryFileLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ textDecoration: "underline" }}
-                >
-                  View File
-                </a>
-              </p>
-            )}
-          </Col> 
-        </Container>*/}
       </Container>
     </div>
   );

@@ -39,11 +39,10 @@ function SubmissionStatus({ params }) {
 
   //unwrapping the params kasi ang arte ni nextjs
   const [unwrappedParams, setUnwrappedParams] = useState(null);
-  const [form, setForm] = useState(null); 
+  const [form, setForm] = useState(null);
   const [isClient, setIsClient] = useState(null);
   const [paymentLink, setPaymentLink] = useState(null);
   const [remarksFile, setRemarksFile] = useState();
-
 
   useEffect(() => {
     params
@@ -100,7 +99,7 @@ function SubmissionStatus({ params }) {
     },
   ];
 
-//GET Form
+  //GET Form
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -117,28 +116,26 @@ function SubmissionStatus({ params }) {
     fetchData();
   }, [unwrappedParams]);
 
-
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-
   //GET Payment
-    async function fetchPaymentFile() {
-      if (form && form._id) {
-        try {
-          const response = await axios.get(`/api/payment`, {
-            params: { formId: form._id },
-          });
-          console.log("GET FOR PAYMENT FILE?", response.data);
-          setPaymentLink(response.data.payment?.paymentFile);
-        } catch (error) {
-          console.error("Error fetching payment file:", error);
-        }
+  async function fetchPaymentFile() {
+    if (form && form._id) {
+      try {
+        const response = await axios.get(`/api/payment`, {
+          params: { formId: form._id },
+        });
+        console.log("GET FOR PAYMENT FILE?", response.data);
+        setPaymentLink(response.data.payment?.paymentFile);
+      } catch (error) {
+        console.error("Error fetching payment file:", error);
       }
     }
-    
-    useEffect(() => {
+  }
+
+  useEffect(() => {
     fetchPaymentFile();
   }, [form]);
 
@@ -159,7 +156,7 @@ function SubmissionStatus({ params }) {
     getRemarks();
   }, [form]);
 
-//GET Resubmission Remarks
+  //GET Resubmission Remarks
   useEffect(() => {
     const fetchResubmissionRemarks = async () => {
       try {
@@ -212,7 +209,6 @@ function SubmissionStatus({ params }) {
     fetchResubmission();
   }, [form]);
 
-  
   let url = null;
   if (paymentLink) {
     url = getCldImageUrl({
@@ -222,112 +218,110 @@ function SubmissionStatus({ params }) {
     });
   }
 
+  return (
+    <>
+      {isClient && (
+        <>
+          <div className="header">
+            <Navbar />
+          </div>
 
-    return (
-      <>
-        {isClient && (
-          <>
-            <div className="header">
-              <Navbar />
-            </div>
+          <div style={{ paddingTop: "2em" }} className="submission_header">
+            <h1 className="text-center">Submission Status</h1>
+          </div>
+          <Row className="submission-divider" />
 
-            <div style={{ paddingTop: "2em" }} className="submission_header">
-              <h1 className="text-center">Submission Status</h1>
-            </div>
-            <Row className="submission-divider" />
+          <Row className="submissionstatus-container">
+            <a href="../SubmissionList" className="back-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-arrow-left"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+                />
+              </svg>
+              Go Back to My Submissions List
+            </a>
+            <Col className="submissionstatus-left">
+              {/* Details */}
+              <div className="submissionstatus-card-details">
+                <h1>Submission Details</h1>
 
-            <Row className="submissionstatus-container">
-              <a href="../SubmissionList" className="back-button">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-arrow-left"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
-                  />
-                </svg>
-                Go Back to My Submissions List
-              </a>
-              <Col className="submissionstatus-left">
-                {/* Details */}
-                <div className="submissionstatus-card-details">
-                  <h1>Submission Details</h1>
+                <span>Research Title:</span>
+                <p>{form?.title || "No title available"}</p>
 
-                  <span>Research Title:</span>
-                  <p>{form?.title || "No title available"}</p>
+                <span>Date of Submission:</span>
+                <p>
+                  {form?.date
+                    ? new Date(form.date).toLocaleDateString("en-US")
+                    : "No date available"}
+                </p>
 
-                  <span>Date of Submission:</span>
-                  <p>
-                    {form?.date
-                      ? new Date(form.date).toLocaleDateString("en-US")
-                      : "No date available"}
-                  </p>
+                <span>Review Classification:</span>
+                <p>{form?.status || "No classification available"}</p>
+              </div>
 
-                  <span>Review Classification:</span>
-                  <p>{form?.status || "No classification available"}</p>
-                </div>
-
-                {/* Remarks */}
-                <div className="submissionstatus-card-remarks">
-                  <h1>Remarks</h1>
-                  <div className="submissionstatus-remarks-table">
-                    {/* <iframe src={remarksUrl} className="submissionstatus-iframe" /> */}
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Date</th>
-                          <th>Status</th>
-                          <th>Remarks</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {Array.isArray(remarksFile) &&
-                        remarksFile.length > 0 ? (
-                          remarksFile.map((remark, index) => (
-                            <tr key={index}>
-                              <td>
-                                {new Date(
-                                  remark.remarksDate
-                                ).toLocaleDateString("en-US")}
-                              </td>
-                              <td>{remark.status}</td>
-                              <td>
-                                <a href={remark.remarks}> View Remarks</a>
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="3">No remarks available</td>
+              {/* Remarks */}
+              <div className="submissionstatus-card-remarks">
+                <h1>Remarks</h1>
+                <div className="submissionstatus-remarks-table">
+                  {/* <iframe src={remarksUrl} className="submissionstatus-iframe" /> */}
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Array.isArray(remarksFile) && remarksFile.length > 0 ? (
+                        remarksFile.map((remark, index) => (
+                          <tr key={index}>
+                            <td>
+                              {new Date(remark.remarksDate).toLocaleDateString(
+                                "en-US"
+                              )}
+                            </td>
+                            <td>{remark.status}</td>
+                            <td>
+                              <a href={remark.remarks}> View Remarks</a>
+                            </td>
                           </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div className="submissionstatus-card-remarks">
-                  <h1>Resubmission Feedback</h1>
-                  <div className="submissionstatus-remarks-table">
-                    <table>
-                      <thead>
+                        ))
+                      ) : (
                         <tr>
-                          <th>File</th>
-                          <th>Remarks</th>
-                          <th>Date</th>
+                          <td colSpan="3">No remarks available</td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {remarksData
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="submissionstatus-card-remarks">
+                <h1>Resubmission Feedback</h1>
+                <div className="submissionstatus-remarks-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>File</th>
+                        <th>Remarks</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {remarksData
                         .filter(
                           (remark) =>
-                            remark.resubmission0 === true || 
-                            remark.resubmission1 === true 
+                            remark.resubmission0 === true ||
+                            remark.resubmission1 === true
                         )
                         .map((remark) => (
                           <tr key={remark._id}>
@@ -376,89 +370,86 @@ function SubmissionStatus({ params }) {
                             </td>
                           </tr>
                         ))}
-                      </tbody>
-                    </table>
-                  </div>
+                    </tbody>
+                  </table>
                 </div>
+              </div>
 
-                <div className="submissionstatus-buttons">
-                  <Link
-                    href={`/PrincipalInvestigator/SubmissionHistory?formId=${form?._id}`}
-                    className="submissionstatus-view-sub"
-                  >
-                    View Submission
-                  </Link>
-                  {remarksData ? (
-                    <button
-                      className="submissionstatus-edit-sub"
-                      onClick={handleShowSubmissionModal}
-                    >
-                      Resubmission
-                    </button>
-                  ) : null}
-                </div>
-
-                {/* this will only appear when investigator reach the specific status for payment*/}
-                <div className="submissionstatus-uploadproof-container">
+              <div className="submissionstatus-buttons">
+                <Link
+                  href={`/PrincipalInvestigator/SubmissionHistory/${form?._id}`}
+                  className="submissionstatus-view-sub"
+                >
+                  View Submission
+                </Link>
+                {remarksData ? (
                   <button
-                    className="submissionstatus-uploadproof"
-                    onClick={paymentLink ? handleEditModal : handleShowModal}
+                    className="submissionstatus-edit-sub"
+                    onClick={handleShowSubmissionModal}
                   >
-                    {paymentLink
-                      ? "Edit Payment Proof"
-                      : "Upload Payment Proof"}
+                    Resubmission
                   </button>
-                  <div className="submissionstatus-paymentfile">
-                    <p>Uplaoded File:</p>
-                    {url ? (
-                      <Image
-                        src={url}
-                        alt="Payment File"
-                        width={200}
-                        height={200}
-                      />
-                    ) : (
-                      <p> No payment uploaded yet. </p>
-                    )}
-                  </div>
+                ) : null}
+              </div>
+
+              {/* this will only appear when investigator reach the specific status for payment*/}
+              <div className="submissionstatus-uploadproof-container">
+                <button
+                  className="submissionstatus-uploadproof"
+                  onClick={paymentLink ? handleEditModal : handleShowModal}
+                >
+                  {paymentLink ? "Edit Payment Proof" : "Upload Payment Proof"}
+                </button>
+                <div className="submissionstatus-paymentfile">
+                  <p>Uplaoded File:</p>
+                  {url ? (
+                    <Image
+                      src={url}
+                      alt="Payment File"
+                      width={200}
+                      height={200}
+                    />
+                  ) : (
+                    <p> No payment uploaded yet. </p>
+                  )}
                 </div>
-              </Col>
+              </div>
+            </Col>
 
-              <Col className="submissionstatus-right">
-                <div className="submissionstatus-card-breadcrumbs">
-                  <h1 className="submissionstatus-card-title">
-                    Track Status of Submission
-                  </h1>
-                  <StatusBreadcrumbs steps={steps} params={unwrappedParams} />
-                </div>
-              </Col>
-            </Row>
+            <Col className="submissionstatus-right">
+              <div className="submissionstatus-card-breadcrumbs">
+                <h1 className="submissionstatus-card-title">
+                  Track Status of Submission
+                </h1>
+                <StatusBreadcrumbs steps={steps} params={unwrappedParams} />
+              </div>
+            </Col>
+          </Row>
 
-            <UploadPaymentProofModal
-              show={modalShow}
-              onHide={handleCloseModal}
-              submissionparams={unwrappedParams}
-              onDataChange={fetchPaymentFile}
-            />
+          <UploadPaymentProofModal
+            show={modalShow}
+            onHide={handleCloseModal}
+            submissionparams={unwrappedParams}
+            onDataChange={fetchPaymentFile}
+          />
 
-            <ResubmissionModal
-              show={resubmissionModalShow}
-              onHide={handleCloseSubmissionModal}
-              subFormId={unwrappedParams}
-              submissionparams={unwrappedParams}
-            />
+          <ResubmissionModal
+            show={resubmissionModalShow}
+            onHide={handleCloseSubmissionModal}
+            subFormId={unwrappedParams}
+            submissionparams={unwrappedParams}
+          />
 
-            <EditPaymentModal
-              show={editModalShow}
-              onHide={handleCloseEditModal}
-              submissionparams={unwrappedParams}
-            />
-          </>
-        )}
-      </>
-    );
-  }
-
+          <EditPaymentModal
+            show={editModalShow}
+            onHide={handleCloseEditModal}
+            submissionparams={unwrappedParams}
+          />
+        </>
+      )}
+    </>
+  );
+}
 
 export default withAuthorization(SubmissionStatus, [
   "PrincipalInvestigator",
