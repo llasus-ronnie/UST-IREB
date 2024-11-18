@@ -204,7 +204,7 @@ function PRViewSubmission({ params }) {
 
   //functions
   const handleBack = () => {
-    router.push(`/REC/RECSubmissions/${params.rec}`);
+    router.push(`/PrimaryReviewer/PRSubmissions`);
   };
 
   const handleChange = (e) => {

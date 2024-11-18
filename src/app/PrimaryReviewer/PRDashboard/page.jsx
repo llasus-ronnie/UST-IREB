@@ -128,7 +128,7 @@ function PrDashboard() {
                           <td>{form.date}</td>
                           <td>{form.title}</td>
                           <td>
-                            <Link href={`/pr/${form._id}`}>
+                            <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}>
                               View
                             </Link>
                           </td>
