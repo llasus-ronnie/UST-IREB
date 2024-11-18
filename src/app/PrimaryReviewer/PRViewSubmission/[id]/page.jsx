@@ -202,6 +202,7 @@ function PRViewSubmission({ params }) {
 
     const formUpdateResponse = await axios.put("/api/forms", {
       resubmissionStatus: "Final-Review",
+      status: "Final-Decision"
     },{
       params:{id: forms._id}
     }
