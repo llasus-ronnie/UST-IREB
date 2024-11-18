@@ -144,7 +144,7 @@ forms.filter((form) => form[flag] === true);
                         <td>{form.date}</td>
                         <td>{form.title}</td>
                         <td>
-                        <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}>
+                        <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`} className="pr-view-btn">
                             View
                           </Link>
                         </td>
@@ -180,7 +180,7 @@ forms.filter((form) => form[flag] === true);
                         <td>{form.date}</td>
                         <td>{form.title}</td>
                         <td>
-                        <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}>
+                        <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`} className="pr-view-btn">
                             View
                           </Link>
                         </td>
@@ -217,7 +217,7 @@ forms.filter((form) => form[flag] === true);
                         <td>{form.date}</td>
                         <td>{form.title}</td>
                         <td>
-                        <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}>
+                        <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`} className="pr-view-btn">
                             View
                           </Link>
                         </td>
