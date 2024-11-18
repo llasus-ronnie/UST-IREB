@@ -43,7 +43,7 @@ function RECReports({ params }) {
     labels: [],
     datasets: [
       { label: "Submitted", data: [], backgroundColor: "#FFCC00" },
-      { label: "Approved", data: [], backgroundColor: "#E6B800" },
+      { label: "Approved", data: [], backgroundColor: "#4CAF50" },
     ],
   });
 
@@ -125,7 +125,7 @@ function RECReports({ params }) {
             {
               label: "Approved",
               data: approvedCountsArray,
-              backgroundColor: "#E6B800",
+              backgroundColor: "#4CAF50",
             },
           ],
         });
@@ -180,21 +180,15 @@ function RECReports({ params }) {
     labels: [],
     datasets: [
       {
-        label: "Deferred",
-        data: [2, 1, 2, 2, 3],
-        backgroundColor: "#A0A0A0", // Light grey
+        label: "Waiting",
+        data: [2, 1, 1, 2, 1],
+        backgroundColor: "#FFEB3B", // Yellow
         barThickness: 25,
       },
       {
         label: "Completed",
         data: [4, 6, 4, 7, 6],
         backgroundColor: "#FFD700", // Bright yellow
-        barThickness: 25,
-      },
-      {
-        label: "Waiting",
-        data: [2, 1, 1, 2, 1],
-        backgroundColor: "#FFEB3B", // Yellow
         barThickness: 25,
       },
     ],
@@ -207,24 +201,64 @@ function RECReports({ params }) {
         const recResponse = await axios.get("/api/REC");
         setREC(recResponse.data.data);
 
-        // Fetch RECMembers data to get "Primary Reviewer" roles
+        // Fetch RECMembers data to get Primary Reviewers
         const membersResponse = await axios.get("/api/RECMembers");
         const primaryReviewers = membersResponse.data.data
           .filter((member) => member.recRole === "Primary Reviewer")
           .map((member) => member.name);
 
-        // Update recStatusData labels with Primary Reviewer names
-        setRecStatusData((prevData) => ({
-          ...prevData,
-          labels: primaryReviewers,
+        // Fetch Forms data
+        const formsResponse = await axios.get("/api/forms", {
+          params: { rec },
+        });
+        const forms = formsResponse.data.forms;
+
+        // Initialize counts for each reviewer
+        const statusCounts = primaryReviewers.map((reviewer) => ({
+          reviewer,
+          inProgress: 0,
+          finalReview: 0,
         }));
+
+        // Count statuses for each reviewer
+        forms.forEach((form) => {
+          const reviewerIndex = statusCounts.findIndex(
+            (entry) => entry.reviewer === form.primaryReviewer
+          );
+          if (reviewerIndex !== -1) {
+            if (form.status === "In-Progress") {
+              statusCounts[reviewerIndex].inProgress++;
+            } else if (form.status === "Final-Review") {
+              statusCounts[reviewerIndex].finalReview++;
+            }
+          }
+        });
+
+        // Prepare chart data
+        setRecStatusData({
+          labels: statusCounts.map((entry) => entry.reviewer),
+          datasets: [
+            {
+              label: "In-Progress",
+              data: statusCounts.map((entry) => entry.inProgress),
+              backgroundColor: "#FFEB3B", // Yellow
+              barThickness: 25,
+            },
+            {
+              label: "Final-Review",
+              data: statusCounts.map((entry) => entry.finalReview),
+              backgroundColor: "#4CAF50", // Green
+              barThickness: 25,
+            },
+          ],
+        });
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
 
     fetchData();
-  }, []);
+  }, [rec]);
 
   const recStatusOptions = {
     indexAxis: "y", // Horizontal bar chart
