@@ -117,7 +117,6 @@ function PRViewSubmission({ params }) {
           );
           if (formUpdateResponse.status === 200) {
             console.log(formUpdateResponse)
-            toast.success("Form status updated to resubmission");
           } else {
             console.error("Failed to update form status");
           }
@@ -181,6 +180,21 @@ function PRViewSubmission({ params }) {
     } catch (error) {
       console.error("Error Response:", error.response?.data || error.message);
       toast.error("Error saving resubmission remarks. Please try again.");
+    }
+  }
+
+  async function submitForFinalReview() {
+    const formUpdateResponse = await axios.put("/api/forms", {
+      resubmissionStatus: "Final-Review",
+    },{
+      params:{id: forms._id}
+    }
+    );
+    if (formUpdateResponse.status === 200) {
+      console.log(formUpdateResponse)
+      toast.success("Form status updated to final Review");
+    } else {
+      console.error("Failed to update form status");
     }
   }
 
@@ -403,7 +417,9 @@ function PRViewSubmission({ params }) {
                 className="viewsub-finalrec"
                 onClick={handleShowFinalReviewModal}
               >
-                <button>Submit to REC Chair for Final Review</button>
+                <button
+                onClick={submitForFinalReview}
+                >Submit to REC Chair for Final Review</button>
               </div>
             </Col>
           </Row>
