@@ -421,7 +421,7 @@ function RECViewSubmission({ params }) {
                       </tbody>
                     </table>
 
-              {status === "In-Progress" ? (
+              {status === "For-Classification" ? (
                 <>
                   <span>Assign Reviewer:</span>
                   <select
