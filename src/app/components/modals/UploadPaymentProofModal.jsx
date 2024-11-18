@@ -36,10 +36,10 @@ export default function UploadPaymentProofModal({
         const recData = recResponse.data.data; // Extract the data array
 
         const rec = recData.find(
-          (item) =>
-            item.name.trim().toLowerCase() ===
-            form.researchEthicsCommittee.trim().toLowerCase()
-        ); // Find the matching REC
+          (rec) =>
+            rec.name.replace(/\s+/g, "").toLowerCase() ===
+            data.researchEthicsCommittee.replace(/\s+/g, "").toLowerCase()
+        );
 
         if (rec) {
           if (!rec.email) {
@@ -80,12 +80,11 @@ export default function UploadPaymentProofModal({
         toast.success("Payment saved successfully!");
 
         if (onDataChange) {
-          onDataChange(); 
+          onDataChange();
         }
 
         props.onHide();
       }
-
     } catch (error) {
       toast.error("Error saving payment. Please try again.");
       console.error(

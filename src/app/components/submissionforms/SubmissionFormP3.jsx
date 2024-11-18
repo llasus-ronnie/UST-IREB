@@ -81,12 +81,14 @@ function SubmissionFormP3() {
 
       // Find the specific REC
       const rec = recList.find(
-        (rec) => rec.name === data.researchEthicsCommittee
+        (rec) =>
+          rec.name.replace(/\s+/g, "").toLowerCase() ===
+          data.researchEthicsCommittee.replace(/\s+/g, "").toLowerCase()
       );
 
       if (!rec || !rec.email) {
         toast.error("REC email not found.");
-        return false; // Indicating failure to find REC email
+        return false;
       }
 
       // Proceed with the email sending logic
