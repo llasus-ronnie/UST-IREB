@@ -160,10 +160,3 @@
         padding-right: 1rem;
     }
 }
-
-/* Small Mobile */
-@media only screen and (max-width: 375px) {
-    .step-number.col-3 {
-        padding: 1rem;
-    }
-}
