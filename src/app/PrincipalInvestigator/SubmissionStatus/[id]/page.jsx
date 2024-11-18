@@ -314,7 +314,7 @@ function SubmissionStatus({ params }) {
                 <div className="submissionstatus-card-remarks">
                   <h1>Resubmission Feedback</h1>
                   <div className="submissionstatus-remarks-table">
-                    <table className="table table-striped">
+                    <table>
                       <thead>
                         <tr>
                           <th>File</th>

@@ -370,64 +370,7 @@ function RECViewSubmission({ params }) {
                 </>
               ) : null}
 
-              <span>Remarks:</span>
-              <CldUploadWidget
-                signatureEndpoint="/api/sign-cloudinary-params"
-                onSuccess={(res) => {
-                  if (res.info.format !== "pdf") {
-                    toast.error(
-                      "Only PDF files are allowed. Please upload a PDF."
-                    );
-                    return;
-                  }
-                  console.log(res.info.secure_url);
-                  setRemarks({ content: res.info.secure_url });
-                }}
-              >
-                {({ open }) => {
-                  return (
-                    <button
-                      type="button"
-                      onClick={() => open()}
-                      className="form-control PIforms-formtext PIforms-file"
-                    >
-                      Upload file
-                    </button>
-                  );
-                }}
-              </CldUploadWidget>
-
-              <table>
-                      <thead>
-                        <tr>
-                          <th>Date</th>
-                          <th>Status</th>
-                          <th>Remarks</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {Array.isArray(remarksFile) &&
-                        remarksFile.length > 0 ? (
-                          remarksFile.map((remark, index) => (
-                            <tr key={index}>
-                              <td>
-                                {new Date(
-                                  remark.remarksDate
-                                ).toLocaleDateString("en-US")}
-                              </td>
-                              <td>{remark.status}</td>
-                              <td>
-                                <a href={remark.remarks}> View Remarks</a>
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="3">No remarks available</td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
+            
 
               {status === "For-Classification" ? (
                 <>
@@ -495,6 +438,65 @@ function RECViewSubmission({ params }) {
                   Acknowledge Payment
                 </button>
               </div>
+
+              <span>Remarks:</span>
+              <CldUploadWidget
+                signatureEndpoint="/api/sign-cloudinary-params"
+                onSuccess={(res) => {
+                  if (res.info.format !== "pdf") {
+                    toast.error(
+                      "Only PDF files are allowed. Please upload a PDF."
+                    );
+                    return;
+                  }
+                  console.log(res.info.secure_url);
+                  setRemarks({ content: res.info.secure_url });
+                }}
+              >
+                {({ open }) => {
+                  return (
+                    <button
+                      type="button"
+                      onClick={() => open()}
+                      className="form-control PIforms-formtext PIforms-file"
+                    >
+                      Upload file
+                    </button>
+                  );
+                }}
+              </CldUploadWidget>
+
+              <table>
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Status</th>
+                          <th>Remarks</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Array.isArray(remarksFile) &&
+                        remarksFile.length > 0 ? (
+                          remarksFile.map((remark, index) => (
+                            <tr key={index}>
+                              <td>
+                                {new Date(
+                                  remark.remarksDate
+                                ).toLocaleDateString("en-US")}
+                              </td>
+                              <td>{remark.status}</td>
+                              <td>
+                                <a href={remark.remarks}> View Remarks</a>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="3">No remarks available</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
 
               <div className="viewsub-buttons">
                 <button className="viewsub-save" onClick={updateStatus}>
