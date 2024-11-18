@@ -122,7 +122,7 @@ export default async function handler(req, res) {
                     </tr>
                     <tr>
                       <td class="content">
-                        <p>${name} has submitted proof of payment.</p>
+                        <p>${name} has submitted a revision.</p>
                         <h2>This submission is under the status:</h2>
                         <h1>${status}</h1>
                         <p>

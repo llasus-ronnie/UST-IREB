@@ -35,7 +35,9 @@ export default function UploadPaymentProofModal({
         const recData = recResponse.data.data; // Extract the data array
 
         const rec = recData.find(
-          (item) => item.name === form.researchEthicsCommittee
+          (item) =>
+            item.name.trim().toLowerCase() ===
+            form.researchEthicsCommittee.trim().toLowerCase()
         ); // Find the matching REC
 
         if (rec) {

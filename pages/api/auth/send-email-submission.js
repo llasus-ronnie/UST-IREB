@@ -133,7 +133,7 @@ export default async function handler(req, res) {
                         </a>
                         <div class="email-disclaimer">
                           <p>
-                            This is an automatically generated email, please do not reply. If you have any questions regarding your submission, kindly reach out to your respective REC.
+                            This is an automatically generated email, please do not reply.
                           </p>
                         </div>
                       </td>

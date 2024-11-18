@@ -11,16 +11,16 @@ import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 export default function ResubmissionModal({
+  submissionparams,
   subFormId,
-  ...props}) {
+  ...props
+}) {
   const [body, setBody] = useState("");
-  const [form, setForm] = useState(null); 
+  const [form, setForm] = useState(null);
   const [uploadedFile, setUploadedFile] = useState("");
 
   const { register, handleSubmit, setValue } = useForm();
-
 
   const handleBodyChange = (e) => {
     const bodyValue = e.target.value;
@@ -30,20 +30,19 @@ export default function ResubmissionModal({
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(`/api/forms`, {
-          params: { subFormId: subFormId},
+        const response = await axios.get(`/api/forms/${submissionparams.id}`, {
+          params: { subFormId: subFormId },
         });
-        setForm(response.data); 
-        console.log("FetchData for resubmission:", response.data);
+        setForm(response.data.submission);
+        console.log("FetchData for resubmission:", response.data.submission);
       } catch (error) {
         console.error(error);
         setError("Failed to fetch form details.");
       }
     }
-  
+
     fetchData();
-  }, [props.subFormId]); 
-  
+  }, [props.subFormId, submissionparams]);
 
   //submit resubmission
   async function submitResubmission(data) {
@@ -54,8 +53,55 @@ export default function ResubmissionModal({
         resubmissionComments: body, // Add optional comments
       };
       console.log("Updated Payload:", payload); // Debug payload
-  
       const response = await axios.post("/api/resubmissionFile", payload);
+
+      try {
+        const encodedRECName = encodeURIComponent(form.researchEthicsCommittee);
+        const recResponse = await axios.get(`/api/REC?name=${encodedRECName}`);
+        console.log("REC Response Data:", recResponse.data);
+        const recData = recResponse.data.data; // Extract the data array
+
+        const rec = recData.find(
+          (item) =>
+            item.name.trim().toLowerCase() ===
+            form.researchEthicsCommittee.trim().toLowerCase()
+        ); // Find the matching REC
+
+        if (rec) {
+          if (!rec.email) {
+            toast.error("REC email not found.");
+            return false;
+          }
+        } else {
+          toast.error("REC not found for the provided name.");
+          return false;
+        }
+
+        // Proceed with the email sending logic
+        const emailData = {
+          rec: rec.email,
+          title: form.title,
+          name: form.fullName,
+          status: form.status,
+        };
+
+        const emailResponse = await axios.post(
+          "/api/auth/send-email-resubmission",
+          emailData
+        );
+        console.log("Email Response:", emailResponse);
+        if (emailResponse.status === 200) {
+          toast.success("Email sent successfully!");
+          props.onHide();
+          return true;
+        } else {
+          toast.error("Failed to send email");
+        }
+      } catch (error) {
+        console.error("Error sending email:", error);
+        toast.error("Failed to send email");
+      }
+
       if (response.status === 201) {
         toast.success("Resubmission saved successfully!");
       } else {
@@ -67,7 +113,6 @@ export default function ResubmissionModal({
       toast.error("Error saving resubmission. Please try again.");
     }
   }
-  
 
   return (
     <Modal
@@ -154,10 +199,13 @@ export default function ResubmissionModal({
           Cancel
         </Button>
         <Button
-        className="btn uploadproof"
-        onClick={handleSubmit((data)=>{
-          submitResubmission(data);
-        })}>Submit</Button>
+          className="btn uploadproof"
+          onClick={handleSubmit((data) => {
+            submitResubmission(data);
+          })}
+        >
+          Submit
+        </Button>
       </Modal.Footer>
     </Modal>
   );

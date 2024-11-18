@@ -21,7 +21,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
 
-
 function SubmissionStatus({ params }) {
   const [loading, setLoading] = useState(false);
   const [modalShow, setModalShow] = useState(false);
@@ -30,7 +29,6 @@ function SubmissionStatus({ params }) {
   const [status, setStatus] = useState(null);
   const [remarksData, setRemarksData] = useState([]);
   const [resubmission, setResubmission] = useState("");
-
 
   const handleShowModal = () => setModalShow(true);
   const handleEditModal = () => setEditModalShow(true);
@@ -180,11 +178,13 @@ function SubmissionStatus({ params }) {
           },
         });
         if (response.status === 200) {
-          const sortedRemarks = response.data.getResubmissionRemarks.sort((a, b) => {
-            const dateA = new Date(a.resubmissionRemarksDate); // Ensure this field contains date with time
-            const dateB = new Date(b.resubmissionRemarksDate);
-            return dateA - dateB; // Sorting in ascending order
-          });
+          const sortedRemarks = response.data.getResubmissionRemarks.sort(
+            (a, b) => {
+              const dateA = new Date(a.resubmissionRemarksDate); // Ensure this field contains date with time
+              const dateB = new Date(b.resubmissionRemarksDate);
+              return dateA - dateB; // Sorting in ascending order
+            }
+          );
           setRemarksData(sortedRemarks); // Set the sorted remarks data
         } else {
           console.error("Failed to fetch remarks", response.status);
@@ -199,28 +199,26 @@ function SubmissionStatus({ params }) {
 
   useEffect(() => {
     async function fetchResubmission() {
-        try {
-            const response = await axios.get("/api/resubmissionFile", {
-                params: {
-                    subFormId: form._id,
-                },
-            });
+      try {
+        const response = await axios.get("/api/resubmissionFile", {
+          params: {
+            subFormId: form._id,
+          },
+        });
 
-            if (response.data) {
-                const { resubmission1, resubmission2 } = response.data;
-                setResubmission({ resubmission1, resubmission2 });
-            } else {
-                setResubmission(null);
-            }
-        } catch (error) {
-            console.error("Failed to fetch resubmission:", error);
+        if (response.data) {
+          const { resubmission1, resubmission2 } = response.data;
+          setResubmission({ resubmission1, resubmission2 });
+        } else {
+          setResubmission(null);
         }
+      } catch (error) {
+        console.error("Failed to fetch resubmission:", error);
+      }
     }
 
     fetchResubmission();
-}, [form]);
-
-
+  }, [form]);
 
   if (loading) {
     return (
@@ -292,10 +290,15 @@ function SubmissionStatus({ params }) {
                         </tr>
                       </thead>
                       <tbody>
-                        {Array.isArray(remarksFile) && remarksFile.length > 0 ? (
+                        {Array.isArray(remarksFile) &&
+                        remarksFile.length > 0 ? (
                           remarksFile.map((remark, index) => (
                             <tr key={index}>
-                              <td>{new Date(remark.remarksDate).toLocaleDateString("en-US")}</td>
+                              <td>
+                                {new Date(
+                                  remark.remarksDate
+                                ).toLocaleDateString("en-US")}
+                              </td>
                               <td>{remark.status}</td>
                               <td>
                                 <a href={remark.remarks}> View Remarks</a>
@@ -329,36 +332,52 @@ function SubmissionStatus({ params }) {
                             <td>
                               {/* Match resubmissionId and get the corresponding file */}
                               {remark.resubmissionId === form._id ? (
-                                <a href={form.mainFileLink} target="_blank" rel="noopener noreferrer" style={{color:"blue"}}>
+                                <a
+                                  href={form.mainFileLink}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  style={{ color: "blue" }}
+                                >
                                   Main File
                                 </a>
-                              ) : (
-                                null
-                              )}
+                              ) : null}
                             </td>
 
                             <td>
                               {/* Match resubmissionId and get the corresponding file */}
-                              {remark.resubmissionId === resubmission.resubmission1?._id ? (
-                                <a href={resubmission.resubmission1?.resubmissionFile } target="_blank" rel="noopener noreferrer" style={{color:"blue"}}>
+                              {remark.resubmissionId ===
+                              resubmission.resubmission1?._id ? (
+                                <a
+                                  href={
+                                    resubmission.resubmission1?.resubmissionFile
+                                  }
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  style={{ color: "blue" }}
+                                >
                                   Resubmission 1
                                 </a>
-                              ) : (
-                                null
-                              )}
+                              ) : null}
                             </td>
                             <td>
-                              <a href={remark.resubmissionRemarksFile} target="_blank" rel="noopener noreferrer" style={{color:"blue"}}>
+                              <a
+                                href={remark.resubmissionRemarksFile}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: "blue" }}
+                              >
                                 View Remarks
                               </a>
                             </td>
-                            <td>{new Date(remark.resubmissionRemarksDate).toLocaleString()}</td>
+                            <td>
+                              {new Date(
+                                remark.resubmissionRemarksDate
+                              ).toLocaleString()}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
-
-
                   </div>
                 </div>
 
@@ -369,7 +388,7 @@ function SubmissionStatus({ params }) {
                   >
                     View Submission
                   </Link>
-                  {(remarksData) ? (
+                  {remarksData ? (
                     <button
                       className="submissionstatus-edit-sub"
                       onClick={handleShowSubmissionModal}
@@ -425,6 +444,7 @@ function SubmissionStatus({ params }) {
               show={resubmissionModalShow}
               onHide={handleCloseSubmissionModal}
               subFormId={unwrappedParams}
+              submissionparams={unwrappedParams}
             />
 
             <EditPaymentModal
