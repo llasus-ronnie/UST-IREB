@@ -439,6 +439,8 @@ function RECViewSubmission({ params }) {
                 </button>
               </div>
 
+            <div className="submissionstatus-card-remarks">
+            <div className="upload-remarks">
               <span>Remarks:</span>
               <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
@@ -465,8 +467,9 @@ function RECViewSubmission({ params }) {
                   );
                 }}
               </CldUploadWidget>
+              </div>
 
-              <table>
+              <table className="remarks-table">
                       <thead>
                         <tr>
                           <th>Date</th>
@@ -497,6 +500,8 @@ function RECViewSubmission({ params }) {
                         )}
                       </tbody>
                     </table>
+              </div>
+
 
               <div className="viewsub-buttons">
                 <button className="viewsub-save" onClick={updateStatus}>
