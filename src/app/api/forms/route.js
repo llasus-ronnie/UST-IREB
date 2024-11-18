@@ -76,3 +76,17 @@ export async function DELETE(req) {
     });
   }
 }
+
+export async function PUT(req) {
+  try{
+    await connectDB();
+    const formdata = await req.json();
+    const { id } = formdata;
+    const updatedForm = await SubmissionForm.findOneAndUpdate
+    ({id}, formdata, { new: true });
+    return NextResponse.json(updatedForm, { status: 200 });
+  }catch(error){
+    console.error(error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}

@@ -18,6 +18,8 @@ import withAuthorization from "../../../hoc/withAuthorization";
 function PrSubmissions() {
   //declaration of states
   const [forms, setForms] = useState([]);
+  const [remarksData, setRemarksData] = useState([]);
+
 
   //fetching data from the database
   useEffect(() => {
@@ -33,6 +35,35 @@ function PrSubmissions() {
     }
     getForms();
   }, []);
+
+  useEffect(() => {
+    const fetchResubmissionRemarks = async () => {
+        try {
+            const response = await axios.get("/api/resubmissionRemarks", {
+                params: {
+                    subFormId: forms._id,
+                },
+            });
+            if (response.status === 200) {
+                const sortedRemarks = response.data.getResubmissionRemarks.sort((a, b) => {
+                    const dateA = new Date(a.resubmissionRemarksDate); // Ensure this field contains date with time
+                    const dateB = new Date(b.resubmissionRemarksDate);
+                    return dateA - dateB; // Sorting in ascending order
+                });
+                setRemarksData(sortedRemarks); // Set the sorted remarks data
+            } else {
+                console.error("Failed to fetch remarks", response.status);
+            }
+        } catch (error) {
+            console.error("Error fetching remarks:", error.message);
+        }
+    };
+
+    fetchResubmissionRemarks();
+}, [forms]);
+
+const filterByResubmissionFlag = (flag) =>
+forms.filter((form) => form[flag] === true);
 
 
 
@@ -103,31 +134,26 @@ function PrSubmissions() {
                   </tr>
                 </thead>
                 <tbody>
-                  {forms.length > 0 ? (
+                {forms.length > 0 ? (
                     forms
-                      .filter((form) => {
-                        return form.status === "In-Progress";  // Adjust this based on actual status value seen in console
-                      })
-                      .map((form, index) => (
-                        <tr key={index}>
-                          <td>{form._id}</td>
-                          <td>{form.fullName}</td>
-                          <td>{form.date}</td>
-                          <td>{form.title}</td>
-                          <td>
-                            <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}>View</Link>
-                          </td>
-                        </tr>
-                      ))
+                    .filter(form => form.resubmissionStatus === "Newly-Assigned")
+                    .map((form, index) => (
+                      <tr key={index}>
+                        <td>{form._id}</td>
+                        <td>{form.fullName}</td>
+                        <td>{form.date}</td>
+                        <td>{form.title}</td>
+                        <td>
+                        <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}>
+                            View
+                          </Link>
+                        </td>
+                      </tr>
+                    ))
                   ) : (
-                    <tr>
-                      <td colSpan={5}>No data available.</td>
-                    </tr>
+                    <td colSpan={5}>No data available.</td>
                   )}
                 </tbody>
-
-
-
 
               </table>
             </div>
@@ -144,27 +170,24 @@ function PrSubmissions() {
                   </tr>
                 </thead>
                 <tbody>
-                  {forms.length > 0 ? (
+                {forms.length > 0 ? (
                     forms
-                      .filter((form) => form.resubmission1) // Only include forms where resubmission1 is true
-                      .map((form, index) => (
-                        <tr key={index}>
-                          <td>{form._id}</td>
-                          <td>{form.fullName}</td>
-                          <td>{form.date}</td>
-                          <td>{form.title}</td>
-                          <td>Resubmission 1</td> {/* This will always show if resubmission1 is true */}
-                          <td>
-                            <Link href={`/pr/${form._id}`}>
-                              View
-                            </Link>
-                          </td>
-                        </tr>
-                      ))
+                    .filter(form => form.resubmissionStatus === "Resubmission") // Filter forms where resubmissionStatus is "resubmission"
+                    .map((form, index) => (
+                      <tr key={index}>
+                        <td>{form._id}</td>
+                        <td>{form.fullName}</td>
+                        <td>{form.date}</td>
+                        <td>{form.title}</td>
+                        <td>
+                        <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}>
+                            View
+                          </Link>
+                        </td>
+                      </tr>
+                    ))
                   ) : (
-                    <tr>
-                      <td colSpan={6}>No data available.</td>
-                    </tr>
+                    <td colSpan={5}>No data available.</td>
                   )}
 
                 </tbody>
@@ -185,14 +208,16 @@ function PrSubmissions() {
                 </thead>
                 <tbody>
                   {forms.length > 0 ? (
-                    forms.map((form, index) => (
+                    forms
+                    .filter(form => form.resubmissionStatus === "Final-Review") // Filter forms where resubmissionStatus is "resubmission"
+                    .map((form, index) => (
                       <tr key={index}>
                         <td>{form._id}</td>
                         <td>{form.fullName}</td>
                         <td>{form.date}</td>
                         <td>{form.title}</td>
                         <td>
-                          <Link href={`/pr/${form._id}`}>
+                        <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}>
                             View
                           </Link>
                         </td>

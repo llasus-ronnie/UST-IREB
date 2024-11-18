@@ -104,6 +104,25 @@ function PRViewSubmission({ params }) {
         ...data,
       };
       const response = await axios.post("/api/resubmissionRemarks", payload);
+      
+      if (response.status===201){
+        const { resubmission0, resubmission1, resubmission2 } = response.data;
+
+        if (resubmission0 || resubmission1 || resubmission2) {
+          const formUpdateResponse = await axios.put("/api/forms", {
+            resubmissionStatus: "Resubmission",
+          },{
+            params:{id: forms._id}
+          }
+          );
+          if (formUpdateResponse.status === 200) {
+            console.log(formUpdateResponse)
+            toast.success("Form status updated to resubmission");
+          } else {
+            console.error("Failed to update form status");
+          }
+        }
+      }
 
       try {
         const encodedRECName = encodeURIComponent(

@@ -332,6 +332,11 @@ const subFormSchema = new Schema({
     require: true,
     default: "No Sub-remarks Yet, wait for your assigned reviewer to review your submission",
   },
+  resubmissionStatus:{
+    type: String,
+    require: true,
+    default: "Newly-Assigned"
+    }
 });
 
 const subForm =
