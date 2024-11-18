@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PrNav from "../../components/navbaradmin/PrNav";
 import PrNavMobile from "../../components/navbaradmin/PrNavMobile";
 import SearchBar from "../../components/searchbar/SearchBar";
@@ -9,25 +9,21 @@ import "../../styles/pr/PrSubmissions.css";
 import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState, useEffect } from "react";
 import axios from "axios";
-
 
 import withAuthorization from "../../../hoc/withAuthorization";
 
 function PrSubmissions() {
-  //declaration of states
+  // State declarations
   const [forms, setForms] = useState([]);
   const [remarksData, setRemarksData] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState("all"); // Tracks the selected dropdown option
 
-
-  //fetching data from the database
+  // Fetching data from the database
   useEffect(() => {
     async function getForms() {
       try {
-        const response = await axios.get("/api/forms", {
-          params: { recMember: forms.recMember }
-        });
+        const response = await axios.get("/api/forms");
         setForms(response.data.forms);
       } catch (error) {
         console.log(error);
@@ -38,42 +34,40 @@ function PrSubmissions() {
 
   useEffect(() => {
     const fetchResubmissionRemarks = async () => {
-        try {
-            const response = await axios.get("/api/resubmissionRemarks", {
-                params: {
-                    subFormId: forms._id,
-                },
-            });
-            if (response.status === 200) {
-                const sortedRemarks = response.data.getResubmissionRemarks.sort((a, b) => {
-                    const dateA = new Date(a.resubmissionRemarksDate); // Ensure this field contains date with time
-                    const dateB = new Date(b.resubmissionRemarksDate);
-                    return dateA - dateB; // Sorting in ascending order
-                });
-                setRemarksData(sortedRemarks); // Set the sorted remarks data
-            } else {
-                console.error("Failed to fetch remarks", response.status);
+      try {
+        const response = await axios.get("/api/resubmissionRemarks", {
+          params: {
+            subFormId: forms._id,
+          },
+        });
+        if (response.status === 200) {
+          const sortedRemarks = response.data.getResubmissionRemarks.sort(
+            (a, b) => {
+              const dateA = new Date(a.resubmissionRemarksDate);
+              const dateB = new Date(b.resubmissionRemarksDate);
+              return dateA - dateB;
             }
-        } catch (error) {
-            console.error("Error fetching remarks:", error.message);
+          );
+          setRemarksData(sortedRemarks);
+        } else {
+          console.error("Failed to fetch remarks", response.status);
         }
+      } catch (error) {
+        console.error("Error fetching remarks:", error.message);
+      }
     };
 
     fetchResubmissionRemarks();
-}, [forms]);
+  }, [forms]);
 
-const filterByResubmissionFlag = (flag) =>
-forms.filter((form) => form[flag] === true);
-
-
-
+  // Handle dropdown change
+  const handleDropDown = (event) => {
+    const selectedOption = event.target.value;
+    setSelectedFilter(selectedOption); // Update the selected filter
+  };
 
   const handleSearch = (query) => {
     console.log("Search query:", query);
-  };
-
-  const handleDropDown = (event) => {
-    const selectedOption = event.target.value;
   };
 
   return (
@@ -121,114 +115,134 @@ forms.filter((form) => form[flag] === true);
           </div>
 
           <div className="pr-tables">
-            <div className="newly-assigned">
-              <h1>Newly Assigned</h1>
-              <table className="pr-table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Author</th>
-                    <th>Date of Submission</th>
-                    <th>Name of Research</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {forms.length > 0 ? (
-                    forms
-                    .filter(form => form.resubmissionStatus === "Newly-Assigned")
-                    .map((form, index) => (
-                      <tr key={index}>
-                        <td>{form._id}</td>
-                        <td>{form.fullName}</td>
-                        <td>{form.date}</td>
-                        <td>{form.title}</td>
-                        <td>
-                        <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`} className="pr-view-btn">
-                            View
-                          </Link>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <td colSpan={5}>No data available.</td>
-                  )}
-                </tbody>
+            {selectedFilter === "all" || selectedFilter === "newly" ? (
+              <div className="newly-assigned">
+                <h1>Newly Assigned</h1>
+                <table className="pr-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Author</th>
+                      <th>Date of Submission</th>
+                      <th>Name of Research</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {forms.length > 0 ? (
+                      forms
+                        .filter(
+                          (form) => form.resubmissionStatus === "Newly-Assigned"
+                        )
+                        .map((form, index) => (
+                          <tr key={index}>
+                            <td>{form._id}</td>
+                            <td>{form.fullName}</td>
+                            <td>{form.date}</td>
+                            <td>{form.title}</td>
+                            <td>
+                              <Link
+                                href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}
+                                className="pr-view-btn"
+                              >
+                                View
+                              </Link>
+                            </td>
+                          </tr>
+                        ))
+                    ) : (
+                      <td colSpan={5}>No data available.</td>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
 
-              </table>
-            </div>
-            <div className="resubmission">
-              <h1>Resubmission</h1>
-              <table className="pr-table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Author</th>
-                    <th>Date of Submission</th>
-                    <th>Name of Research</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {forms.length > 0 ? (
-                    forms
-                    .filter(form => form.resubmissionStatus === "Resubmission") // Filter forms where resubmissionStatus is "resubmission"
-                    .map((form, index) => (
-                      <tr key={index}>
-                        <td>{form._id}</td>
-                        <td>{form.fullName}</td>
-                        <td>{form.date}</td>
-                        <td>{form.title}</td>
-                        <td>
-                        <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`} className="pr-view-btn">
-                            View
-                          </Link>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <td colSpan={5}>No data available.</td>
-                  )}
+            {selectedFilter === "all" || selectedFilter === "resub" ? (
+              <div className="resubmission">
+                <h1>Resubmission</h1>
+                <table className="pr-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Author</th>
+                      <th>Date of Submission</th>
+                      <th>Name of Research</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {forms.length > 0 ? (
+                      forms
+                        .filter(
+                          (form) => form.resubmissionStatus === "Resubmission"
+                        )
+                        .map((form, index) => (
+                          <tr key={index}>
+                            <td>{form._id}</td>
+                            <td>{form.fullName}</td>
+                            <td>{form.date}</td>
+                            <td>{form.title}</td>
+                            <td>
+                              <Link
+                                href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}
+                                className="pr-view-btn"
+                              >
+                                View
+                              </Link>
+                            </td>
+                          </tr>
+                        ))
+                    ) : (
+                      <td colSpan={5}>No data available.</td>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
 
-                </tbody>
-              </table>
-            </div>
-
-            <div className="for-final">
-              <h1>For Final Review</h1>
-              <table className="pr-table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Author</th>
-                    <th>Date of Submission</th>
-                    <th>Name of Research</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {forms.length > 0 ? (
-                    forms
-                    .filter(form => form.resubmissionStatus === "Final-Review") // Filter forms where resubmissionStatus is "resubmission"
-                    .map((form, index) => (
-                      <tr key={index}>
-                        <td>{form._id}</td>
-                        <td>{form.fullName}</td>
-                        <td>{form.date}</td>
-                        <td>{form.title}</td>
-                        <td>
-                        <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`} className="pr-view-btn">
-                            View
-                          </Link>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <td colSpan={5}>No data available.</td>
-                  )}
-                </tbody>
-              </table>
-            </div>
+            {selectedFilter === "all" || selectedFilter === "forfinal" ? (
+              <div className="for-final">
+                <h1>For Final Review</h1>
+                <table className="pr-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Author</th>
+                      <th>Date of Submission</th>
+                      <th>Name of Research</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {forms.length > 0 ? (
+                      forms
+                        .filter(
+                          (form) => form.resubmissionStatus === "Final-Review"
+                        )
+                        .map((form, index) => (
+                          <tr key={index}>
+                            <td>{form._id}</td>
+                            <td>{form.fullName}</td>
+                            <td>{form.date}</td>
+                            <td>{form.title}</td>
+                            <td>
+                              <Link
+                                href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}
+                                className="pr-view-btn"
+                              >
+                                View
+                              </Link>
+                            </td>
+                          </tr>
+                        ))
+                    ) : (
+                      <td colSpan={5}>No data available.</td>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
