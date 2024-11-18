@@ -36,7 +36,7 @@
     font-family: var(--poppins);
     color: var(--primary-color);
     max-width: 81.25rem;
-    height: 100%;
+    height: fit-content;
     margin: 2rem auto;
     padding: 1rem;
     box-sizing: border-box;
@@ -112,7 +112,7 @@
 .viewsub-details-container p {
     color: var(--primary-color);
     font-size: var(--paragraph-size);
-    margin: 0.3rem 0;
+    margin: 0.3rem 0 1.5rem 0;
 }
 
 .viewsub-changestatus {
@@ -230,6 +230,70 @@
   margin-right: 0.8rem;
 }
 
+/* Remarks Table */
+
+.upload-remarks {
+  margin-bottom: 2rem;
+}
+
+.submissionstatus-card-remarks {
+  background-color: var(--quaternary-color);
+  border-radius: 10px;
+  padding: 1rem;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.remarks-table {
+  width: 100%;
+  table-layout: auto;
+}
+
+.remarks-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.remarks-table th,
+.remarks-table td {
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.remarks-table th {
+  padding: 1rem !important;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.remarks-table td {
+  border-bottom: 1px solid #dcdcdc;
+}
+
+.remarks-table td br {
+  display: block;
+}
+
+.remarks-table tbody tr {
+  width: 100%;
+}
+
+.remarks-table tbody td {
+  width: auto;
+  word-wrap: break-word;
+}
+
+.remarks-table tbody {
+  background-color: var(--background-color, #f9f9f9);
+}
+
+.remarks-table tbody tr:nth-child(odd) {
+  background-color: var(--alternate-row-color, #ffffff);
+}
+
+.remarks-table tbody tr:hover {
+  background-color: var(--hover-color, #e6f7ff);
+}
 
 /* scroll design  */
 ::-webkit-scrollbar {
