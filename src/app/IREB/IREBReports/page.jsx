@@ -343,7 +343,7 @@ function IrebReports() {
 
         forms.forEach((form) => {
           const recName = form.researchEthicsCommittee;
-          const status = form.status;
+          const classification = form.classification;
 
           if (!recStatusCounts[recName]) {
             recStatusCounts[recName] = {
@@ -351,7 +351,7 @@ function IrebReports() {
             };
           }
 
-          if (status === "Exempt") {
+          if (classification === "Exempt") {
             recStatusCounts[recName].Exempt++;
           }
         });
@@ -421,7 +421,7 @@ function IrebReports() {
 
         forms.forEach((form) => {
           const recName = form.researchEthicsCommittee;
-          const status = form.status;
+          const classification = form.classification;
 
           if (!recStatusCounts[recName]) {
             recStatusCounts[recName] = {
@@ -429,7 +429,7 @@ function IrebReports() {
             };
           }
 
-          if (status === "Expedited") {
+          if (classification === "Expedited") {
             recStatusCounts[recName].Expedited++;
           }
         });
@@ -499,7 +499,7 @@ function IrebReports() {
 
         forms.forEach((form) => {
           const recName = form.researchEthicsCommittee;
-          const status = form.status;
+          const classification = form.classification;
 
           if (!recStatusCounts[recName]) {
             recStatusCounts[recName] = {
@@ -507,7 +507,7 @@ function IrebReports() {
             };
           }
 
-          if (status === "Full-Board") {
+          if (classification === "Full-Board") {
             recStatusCounts[recName].FullBoard++;
           }
         });
