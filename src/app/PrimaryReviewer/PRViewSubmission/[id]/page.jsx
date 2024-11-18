@@ -28,7 +28,6 @@ function PRViewSubmission({ params }) {
   const [remarksData, setRemarksData] = useState([]);
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
 
-
   const { register, handleSubmit, setValue } = useForm();
 
   const handleShowFinalReviewModal = () => setModalShowFinalReview(true);
@@ -70,37 +69,33 @@ function PRViewSubmission({ params }) {
     fetchResubmission();
   }, [forms]);
 
-
-    const fetchResubmissionRemarks = async () => {
-      try {
-        const response = await axios.get("/api/resubmissionRemarks", {
-          params: {
-            subFormId: forms._id,
-          },
-        });
-        if (response.status === 200) {
-          const sortedRemarks = response.data.getResubmissionRemarks.sort(
-            (a, b) => {
-              const dateA = new Date(a.resubmissionRemarksDate); // Ensure this field contains date with time
-              const dateB = new Date(b.resubmissionRemarksDate);
-              return dateA - dateB; // Sorting in ascending order
-            }
-          );
-          setRemarksData(sortedRemarks); // Set the sorted remarks data
-        } else {
-          console.error("Failed to fetch remarks", response.status);
-        }
-      } catch (error) {
-        console.error("Error fetching remarks:", error.message);
+  const fetchResubmissionRemarks = async () => {
+    try {
+      const response = await axios.get("/api/resubmissionRemarks", {
+        params: {
+          subFormId: forms._id,
+        },
+      });
+      if (response.status === 200) {
+        const sortedRemarks = response.data.getResubmissionRemarks.sort(
+          (a, b) => {
+            const dateA = new Date(a.resubmissionRemarksDate); // Ensure this field contains date with time
+            const dateB = new Date(b.resubmissionRemarksDate);
+            return dateA - dateB; // Sorting in ascending order
+          }
+        );
+        setRemarksData(sortedRemarks); // Set the sorted remarks data
+      } else {
+        console.error("Failed to fetch remarks", response.status);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching remarks:", error.message);
+    }
+  };
 
-    useEffect(() => {
-      fetchResubmissionRemarks();
-    }, [forms]);
-    
-
-
+  useEffect(() => {
+    fetchResubmissionRemarks();
+  }, [forms]);
 
   async function submitResubmissionRemarks(data) {
     try {
@@ -111,14 +106,14 @@ function PRViewSubmission({ params }) {
       };
       const response = await axios.post("/api/resubmissionRemarks", payload);
       fetchResubmissionRemarks();
-      
-      if (response.status===201){
+
+      if (response.status === 201) {
         const { resubmission0 } = response.data;
 
         if (resubmission0) {
           const formUpdateResponse = await axios.put(
             "/api/forms",
-            { resubmissionStatus: "Resubmission", status:"Initial-Result" },
+            { resubmissionStatus: "Resubmission", status: "Initial-Result" },
             { params: { id: forms._id } }
           );
           if (formUpdateResponse.status === 200) {
@@ -195,20 +190,23 @@ function PRViewSubmission({ params }) {
     };
     const response = await axios.post("/api/resubmissionRemarks", payload);
     fetchResubmissionRemarks();
-    
-    if (response.status===201){
+
+    if (response.status === 201) {
       toast.success("Resubmission saved successfully!");
     }
 
-    const formUpdateResponse = await axios.put("/api/forms", {
-      resubmissionStatus: "Final-Review",
-      status: "Final-Decision"
-    },{
-      params:{id: forms._id}
-    }
+    const formUpdateResponse = await axios.put(
+      "/api/forms",
+      {
+        resubmissionStatus: "Final-Review",
+        status: "Final-Decision",
+      },
+      {
+        params: { id: forms._id },
+      }
     );
     if (formUpdateResponse.status === 200) {
-      console.log(formUpdateResponse)
+      console.log(formUpdateResponse);
       toast.success("Form status updated to final Review");
     } else {
       console.error("Failed to update form status");
@@ -285,7 +283,7 @@ function PRViewSubmission({ params }) {
           </div>
 
           <Row className="viewsubmission-container">
-            <a href="../PrimaryReviewer/PRSubmissions" className="back-button">
+            <a href="/PrimaryReviewer/PRSubmissions" className="back-button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -378,49 +376,49 @@ function PRViewSubmission({ params }) {
                   }}
                 </CldUploadWidget>
               </div>
-            
-          <div className="submissionstatus-card-remarks">
-            <table className="remarks-table">
-                <thead>
-                  <tr>
-                    <th>Resubmission</th>
-                    <th>File</th>
-                    <th>Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {remarksData.map((remark) => (
-                    <tr key={remark._id}>
-                      <td>
-                        {/* Check if resubmission1 or resubmission2 is true and display accordingly */}
-                        {remark.resubmission0
-                          ? "Initial Result"
-                          : remark.resubmission1
-                          ? "Resubmission 1"
-                          : remark.resubmission2
-                          ? "Resubmission 2"
-                          : "No Resubmission"}
-                      </td>
-                      <td>
-                        <a
-                          href={remark.resubmissionRemarksFile}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View Remarks
-                        </a>
-                      </td>
-                      <td>
-                        {new Date(
-                          remark.resubmissionRemarksDate
-                        ).toLocaleString()}
-                      </td>
+
+              <div className="submissionstatus-card-remarks">
+                <table className="remarks-table">
+                  <thead>
+                    <tr>
+                      <th>Resubmission</th>
+                      <th>File</th>
+                      <th>Date</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-          </div>
-            
+                  </thead>
+                  <tbody>
+                    {remarksData.map((remark) => (
+                      <tr key={remark._id}>
+                        <td>
+                          {/* Check if resubmission1 or resubmission2 is true and display accordingly */}
+                          {remark.resubmission0
+                            ? "Initial Result"
+                            : remark.resubmission1
+                            ? "Resubmission 1"
+                            : remark.resubmission2
+                            ? "Resubmission 2"
+                            : "No Resubmission"}
+                        </td>
+                        <td>
+                          <a
+                            href={remark.resubmissionRemarksFile}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Remarks
+                          </a>
+                        </td>
+                        <td>
+                          {new Date(
+                            remark.resubmissionRemarksDate
+                          ).toLocaleString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
               <div className="viewsub-buttons">
                 <button
                   className="viewsub-save"
@@ -445,8 +443,7 @@ function PRViewSubmission({ params }) {
                 className="viewsub-finalrec"
                 onClick={handleShowFinalReviewModal}
               >
-                <button
-                >Submit to REC Chair for Final Review</button>
+                <button>Submit to REC Chair for Final Review</button>
               </div>
             </Col>
           </Row>
@@ -455,8 +452,7 @@ function PRViewSubmission({ params }) {
       <FinalReviewModal
         show={modalShowFinalReview}
         onHide={handleCloseFinalReviewModal}
-        onConfirm=
-        {handleSubmit((data) => {
+        onConfirm={handleSubmit((data) => {
           submitForFinalReview(data);
         })}
       />
