@@ -26,6 +26,8 @@ function PRViewSubmission({ params }) {
   const [status, setStatus] = useState("");
   const [selectedFile, setSelectedFile] = useState("Main-File");
   const [remarksData, setRemarksData] = useState([]);
+  const [isSaveDisabled, setIsSaveDisabled] = useState(false);
+
 
   const { register, handleSubmit, setValue } = useForm();
 
@@ -99,6 +101,7 @@ function PRViewSubmission({ params }) {
     
 
 
+
   async function submitResubmissionRemarks(data) {
     try {
       const payload = {
@@ -110,19 +113,16 @@ function PRViewSubmission({ params }) {
       fetchResubmissionRemarks();
       
       if (response.status===201){
-        const { resubmission0, resubmission1, resubmission2 } = response.data;
+        const { resubmission0 } = response.data;
 
-        if (resubmission0 || resubmission1 || resubmission2) {
-          const formUpdateResponse = await axios.put("/api/forms", {
-            resubmissionStatus: "Resubmission",
-          },{
-            params:{id: forms._id}
-          }
+        if (resubmission0) {
+          const formUpdateResponse = await axios.put(
+            "/api/forms",
+            { resubmissionStatus: "Resubmission", status:"Initial-Result" },
+            { params: { id: forms._id } }
           );
           if (formUpdateResponse.status === 200) {
-            console.log(formUpdateResponse)
-          } else {
-            console.error("Failed to update form status");
+            toast.success("Resubmission saved successfully!");
           }
         }
       }
@@ -187,7 +187,19 @@ function PRViewSubmission({ params }) {
     }
   }
 
-  async function submitForFinalReview() {
+  async function submitForFinalReview(data) {
+    const payload = {
+      subFormId: forms._id,
+      resubmissionId: fileId,
+      ...data,
+    };
+    const response = await axios.post("/api/resubmissionRemarks", payload);
+    fetchResubmissionRemarks();
+    
+    if (response.status===201){
+      toast.success("Resubmission saved successfully!");
+    }
+
     const formUpdateResponse = await axios.put("/api/forms", {
       resubmissionStatus: "Final-Review",
     },{
@@ -237,6 +249,14 @@ function PRViewSubmission({ params }) {
     });
     fileId = resubmission.resubmission2._id;
   }
+
+  useEffect(() => {
+    if (resubmission?.resubmission1) {
+      setIsSaveDisabled(true);
+    } else {
+      setIsSaveDisabled(false);
+    }
+  }, [resubmission]);
 
   return (
     <div className="adminpage-container">
@@ -373,7 +393,7 @@ function PRViewSubmission({ params }) {
                       <td>
                         {/* Check if resubmission1 or resubmission2 is true and display accordingly */}
                         {remark.resubmission0
-                          ? "First Remarks"
+                          ? "Initial Result"
                           : remark.resubmission1
                           ? "Resubmission 1"
                           : remark.resubmission2
@@ -406,6 +426,12 @@ function PRViewSubmission({ params }) {
                   onClick={handleSubmit((data) => {
                     submitResubmissionRemarks(data);
                   })}
+                  disabled={isSaveDisabled}
+                  style={{
+                    backgroundColor: isSaveDisabled ? "#d3d3d3" : "#007bff", // Gray when disabled, blue when active
+                    color: isSaveDisabled ? "#7d7d7d" : "#fff", // Lighter text when disabled
+                    cursor: isSaveDisabled ? "not-allowed" : "pointer", // Change cursor style
+                  }}
                 >
                   Save Changes
                 </button>
@@ -419,7 +445,6 @@ function PRViewSubmission({ params }) {
                 onClick={handleShowFinalReviewModal}
               >
                 <button
-                onClick={submitForFinalReview}
                 >Submit to REC Chair for Final Review</button>
               </div>
             </Col>
@@ -429,6 +454,10 @@ function PRViewSubmission({ params }) {
       <FinalReviewModal
         show={modalShowFinalReview}
         onHide={handleCloseFinalReviewModal}
+        onConfirm=
+        {handleSubmit((data) => {
+          submitForFinalReview(data);
+        })}
       />
       <ToastContainer />
     </div>

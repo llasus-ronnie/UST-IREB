@@ -124,7 +124,7 @@ function RECViewSubmission({ params }) {
 
     async function getRemarks() {
       try {
-        const response = await axios.get(`/api/remarks/`, {
+        const response = await axios.get(`/api/remarks`, {
           params: { subFormId: forms._id },
         });
         setRemarksFile(response.data.remarksData);
@@ -308,6 +308,7 @@ function RECViewSubmission({ params }) {
               </svg>
               Go Back to Manage Submissions
             </a>
+            
             <Col xs={12} lg={8} className="viewsub-content-container">
               <iframe src={url} className="viewsub-iframe" />
               <a

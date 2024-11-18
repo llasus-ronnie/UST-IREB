@@ -17,35 +17,48 @@ import withAuthorization from "../../../hoc/withAuthorization";
 import { get } from "http";
 
 function PrDashboard() {
-  //declaration of states
   const [forms, setForms] = useState([]);
+  const [statusCounts, setStatusCounts] = useState({});
+  const [overdueForms, setOverdueForms] = useState([]);
 
-  //fetching data from the database
   useEffect(() => {
     async function getForms() {
       try {
-        const response = await axios.get("/api/forms",{
-          params:{recMember: forms.recMember}
+        const response = await axios.get("/api/forms", {
+          params: { recMember: forms.recMember },
         });
-        setForms(response.data.forms);
-        console.log(response.data);
+
+        const assignedForms = response.data.forms || [];
+
+        setForms(assignedForms);
+
+        const newStatusCounts = {
+          "Initial-Submission": 0,
+          "Pending-Payment": 0,
+          "For-Classification": 0,
+          "In-Progress": 0,
+          "Initial-Result": 0,
+          Resubmission: 0,
+          Approved: 0,
+        };
+
+        assignedForms.forEach((form) => {
+          if (form.status && newStatusCounts.hasOwnProperty(form.status)) {
+            newStatusCounts[form.status] += 1;
+          }
+        });
+
+        setStatusCounts(newStatusCounts);
+
+        console.log("Assigned Forms:", assignedForms);
       } catch (error) {
         toast.error("Error loading data");
-        console.log(error);
+        console.error("Error fetching assigned tasks:", error);
       }
     }
+
     getForms();
   }, []);
-
-  //search function
-  const handleSearch = (query) => {
-    console.log("Search query:", query);
-  };
-
-  const handleDropDown = (event) => {
-    const selectedOption = event.target.value;
-  };
-
 
   return (
     <div className="adminpage-container">
@@ -81,28 +94,38 @@ function PrDashboard() {
             <Col className="admindashboard-cards">
               <div className="admindashboard-card">
                 <h2>Newly Assigned</h2>
-                <h3>2</h3>
+                <h3>{statusCounts["Initial-Submission"] || 0}</h3>
                 <p>Submissions</p>
               </div>
               <div className="admindashboard-card">
                 <h2>Resubmission</h2>
-                <h3>1</h3>
+                <h3>{statusCounts.Resubmission || 0}</h3>
                 <p>Entries</p>
               </div>
               <div className="admindashboard-card">
                 <h2>For Final Review</h2>
-                <h3>0</h3>
+                <h3>{statusCounts["Final-Review"] || 0}</h3>
                 <p>Researches</p>
               </div>
               <div className="admindashboard-card">
                 <h2>Total Assigned</h2>
-                <h3>3</h3>
+                <h3>{forms.length}</h3>
                 <p>Tasks</p>
               </div>
             </Col>
             <Col className="needs-attention">
               <h1>Assigned Tasks that Need Attention</h1>
-              <p className="needs-attention-content mt-3">No data available.</p>
+              <p className="needs-attention-content mt-3">
+                {overdueForms.length > 0
+                  ? overdueForms.map((form) => (
+                      <div key={form._id}>
+                        <p>
+                          {form.title} - Submitted on {form.date}
+                        </p>
+                      </div>
+                    ))
+                  : "No data available."}
+              </p>
             </Col>
           </Row>
 
@@ -121,21 +144,24 @@ function PrDashboard() {
                 </thead>
                 <tbody>
                   {forms.length > 0 ? (
-                    forms.map((form,index) => (
-                        <tr key={index}>
-                          <td>{form._id}</td>
-                          <td>{form.fullName}</td>
-                          <td>{form.date}</td>
-                          <td>{form.title}</td>
-                          <td>
-                            <Link href={`/PrimaryReviewer/PRViewSubmission/${form._id}`} className="pr-view-btn">
-                              View
-                            </Link>
-                          </td>
-                        </tr>
-                        ))
-                        ) : (
-                        <td colSpan={5}>No data available.</td>
+                    forms.map((form, index) => (
+                      <tr key={index}>
+                        <td>{form._id}</td>
+                        <td>{form.fullName}</td>
+                        <td>{form.date}</td>
+                        <td>{form.title}</td>
+                        <td>
+                          <Link
+                            href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}
+                            className="pr-view-btn"
+                          >
+                            View
+                          </Link>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <td colSpan={5}>No data available.</td>
                   )}
                 </tbody>
               </table>
