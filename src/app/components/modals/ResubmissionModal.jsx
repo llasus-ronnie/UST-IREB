@@ -92,6 +92,7 @@ export default function ResubmissionModal({
         console.log("Email Response:", emailResponse);
         if (emailResponse.status === 200) {
           toast.success("Email sent successfully!");
+          toast.success("Resubmission saved successfully!");
           props.onHide();
           return true;
         } else {
