@@ -32,6 +32,8 @@ function RECViewSubmission({ params }) {
   const [initialStatus, setInitialStatus] = useState("Initial-Submission");
   const [initialReviewer, setInitialReviewer] = useState("");
   const [formClassification, setFormClassification] = useState("");
+  const [remarksFile, setRemarksFile] = useState();
+
 
   //unwrapping params
   useEffect(() => {
@@ -67,9 +69,11 @@ function RECViewSubmission({ params }) {
   //status
   const updateStatusData = async (newStatus) => {
     try {
-      await axios.put(`/api/forms/${id}`, {
+      await axios.put(`/api/forms`, {
         status: newStatus,
-      });
+      },
+      { params: { id: forms._id } }
+      );
       toast.success("The status information has been saved successfully.");
 
       await axios.post("/api/auth/send-email-status", {
@@ -109,6 +113,24 @@ function RECViewSubmission({ params }) {
     }
   };
 
+  //GET remarks
+
+    async function getRemarks() {
+      try {
+        const response = await axios.get(`/api/remarks/`, {
+          params: { subFormId: forms._id },
+        });
+        setRemarksFile(response.data.remarksData);
+        setStatus(forms.status);
+        console.log("All data:", response.data.remarksData);
+      } catch (error) {
+        console.error("Error fetching remarks file:", error);
+      }
+    }
+  useEffect(() => {
+    getRemarks();
+  }, [forms]);
+
   //remarks
   async function submitRemarks(data) {
     try {
@@ -123,6 +145,7 @@ function RECViewSubmission({ params }) {
         },
       });
       toast.success("Remarks have been submitted successfully.");
+      getRemarks();
 
       await axios.post("/api/auth/send-email-remarks", {
         email: forms.email,
@@ -172,8 +195,6 @@ function RECViewSubmission({ params }) {
 
     fetchPaymentFile();
   }, [forms]);
-
-  console.log("RECMembers:", RECMembers);
 
   const handleStatusChange = (event) => {
     const newStatus = event.target.value;
@@ -367,6 +388,38 @@ function RECViewSubmission({ params }) {
                   );
                 }}
               </CldUploadWidget>
+
+              <table>
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Status</th>
+                          <th>Remarks</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Array.isArray(remarksFile) &&
+                        remarksFile.length > 0 ? (
+                          remarksFile.map((remark, index) => (
+                            <tr key={index}>
+                              <td>
+                                {new Date(
+                                  remark.remarksDate
+                                ).toLocaleDateString("en-US")}
+                              </td>
+                              <td>{remark.status}</td>
+                              <td>
+                                <a href={remark.remarks}> View Remarks</a>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="3">No remarks available</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
 
               {status === "In-Progress" ? (
                 <>

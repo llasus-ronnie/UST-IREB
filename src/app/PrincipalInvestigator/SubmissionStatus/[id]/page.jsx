@@ -124,7 +124,6 @@ function SubmissionStatus({ params }) {
 
 
   //GET Payment
-  useEffect(() => {
     async function fetchPaymentFile() {
       if (form && form._id) {
         try {
@@ -138,7 +137,8 @@ function SubmissionStatus({ params }) {
         }
       }
     }
-
+    
+    useEffect(() => {
     fetchPaymentFile();
   }, [form]);
 
@@ -434,7 +434,7 @@ function SubmissionStatus({ params }) {
               show={modalShow}
               onHide={handleCloseModal}
               submissionparams={unwrappedParams}
-              onDataChange={fetchFormData}
+              onDataChange={fetchPaymentFile}
             />
 
             <ResubmissionModal
