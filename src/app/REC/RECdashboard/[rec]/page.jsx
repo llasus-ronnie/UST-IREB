@@ -79,6 +79,8 @@ function RECDashboard({ params }) {
     forms.forEach((form) => {
       if (form.status && newStatusCounts.hasOwnProperty(form.status)) {
         newStatusCounts[form.status] += 1;
+      } else if (form.finalDecision) {
+        newStatusCounts["Approved"] += 1;
       }
     });
 
@@ -89,32 +91,6 @@ function RECDashboard({ params }) {
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  const formatResearchEthicsCommittee = (value) => {
-    const replacements = {
-      USTHospital: "UST Hospital",
-      FacultyofPharmacy: "Faculty of Pharmacy",
-      GraduateSchool: "Graduate School",
-      CollegeofNursing: "College of Nursing",
-      CollegeofRehabilitationSciences: "College of Rehabilitation Sciences",
-      FacultyofMedicineandSurgery: "Faculty of Medicine and Surgery",
-      SeniorHighSchool: "Senior High School",
-      CollegeofEducation: "College of Education",
-      FacultyofEngineering: "Faculty of Engineering",
-      CollegeofInformationandComputingSciences:
-        "College of Information and Computing Sciences",
-    };
-
-    return (
-      replacements[value] ||
-      value
-        .replace(/([A-Z])([A-Z][a-z])/g, "$1 $2")
-        .replace(/([a-z])([A-Z])/g, "$1 $2")
-        .replace(/\bof\b/g, "of")
-        .replace(/\s+/g, " ")
-        .trim()
-    );
-  };
 
   return (
     <>
