@@ -56,7 +56,7 @@ function IrebDashboard() {
       {
         label: "Approved",
         data: [],
-        backgroundColor: "#E6B800",
+        backgroundColor: "#4CAF50",
       },
     ],
   });
@@ -163,7 +163,7 @@ function IrebDashboard() {
             {
               label: "Approved",
               data: approvedCountsArray,
-              backgroundColor: "#8ACE00",
+              backgroundColor: "#4CAF50",
             },
           ],
         });

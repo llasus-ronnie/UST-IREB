@@ -114,7 +114,6 @@ function IrebReports() {
         let submittedCount = 0;
         let totalSubmissions = 0;
 
-        //wala pa tayo status
         let approvedCount = 0;
         let rejectedCount = 0;
 
@@ -133,10 +132,10 @@ function IrebReports() {
 
           // Count status types for doughnut chart
           if (form.status === "Submitted") submittedCount++;
-          else if (form.status === "Approved") approvedCount++;
-          else if (form.status === "Rejected") rejectedCount++;
+          else if (form.classification === "Approved") approvedCount++;
+          else if (form.classification === "Deferred") rejectedCount++;
 
-          if (form.status === "Approved") {
+          if (form.classification === "Approved") {
             approvedCountsArray[month]++;
           }
         });
@@ -212,7 +211,7 @@ function IrebReports() {
     labels: [],
     datasets: [
       {
-        label: "Deferred",
+        label: "New Submissions",
         data: [],
         backgroundColor: "#A0A0A0", // Light grey
         barThickness: 25,
@@ -224,9 +223,15 @@ function IrebReports() {
         barThickness: 25,
       },
       {
-        label: "Completed",
+        label: "Approved",
         data: [],
         backgroundColor: "#4CAF50", // Bright yellow
+        barThickness: 25,
+      },
+      {
+        label: "Deferred",
+        data: [],
+        backgroundColor: "#A0A0A0", // Light grey
         barThickness: 25,
       },
     ],
@@ -243,21 +248,25 @@ function IrebReports() {
         forms.forEach((form) => {
           const recName = form.researchEthicsCommittee;
           const status = form.status;
+          const classification = form.classification;
 
           if (!recStatusCounts[recName]) {
             recStatusCounts[recName] = {
-              Deferred: 0,
-              Completed: 0,
+              NewSubmissions: 0,
               Waiting: 0,
+              Completed: 0,
+              Deferred: 0,
             };
           }
 
-          if (status === "Deferred") {
+          if (classification === "Deferred") {
             recStatusCounts[recName].Deferred++;
-          } else if (status === "Approved") {
+          } else if (classification === "Approved") {
             recStatusCounts[recName].Completed++;
           } else if (status === "In-Progress") {
             recStatusCounts[recName].Waiting++;
+          } else if (status === "Initial-Submission") {
+            recStatusCounts[recName].NewSubmissions++;
           }
         });
 
@@ -267,15 +276,17 @@ function IrebReports() {
           (rec) => recStatusCounts[rec].Completed
         );
         const waitingData = labels.map((rec) => recStatusCounts[rec].Waiting);
+        const newSubmissionsData = labels.map(
+          (rec) => recStatusCounts[rec].NewSubmissions
+        );
 
         setRecStatusData({
           labels: labels,
           datasets: [
             {
-              label: "Deferred",
-              data: deferredData,
-              backgroundColor: "#A0A0A0", // Light grey
-              barThickness: 25,
+              label: "New Submissions",
+              data: newSubmissionsData,
+              backgroundColor: "#FFCC00", // Yellow
             },
             {
               label: "Waiting",
@@ -284,7 +295,14 @@ function IrebReports() {
               barThickness: 25,
             },
             {
-              label: "Completed",
+              label: "Deferred",
+              data: deferredData,
+              backgroundColor: "#A0A0A0", // Light grey
+              barThickness: 25,
+            },
+
+            {
+              label: "Approved",
               data: completedData,
               backgroundColor: "#4CAF50", // Bright yellow
               barThickness: 25,
@@ -735,7 +753,7 @@ function IrebReports() {
 
             {/* exempt */}
             <div className="rec-container">
-              <h3>REC Status</h3>
+              <h3>REC Review Classification Status: Exempt</h3>
               <div className="ireb-rec-status-chart">
                 <Bar data={recStatusDataExempt} options={recStatusOptions} />
               </div>
@@ -744,7 +762,7 @@ function IrebReports() {
 
             {/* expedited*/}
             <div className="rec-container">
-              <h3>REC Status</h3>
+              <h3>REC Review Classification Status: Expedited</h3>
               <div className="ireb-rec-status-chart">
                 <Bar data={recStatusDataExpedited} options={recStatusOptions} />
               </div>
@@ -753,7 +771,7 @@ function IrebReports() {
 
             {/* full board */}
             <div className="rec-container">
-              <h3>REC Status</h3>
+              <h3>REC Review Classification Status: Full Board</h3>
               <div className="ireb-rec-status-chart">
                 <Bar data={recStatusDataFullBoard} options={recStatusOptions} />
               </div>
