@@ -51,23 +51,19 @@ export default function EditRECModal(props) {
       return;
     }
 
+    const updateData = { id: recId, name, email, status };
+    if (logo) {
+      updateData.logo = logo;
+    }
+
     try {
-      await axios.patch("/api/REC", {
-        id: recId,
-        name,
-        email,
-        status,
-        logo,
-      });
-      console.log("Account added to database");
+      await axios.patch("/api/REC", updateData);
+      console.log("Account updated in database");
       toast.success("REC updated successfully");
 
       props.onHide();
     } catch (error) {
-      console.error(
-        "Error adding account to database or sending email:",
-        error
-      );
+      console.error("Error updating account in database:", error);
       toast.error("An error occurred. Please try again.");
     }
   };
