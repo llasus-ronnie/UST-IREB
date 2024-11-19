@@ -23,23 +23,60 @@ function IrebManageExternal() {
   const [filteredExternal, setFilteredExternal] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [selectedAccount, setSelectedAccount] = useState(null);
+  const [content, setContent] = useState([]);
+  const [filteredContent, setFilteredContent] = useState([]);
+
   const handleShowAddAccModal = () => setModalShowAddAcc(true);
   const handleShowEditAccModal = (investigator) => {
     setSelectedInvestigator(investigator);
     setModalShowEditAcc(true);
   };
-  const handleShowArchiveModal = () => setModalShowArchiveConfirmation(true);
+  const handleShowArchiveModal = (account) => {
+    setSelectedAccount(account);
+    setModalShowArchiveConfirmation(true);
+  };
+
+  const handleArchive = async () => {
+    if (selectedAccount) {
+      try {
+        const response = await axios.patch(
+          `/api/addExternalInvestigator/${selectedAccount._id}`,
+          {
+            isArchived: true,
+          }
+        );
+        if (response.status === 200) {
+          const updatedContent = content.map((account) =>
+            account._id === selectedAccount._id
+              ? { ...account, isArchived: true }
+              : account
+          );
+          setContent(updatedContent);
+          setFilteredContent(
+            updatedContent.filter((account) => !account.isArchived)
+          );
+        }
+      } catch (error) {
+        console.error("Error archiving account:", error);
+      } finally {
+        handleCloseArchiveModal();
+      }
+    }
+  };
+
   const handleCloseAddAccModal = () => setModalShowAddAcc(false);
   const handleCloseEditAccModal = () => setModalShowEditAcc(false);
   const handleCloseArchiveModal = () => setModalShowArchiveConfirmation(false);
 
   const handleSearch = (query) => {
     const lowercasedQuery = query.toLowerCase();
-    const filtered = external.filter(
+    const filtered = content.filter(
       (investigator) =>
-        investigator.name.toLowerCase().includes(lowercasedQuery) ||
-        investigator.email.toLowerCase().includes(lowercasedQuery) ||
-        investigator.affiliation.toLowerCase().includes(lowercasedQuery)
+        !investigator.isArchived &&
+        (investigator.name.toLowerCase().includes(lowercasedQuery) ||
+          investigator.email.toLowerCase().includes(lowercasedQuery) ||
+          investigator.affiliation.toLowerCase().includes(lowercasedQuery))
     );
     setFilteredExternal(filtered);
   };
@@ -49,9 +86,11 @@ function IrebManageExternal() {
       setIsLoading(true);
       try {
         const response = await axios.get("/api/addExternalInvestigator");
-        console.log("API Response:", response.data);
-        setExternal(response.data.data);
-        setFilteredExternal(response.data.data);
+        const activeContent = response.data.data.filter(
+          (account) => !account.isArchived
+        );
+        setContent(activeContent);
+        setFilteredExternal(activeContent);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -155,12 +194,12 @@ function IrebManageExternal() {
                 </thead>
                 <tbody>
                   {filteredExternal && filteredExternal.length > 0 ? (
-                    filteredExternal.map((form, index) => (
+                    filteredExternal.map((account, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td>{form.name}</td>
-                        <td>{form.email}</td>
-                        <td>{form.affiliation}</td>
+                        <td>{account.name}</td>
+                        <td>{account.email}</td>
+                        <td>{account.affiliation}</td>
                         <td>
                           <button
                             className="edit-icon"
@@ -179,7 +218,7 @@ function IrebManageExternal() {
                           </button>
                           <button
                             className="archive-icon"
-                            onClick={handleShowArchiveModal}
+                            onClick={() => handleShowArchiveModal(account)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -216,7 +255,7 @@ function IrebManageExternal() {
       <ArchiveConfirmationModal
         show={modalShowArchiveConfirmation}
         onHide={handleCloseArchiveModal}
-        data={selectedInvestigator}
+        onConfirm={handleArchive}
       />
     </div>
   );
