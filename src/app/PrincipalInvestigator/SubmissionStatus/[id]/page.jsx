@@ -336,16 +336,9 @@ function SubmissionStatus({ params }) {
                                 >
                                   Main File
                                 </a>
-                              ) : null}
-                            </td>
-
-                            <td>
-                              {remark.resubmissionId ===
-                              resubmission.resubmission1?._id ? (
+                              ) : remark.resubmissionId === resubmission.resubmission1?._id ? (
                                 <a
-                                  href={
-                                    resubmission.resubmission1?.resubmissionFile
-                                  }
+                                  href={resubmission.resubmission1?.resubmissionFile}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   style={{ color: "blue" }}
@@ -379,12 +372,12 @@ function SubmissionStatus({ params }) {
               </div>
 
               <div className="submissionstatus-buttons">
-                <Link
+                {/* <Link
                   href={`/PrincipalInvestigator/SubmissionHistory/${form?._id}`}
                   className="submissionstatus-view-sub"
                 >
                   View Submission
-                </Link>
+                </Link> */}
                 {remarksData ? (
                   <button
                     className="submissionstatus-edit-sub"

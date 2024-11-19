@@ -234,26 +234,26 @@ function RECViewSubmission({ params }) {
           subFormId: forms._id,
         },
       });
-  
+
       if (response.status === 200) {
         const remarks = response.data.getResubmissionRemarks;
-  
+
         const enrichedRemarks = remarks.map((remark) => {
           const fileLink = remark.resubmissionRemarksFile;
-  
+
           return {
             ...remark,
-            fileLink, 
+            fileLink,
           };
         });
-  
+
         const sortedRemarks = enrichedRemarks.sort((a, b) => {
           const dateA = new Date(a.resubmissionRemarksDate);
           const dateB = new Date(b.resubmissionRemarksDate);
           return dateA - dateB;
         });
-  
-        setRemarksData(sortedRemarks); 
+
+        setRemarksData(sortedRemarks);
       } else {
         console.error("Failed to fetch remarks", response.status);
       }
@@ -261,38 +261,38 @@ function RECViewSubmission({ params }) {
       console.error("Error fetching remarks:", error.message);
     }
   };
-  
-  
+
+
 
   const getFileLink = async (resubmissionId) => {
     try {
-      console.log("Getting file link for resubmissionId:", resubmissionId); 
-  
+      console.log("Getting file link for resubmissionId:", resubmissionId);
+
       const [formResponse, resubmissionFileResponse] = await Promise.all([
         axios.get(`/api/forms/${resubmissionId}`),
         axios.get(`/api/resubmissionFiles`, { params: { subFormId: `${resubmissionId}` } }),
       ]);
-  
-      console.log("Form Response:", formResponse); 
-      console.log("Resubmission File Response:", resubmissionFileResponse); 
-  
+
+      console.log("Form Response:", formResponse);
+      console.log("Resubmission File Response:", resubmissionFileResponse);
+
       if (formResponse.status === 200 && formResponse.data.mainFileLink) {
-        console.log("Found mainFileLink:", formResponse.data.mainFileLink); 
+        console.log("Found mainFileLink:", formResponse.data.mainFileLink);
         return formResponse.data.mainFileLink;
       }
-  
+
       if (resubmissionFileResponse.status === 200 && resubmissionFileResponse.data.resubmissionFile) {
         console.log("Found resubmissionFile link:", resubmissionFileResponse.data.resubmissionFile); // Log resubmissionFile link
         return resubmissionFileResponse.data.resubmissionFile;
       }
-  
+
       return null;
     } catch (error) {
       console.error("Error fetching file link:", error.message);
       return null;
     }
   };
-  
+
 
   useEffect(() => {
     fetchResubmissionRemarks();
@@ -511,6 +511,7 @@ function RECViewSubmission({ params }) {
                     value={finalDecision}
                     onChange={handleDecisionChange}
                   >
+                    <option value="No-value" disabled>Choose your final decision</option>
                     <option value="Approved">Approved</option>
                     <option value="Deferred">Deferred</option>
 
@@ -559,7 +560,14 @@ function RECViewSubmission({ params }) {
 
               <div className="submissionstatus-card-remarks">
                 <div className="upload-remarks">
-                  <span>Remarks:</span>
+                  {finalDecision === "Approved" ? (
+                    <span>Certificate:</span>
+                  ) : finalDecision === "Deferred" ? (
+                    <span>Letter of Disapproval:</span>
+                  ) : (
+                    <span>Remarks:</span>
+                  )}
+
                   <CldUploadWidget
                     signatureEndpoint="/api/sign-cloudinary-params"
                     onSuccess={(res) => {
