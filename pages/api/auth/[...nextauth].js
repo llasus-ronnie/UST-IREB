@@ -91,37 +91,6 @@ const handler = NextAuth({
         }
         await connectDB();
         const userExist = await User.findOne({ email: profile.email });
-
-        // Check if user is in the REC table
-        const recResponse = await axios.get(`/api/REC?email=${profile.email}`);
-        const recData = recResponse.data.data;
-
-        if (recData.length > 0) {
-          const userRec = recData.find((rec) => rec.email === profile.email);
-          if (userRec) {
-            // Set role to "REC"
-            user.role = "REC";
-          }
-        }
-
-        // Check if user is in the recMembers table
-        const recMemberResponse = await axios.get(
-          `/api/RECMembers?email=${profile.email}`
-        );
-        const recMemberData = recMemberResponse.data.data;
-
-        // If the user is a Primary Reviewer, assign "PrimaryReviewer" role
-        if (recMemberData.length > 0) {
-          const userRecMember = recMemberData.find(
-            (recMember) =>
-              recMember.email === profile.email &&
-              recMember.recRole === "Primary Reviewer"
-          );
-          if (userRecMember) {
-            user.role = "PrimaryReviewer"; // Assign role as "PrimaryReviewer"
-          }
-        }
-
         if (!userExist) {
           await User.create({
             email: profile.email,

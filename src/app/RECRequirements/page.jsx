@@ -49,7 +49,21 @@ function Requirements() {
                     {formattedHeading}
                   </Accordion.Header>
                   <Accordion.Body className="accbody">
-                    {faq.body}
+                    <a
+                      href={faq.body}
+                      target="_blank"
+                      rel="noreferrer"
+                      download
+                      style={{ textDecoration: "none" }}
+                      onMouseOver={(e) =>
+                        (e.currentTarget.style.textDecoration = "underline")
+                      }
+                      onMouseOut={(e) =>
+                        (e.currentTarget.style.textDecoration = "none")
+                      }
+                    >
+                      Click here to download
+                    </a>
                   </Accordion.Body>
                 </Accordion.Item>
               );
