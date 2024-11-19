@@ -376,12 +376,12 @@ function SubmissionStatus({ params }) {
               </div>
 
               <div className="submissionstatus-buttons">
-                <Link
+                {/* <Link
                   href={`/PrincipalInvestigator/SubmissionHistory/${form?._id}`}
                   className="submissionstatus-view-sub"
                 >
                   View Submission
-                </Link>
+                </Link> */}
                 {remarksData ? (
                   <button
                     className="submissionstatus-edit-sub"
