@@ -65,7 +65,9 @@ export default function SignIn() {
 
           if (userRec) {
             toast.success("Successfully logged in!");
-            const recName = userRec.rec.replace(/\s+/g, ""); // Use the rec field from RECMembers
+            const recName = userRec.rec
+              ? userRec.rec.replace(/\s+/g, "")
+              : userRec.name.replace(/\s+/g, "");
             console.log("Redirecting to REC Dashboard:", recName);
             router.push(`/REC/RECdashboard/${recName}`);
             return;
