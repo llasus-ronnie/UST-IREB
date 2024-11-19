@@ -25,6 +25,10 @@ const resubmissionFileSchema = new mongoose.Schema({
         type: Boolean, 
         default: false 
     }, 
+    resubmission3: { 
+        type: Boolean, 
+        default: false 
+    }, 
 });
 
 const resubmissionFile =

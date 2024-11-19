@@ -56,8 +56,9 @@ function PRViewSubmission({ params }) {
         });
 
         if (response.data) {
-          const { resubmission1, resubmission2 } = response.data;
-          setResubmission({ resubmission1, resubmission2 });
+          const { resubmission1, resubmission2, resubmission3 } = response.data;
+          setResubmission({ resubmission1, resubmission2,resubmission3 });
+          console.log("Resubmission API Response:", response.data);
         } else {
           setResubmission(null);
         }
@@ -222,6 +223,8 @@ function PRViewSubmission({ params }) {
     setSelectedFile(e.target.value);
   };
 
+  console.log("resub3:", resubmission.resubmission3?.resubmissionFile);
+
   const mainFileUrl = getCldImageUrl({
     width: 960,
     height: 600,
@@ -248,9 +251,19 @@ function PRViewSubmission({ params }) {
     });
     fileId = resubmission.resubmission2._id;
   }
+  else if (selectedFile === "Resubmission-3" && resubmission?.resubmission3) {
+    fileUrl = getCldImageUrl({
+      width: 960,
+      height: 600,
+      src: `${resubmission.resubmission3.resubmissionFile}`,
+    });
+    fileId = resubmission.resubmission3._id;
+  }
 
+
+  console.log("resubmission 3", resubmission.resubmission3);
   useEffect(() => {
-    if (resubmission?.resubmission1) {
+    if (resubmission?.resubmission3) {
       setIsSaveDisabled(true);
     } else {
       setIsSaveDisabled(false);
@@ -307,6 +320,7 @@ function PRViewSubmission({ params }) {
               <option value="Main-File">Main File</option>
               <option value="Resubmission-1">Resubmission 1</option>
               <option value="Resubmission-2">Resubmission 2</option>
+              <option value="Resubmission-3">Resubmission 3</option>
             </select>
             <Col xs={12} lg={8} className="viewsub-content-container">
               {fileUrl ? (
@@ -345,6 +359,24 @@ function PRViewSubmission({ params }) {
                   <p>Resubmission Text:</p>
                   <p style={{ fontWeight: "normal" }}>
                     {resubmission.resubmission2?.resubmissionComments}
+                  </p>
+                </div>
+              ) : null}
+
+{selectedFile === "Resubmission-2" ? (
+                <div className="viewsub-remarks">
+                  <p>Resubmission Text:</p>
+                  <p style={{ fontWeight: "normal" }}>
+                    {resubmission.resubmission2?.resubmissionComments}
+                  </p>
+                </div>
+              ) : null}
+
+{selectedFile === "Resubmission-3" ? (
+                <div className="viewsub-remarks">
+                  <p>Resubmission Text:</p>
+                  <p style={{ fontWeight: "normal" }}>
+                    {resubmission.resubmission3?.resubmissionComments}
                   </p>
                 </div>
               ) : null}

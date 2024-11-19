@@ -20,17 +20,22 @@ export async function POST(req, res) {
 
         let resubmission1 = false;
         let resubmission2 = false;
+        let resubmission3 = false;
 
         if (existingResubmissions.length === 0) {
             resubmission1 = true; 
         } else if (existingResubmissions.length === 1) {
             resubmission2 = true; 
+        } else if (existingResubmissions.length === 2) {
+            resubmission3 = true; 
         }
+        
 
         const newResubmission = {
             ...resubmission,
             resubmission1,
             resubmission2,
+            resubmission3,
         };
         const savedResubmission = await ResubmissionModel.create(newResubmission);
         return NextResponse.json(savedResubmission, { status: 201 });
@@ -70,6 +75,7 @@ export async function GET(req) {
             {
                 resubmission1: sortedResubmissions[0] || null,
                 resubmission2: sortedResubmissions[1] || null,
+                resubmission3: sortedResubmissions[2] || null,
             },
             { status: 200 }
         );

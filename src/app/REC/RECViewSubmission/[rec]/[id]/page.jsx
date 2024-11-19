@@ -437,7 +437,7 @@ function RECViewSubmission({ params }) {
                   : "No date available"}
               </p>
 
-              <span>Review Classification:</span>
+              <span>Submission Status:</span>
               <p>{forms?.classification || "No classification available"}</p>
 
               <span>Status:</span>
