@@ -163,7 +163,7 @@ function IrebDashboard() {
             {
               label: "Approved",
               data: approvedCountsArray,
-              backgroundColor: "#E6B800",
+              backgroundColor: "#8ACE00",
             },
           ],
         });
@@ -294,7 +294,7 @@ function IrebDashboard() {
               {/* Submission Cards */}
               <div className="admindashboard-cards">
                 <div className="admindashboard-card">
-                  <h2>Newly Assigned</h2>
+                  <h2>New Submissions</h2>
                   <h3>{newlyAssignedCount}</h3>
                   <p>Submissions</p>
                 </div>
