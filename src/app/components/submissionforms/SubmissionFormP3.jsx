@@ -126,9 +126,9 @@ function SubmissionFormP3() {
       <Container className="PIforms-cont1">
         <Form onSubmit={handleSubmit(processForm)}>
           <Row className="justify-content-center">
-            <h1 className="PIforms-header">Uploading of Main Proposal File</h1>
+            <h1 className="PIforms-header">Uploading of Forms</h1>
             <p className="PIforms-text">
-              Please upload the main proposal file for your research submission.
+              Please upload the application form for your research submission.
               Ensure that the file type matches the required format and that all
               necessary information is included before proceeding to the next
               step.
@@ -152,7 +152,7 @@ function SubmissionFormP3() {
                 <option disabled value="">
                   Choose...
                 </option>
-                <option value="Protocol">Protocol</option>
+                <option value="Protocol">Application Forms</option>
               </FormSelect>
               <Form.Control.Feedback type="invalid">
                 {errors.mainFile?.message}
