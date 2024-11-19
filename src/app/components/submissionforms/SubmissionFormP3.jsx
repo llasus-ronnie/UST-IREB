@@ -94,9 +94,8 @@ function SubmissionFormP3() {
       // Proceed with the email sending logic
       const emailData = {
         rec: rec.email,
-        title: data.title,
         name: data.fullName,
-        status: data.status,
+        status: "Initial Submission",
       };
 
       await axios.post("/api/auth/send-email-submission", emailData);

@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { rec, title, name, status } = req.body;
+    const { rec, name, status } = req.body;
 
     let transporter = nodemailer.createTransport({
       service: "gmail",
@@ -128,7 +128,7 @@ export default async function handler(req, res) {
                         <p>
                         Log in to the UST IREB Research Portal to review and manage the submission on the "REC Manage Submissions" page.
                         </p>
-                        <a href="https://ust-ireb.site" target="_blank" class="button">
+                        <a href="https://ust-ireb.site/SignInAdmin" target="_blank" class="button">
                           Redirect to Research Portal
                         </a>
                         <div class="email-disclaimer">
