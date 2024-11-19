@@ -19,7 +19,6 @@ import {
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
-
 function SubmissionFormsP1() {
   const [validated, setValidated] = useState(false);
   const [showTextbox, setShowTextbox] = useState(false);
@@ -59,11 +58,12 @@ function SubmissionFormsP1() {
   }, []);
 
   const { data: session } = useSession();
-  useEffect(()=>{
-  if(session){
-  setValue("userEmail", session.user.email);}
-  },[session, setValue]);
-  
+  useEffect(() => {
+    if (session) {
+      setValue("userEmail", session.user.email);
+    }
+  }, [session, setValue]);
+
   async function processForm(data) {
     const sanitizedData = {
       ...data,
@@ -102,7 +102,7 @@ function SubmissionFormsP1() {
         >
           <Container className="PIforms-rescont">
             <Row>
-              <h1 className="PIforms-resconthead">Research Classification</h1>
+              <h1 className="PIforms-resconthead">Research Ethics Committee</h1>
             </Row>
 
             {/* institution */}
@@ -152,7 +152,7 @@ function SubmissionFormsP1() {
             </Row>
           </Container>
           <hr></hr>
-          <h1 className="PIforms-header">Submission Checklist</h1>
+          <h1 className="PIforms-header">Data Privacy Agreement</h1>
           <p className="PIforms-text">
             Indicate that this proposal is ready to be considered by the Review
             Committee by checking off the following <br></br> (comments to the
