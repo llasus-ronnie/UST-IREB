@@ -128,14 +128,10 @@ body {
   margin-top: 2rem;
 }
 
-.submissionstatus-remarks-table {
-  width: 100%;
-  margin: 1rem 0;
-}
-
 .submissionstatus-remarks-table table {
   width: 100%;
   border-collapse: collapse;
+  margin: 1rem 0;
 }
 
 .submissionstatus-remarks-table th,
@@ -157,6 +153,40 @@ body {
 .submissionstatus-remarks-table td br {
   display: block;
 }
+
+
+/* Resubmission Feedback */
+.resubmission-feedback-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.resubmission-feedback-table th,
+.resubmission-feedback-table td {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.resubmission-feedback-table th {
+  padding: 1rem !important;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.resubmission-feedback-table td {
+  border-bottom: 1px solid #dcdcdc;
+}
+
+.resubmission-feedback-table td br {
+  display: block;
+}
+
+.resubmission-feedback-content tbody tr td {
+  width: auto;
+}
+
+/* Buttons */
 
 .submissionstatus-buttons {
   display: flex;
@@ -346,6 +376,41 @@ body {
   .back-button {
     margin: 0 auto 1rem;
   }
+
+  .submissionstatus-remarks-table {
+    overflow: auto;
+  }
+
+  .submissionstatus-remarks-table::-webkit-scrollbar {
+    height: 8px; 
+  }
+
+  .submissionstatus-remarks-table::-webkit-scrollbar-thumb {
+    background-color: #fcbf15; 
+    border-radius: 4px; 
+  }
+
+  .submissionstatus-remarks-table::-webkit-scrollbar-track {
+    background-color: #ddd; 
+  }
+
+  .resubmission-feedback-table {
+    overflow: auto;
+  }
+
+  .resubmission-feedback-table::-webkit-scrollbar {
+    height: 8px; 
+  }
+
+  .resubmission-feedback-table::-webkit-scrollbar-thumb {
+    background-color: #fcbf15; 
+    border-radius: 4px; 
+  }
+
+  .resubmission-feedback-table::-webkit-scrollbar-track {
+    background-color: #ddd; 
+  }
+
 }
 
 /* Tablet */

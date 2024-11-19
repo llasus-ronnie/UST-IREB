@@ -307,16 +307,17 @@ function SubmissionStatus({ params }) {
 
               <div className="submissionstatus-card-remarks">
                 <h1>Resubmission Feedback</h1>
-                <div className="submissionstatus-remarks-table">
+                <div className="resubmission-feedback-table">
                   <table>
                     <thead>
                       <tr>
                         <th>File</th>
+                        <th>File 2</th>
                         <th>Remarks</th>
                         <th>Date</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="resubmission-feedback-content">
                       {remarksData
                         .filter(
                           (remark) =>
@@ -353,6 +354,8 @@ function SubmissionStatus({ params }) {
                                 </a>
                               ) : null}
                             </td>
+
+                            
                             <td>
                               <a
                                 href={remark.resubmissionRemarksFile}

@@ -622,14 +622,14 @@ function RECViewSubmission({ params }) {
 
               <div className="submissionstatus-card-remarks">
                 <span>Resubmission</span>
-                <br />
+                <br /><br />
                 <span>Primary Reviewer Remarks:</span>
                 <table className="remarks-table">
                   <thead>
                     <tr>
                       <th>Resubmission</th>
-                      <th>Resubmitted File</th>
                       <th>File</th>
+                      <th>Remarks</th>
                       <th>Date</th>
                     </tr>
                   </thead>
@@ -653,7 +653,7 @@ function RECViewSubmission({ params }) {
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              View Resubmitted File
+                              View File
                             </a>
                           ) : (
                             <span>No File Available</span> // Fallback in case fileLink is not available
