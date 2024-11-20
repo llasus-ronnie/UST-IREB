@@ -11,17 +11,35 @@ app.use(cors());
 export async function POST(req, res) {
   try {
     await connectDB();
-    const formdata = await req.json();
-    const saveForm = await SubmissionForm.create(formdata);
-    return NextResponse.json(saveForm, { status: 201 });
+
+    const data = await req.json();
+    console.log("Received data:", data);
+
+    // Validate the received data
+    if (!Array.isArray(data.mainFileLink) || !Array.isArray(data.supplementaryFileLink)) {
+      return NextResponse.json(
+        { error: "Invalid file links format. Expected arrays." },
+        { status: 400 }
+      );
+    }
+
+    const saveForm = await SubmissionForm.create({
+      mainFileLink: data.mainFileLink, 
+      supplementaryFileLink: data.supplementaryFileLink, 
+      ...data,
+    });
+
+    return NextResponse.json({ saveForm }, { status: 200 });
   } catch (error) {
-    console.error(error);
+    console.error("Error saving form:", error); 
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: error.message || "Failed to save form" },
       { status: 500 }
     );
   }
 }
+
+
 
 export async function GET(req) {
   await connectDB();

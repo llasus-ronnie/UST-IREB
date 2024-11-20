@@ -26,6 +26,11 @@ import { toast } from "react-toastify";
 
 function SubmissionFormP3() {
   const [validated, setValidated] = useState(false);
+  const [mainFiles, setMainFiles] = useState([]);
+  const [supplementaryFiles, setSupplementaryFiles] = useState([]);
+  const [mainFileNames, setMainFileNames] = useState([]);
+  const [supplementaryFileNames, setSupplementaryFileNames] = useState([]);
+
   const currentPage = useSelector((store) => store.submissionForm.currentStep);
   const formData = useSelector((store) => store.submissionForm.formData);
 
@@ -56,21 +61,23 @@ function SubmissionFormP3() {
   // Submit data to the server
   async function submitDataToServer(data) {
     try {
-      // Submit the form data to the server
+      const updatedData = { ...data, mainFileLink: mainFiles, supplementaryFileLink: supplementaryFiles };
       const response = await fetch("/api/forms", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(updatedData),
       });
 
       if (response.ok) {
         dispatch(setCurrentStep(currentPage + 1));
-      } else {
-        console.error("Form submission failed");
+      } else if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Form submission failed:", errorData);
         return false;
       }
+
 
       // Fetch REC details based on the committee name
       const recResponse = await axios.get(
@@ -120,6 +127,29 @@ function SubmissionFormP3() {
     handleCloseModal();
   };
 
+  const handleFileUploadSuccess = (res, setFiles, setFileNames, fileType) => {
+    if (res.info.format !== "pdf") {
+      toast.error("Only PDF files are allowed.");
+      return;
+    }
+    setFiles((prev) => [...prev, res.info.secure_url]);
+    setFileNames((prev) => [...prev, res.info.original_filename]);
+    toast.success(`${fileType} uploaded successfully!`);
+  };
+
+  const handleRemoveFile = (index, fileType) => {
+    if (fileType === "main") {
+      setMainFiles((prev) => prev.filter((_, i) => i !== index));
+      setMainFileNames((prev) => prev.filter((_, i) => i !== index));
+      toast.info("Main file removed.");
+    } else if (fileType === "supplementary") {
+      setSupplementaryFiles((prev) => prev.filter((_, i) => i !== index));
+      setSupplementaryFileNames((prev) => prev.filter((_, i) => i !== index));
+      toast.info("Supplementary file removed.");
+    }
+  };
+
+
   return (
     <div>
       <Container className="PIforms-cont1">
@@ -160,33 +190,48 @@ function SubmissionFormP3() {
               <FormLabel className="PIforms-formtext">Select File:</FormLabel>
               <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
-                onSuccess={(res) => {
-                  // Check if the uploaded file is a PDF
-                  if (res.info.format !== "pdf") {
-                    toast.error(
-                      "Only PDF files are allowed. Please upload a PDF."
-                    );
-                    return;
-                  }
-
-                  // If it's a PDF, save the file URL
-                  console.log(res.info.secure_url);
-                  setValue("mainFileLink", res.info.secure_url);
-                }}
+                multiple
+                onSuccess={(res) =>
+                  handleFileUploadSuccess(res, setMainFiles, setMainFileNames, "Main File")
+                }
               >
-                {({ open }) => {
-                  return (
-                    <button
-                      type="button"
-                      onClick={() => open()}
-                      className="form-control PIforms-formtext PIforms-file"
-                    >
-                      Upload file
-                    </button>
-                  );
-                }}
+                {({ open }) => (
+                  <button
+                    type="button"
+                    onClick={() => open()}
+                    className="form-control PIforms-formtext PIforms-file"
+                  >
+                    Upload file
+                  </button>
+                )}
               </CldUploadWidget>
             </Row>
+
+            {/* dislpay the uploaded files  */}
+            <Row>
+              {mainFileNames.length > 0 && (
+                <div className="uploaded-files">
+                  <strong>Main Files:</strong>
+                  <ul>
+                    {mainFileNames.map((fileName, index) => (
+                      <li key={index}>
+                        {fileName}
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          className="ml-2"
+                          onClick={() => handleRemoveFile(index, "main")}
+                        >
+                          Remove
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </Row>
+
+
           </Container>
 
           {/* Supplementary Materials Section */}
@@ -226,33 +271,51 @@ function SubmissionFormP3() {
               <FormLabel className="PIforms-formtext">Select File:</FormLabel>
               <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
-                onSuccess={(res) => {
-                  // Check if the uploaded file is a PDF
-                  if (res.info.format !== "pdf") {
-                    toast.error(
-                      "Only PDF files are allowed. Please upload a PDF."
-                    );
-                    return;
-                  }
-
-                  // If it's a PDF, save the file URL
-                  console.log(res.info.secure_url);
-                  setValue("mainFileLink", res.info.secure_url);
-                }}
+                multiple
+                onSuccess={(res) =>
+                  handleFileUploadSuccess(
+                    res,
+                    setSupplementaryFiles,
+                    setSupplementaryFileNames,
+                    "Supplementary File"
+                  )
+                }
               >
-                {({ open }) => {
-                  return (
-                    <button
-                      type="button"
-                      onClick={() => open()}
-                      className="form-control PIforms-formtext PIforms-file"
-                    >
-                      Upload file
-                    </button>
-                  );
-                }}
+                {({ open }) => (
+                  <button
+                    type="button"
+                    onClick={() => open()}
+                    className="form-control PIforms-formtext PIforms-file"
+                  >
+                    Upload file
+                  </button>
+                )}
               </CldUploadWidget>
+
             </Row>
+            <Row>
+              {supplementaryFileNames.length > 0 && (
+                <div className="uploaded-files">
+                  <strong>Supplementary Files:</strong>
+                  <ul>
+                    {supplementaryFileNames.map((fileName, index) => (
+                      <li key={index}>
+                        {fileName}
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          className="ml-2"
+                          onClick={() => handleRemoveFile(index, "supplementary")}
+                        >
+                          Remove
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </Row>
+
           </Container>
 
           {/* Buttons */}

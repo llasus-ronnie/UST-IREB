@@ -310,23 +310,43 @@ const subFormSchema = new Schema({
     require: true,
   },
   mainFileLink: {
-    type: String,
+    type: [String],
     required: true,
+    validate: {
+      validator: function (v) {
+        return v.length > 0; 
+      },
+      message: 'mainFileLink must contain at least one string',
+    },
   },
   supplementaryFileLink: {
-    type: String,
-    require: false,
+    type: [String],
+    required: false,
+    validate: {
+      validator: function (v) {
+        return v.length > 0; 
+      },
+      message: 'mainFileLink must contain at least one string',
+    }
   },
+  
   status: {
     type: String,
     require: true,
     default: "Initial-Submission",
   },
-  recMember:{
-    type: String,
-    require: true,
-    default: "kindly wait for your assigned reviewer",
+  recMember: {
+    type: [String],
+    required: true, 
+    validate: {
+      validator: function (value) {
+        return value.length >= 2 && value.length <= 4;
+      },
+      message: 'recMember must have between 2 and 4 members.',
+    },
+    default: ["kindly wait for your assigned reviewer", "kindly wait for your assigned reviewer", "kindly wait for your assigned reviewer", "kindly wait for your assigned reviewer"], 
   },
+  
   classification:{
     type: String,
     require: true,
