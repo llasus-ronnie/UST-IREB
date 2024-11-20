@@ -13,7 +13,8 @@ import { CldUploadWidget } from "next-cloudinary";
 export default function EditRECContentModal({ show, onHide, content }) {
   const [heading, setHeading] = useState("");
   const [body, setBody] = useState("");
-  const [uploadedFile, setUploadedFile] = useState("");
+  const [mainFiles, setMainFiles] = useState([]);
+  const [mainFileNames, setMainFileNames] = useState([]);
 
   useEffect(() => {
     if (content) {
@@ -25,38 +26,59 @@ export default function EditRECContentModal({ show, onHide, content }) {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    const fetchRECMemberData = async () => {
+    const fetchRECData = async () => {
       if (status === "authenticated") {
         const { email } = session.user;
 
         try {
-          const response = await axios.get(`/api/RECMembers?email=${email}`);
-          const recMemberData = response.data.data;
+          const response = await axios.get(`/api/REC`);
+          const recData = response.data.data;
 
-          if (recMemberData.length > 0) {
-            setHeading(recMemberData[0].rec.replace(/\s+/g, "")); // Remove spaces
+          const currentREC = recData.find((rec) => rec.email === email);
+
+          if (currentREC) {
+            setHeading(currentREC.name);
+          } else {
+            console.error("REC not found for the current session email");
           }
         } catch (error) {
-          console.error("Error fetching REC member data:", error);
+          console.error("Error fetching REC data:", error);
         }
       }
     };
 
-    fetchRECMemberData();
+    fetchRECData();
   }, [status, session]);
 
   const handleBodyChange = (e) => setBody(e.target.value);
 
+  const handleFileUploadSuccess = (res, setFiles, setFileNames) => {
+    const uploadedFile = res.info; // Assuming Cloudinary response contains `info`
+    setFiles((prev) => [...prev, uploadedFile]);
+    setFileNames((prev) => [...prev, uploadedFile.original_filename]);
+  };
+
+  const handleRemoveFile = (index) => {
+    setMainFiles((prev) => prev.filter((_, i) => i !== index));
+    setMainFileNames((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleSave = async () => {
     try {
+      const recNameWithoutSpaces = heading.replace(/\s+/g, "");
+      const filesToSave = mainFiles.map((file) => ({
+        url: file.secure_url, // Cloudinary's URL
+        filename: file.original_filename, // File name
+      }));
+
       await axios.post("/api/RECContent", {
-        rec: heading,
+        rec: recNameWithoutSpaces,
         heading,
         body,
+        files: filesToSave, // Pass files here
       });
       console.log("Content added to database");
       toast.success("REC Content added successfully");
-
       onHide();
     } catch (error) {
       console.error("Error saving to database:", error);
@@ -71,6 +93,8 @@ export default function EditRECContentModal({ show, onHide, content }) {
   const handleConfirmCancel = () => {
     setHeading("");
     setBody("");
+    setMainFiles([]);
+    setMainFileNames([]);
     setShowCancelConfirmation(false);
     onHide();
   };
@@ -95,34 +119,65 @@ export default function EditRECContentModal({ show, onHide, content }) {
         </Modal.Header>
         <Modal.Body className="editcontent-modal-body rounded-body">
           <Form>
-            <CldUploadWidget
-              signatureEndpoint="/api/sign-cloudinary-params"
-              onSuccess={(res) => {
-                console.log("Uploaded file URL:", res.info.secure_url);
-                setBody(res.info.secure_url); // Set the uploaded file's URL as the body
-              }}
+            {/* Body */}
+            <Form.Group
+              className="mb-3 form-group-with-icon"
+              controlId="formBody"
             >
-              {({ open }) => (
-                <button
-                  type="button"
-                  onClick={() => open()}
-                  className="form-control PIforms-formtext PIforms-file reupload-area"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="#fcbf15"
-                    className="bi bi-upload"
-                    viewBox="0 0 16 16"
+              <Form.Label className="mb-3 form-group-with-icon">
+                Body
+              </Form.Label>
+              <Form.Control
+                as="textarea"
+                value={body}
+                onChange={handleBodyChange}
+                className="form-control-with-icon rounded-input mc-editcontent-body"
+                rows={5}
+              />
+            </Form.Group>
+
+            {/* File Upload */}
+            <Form.Group className="mb-3">
+              <CldUploadWidget
+                signatureEndpoint="/api/sign-cloudinary-params"
+                multiple
+                onSuccess={(res) =>
+                  handleFileUploadSuccess(res, setMainFiles, setMainFileNames)
+                }
+              >
+                {({ open }) => (
+                  <button
+                    type="button"
+                    onClick={() => open()}
+                    className="form-control btn btn-outline-warning"
                   >
-                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
-                  </svg>
-                  <p className="reupload-file">Upload File</p>
-                </button>
-              )}
-            </CldUploadWidget>
+                    Upload Files
+                  </button>
+                )}
+              </CldUploadWidget>
+            </Form.Group>
+
+            {/* Display Uploaded Files */}
+            {mainFileNames.length > 0 && (
+              <div className="uploaded-files mt-3">
+                <strong>Uploaded Files:</strong>
+                <ul>
+                  {mainFileNames.map((fileName, index) => (
+                    <li key={index}>
+                      {fileName}
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        className="ml-2"
+                        onClick={() => handleRemoveFile(index)}
+                      >
+                        Remove
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </Form>
         </Modal.Body>
         <Modal.Footer className="editcontent-modal-footer rounded-footer">

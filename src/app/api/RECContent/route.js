@@ -5,9 +5,16 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   await connectDB();
 
-  const { rec, heading, body } = await req.json();
+  const { rec, heading, body, files } = await req.json();
 
   try {
+    // Validate files array
+    if (files && !files.every((file) => file.url && file.filename)) {
+      throw new Error(
+        "Invalid file data. Ensure each file has 'url' and 'filename'."
+      );
+    }
+
     // Check if an entry for the given REC already exists
     let recContent = await RECContent.findOne({ rec });
 
@@ -15,6 +22,7 @@ export async function POST(req) {
       // Update the existing entry
       recContent.heading = heading;
       recContent.body = body;
+      recContent.files = files; // Update files
       await recContent.save();
     } else {
       // Create a new entry
@@ -22,6 +30,7 @@ export async function POST(req) {
         rec,
         heading,
         body,
+        files, // Include files
       });
       await recContent.save();
     }
@@ -43,7 +52,6 @@ export async function GET(req) {
   await connectDB();
 
   const { searchParams } = new URL(req.url);
-  const heading = searchParams.get("heading");
   const rec = searchParams.get("rec");
 
   try {
