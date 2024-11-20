@@ -131,11 +131,11 @@ function IrebReports() {
           totalSubmissions++;
 
           // Count status types for doughnut chart
-          if (form.status === "Submitted") submittedCount++;
-          else if (form.classification === "Approved") approvedCount++;
-          else if (form.classification === "Deferred") rejectedCount++;
+          if (form.finalDecision === "No Final Decision Yet") submittedCount++;
+          else if (form.finalDecision === "Approved") approvedCount++;
+          else if (form.finalDecision === "Deferred") rejectedCount++;
 
-          if (form.classification === "Approved") {
+          if (form.finalDecision === "Approved") {
             approvedCountsArray[month]++;
           }
         });
@@ -248,7 +248,7 @@ function IrebReports() {
         forms.forEach((form) => {
           const recName = form.researchEthicsCommittee;
           const status = form.status;
-          const classification = form.classification;
+          const finalDecision = form.finalDecision;
 
           if (!recStatusCounts[recName]) {
             recStatusCounts[recName] = {
@@ -259,9 +259,9 @@ function IrebReports() {
             };
           }
 
-          if (classification === "Deferred") {
+          if (finalDecision === "Deferred") {
             recStatusCounts[recName].Deferred++;
-          } else if (classification === "Approved") {
+          } else if (finalDecision === "Approved") {
             recStatusCounts[recName].Completed++;
           } else if (status === "In-Progress") {
             recStatusCounts[recName].Waiting++;
@@ -611,6 +611,15 @@ function IrebReports() {
     const recStatusChartElement = document.querySelector(
       ".ireb-rec-status-chart canvas"
     );
+    const recStatusChartElementExempt = document.querySelector(
+      ".ireb-rec-status-exempt-chart canvas"
+    );
+    const recStatusChartElementExpedited = document.querySelector(
+      ".ireb-rec-status-expedited-chart canvas"
+    );
+    const recStatusChartElementFullBoard = document.querySelector(
+      ".ireb-rec-status-fullboard-chart canvas"
+    );
 
     if (barChartElement && doughnutChartElement && recStatusChartElement) {
       const barChartImage = await html2canvas(barChartElement).then((canvas) =>
@@ -622,34 +631,55 @@ function IrebReports() {
       const recStatusChartImage = await html2canvas(recStatusChartElement).then(
         (canvas) => canvas.toDataURL("image/png")
       );
+      const recStatusChartImageExempt = await html2canvas(
+        recStatusChartElementExempt
+      ).then((canvas) => canvas.toDataURL("image/png"));
+      const recStatusChartImageExpedited = await html2canvas(
+        recStatusChartElementExpedited
+      ).then((canvas) => canvas.toDataURL("image/png"));
+      const recStatusChartImageFullBoard = await html2canvas(
+        recStatusChartElementFullBoard
+      ).then((canvas) => canvas.toDataURL("image/png"));
 
       doc.setFontSize(16);
       doc.text("Submission Overview", 40, 100);
-      doc.addImage(barChartImage, "PNG", 40, 120, 500, 300);
+      doc.addImage(barChartImage, "PNG", 40, 120, 500, 250);
 
-      doc.addPage();
+      doc.text("", 0, 400);
 
       // Center the Doughnut Chart on the page
       const pageWidth = doc.internal.pageSize.width;
-      const doughnutImageWidth = 300;
+      const doughnutImageWidth = 250;
       const centerX = (pageWidth - doughnutImageWidth) / 2;
 
       // Add Doughnut Chart to the PDF
-      doc.text("REC Analytics", 40, 40);
+      doc.text("REC Analytics", 40, 420);
       doc.addImage(
         doughnutChartImage,
         "PNG",
         centerX,
-        60,
+        440,
         doughnutImageWidth,
-        300
+        250
       );
 
       doc.addPage();
 
       // Add REC Status Chart to the PDF
-      doc.text("Task Status by RECs", 40, 40);
-      doc.addImage(recStatusChartImage, "PNG", 40, 60, 500, 300);
+      doc.text("Task Status by RECs", 40, 80);
+      doc.addImage(recStatusChartImage, "PNG", 40, 100, 500, 250);
+
+      doc.text("", 0, 400);
+      doc.text("REC Review Classification Status: Exempt", 40, 420);
+      doc.addImage(recStatusChartImageExempt, "PNG", 40, 440, 500, 250);
+
+      doc.addPage();
+      doc.text("REC Review Classification Status: Expedited", 40, 80);
+      doc.addImage(recStatusChartImageExpedited, "PNG", 40, 100, 500, 250);
+
+      doc.text("", 0, 400);
+      doc.text("REC Review Classification Status: Full Board", 40, 420);
+      doc.addImage(recStatusChartImageFullBoard, "PNG", 40, 440, 500, 250);
     }
 
     doc.save("IREB_Report.pdf");
@@ -754,7 +784,7 @@ function IrebReports() {
             {/* exempt */}
             <div className="rec-container">
               <h3>REC Review Classification Status: Exempt</h3>
-              <div className="ireb-rec-status-chart">
+              <div className="ireb-rec-status-exempt-chart">
                 <Bar data={recStatusDataExempt} options={recStatusOptions} />
               </div>
             </div>
@@ -763,7 +793,7 @@ function IrebReports() {
             {/* expedited*/}
             <div className="rec-container">
               <h3>REC Review Classification Status: Expedited</h3>
-              <div className="ireb-rec-status-chart">
+              <div className="ireb-rec-status-expedited-chart">
                 <Bar data={recStatusDataExpedited} options={recStatusOptions} />
               </div>
             </div>
@@ -772,7 +802,7 @@ function IrebReports() {
             {/* full board */}
             <div className="rec-container">
               <h3>REC Review Classification Status: Full Board</h3>
-              <div className="ireb-rec-status-chart">
+              <div className="ireb-rec-status-fullboard-chart">
                 <Bar data={recStatusDataFullBoard} options={recStatusOptions} />
               </div>
             </div>
