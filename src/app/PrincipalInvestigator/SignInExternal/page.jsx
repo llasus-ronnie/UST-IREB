@@ -76,9 +76,10 @@ function SignIn() {
         if (nextAuthSignIn && !nextAuthSignIn.error) {
           toast.success("Login successful");
           router.push("/"); // Redirect to home or another protected page
-        } else {
-          toast.error("Failed to create session");
         }
+        // else {
+        //   toast.error("Failed to create session");
+        // }
         // If first-time login, redirect to password setup
         if (response.data.message.includes("set your password")) {
           toast.success("Sign in successful, please create a password");
