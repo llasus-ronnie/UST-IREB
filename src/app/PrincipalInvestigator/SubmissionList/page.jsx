@@ -1,15 +1,21 @@
 "use client";
 
-//components
+//style
 import "../../styles/submissionlist/SubmissionList.css";
+
+//dependencies
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // You can use any library for HTTP requests
-import Navbar from "../../components/navbar/Navbar";
+import axios from "axios"; 
 import { Row } from "react-bootstrap";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
+//components
+import Navbar from "../../components/navbar/Navbar";
+
+//hoc
 import withAuthorization from "../../../hoc/withAuthorization";
+
 
 function SubmissionList() {
   const { data: session } = useSession();
@@ -72,6 +78,13 @@ function SubmissionList() {
                       className="view-btn"
                     >
                       View
+                    </Link>
+
+                    <Link
+                      href={`/PrincipalInvestigator/EditSubmission/${form._id}`}
+                      className="view-btn"
+                    >
+                      Edit
                     </Link>
                   </td>
                 </tr>
