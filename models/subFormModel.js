@@ -349,6 +349,11 @@ const subFormSchema = new Schema({
       require: true,
       default: "No Final Decision Yet"
     },
+    isArchived:{
+      type: Boolean,
+      require: true,
+      default: false
+    }
 });
 
 const subForm =

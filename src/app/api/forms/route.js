@@ -110,7 +110,7 @@ export async function PUT(req) {
   try {
     await connectDB();
     const formData = await req.json();
-    const { id, mainFileLink, supplementaryFileLink, ...otherData } = formData;
+    const { id, archived, mainFileLink, supplementaryFileLink, ...otherData } = formData;
 
     console.log("Received formData:", formData);
 
@@ -153,15 +153,18 @@ export async function PUT(req) {
       return NextResponse.json({ error: "Form not found" }, { status: 404 });
     }
 
-    console.log("Existing Form:", existingForm);
+    if (typeof archived === 'boolean') {
+      existingForm.archived = archived; 
+    }
 
-    // Update fields while preserving existing data
+
     const updatedForm = await SubmissionForm.findByIdAndUpdate(
       id,
       {
         ...otherData,
         mainFileLink: mainFileLink || existingForm.mainFileLink,
         supplementaryFileLink: supplementaryFileLink || existingForm.supplementaryFileLink,
+        archived: archived !== undefined ? archived : existingForm.archived, // Only update if passed
       },
       { new: true }
     );
