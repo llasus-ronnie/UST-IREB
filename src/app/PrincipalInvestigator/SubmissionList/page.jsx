@@ -22,10 +22,7 @@ import withAuthorization from "../../../hoc/withAuthorization";
 function SubmissionList() {
   const { data: session } = useSession();
   const [forms, setForms] = useState([]);
-  const [archivedForm, setArchivedForm] = useState(null);
   const [showArchived, setShowArchived] = useState(false);
-
-
 
   useEffect(() => {
     async function fetchData() {
@@ -34,38 +31,35 @@ function SubmissionList() {
           params: { userEmail: session.user.email }, // Add email as query param
         });
         const userForms = response.data.forms;
+  
         const filteredForms = showArchived
-        ? userForms 
-        : userForms.filter((form) => !form.isArchived); 
+          ? userForms
+          : userForms.filter((form) => !form.isArchived);
 
-      setForms(filteredForms);
+        setForms(filteredForms);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
     fetchData();
-  }, [session,showArchived]);
+  }, [session, showArchived]);
 
-
-  const archiveForm = async (formId) => {
+  const archiveForm = async (formId, isArchived) => {
     try {
       const response = await axios.put("/api/forms", {
         id: formId,
-        isArchived: true,
+        isArchived: !isArchived, // Toggle the archive state
       });
-      console.log("Form archived:", response.data);
 
       setForms((prevForms) =>
         prevForms.map((form) =>
-          form._id === formId ? { ...form, isArchived: true } : form
+          form._id === formId ? { ...form, isArchived: !isArchived } : form
         )
       );
     } catch (error) {
-      console.error("Error archiving form:", error);
+      console.error(`${isArchived ? "Error unarchiving" : "Error archiving"} form:`, error);
     }
   };
-
-
 
   return (
     <>
@@ -122,11 +116,12 @@ function SubmissionList() {
                     </Link>
                     <button
                       className="view-btn"
-                      onClick={() => archiveForm(form._id)}
-                      disabled={form.isArchived}
+                      onClick={() => archiveForm(form._id, form.isArchived)}
+                      disabled={form.isArchived === null} // Disable if form status is unknown or in progress
                     >
-                      {form.archived ? "Archived" : "Archive"}
+                      {form.isArchived ? "Undo Archive" : "Archive"}
                     </button>
+
 
                   </td>
                 </tr>
