@@ -15,31 +15,42 @@ export async function POST(req, res) {
     const data = await req.json();
     console.log("Received data:", data);
 
-    // Validate the received data
-    if (!Array.isArray(data.mainFileLink) || !Array.isArray(data.supplementaryFileLink)) {
+    if (
+      !Array.isArray(data.mainFileLink) ||
+      data.mainFileLink.some((file) => typeof file.url !== "string" || typeof file.filename !== "string")
+    ) {
       return NextResponse.json(
-        { error: "Invalid file links format. Expected arrays." },
+        { error: "Invalid mainFileLink format. Expected an array of objects with url and filename." },
+        { status: 400 }
+      );
+    }
+
+    if (
+      data.supplementaryFileLink &&
+      (!Array.isArray(data.supplementaryFileLink) ||
+        data.supplementaryFileLink.some((file) => typeof file.url !== "string" || typeof file.filename !== "string"))
+    ) {
+      return NextResponse.json(
+        { error: "Invalid supplementaryFileLink format. Expected an array of objects with url and filename." },
         { status: 400 }
       );
     }
 
     const saveForm = await SubmissionForm.create({
-      mainFileLink: data.mainFileLink, 
-      supplementaryFileLink: data.supplementaryFileLink, 
       ...data,
+      mainFileLink: data.mainFileLink, // no transformation needed here
+      supplementaryFileLink: data.supplementaryFileLink || [], // if supplementaryFileLink is present
     });
 
     return NextResponse.json({ saveForm }, { status: 200 });
   } catch (error) {
-    console.error("Error saving form:", error); 
+    console.error("Error saving form:", error);
     return NextResponse.json(
       { error: error.message || "Failed to save form" },
       { status: 500 }
     );
   }
 }
-
-
 
 export async function GET(req) {
   await connectDB();
@@ -96,15 +107,71 @@ export async function DELETE(req) {
 }
 
 export async function PUT(req) {
-  try{
+  try {
     await connectDB();
-    const formdata = await req.json();
-    const { id } = formdata;
-    const updatedForm = await SubmissionForm.findOneAndUpdate
-    ({id}, formdata, { new: true });
+    const formData = await req.json();
+    const { id, mainFileLink, supplementaryFileLink, ...otherData } = formData;
+
+    console.log("Received formData:", formData);
+
+    if (!id) {
+      console.error("Error: ID is required");
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    if (
+      mainFileLink &&
+      (!Array.isArray(mainFileLink) ||
+        mainFileLink.some(
+          (file) => typeof file.url !== "string" || typeof file.filename !== "string"
+        ))
+    ) {
+      console.error("Invalid mainFileLink format:", mainFileLink);
+      return NextResponse.json(
+        { error: "Invalid mainFileLink format. Expected an array of objects with url and filename." },
+        { status: 400 }
+      );
+    }
+
+    if (
+      supplementaryFileLink &&
+      (!Array.isArray(supplementaryFileLink) ||
+        supplementaryFileLink.some(
+          (file) => typeof file.url !== "string" || typeof file.filename !== "string"
+        ))
+    ) {
+      console.error("Invalid supplementaryFileLink format:", supplementaryFileLink);
+      return NextResponse.json(
+        { error: "Invalid supplementaryFileLink format. Expected an array of objects with url and filename." },
+        { status: 400 }
+      );
+    }
+
+    const existingForm = await SubmissionForm.findById(id);
+    if (!existingForm) {
+      console.error("Error: Form not found with ID", id);
+      return NextResponse.json({ error: "Form not found" }, { status: 404 });
+    }
+
+    console.log("Existing Form:", existingForm);
+
+    // Update fields while preserving existing data
+    const updatedForm = await SubmissionForm.findByIdAndUpdate(
+      id,
+      {
+        ...otherData,
+        mainFileLink: mainFileLink || existingForm.mainFileLink,
+        supplementaryFileLink: supplementaryFileLink || existingForm.supplementaryFileLink,
+      },
+      { new: true }
+    );
+
+    console.log("Updated Form:", updatedForm);
+
     return NextResponse.json(updatedForm, { status: 200 });
-  }catch(error){
-    console.error(error);
+  } catch (error) {
+    console.error("Error in PUT:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+

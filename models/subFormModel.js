@@ -309,26 +309,14 @@ const subFormSchema = new Schema({
     type: String,
     require: true,
   },
-  mainFileLink: {
-    type: [String],
-    required: true,
-    validate: {
-      validator: function (v) {
-        return v.length > 0; 
-      },
-      message: 'mainFileLink must contain at least one string',
-    },
-  },
-  supplementaryFileLink: {
-    type: [String],
-    required: false,
-    validate: {
-      validator: function (v) {
-        return v.length > 0; 
-      },
-      message: 'mainFileLink must contain at least one string',
-    }
-  },
+  mainFileLink: [{
+    url: String,  // Store the file URL
+    filename: String,  // Store the file name
+  }],
+  supplementaryFileLink: [{
+    url: String,
+    filename: String,
+  }],
   status: {
     type: String,
     require: true,

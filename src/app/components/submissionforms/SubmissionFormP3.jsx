@@ -58,10 +58,27 @@ function SubmissionFormP3() {
     dispatch(setCurrentStep(currentPage - 1));
   };
 
-  // Submit data to the server
   async function submitDataToServer(data) {
     try {
-      const updatedData = { ...data, mainFileLink: mainFiles, supplementaryFileLink: supplementaryFiles };
+      const mainFileUrls = mainFiles.map(file => ({
+        url: file.url,
+        filename: file.filename,
+      }));
+  
+      const supplementaryFileUrls = supplementaryFiles.map(file => ({
+        url: file.url,
+        filename: file.filename,
+      }));
+  
+      console.log('Main Files before sending:', mainFileUrls);
+      console.log('Supplementary Files before sending:', supplementaryFileUrls);
+  
+      const updatedData = {
+        ...data,
+        mainFileLink: mainFileUrls,
+        supplementaryFileLink: supplementaryFileUrls,
+      };
+  
       const response = await fetch("/api/forms", {
         method: "POST",
         headers: {
@@ -69,51 +86,22 @@ function SubmissionFormP3() {
         },
         body: JSON.stringify(updatedData),
       });
-
+  
       if (response.ok) {
         dispatch(setCurrentStep(currentPage + 1));
-      } else if (!response.ok) {
+      } else {
         const errorData = await response.json();
         console.error("Form submission failed:", errorData);
         return false;
       }
-
-
-      // Fetch REC details based on the committee name
-      const recResponse = await axios.get(
-        `/api/REC?name=${data.researchEthicsCommittee}`
-      );
-      console.log("REC Response Data:", recResponse.data);
-      const recList = recResponse.data.data;
-
-      // Find the specific REC
-      const rec = recList.find(
-        (rec) =>
-          rec.name.replace(/\s+/g, "").toLowerCase() ===
-          data.researchEthicsCommittee.replace(/\s+/g, "").toLowerCase()
-      );
-
-      if (!rec || !rec.email) {
-        toast.error("REC email not found.");
-        return false;
-      }
-
-      // Proceed with the email sending logic
-      const emailData = {
-        rec: rec.email,
-        name: data.fullName,
-        status: "Initial Submission",
-      };
-
-      await axios.post("/api/auth/send-email-submission", emailData);
-      toast.success("Form submitted and email sent successfully.");
-      return true; // Indicating success
     } catch (error) {
-      console.error("Error submitting form or sending email:", error);
+      console.error("Error submitting form:", error);
       toast.error("An error occurred while submitting the form.");
-      return false; // Indicating failure
+      return false;
     }
   }
+  
+
 
   // Process form submission
   const processForm = (data) => {
@@ -132,10 +120,18 @@ function SubmissionFormP3() {
       toast.error("Only PDF files are allowed.");
       return;
     }
-    setFiles((prev) => [...prev, res.info.secure_url]);
+  
+    const fileObject = {
+      url: res.info.secure_url,
+      filename: res.info.original_filename,
+    };
+  
+    setFiles((prev) => [...prev, fileObject]);
     setFileNames((prev) => [...prev, res.info.original_filename]);
     toast.success(`${fileType} uploaded successfully!`);
   };
+  
+
 
   const handleRemoveFile = (index, fileType) => {
     if (fileType === "main") {
