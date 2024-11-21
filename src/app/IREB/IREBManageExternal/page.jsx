@@ -203,7 +203,7 @@ function IrebManageExternal() {
                         <td>
                           <button
                             className="edit-icon"
-                            onClick={() => handleShowEditAccModal(form)}
+                            onClick={() => handleShowEditAccModal(account)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
