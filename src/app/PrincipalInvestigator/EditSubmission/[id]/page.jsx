@@ -27,10 +27,10 @@ export default function EditForms() {
     });
     const [mainFiles, setMainFiles] = useState([]);
     const [supplementaryFiles, setSupplementaryFiles] = useState([]);
-    const [mainFileNames, setMainFileNames] = useState([]);
-    const [supplementaryFileNames, setSupplementaryFileNames] = useState([]);
     const [editingFileIndex, setEditingFileIndex] = useState(null);
     const [editingSupplementaryFileIndex, setEditingSupplementaryFileIndex] = useState(null);
+    const [newMainFiles, setNewMainFiles] = useState([]); // Newly uploaded main files
+    const [newSupplementaryFiles, setNewSupplementaryFiles] = useState([]); // Newly uploaded supplementary files
     const { data: session } = useSession();
     const {
         register,
@@ -156,19 +156,49 @@ export default function EditForms() {
         }
     };
 
+    const handleAddFile = (result, fileType) => {
+        const newFile = {
+            url: result?.info?.secure_url,
+            filename: result?.info?.original_filename,
+        };
+
+        if (fileType === "main") {
+            setMainFiles((prevFiles) => [...prevFiles, newFile]);
+            setNewMainFiles((prevNewFiles) => [...prevNewFiles, newFile]); // Track new files
+            toast.success("Main file added.");
+        } else if (fileType === "supplementary") {
+            setSupplementaryFiles((prevFiles) => [...prevFiles, newFile]);
+            setNewSupplementaryFiles((prevNewFiles) => [...prevNewFiles, newFile]); // Track new files
+            toast.success("Supplementary file added.");
+        }
+    };
+
+    const handleRemoveNewFile = (index, fileType) => {
+        if (fileType === "main") {
+            setNewMainFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+        } else if (fileType === "supplementary") {
+            setNewSupplementaryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = {
-            id: forms._id,
-            mainFileLink: mainFiles.map((file, index) => ({
-                url: file,
-                filename: mainFileNames[index],
-            })),
-            supplementaryFileLink: supplementaryFiles.map((file, index) => ({
-                url: file,
-                filename: supplementaryFileNames[index],
-            })),
-            ...forms
+            id: forms._id, // Include the form ID
+            mainFileLink: [
+                ...forms.mainFileLink, // Include existing files
+                ...newMainFiles.map((file) => ({
+                    url: file.url,
+                    filename: file.filename,
+                })), // Add newly uploaded files
+            ],
+            supplementaryFileLink: [
+                ...forms.supplementaryFileLink, // Include existing files
+                ...newSupplementaryFiles.map((file) => ({
+                    url: file.url,
+                    filename: file.filename,
+                })), // Add newly uploaded files
+            ],
         };
         try {
             const response = await axios.put("/api/forms", formData);
@@ -1028,6 +1058,40 @@ export default function EditForms() {
                                     {forms.mainFileLink && forms.mainFileLink.length > 0 && (
                                         <div className="uploaded-files">
                                             <strong>Main Files:</strong>
+                                            <CldUploadWidget
+                                                signatureEndpoint="/api/sign-cloudinary-params"
+                                                onSuccess={(result) => handleAddFile(result, "main")} // Add the file to the main array
+                                            >
+                                                {({ open }) => (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => open()}
+                                                        className="form-control PIforms-formtext PIforms-file"
+                                                    >
+                                                        Add Main File
+                                                    </button>
+                                                )}
+                                            </CldUploadWidget>
+                                            <h4>New Main Files:</h4>
+                                            <ul>
+                                                {newMainFiles.map((file, index) => (
+                                                    <li key={index}>
+                                                        <a href={file.url} target="_blank" rel="noopener noreferrer" style={{ color: "blue" }}>
+                                                            {file.filename}
+                                                        </a>
+                                                        <Button
+                                                            variant="outline-danger"
+                                                            size="sm"
+                                                            className="ml-2"
+                                                            onClick={() => handleRemoveNewFile(index, "main")}
+                                                        >
+                                                            Remove
+                                                        </Button>
+                                                    </li>
+                                                ))}
+                                            </ul>
+
+                                            <h4>Existing Main Files:</h4>
                                             <ul>
                                                 {forms.mainFileLink.map((file, index) => (
                                                     <li key={file._id || index}>
@@ -1078,7 +1142,6 @@ export default function EditForms() {
                                             )}
                                         </CldUploadWidget>
                                     )}
-
                                 </Row>
                             </Container>
 
@@ -1111,6 +1174,41 @@ export default function EditForms() {
                                     {forms.supplementaryFileLink && forms.supplementaryFileLink.length > 0 && (
                                         <div className="uploaded-files">
                                             <strong>Supplementary Files:</strong>
+                                            <CldUploadWidget
+                                                signatureEndpoint="/api/sign-cloudinary-params"
+                                                onSuccess={(result) => handleAddFile(result, "supplementary")}
+                                            >
+                                                {({ open }) => (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => open()}
+                                                        className="form-control PIforms-formtext PIforms-file"
+                                                    >
+                                                        Add Main File
+                                                    </button>
+                                                )}
+                                            </CldUploadWidget>
+
+                                            <h4>New Supplementary Files:</h4>
+                                            <ul>
+                                                {newSupplementaryFiles.map((file, index) => (
+                                                    <li key={index}>
+                                                        <a href={file.url} target="_blank" rel="noopener noreferrer" style={{ color: "blue" }}>
+                                                            {file.filename}
+                                                        </a>
+                                                        <Button
+                                                            variant="outline-danger"
+                                                            size="sm"
+                                                            className="ml-2"
+                                                            onClick={() => handleRemoveNewFile(index, "supplementary")}
+                                                        >
+                                                            Remove
+                                                        </Button>
+                                                    </li>
+                                                ))}
+                                            </ul>
+
+                                            <h4>Existing Supplementary Files:</h4>
                                             <ul>
                                                 {forms.supplementaryFileLink.map((file, index) => (
                                                     <li key={file._id || index}>
