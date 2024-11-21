@@ -31,9 +31,6 @@ export default function EditForms() {
     const [supplementaryFileNames, setSupplementaryFileNames] = useState([]);
     const [editingFileIndex, setEditingFileIndex] = useState(null);
     const [editingSupplementaryFileIndex, setEditingSupplementaryFileIndex] = useState(null);
-
-
-
     const { data: session } = useSession();
     const {
         register,
@@ -44,8 +41,6 @@ export default function EditForms() {
             ...forms,
         },
     });
-
-
 
     // GET Forms
     useEffect(() => {
@@ -141,35 +136,30 @@ export default function EditForms() {
 
     const handleRemoveFile = (index, fileType) => {
         if (fileType === "main") {
-            setMainFiles((prev) => {
-                const updatedFiles = prev.filter((_, i) => i !== index);
-                setForms((prev) => ({
-                    ...prev,
-                    mainFileLink: updatedFiles,
-                })); 
-                return updatedFiles;
+            setForms((prevForms) => {
+                const updatedMainFiles = prevForms.mainFileLink.filter((_, i) => i !== index);
+                return {
+                    ...prevForms,
+                    mainFileLink: updatedMainFiles,
+                };
             });
-            setMainFileNames((prev) => prev.filter((_, i) => i !== index));
             toast.info("Main file removed.");
         } else if (fileType === "supplementary") {
-            setSupplementaryFiles((prev) => {
-                const updatedFiles = prev.filter((_, i) => i !== index);
-                setForms((prev) => ({
-                    ...prev,
-                    supplementaryFileLink: updatedFiles,
-                })); 
-                return updatedFiles;
+            setForms((prevForms) => {
+                const updatedSupplementaryFiles = prevForms.supplementaryFileLink.filter((_, i) => i !== index);
+                return {
+                    ...prevForms,
+                    supplementaryFileLink: updatedSupplementaryFiles,
+                };
             });
-            setSupplementaryFileNames((prev) => prev.filter((_, i) => i !== index));
             toast.info("Supplementary file removed.");
         }
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = {
-            id: forms._id, // Ensure the correct form ID is being sent
+            id: forms._id,
             mainFileLink: mainFiles.map((file, index) => ({
                 url: file,
                 filename: mainFileNames[index],
@@ -189,9 +179,6 @@ export default function EditForms() {
             toast.error("Error updating form:", error);
         }
     };
-
-
-
 
     return (
         <div>
@@ -1060,6 +1047,14 @@ export default function EditForms() {
                                                         >
                                                             Edit
                                                         </Button>
+                                                        <Button
+                                                            variant="outline-danger"
+                                                            size="sm"
+                                                            className="ml-2"
+                                                            onClick={() => handleRemoveFile(index, "main")}
+                                                        >
+                                                            Remove
+                                                        </Button>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -1134,6 +1129,14 @@ export default function EditForms() {
                                                             onClick={() => setEditingSupplementaryFileIndex(index)} // Trigger edit mode for this file
                                                         >
                                                             Edit
+                                                        </Button>
+                                                        <Button
+                                                            variant="outline-danger"
+                                                            size="sm"
+                                                            className="ml-2"
+                                                            onClick={() => handleRemoveFile(index, "supplementary")}
+                                                        >
+                                                            Remove
                                                         </Button>
                                                     </li>
                                                 ))}

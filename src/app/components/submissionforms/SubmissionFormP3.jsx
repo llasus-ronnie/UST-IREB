@@ -102,7 +102,6 @@ function SubmissionFormP3() {
   }
   
 
-
   // Process form submission
   const processForm = (data) => {
     dispatch(updateFormData(data));
@@ -131,7 +130,6 @@ function SubmissionFormP3() {
     toast.success(`${fileType} uploaded successfully!`);
   };
   
-
 
   const handleRemoveFile = (index, fileType) => {
     if (fileType === "main") {
