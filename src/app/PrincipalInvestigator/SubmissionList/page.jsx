@@ -11,6 +11,8 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
+
 
 //components
 import Navbar from "../../components/navbar/Navbar";
@@ -31,7 +33,7 @@ function SubmissionList() {
           params: { userEmail: session.user.email }, // Add email as query param
         });
         const userForms = response.data.forms;
-  
+
         const filteredForms = showArchived
           ? userForms
           : userForms.filter((form) => !form.isArchived);
@@ -72,15 +74,15 @@ function SubmissionList() {
       </div>
 
       <Row className="submission-divider" />
-
       <div className="submission-list-container">
         <div className="submission-list-header">
           <h2>Submission List</h2>
         </div>
-
-        <button onClick={() => setShowArchived((prev) => !prev)}>
-          {showArchived ? "Hide Archived" : "Show Archived"}
-        </button>
+        <div style={{ backgroundColor: "#ecf0f1", width: "100%"}}>
+          <button onClick={() => setShowArchived((prev) => !prev)} style={{display:"flex", flexDirection:"row", justifyContent:"center", alignItems:"center", gap:"1rem"}}>
+            Show Archived Forms?   {showArchived ? <FaEye /> :<FaEyeSlash />}
+          </button>
+        </div>
 
         <table className="submission-table">
           <thead>
