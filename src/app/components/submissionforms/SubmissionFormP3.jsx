@@ -97,6 +97,27 @@ function SubmissionFormP3() {
         console.error("Form submission failed:", errorData);
         return false;
       }
+
+      const recResponse = await axios.get(
+        `/api/REC?name=${data.researchEthicsCommittee.trim().toLowerCase()}`
+      );
+
+      const recList = recResponse.data.data;
+
+      const rec = recList.find(
+        (rec) =>
+          rec.name.replace(/\s+/g, "").toLowerCase() ===
+          data.researchEthicsCommittee.replace(/\s+/g, "").toLowerCase()
+      );
+
+      const emailData = {
+        rec: rec.email,
+        title: data.title,
+        name: data.fullName,
+      };
+      await axios.post("/api/auth/send-email-submission", emailData);
+
+      return true;
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("An error occurred while submitting the form.");
