@@ -20,10 +20,22 @@ import "../../styles/signin/SignInAdminExternal.css";
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
   const router = useRouter();
+
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[A-Z])(?=.*\d.*\d).{10,}$/;
+    if (!regex.test(password)) {
+      setPasswordError(
+        "Password must contain at least one uppercase letter, a minimum of 10 characters, and at least two numbers."
+      );
+    } else {
+      setPasswordError("");
+    }
+  };
 
   const handleEmailChange = (e) => {
     const emailValue = e.target.value;
@@ -32,9 +44,9 @@ export default function SignIn() {
   };
 
   const handlePasswordChange = (e) => {
-    const passwordValue = e.target.value;
-    setPassword(passwordValue);
-    setIsPasswordValid(passwordValue.length >= 6);
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    validatePassword(newPassword);
   };
 
   const validateEmail = (email) => {
@@ -121,6 +133,7 @@ export default function SignIn() {
             placeholder="Password"
             className="admin-input"
           />
+          {passwordError && <p className="error-message">{passwordError}</p>}
 
           <div className="recaptcha-wrapper">
             <ReCAPTCHA

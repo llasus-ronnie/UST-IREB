@@ -29,6 +29,7 @@ import SignInFooter from "../../../components/siginin/SignInFooter";
 function SetPassword() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
@@ -40,10 +41,23 @@ function SetPassword() {
     setIsEmailValid(validateEmail(emailValue));
   };
 
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[A-Z])(?=.*\d.*\d).{10,}$/;
+    if (!regex.test(password)) {
+      setPasswordError(
+        "Password must contain at least one uppercase letter, a minimum of 10 characters, and at least two numbers."
+      );
+      setIsPasswordValid(false);
+    } else {
+      setPasswordError("");
+      setIsPasswordValid(true);
+    }
+  };
+
   const handlePasswordChange = (e) => {
-    const passwordValue = e.target.value;
-    setPassword(passwordValue);
-    setIsPasswordValid(passwordValue.length >= 6);
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    validatePassword(newPassword);
   };
 
   const validateEmail = (email) => {
@@ -128,6 +142,9 @@ function SetPassword() {
                     onChange={handlePasswordChange}
                     required
                   />
+                  {passwordError && (
+                    <p className="error-message">{passwordError}</p>
+                  )}
                 </div>
 
                 <Row className="align-items-center">

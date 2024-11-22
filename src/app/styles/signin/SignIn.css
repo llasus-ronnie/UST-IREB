@@ -175,6 +175,10 @@
   cursor: not-allowed;
 }
 
+.error-message {
+  color: #faa0a0;
+}
+
 /* sign in option tablet*/
 @media screen and (max-width: 1000px) {
   .thomasian-bg {
@@ -262,7 +266,7 @@
   }
 
   .thomasian-cont {
-    background-image: url('/images/signin/bg.png');
+    background-image: url("/images/signin/bg.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -357,11 +361,10 @@
   }
 }
 
-
 /* phone */
 @media screen and (min-width: 320px) and (max-width: 467px) {
   .thomasian-cont {
-    background-image: url('/images/signin/bg.png');
+    background-image: url("/images/signin/bg.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
