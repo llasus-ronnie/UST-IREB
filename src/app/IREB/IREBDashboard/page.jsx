@@ -119,7 +119,7 @@ function IrebDashboard() {
           submissionCountsArray[month]++;
 
           // Increment counts for approved submissions
-          if (form.status === "Approved") {
+          if (form.finalDecision === "Approved") {
             approvedCountsArray[month]++;
           }
 

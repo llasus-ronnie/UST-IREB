@@ -21,12 +21,14 @@ import {
 import "chartjs-plugin-dragdata";
 import axios from "axios";
 import jsPDF from "jspdf";
+import "jspdf-autotable";
 import html2canvas from "html2canvas";
 
 // css
 import "../../styles/ireb/IrebReports.css";
 
 import withAuthorization from "../../../hoc/withAuthorization";
+import { set } from "mongoose";
 
 ChartJS.register(
   CategoryScale,
@@ -43,6 +45,10 @@ function IrebReports() {
 
   //for forms data
   const [formsData, setFormsData] = useState([]);
+  const [recSubmissionCounts, setRecSubmissionCounts] = useState({});
+  const [recApprovalCounts, setRecApprovalCounts] = useState({});
+  const [recDeferredCounts, setRecDeferredCounts] = useState({});
+  const [recStatusCounts, setRecStatusCounts] = useState({});
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -110,12 +116,15 @@ function IrebReports() {
           "Dec",
         ];
 
-        const recSubmissionCounts = {};
         let submittedCount = 0;
         let totalSubmissions = 0;
 
         let approvedCount = 0;
         let rejectedCount = 0;
+
+        const recSubmissionCountsTemp = {};
+        const recApprovalCountsTemp = {};
+        const recDeferredCountsTemp = {};
 
         forms.forEach((form) => {
           const submissionDate = new Date(form.date);
@@ -124,21 +133,32 @@ function IrebReports() {
 
           // Increment counts for submissions by month
           submissionCountsArray[month]++;
-          if (!recSubmissionCounts[recName]) {
-            recSubmissionCounts[recName] = 0;
+          if (!recSubmissionCountsTemp[recName]) {
+            recSubmissionCountsTemp[recName] = 0;
           }
-          recSubmissionCounts[recName]++;
+          recSubmissionCountsTemp[recName]++;
           totalSubmissions++;
 
           // Count status types for doughnut chart
           if (form.finalDecision === "No Final Decision Yet") submittedCount++;
-          else if (form.finalDecision === "Approved") approvedCount++;
-          else if (form.finalDecision === "Deferred") rejectedCount++;
+          else if (form.finalDecision === "Approved") {
+            approvedCount++;
+            recApprovalCountsTemp[recName] =
+              (recApprovalCountsTemp[recName] || 0) + 1;
+          } else if (form.finalDecision === "Deferred") {
+            rejectedCount++;
+            recDeferredCountsTemp[recName] =
+              (recDeferredCountsTemp[recName] || 0) + 1;
+          }
 
           if (form.finalDecision === "Approved") {
             approvedCountsArray[month]++;
           }
         });
+
+        setRecSubmissionCounts(recSubmissionCountsTemp);
+        setRecApprovalCounts(recApprovalCountsTemp);
+        setRecDeferredCounts(recDeferredCountsTemp);
 
         // Update the bar chart data
         setChartData({
@@ -243,15 +263,15 @@ function IrebReports() {
         const response = await axios.get("/api/forms");
         const forms = response.data.forms || [];
 
-        const recStatusCounts = {};
+        const recStatusCountsTemp = {};
 
         forms.forEach((form) => {
           const recName = form.researchEthicsCommittee;
           const status = form.status;
           const finalDecision = form.finalDecision;
 
-          if (!recStatusCounts[recName]) {
-            recStatusCounts[recName] = {
+          if (!recStatusCountsTemp[recName]) {
+            recStatusCountsTemp[recName] = {
               NewSubmissions: 0,
               Waiting: 0,
               Completed: 0,
@@ -260,24 +280,30 @@ function IrebReports() {
           }
 
           if (finalDecision === "Deferred") {
-            recStatusCounts[recName].Deferred++;
+            recStatusCountsTemp[recName].Deferred++;
           } else if (finalDecision === "Approved") {
-            recStatusCounts[recName].Completed++;
+            recStatusCountsTemp[recName].Completed++;
           } else if (status === "In-Progress") {
-            recStatusCounts[recName].Waiting++;
+            recStatusCountsTemp[recName].Waiting++;
           } else if (status === "Initial-Submission") {
-            recStatusCounts[recName].NewSubmissions++;
+            recStatusCountsTemp[recName].NewSubmissions++;
           }
         });
 
-        const labels = Object.keys(recStatusCounts);
-        const deferredData = labels.map((rec) => recStatusCounts[rec].Deferred);
-        const completedData = labels.map(
-          (rec) => recStatusCounts[rec].Completed
+        setRecStatusCounts(recStatusCountsTemp);
+
+        const labels = Object.keys(recStatusCountsTemp);
+        const deferredData = labels.map(
+          (rec) => recStatusCountsTemp[rec].Deferred
         );
-        const waitingData = labels.map((rec) => recStatusCounts[rec].Waiting);
+        const completedData = labels.map(
+          (rec) => recStatusCountsTemp[rec].Completed
+        );
+        const waitingData = labels.map(
+          (rec) => recStatusCountsTemp[rec].Waiting
+        );
         const newSubmissionsData = labels.map(
-          (rec) => recStatusCounts[rec].NewSubmissions
+          (rec) => recStatusCountsTemp[rec].NewSubmissions
         );
 
         setRecStatusData({
@@ -647,39 +673,150 @@ function IrebReports() {
 
       doc.text("", 0, 400);
 
+      // Add Submission Overview Table
+      const submissionOverviewHeaders = ["Month", "Submitted", "Approved"];
+      const submissionOverviewRows = chartData.labels.map((month, index) => [
+        month,
+        chartData.datasets[0].data[index], // Submitted count
+        chartData.datasets[1].data[index], // Approved count
+      ]);
+
+      doc.setFontSize(16);
+      doc.text("Submission Overview Table", 40, 420);
+
+      doc.autoTable({
+        startY: 440,
+        head: [submissionOverviewHeaders],
+        body: submissionOverviewRows,
+        styles: { font: "helvetica", fontSize: 10 },
+        headStyles: { fillColor: [255, 204, 0] },
+      });
+
+      doc.addPage();
+
       // Center the Doughnut Chart on the page
       const pageWidth = doc.internal.pageSize.width;
       const doughnutImageWidth = 250;
       const centerX = (pageWidth - doughnutImageWidth) / 2;
 
       // Add Doughnut Chart to the PDF
-      doc.text("REC Analytics", 40, 420);
+      doc.text("REC Analytics", 40, 60);
       doc.addImage(
         doughnutChartImage,
         "PNG",
         centerX,
-        440,
+        80,
         doughnutImageWidth,
         250
       );
 
+      doc.text("", 0, 320);
+
+      // Add REC Analytics Table
+      const recAnalyticsHeaders = [
+        "REC Name",
+        "Submissions",
+        "Approved",
+        "Deferred",
+      ];
+      const recAnalyticsRows = Object.entries(recSubmissionCounts).map(
+        ([recName, count]) => [
+          recName,
+          count, // Submissions count
+          recApprovalCounts[recName] || 0, // Approved count
+          recDeferredCounts[recName] || 0, // Deferred count
+        ]
+      );
+
+      doc.text("", 0, 340);
+
+      doc.setFontSize(16);
+      doc.text("REC Analytics Table", 40, 360);
+
+      doc.autoTable({
+        startY: 380,
+        head: [recAnalyticsHeaders],
+        body: recAnalyticsRows,
+        styles: { font: "helvetica", fontSize: 10 },
+        headStyles: { fillColor: [255, 204, 0] },
+      });
+
       doc.addPage();
 
       // Add REC Status Chart to the PDF
-      doc.text("Task Status by RECs", 40, 80);
-      doc.addImage(recStatusChartImage, "PNG", 40, 100, 500, 250);
+      doc.text("Task Status by RECs", 40, 60);
+      doc.addImage(recStatusChartImage, "PNG", 40, 80, 500, 250);
 
       doc.text("", 0, 400);
-      doc.text("REC Review Classification Status: Exempt", 40, 420);
-      doc.addImage(recStatusChartImageExempt, "PNG", 40, 440, 500, 250);
+
+      // Add REC Status Table
+      const recStatusHeaders = [
+        "REC Name",
+        "New Submissions",
+        "Waiting",
+        "Completed",
+        "Deferred",
+      ];
+      const recStatusRows = Object.entries(recStatusCounts).map(
+        ([recName, statusCounts]) => [
+          recName,
+          statusCounts.NewSubmissions,
+          statusCounts.Waiting,
+          statusCounts.Completed,
+          statusCounts.Deferred,
+        ]
+      );
+
+      doc.setFontSize(16);
+      doc.text("REC Status Counts Table", 40, 420);
+
+      doc.autoTable({
+        startY: 440,
+        head: [recStatusHeaders],
+        body: recStatusRows,
+        styles: { font: "helvetica", fontSize: 10 },
+        headStyles: { fillColor: [255, 204, 0] },
+      });
 
       doc.addPage();
-      doc.text("REC Review Classification Status: Expedited", 40, 80);
-      doc.addImage(recStatusChartImageExpedited, "PNG", 40, 100, 500, 250);
+
+      doc.text("REC Review Classification Status: Exempt", 40, 60);
+      doc.addImage(recStatusChartImageExempt, "PNG", 40, 80, 500, 250);
 
       doc.text("", 0, 400);
-      doc.text("REC Review Classification Status: Full Board", 40, 420);
-      doc.addImage(recStatusChartImageFullBoard, "PNG", 40, 440, 500, 250);
+
+      doc.text("REC Review Classification Status: Expedited", 40, 420);
+      doc.addImage(recStatusChartImageExpedited, "PNG", 40, 440, 500, 250);
+
+      doc.addPage();
+
+      doc.text("REC Review Classification Status: Full Board", 40, 60);
+      doc.addImage(recStatusChartImageFullBoard, "PNG", 40, 80, 500, 250);
+
+      // Add Table for REC Status
+      const tableHeaders = [
+        "REC Name",
+        "Full-Board Submissions",
+        "Exempt Submissions",
+        "Expedited Submissions",
+      ];
+      const tableRows = recStatusDataFullBoard.labels.map((recName, index) => [
+        recName,
+        recStatusDataFullBoard.datasets[0].data[index] || 0,
+        recStatusDataExempt.datasets[0].data[index] || 0,
+        recStatusDataExpedited.datasets[0].data[index] || 0,
+      ]);
+
+      doc.setFontSize(16);
+      doc.text("REC Submission Summary", 40, 420);
+
+      doc.autoTable({
+        startY: 440,
+        head: [tableHeaders],
+        body: tableRows,
+        styles: { font: "helvetica", fontSize: 10 },
+        headStyles: { fillColor: [255, 204, 0] },
+      });
     }
 
     doc.save("IREB_Report.pdf");
