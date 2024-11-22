@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Row,
@@ -30,6 +30,7 @@ function SubmissionFormP3() {
   const [supplementaryFiles, setSupplementaryFiles] = useState([]);
   const [mainFileNames, setMainFileNames] = useState([]);
   const [supplementaryFileNames, setSupplementaryFileNames] = useState([]);
+  const [fileUploadError, setFileUploadError] = useState("");
 
   const currentPage = useSelector((store) => store.submissionForm.currentStep);
   const formData = useSelector((store) => store.submissionForm.formData);
@@ -42,6 +43,8 @@ function SubmissionFormP3() {
     register,
     setValue,
     formState: { errors },
+    setError,
+    clearErrors,
   } = useForm({
     defaultValues: {
       ...formData,
@@ -60,25 +63,25 @@ function SubmissionFormP3() {
 
   async function submitDataToServer(data) {
     try {
-      const mainFileUrls = mainFiles.map(file => ({
+      const mainFileUrls = mainFiles.map((file) => ({
         url: file.url,
         filename: file.filename,
       }));
-  
-      const supplementaryFileUrls = supplementaryFiles.map(file => ({
+
+      const supplementaryFileUrls = supplementaryFiles.map((file) => ({
         url: file.url,
         filename: file.filename,
       }));
-  
-      console.log('Main Files before sending:', mainFileUrls);
-      console.log('Supplementary Files before sending:', supplementaryFileUrls);
-  
+
+      console.log("Main Files before sending:", mainFileUrls);
+      console.log("Supplementary Files before sending:", supplementaryFileUrls);
+
       const updatedData = {
         ...data,
         mainFileLink: mainFileUrls,
         supplementaryFileLink: supplementaryFileUrls,
       };
-  
+
       const response = await fetch("/api/forms", {
         method: "POST",
         headers: {
@@ -86,7 +89,7 @@ function SubmissionFormP3() {
         },
         body: JSON.stringify(updatedData),
       });
-  
+
       if (response.ok) {
         dispatch(setCurrentStep(currentPage + 1));
       } else {
@@ -100,10 +103,21 @@ function SubmissionFormP3() {
       return false;
     }
   }
-  
+
+  const validateFiles = () => {
+    if (mainFileNames.length === 0 && supplementaryFileNames.length === 0) {
+      setError("fileUpload", {
+        type: "manual",
+        message: "Please upload at least one file.",
+      });
+      return false;
+    }
+    return true;
+  };
 
   // Process form submission
   const processForm = (data) => {
+    if (!validateFiles()) return;
     dispatch(updateFormData(data));
     handleShowModal();
   };
@@ -119,17 +133,16 @@ function SubmissionFormP3() {
       toast.error("Only PDF files are allowed.");
       return;
     }
-  
+
     const fileObject = {
       url: res.info.secure_url,
       filename: res.info.original_filename,
     };
-  
+
     setFiles((prev) => [...prev, fileObject]);
     setFileNames((prev) => [...prev, res.info.original_filename]);
     toast.success(`${fileType} uploaded successfully!`);
   };
-  
 
   const handleRemoveFile = (index, fileType) => {
     if (fileType === "main") {
@@ -143,6 +156,35 @@ function SubmissionFormP3() {
     }
   };
 
+  useEffect(() => {
+    if (mainFileNames.length === 0) {
+      setError("mainFile", {
+        type: "manual",
+        message: "Please upload at least one main file.",
+      });
+    } else {
+      clearErrors("mainFile");
+    }
+  }, [mainFileNames, setError, clearErrors]);
+
+  useEffect(() => {
+    if (supplementaryFileNames.length === 0) {
+      setError("supplementaryFile", {
+        type: "manual",
+        message: "Please upload at least one supplementary file.",
+      });
+    } else {
+      clearErrors("supplementaryFile");
+    }
+  }, [supplementaryFileNames, setError, clearErrors]);
+
+  useEffect(() => {
+    if (mainFileNames.length === 0 && supplementaryFileNames.length === 0) {
+      setFileUploadError("Please upload at least one file.");
+    } else {
+      setFileUploadError("");
+    }
+  }, [mainFileNames, supplementaryFileNames]);
 
   return (
     <div>
@@ -170,45 +212,52 @@ function SubmissionFormP3() {
                   required: "Please select a file type.",
                 })}
                 className="form-control PIforms-formtext"
-                isInvalid={!!errors.mainFile}
+                // isInvalid={!!errors.mainFile}
               >
                 <option disabled value="">
                   Choose...
                 </option>
                 <option value="Protocol">Application Forms</option>
               </FormSelect>
-              <Form.Control.Feedback type="invalid">
-                {errors.mainFile?.message}
-              </Form.Control.Feedback>
 
               <FormLabel className="PIforms-formtext">Select File:</FormLabel>
               <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
                 multiple
                 onSuccess={(res) =>
-                  handleFileUploadSuccess(res, setMainFiles, setMainFileNames, "Main File")
+                  handleFileUploadSuccess(
+                    res,
+                    setMainFiles,
+                    setMainFileNames,
+                    "Main File"
+                  )
                 }
               >
                 {({ open }) => (
                   <button
                     type="button"
                     onClick={() => open()}
-                    className="form-control PIforms-formtext PIforms-file"
+                    className={`form-control PIforms-formtext PIforms-file ${
+                      errors.mainFile ? "is-invalid" : ""
+                    }`}
                   >
                     Upload file
                   </button>
                 )}
               </CldUploadWidget>
+              <Form.Control.Feedback type="invalid">
+                {errors.mainFile?.message}
+              </Form.Control.Feedback>
             </Row>
 
             {/* dislpay the uploaded files  */}
             <Row>
               {mainFileNames.length > 0 && (
-                <div className="uploaded-files">
-                  <strong>Main Files:</strong>
+                <div className="PIforms-formtext">
+                  <strong className="PIforms-formtext">Main Files:</strong>
                   <ul>
                     {mainFileNames.map((fileName, index) => (
-                      <li key={index}>
+                      <li className="PIforms-formtext" key={index}>
                         {fileName}
                         <Button
                           variant="outline-danger"
@@ -224,8 +273,6 @@ function SubmissionFormP3() {
                 </div>
               )}
             </Row>
-
-
           </Container>
 
           {/* Supplementary Materials Section */}
@@ -251,16 +298,13 @@ function SubmissionFormP3() {
                 {...register("supplementaryFileType", {
                   required: "Please select a file type.",
                 })}
-                isInvalid={!!errors.supplementaryFileType}
+                // isInvalid={!!errors.supplementaryFileType}
               >
                 <option disabled value="">
                   Choose...
                 </option>
                 <option value="Supplementary Files">Supplementary Files</option>
               </FormSelect>
-              <Form.Control.Feedback type="invalid">
-                {errors.supplementaryFileType?.message}
-              </Form.Control.Feedback>
 
               <FormLabel className="PIforms-formtext">Select File:</FormLabel>
               <CldUploadWidget
@@ -279,27 +323,36 @@ function SubmissionFormP3() {
                   <button
                     type="button"
                     onClick={() => open()}
-                    className="form-control PIforms-formtext PIforms-file"
+                    className={`form-control PIforms-formtext PIforms-file ${
+                      errors.supplementaryFile ? "is-invalid" : ""
+                    }`}
                   >
                     Upload file
                   </button>
                 )}
               </CldUploadWidget>
-
+              <Form.Control.Feedback type="invalid">
+                {errors.supplementaryFile?.message}
+              </Form.Control.Feedback>
             </Row>
+
             <Row>
               {supplementaryFileNames.length > 0 && (
-                <div className="uploaded-files">
-                  <strong>Supplementary Files:</strong>
+                <div className="PIforms-formtext">
+                  <strong className="PIforms-formtext">
+                    Supplementary Files:
+                  </strong>
                   <ul>
                     {supplementaryFileNames.map((fileName, index) => (
-                      <li key={index}>
+                      <li className="PIforms-formtext" key={index}>
                         {fileName}
                         <Button
                           variant="outline-danger"
                           size="sm"
                           className="ml-2"
-                          onClick={() => handleRemoveFile(index, "supplementary")}
+                          onClick={() =>
+                            handleRemoveFile(index, "supplementary")
+                          }
                         >
                           Remove
                         </Button>
@@ -309,7 +362,6 @@ function SubmissionFormP3() {
                 </div>
               )}
             </Row>
-
           </Container>
 
           {/* Buttons */}
