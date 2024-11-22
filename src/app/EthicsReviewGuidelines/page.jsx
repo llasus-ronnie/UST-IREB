@@ -64,6 +64,8 @@ function EthicsReviewGuidelines() {
                 <li>
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731219415/SupplementaryFiles/2022-NEGRIHP_OG-ver.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     download
                   >
                     2022-NEGRIHP_OG-ver
@@ -74,6 +76,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220103/SupplementaryFiles/ME22-ATCH-Process-Pathway-Requirements-1.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     ME22-ATCH-Process-Pathway-Requirements-1
                   </a>
@@ -83,6 +87,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220172/SupplementaryFiles/ME22-Personal-Data-Request-for-Data-Gathering-Purposes.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     ME22-Personal-Data-Request-for-Data-Gathering-Purposes
                   </a>
@@ -92,6 +98,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220248/SupplementaryFiles/MO01_IREB-General-Policies-and-Guidelines-2023.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     MO01_IREB-General-Policies-and-Guidelines-2023
                   </a>
@@ -101,6 +109,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220297/SupplementaryFiles/nuremburg_code.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     nuremburg_code
                   </a>
@@ -110,6 +120,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220360/SupplementaryFiles/OHRP-Categories-of-REVIEW-v2.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     OHRP-Categories-of-REVIEW-v2
                   </a>
@@ -119,6 +131,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220424/SupplementaryFiles/PHREB-Policies-v4.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     PHREB-Policies-v4
                   </a>
@@ -128,6 +142,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220471/SupplementaryFiles/Title-45-CFR-Part-46.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Title-45-CFR-Part-46
                   </a>
@@ -137,6 +153,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220516/SupplementaryFiles/WEB-CIOMS-EthicalGuidelines.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     WEB-CIOMS-EthicalGuidelines
                   </a>
@@ -146,6 +164,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220602/SupplementaryFiles/wma-declaration-of-helsinki.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     wma-declaration-of-helsinki
                   </a>
