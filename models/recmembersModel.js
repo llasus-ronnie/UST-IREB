@@ -7,6 +7,7 @@ const RECMembersSchema = new Schema({
   email: { type: String, required: true },
   rec: { type: String, required: true },
   recRole: { type: String, required: true },
+  isArchived: { type: Boolean, default: false },
 });
 
 const RECMembers =

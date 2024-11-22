@@ -309,24 +309,31 @@ const subFormSchema = new Schema({
     type: String,
     require: true,
   },
-  mainFileLink: {
-    type: String,
-    required: true,
-  },
-  supplementaryFileLink: {
-    type: String,
-    require: false,
-  },
+  mainFileLink: [{
+    url: String,  // Store the file URL
+    filename: String,  // Store the file name
+  }],
+  supplementaryFileLink: [{
+    url: String,
+    filename: String,
+  }],
   status: {
     type: String,
     require: true,
     default: "Initial-Submission",
   },
-  recMember:{
-    type: String,
-    require: true,
-    default: "kindly wait for your assigned reviewer",
+  recMember: {
+    type: [String],
+    required: true, 
+    validate: {
+      validator: function (value) {
+        return value.length >= 2 && value.length <= 4;
+      },
+      message: 'recMember must have between 2 and 4 members.',
+    },
+    default: ["kindly wait for your assigned reviewer", "kindly wait for your assigned reviewer", "kindly wait for your assigned reviewer", "kindly wait for your assigned reviewer"], 
   },
+  
   classification:{
     type: String,
     require: true,
@@ -342,6 +349,11 @@ const subFormSchema = new Schema({
       require: true,
       default: "No Final Decision Yet"
     },
+    isArchived:{
+      type: Boolean,
+      require: true,
+      default: false
+    }
 });
 
 const subForm =

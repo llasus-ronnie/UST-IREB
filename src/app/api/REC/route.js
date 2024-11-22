@@ -44,14 +44,15 @@ export async function PATCH(req) {
 
   const { id, name, email, status, logo } = await req.json();
 
-  // console.log("Updating REC with ID:", id); // Log the ID
+  const updateData = { name, email, status };
+  if (logo) {
+    updateData.logo = logo;
+  }
 
   try {
-    const updatedREC = await REC.findByIdAndUpdate(
-      id,
-      { name, email, status, logo },
-      { new: true }
-    );
+    const updatedREC = await REC.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
 
     return NextResponse.json(
       { success: true, data: updatedREC },

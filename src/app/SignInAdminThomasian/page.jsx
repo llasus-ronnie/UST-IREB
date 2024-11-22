@@ -38,25 +38,38 @@ export default function SignIn() {
             return;
           }
 
-          // Then check for REC role
-          const recResponse = await axios.get(`/api/REC?email=${email}`);
-          const recData = recResponse.data.data;
-
-          if (recData.length > 0) {
-            const userRec = recData.find((rec) => rec.email === email);
-            if (userRec) {
-              toast.success("Successfully logged in!");
-              const recName = userRec.name.replace(/\s+/g, "");
-              console.log("Redirecting to REC Dashboard:", recName);
-              router.push(`/REC/RECdashboard/${recName}`);
-              return;
-            }
-          }
-
           // Finally check for PrimaryReviewer role
           if (role === "PrimaryReviewer") {
             toast.success("Successfully logged in!");
             router.push("/PrimaryReviewer/PRDashboard");
+            return;
+          }
+
+          // Then check for REC role
+          const recResponse = await axios.get(`/api/REC?email=${email}`);
+          const recData = recResponse.data.data;
+
+          let userRec = recData.find((rec) => rec.email === email);
+
+          if (!userRec) {
+            // If not found in REC table, check RECMembers table
+            const recMembersResponse = await axios.get(
+              `/api/RECMembers?email=${email}`
+            );
+            const recMembersData = recMembersResponse.data.data;
+
+            userRec = recMembersData.find(
+              (recMember) => recMember.email === email
+            );
+          }
+
+          if (userRec) {
+            toast.success("Successfully logged in!");
+            const recName = userRec.rec
+              ? userRec.rec.replace(/\s+/g, "")
+              : userRec.name.replace(/\s+/g, "");
+            console.log("Redirecting to REC Dashboard:", recName);
+            router.push(`/REC/RECdashboard/${recName}`);
             return;
           }
 

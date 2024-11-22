@@ -39,35 +39,35 @@ function Requirements() {
 
         <Container>
           <Accordion style={{ paddingTop: "2em" }}>
-            {content.map((faq, index) => {
-              const formattedHeading = faq.heading
-                .replace(/([A-Z])/g, " $1")
-                .trim();
-              return (
-                <Accordion.Item key={index} eventKey={index + 1}>
-                  <Accordion.Header className="accheader">
-                    {formattedHeading}
-                  </Accordion.Header>
-                  <Accordion.Body className="accbody">
-                    <a
-                      href={faq.body}
-                      target="_blank"
-                      rel="noreferrer"
-                      download
-                      style={{ textDecoration: "none" }}
-                      onMouseOver={(e) =>
-                        (e.currentTarget.style.textDecoration = "underline")
-                      }
-                      onMouseOut={(e) =>
-                        (e.currentTarget.style.textDecoration = "none")
-                      }
-                    >
-                      Click here to download
-                    </a>
-                  </Accordion.Body>
-                </Accordion.Item>
-              );
-            })}
+            {content.map((faq, index) => (
+              <Accordion.Item key={index} eventKey={index + 1}>
+                <Accordion.Header className="accheader">
+                  {faq.heading}
+                </Accordion.Header>
+                <Accordion.Body className="accbody">
+                  {faq.body}
+
+                  {faq.files && faq.files.length > 0 && (
+                    <div className="file-links" style={{ marginTop: "1em" }}>
+                      <strong>Download Files:</strong>
+                      <ul>
+                        {faq.files.map((file, fileIndex) => (
+                          <li key={fileIndex}>
+                            <a
+                              href={file.url} // Assuming file.url contains the file's Cloudinary URL
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {file.filename}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </Accordion.Body>
+              </Accordion.Item>
+            ))}
           </Accordion>
         </Container>
 

@@ -27,16 +27,21 @@ export async function POST(req) {
   }
 }
 
-export async function GET() {
+export async function GET(req) {
   await connectDB();
 
+  const { searchParams } = new URL(req.url);
+  const name = searchParams.get("name");
+
   try {
-    const externalInvestigators = await ExternalInvestigator.find({});
+    const filter = name ? { name } : {};
+    const investigators = await ExternalInvestigator.find(filter);
     return NextResponse.json(
-      { success: true, data: externalInvestigators },
+      { success: true, data: investigators },
       { status: 200 }
     );
   } catch (error) {
+    console.error("Error fetching investigators:", error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }
@@ -47,19 +52,21 @@ export async function GET() {
 export async function PATCH(req) {
   await connectDB();
 
-  const { id, name, affiliation } = await req.json();
-
-  console.log("Updating investigator with ID:", id); // Log the ID
+  const { id, name, affiliation, isArchived } = await req.json();
 
   try {
+    const updateData = { name, affiliation };
+    if (isArchived !== undefined) {
+      updateData.isArchived = isArchived;
+    }
+
     const updatedInvestigator = await ExternalInvestigator.findByIdAndUpdate(
       id,
-      { name, affiliation },
+      updateData,
       { new: true }
     );
 
     if (!updatedInvestigator) {
-      console.error("Investigator not found for ID:", id); // Log if not found
       return NextResponse.json(
         { success: false, error: "Investigator not found" },
         { status: 404 }
@@ -71,10 +78,10 @@ export async function PATCH(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error in PATCH:", error);
+    console.error("Error updating investigator:", error);
     return NextResponse.json(
       { success: false, error: error.message },
-      { status: 500 }
+      { status: 400 }
     );
   }
 }

@@ -322,6 +322,7 @@ function SummaryForm() {
           </Col>
         </Container>
 
+        {/* Potential Risks */}
         <Container className="PIforms-rescont">
           <Row>
             <h1 className="PIforms-resconthead">Potential Risks</h1>
@@ -373,6 +374,7 @@ function SummaryForm() {
           </Col>
         </Container>
 
+        {/* Potential Benefits */}
         <Container className="PIforms-rescont">
           <Row>
             <h1 className="PIforms-resconthead">Potential Benefits:</h1>
@@ -429,48 +431,6 @@ function SummaryForm() {
           </Col>
         </Container>
 
-        {/* <Container className="PIforms-rescont">
-          <Row>
-            <h1 className="PIforms-resconthead">Uploaded Files</h1>
-          </Row>
-          <Col>
-            <p className="PIforms-formtext">
-              <strong>File Type:</strong> {formData.mainFile}
-            </p>
-            {formData.mainFileLink && (
-              <p className="PIforms-formtext">
-                <strong>Uploaded File:</strong>{" "}
-                <a
-                  href={formData.mainFileLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ textDecoration: "underline" }}
-                >
-                  View File
-                </a>
-              </p>
-            )}
-          </Col>
-          <Col>
-            <p className="PIforms-formtext">
-              <strong>Supplementary File Type:</strong>{" "}
-              {formData.supplementaryFileType}
-            </p>
-            {formData.supplementaryFileLink && (
-              <p className="PIforms-formtext">
-                <strong>Uploaded File:</strong>{" "}
-                <a
-                  href={formData.supplementaryFileLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ textDecoration: "underline" }}
-                >
-                  View File
-                </a>
-              </p>
-            )}
-          </Col>
-        </Container> */}
 
         <Row
           style={{ marginTop: "20px", paddingBottom: "20px" }}

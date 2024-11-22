@@ -56,7 +56,7 @@ function IrebDashboard() {
       {
         label: "Approved",
         data: [],
-        backgroundColor: "#E6B800",
+        backgroundColor: "#4CAF50",
       },
     ],
   });
@@ -163,7 +163,7 @@ function IrebDashboard() {
             {
               label: "Approved",
               data: approvedCountsArray,
-              backgroundColor: "#E6B800",
+              backgroundColor: "#4CAF50",
             },
           ],
         });
@@ -185,7 +185,8 @@ function IrebDashboard() {
         const chairMap = {};
         recMembers.forEach((member) => {
           if (member.recRole === "REC Chair") {
-            chairMap[member.rec] = member.name;
+            const normalizedRec = member.rec.toLowerCase().replace(/\s+/g, "");
+            chairMap[normalizedRec] = member.name;
           }
         });
 
@@ -294,7 +295,7 @@ function IrebDashboard() {
               {/* Submission Cards */}
               <div className="admindashboard-cards">
                 <div className="admindashboard-card">
-                  <h2>Newly Assigned</h2>
+                  <h2>New Submissions</h2>
                   <h3>{newlyAssignedCount}</h3>
                   <p>Submissions</p>
                 </div>
@@ -335,7 +336,7 @@ function IrebDashboard() {
                   {REC.map((rec) => {
                     const normalizedRecName = rec.name
                       .toLowerCase()
-                      .replace(/\s+/g, ""); // Normalize REC name
+                      .replace(/\s+/g, ""); // Normalize REC name for submission count lookup
                     const count = submissionCounts[normalizedRecName] || 0; // Use normalized name for lookup
 
                     return (
@@ -343,7 +344,11 @@ function IrebDashboard() {
                         <td>{rec.name}</td>
                         <td>{rec.status}</td>
                         <td>{count}</td>
-                        <td>{recChairMap[rec.name] || "Not Assigned"}</td>
+                        <td>
+                          {recChairMap[
+                            rec.name.toLowerCase().replace(/\s+/g, "")
+                          ] || "Not Assigned"}
+                        </td>
                       </tr>
                     );
                   })}

@@ -1,8 +1,11 @@
 import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { rec, name, status } = req.body;
+    const { email, token } = req.body;
 
     let transporter = nodemailer.createTransport({
       service: "gmail",
@@ -14,8 +17,8 @@ export default async function handler(req, res) {
 
     let mailOptions = {
       from: `"UST IREB Research Portal" <${process.env.EMAIL_USER}>`,
-      to: rec,
-      subject: "UST IREB Research Portal | Submission",
+      to: email,
+      subject: "Your Access Token for UST IREB Research Portal",
       html: `
         <!DOCTYPE html>
         <html lang="en">
@@ -23,7 +26,7 @@ export default async function handler(req, res) {
             <meta charset="UTF-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <title>UST IREB Research Portal: Status Update</title>
+            <title>UST IREB Research Portal Access Token Email Template</title>
             <style type="text/css">
               body, table {
                 font-family: 'Poppins', Arial, sans-serif;
@@ -46,7 +49,7 @@ export default async function handler(req, res) {
                 object-fit: cover;
               }
               .content {
-                padding: 60px 20px;
+                padding: 80px 20px;
                 color: #121212;
                 text-align: center;
               }
@@ -54,27 +57,16 @@ export default async function handler(req, res) {
                 font-size: 36px;
                 font-weight: bold;
                 color: #fcbf15;
-                margin: 10px 0;
+                margin: 20px 0 10px 0;
               }
               .content h2 {
-                margin: 10px 0;
+                margin: 10px 0 20px 0;
                 font-weight: bold;
-                font-size: 16px;
+                font-size: 20px;
               }
               .content p {
-                margin: 10px 0;
-                font-size: 13px;
-              }
-              .email-disclaimer {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-                margin: 30px auto 0;
-              }
-              .email-disclaimer p {
-                font-size: 11px;
-                font-style: italic;
+                margin: 0;
+                font-size: 16px;
               }
               .button {
                 background-color: #fcbf15;
@@ -89,7 +81,7 @@ export default async function handler(req, res) {
               /* Responsiveness */
               @media (max-width: 600px) {
                 .content {
-                  padding: 50px 40px;
+                  padding: 50px 10px;
                 }
                 .content h1 {
                   font-size: 28px;
@@ -99,13 +91,6 @@ export default async function handler(req, res) {
                 }
                 .content p {
                   font-size: 14px;
-                }
-                .email-disclaimer {
-                  width: 90%;
-                }
-                .email-disclaimer p {
-                  font-size: 10px;
-                  font-style: italic;
                 }
               }
             </style>
@@ -122,20 +107,13 @@ export default async function handler(req, res) {
                     </tr>
                     <tr>
                       <td class="content">
-                        <p>${name} has submitted a research proposal.</p>
-                        <h2>This submission is under the status:</h2>
-                        <h1>${status}</h1>
-                        <p>
-                        Log in to the UST IREB Research Portal to review and manage the submission on the "REC Manage Submissions" page.
-                        </p>
+                        <p>Welcome to UST IREB Research Portal!</p>
+                        <h1>Access Token:</h1>
+                        <h2>${token}</h2>
+                        <p>Use the access token above to sign in <br/> and set up your password.</p>
                         <a href="https://ust-ireb.site/SignInAdmin" target="_blank" class="button">
                           Redirect to Research Portal
                         </a>
-                        <div class="email-disclaimer">
-                          <p>
-                            This is an automatically generated email, please do not reply.
-                          </p>
-                        </div>
                       </td>
                     </tr>
                   </table>
@@ -143,7 +121,7 @@ export default async function handler(req, res) {
               </tr>
             </table>
           </body>
-        </html></p>
+        </html>
       `,
     };
 

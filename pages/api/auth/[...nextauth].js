@@ -5,6 +5,8 @@ import connectDB from "../../../utils/database";
 import User from "../../../models/users/user";
 import ExternalInvestigator from "../../../models/externalInvestigatorModel";
 import ExternalReviewer from "../../../models/externalReviewerModel";
+import REC from "../../../models/recModel";
+import RECMembers from "../../../models/recmembersModel";
 import bcrypt from "bcryptjs";
 
 const handler = NextAuth({
@@ -92,12 +94,53 @@ const handler = NextAuth({
         await connectDB();
         const userExist = await User.findOne({ email: profile.email });
         if (!userExist) {
+          // Check if the email exists in the REC table
+          const recExist = await REC.findOne({ email: profile.email });
+          let role = "PrincipalInvestigator";
+          if (recExist) {
+            role = "REC";
+          } else {
+            // Check if the email exists in the RECMembers table
+            const recMember = await RECMembers.findOne({
+              email: profile.email,
+            });
+            if (recMember) {
+              if (recMember.recRole === "Primary Reviewer") {
+                role = "PrimaryReviewer";
+              } else {
+                role = "REC";
+              }
+            }
+          }
+
           await User.create({
             email: profile.email,
             name: profile.name,
             image: profile.picture,
-            role: "PrincipalInvestigator",
+            role: role,
           });
+        } else {
+          // Update the role if the user already exists and is not IREB
+          if (userExist.role !== "IREB") {
+            const recExist = await REC.findOne({ email: profile.email });
+            if (recExist) {
+              userExist.role = "REC";
+            } else {
+              const recMember = await RECMembers.findOne({
+                email: profile.email,
+              });
+              if (recMember) {
+                if (recMember.recRole === "Primary Reviewer") {
+                  userExist.role = "PrimaryReviewer";
+                } else {
+                  userExist.role = "REC";
+                }
+              } else {
+                userExist.role = "PrincipalInvestigator";
+              }
+            }
+            await userExist.save();
+          }
         }
       }
       return true;

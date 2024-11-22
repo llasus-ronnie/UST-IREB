@@ -10,6 +10,7 @@ const externalReviewersSchema = new Schema({
   password: { type: String },
   tokenUsed: { type: Boolean, default: false },
   rec: { type: String, required: true },
+  isArchived: { type: Boolean, default: false },
 });
 
 const ExternalReviewer =

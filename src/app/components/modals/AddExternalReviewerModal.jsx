@@ -8,6 +8,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { set } from "mongoose";
 
 export default function AddAccModal({ rec, ...props }) {
   const [name, setName] = useState("");
@@ -16,6 +17,7 @@ export default function AddAccModal({ rec, ...props }) {
   const [accessToken, setAccessToken] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleNameChange = (e) => {
     const nameValue = e.target.value;
@@ -36,10 +38,15 @@ export default function AddAccModal({ rec, ...props }) {
   const handleAccessTokenChange = (e) => setAccessToken(e.target.value);
 
   const handleAddAccount = async () => {
-    if (!isEmailValid) {
-      alert("Please enter a valid email.");
+    if (!email || !affiliation || !name || !accessToken) {
+      toast.error("Please fill in all the required fields.");
+      return;
+    } else if (!isEmailValid) {
+      toast.error("Please enter a valid email.");
       return;
     }
+
+    setLoading(true);
 
     try {
       await axios.post("/api/addExternalReviewer", {
@@ -51,7 +58,10 @@ export default function AddAccModal({ rec, ...props }) {
       });
       console.log("Account added to database");
 
-      await axios.post("/api/auth/send-email", { email, token: accessToken });
+      await axios.post("/api/auth/send-email-reviewer", {
+        email,
+        token: accessToken,
+      });
       toast.success("Email sent successfully");
 
       props.onHide();
@@ -61,6 +71,8 @@ export default function AddAccModal({ rec, ...props }) {
         error
       );
       toast.error("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -118,6 +130,10 @@ export default function AddAccModal({ rec, ...props }) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="addacc-modal-body rounded-body">
+          <p>
+            Note: Kindly ensure that the email address is accurate, <br /> as
+            modifications cannot be made afterward.
+          </p>
           <Form>
             {/* Name */}
             <Form.Group
@@ -259,8 +275,12 @@ export default function AddAccModal({ rec, ...props }) {
           <Button onClick={handleCancel} className="btn cancel rounded-btn">
             Cancel
           </Button>
-          <Button onClick={handleAddAccount} className="btn addacc rounded-btn">
-            Add Account
+          <Button
+            disabled={loading}
+            onClick={handleAddAccount}
+            className="btn addacc rounded-btn"
+          >
+            {loading ? "Adding..." : "Add Account"}
           </Button>
         </Modal.Footer>
       </Modal>

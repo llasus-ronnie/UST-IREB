@@ -51,7 +51,7 @@ function SignInOption() {
 
                 <a href="../PrincipalInvestigator/SignInExternal">
                   <Button className="signin-option">
-                    External <br /> Principal Investigator
+                    Non-Thomasian <br /> Principal Investigator
                   </Button>
                 </a>
               </Container>

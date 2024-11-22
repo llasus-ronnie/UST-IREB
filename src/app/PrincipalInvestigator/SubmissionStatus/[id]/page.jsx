@@ -263,8 +263,12 @@ function SubmissionStatus({ params }) {
                     : "No date available"}
                 </p>
 
-                <span>Review Classification:</span>
+                <span>Submission Status:</span>
                 <p>{form?.status || "No classification available"}</p>
+
+                {/* hide ko muna pero dito ung expedited, exempted, full board */}
+                {/* <span>Review Classification:</span>
+                <p>{form?.classification || "No classification available"}</p> */}
               </div>
 
               {/* Remarks */}
@@ -312,7 +316,7 @@ function SubmissionStatus({ params }) {
                 >
                   View Submission
                 </Link> */}
-                {remarksData ? (
+                {form?.status === "Initial-Result" ? (
                   <button
                     className="submissionstatus-edit-sub"
                     onClick={handleShowSubmissionModal}
@@ -324,12 +328,16 @@ function SubmissionStatus({ params }) {
 
               {/* this will only appear when investigator reach the specific status for payment*/}
               <div className="submissionstatus-uploadproof-container">
+
+                {form?.status === "Pending-Payment" ? (
                 <button
                   className="submissionstatus-uploadproof"
                   onClick={paymentLink ? handleEditModal : handleShowModal}
                 >
                   {paymentLink ? "Edit Payment Proof" : "Upload Payment Proof"}
                 </button>
+                ): null
+                }
                 <div className="submissionstatus-paymentfile">
                   <p>Uplaoded File:</p>
                   {url ? (

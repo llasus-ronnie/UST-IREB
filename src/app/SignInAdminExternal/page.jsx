@@ -69,9 +69,10 @@ export default function SignIn() {
         if (nextAuthSignIn && !nextAuthSignIn.error) {
           toast.success("Login successful");
           router.push("/PrimaryReviewer/PRDashboard");
-        } else {
-          toast.error("Failed to create session");
         }
+        // else {
+        //   toast.error("Failed to create session");
+        // }
 
         // If first-time login, redirect to password setup
         if (response.data.message.includes("set your password")) {

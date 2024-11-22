@@ -11,6 +11,7 @@ import SearchBar from "../../../components/searchbar/SearchBar";
 import UserLoggedIn from "../../../components/userloggedin/UserLoggedIn";
 import AddRECMemberModal from "../../../components/modals/AddRECMemberModal";
 import EditRECMemberModal from "../../../components/modals/EditRECMemberModal";
+import ArchiveConfirmationModal from "../../../components/modals/ArchiveConfirmationModal";
 import "../../../styles/ireb/IrebManageAccounts.css";
 
 import withAuthorization from "../../../../hoc/withAuthorization";
@@ -19,6 +20,8 @@ import { set } from "mongoose";
 function IrebManageRECRoles({ params }) {
   const [modalShowAddRECMember, setModalShowAddRECMember] = useState(false);
   const [modalShowEditRECMember, setModalShowEditRECMember] = useState(false);
+  const [modalShowArchiveConfirmation, setModalShowArchiveConfirmation] =
+    useState(false);
   const [REC, setREC] = useState(null);
   const [RECMembers, setRECMembers] = useState([]);
   const [selectedMember, setSelectedMember] = useState(null);
@@ -34,19 +37,67 @@ function IrebManageRECRoles({ params }) {
     setModalShowEditRECMember(true);
   };
 
+  const handleShowArchiveModal = (member) => {
+    setSelectedMember(member);
+    setModalShowArchiveConfirmation(true);
+  };
+
+  const handleArchive = async () => {
+    if (selectedMember) {
+      try {
+        const response = await axios.patch(
+          `/api/RECMembers/${selectedMember._id}`,
+          {
+            isArchived: true,
+          }
+        );
+        if (response.status === 200) {
+          const updatedMembers = RECMembers.map((member) =>
+            member._id === selectedMember._id
+              ? { ...member, isArchived: true }
+              : member
+          );
+          setRECMembers(updatedMembers);
+          setFilteredRECMember(
+            updatedMembers.filter((member) => !member.isArchived)
+          );
+        }
+      } catch (error) {
+        console.error("Error archiving member:", error);
+      } finally {
+        handleCloseModalArchiveModal();
+      }
+    }
+  };
+
   const handleCloseModalAddRECMember = () => setModalShowAddRECMember(false);
   const handleCloseModalEditRECMember = () => setModalShowEditRECMember(false);
+  const handleCloseModalArchiveModal = () =>
+    setModalShowArchiveConfirmation(false);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
     const lowercasedQuery = query.toLowerCase();
     const filtered = RECMembers.filter(
       (member) =>
-        member.name.toLowerCase().includes(lowercasedQuery) ||
+        (!member.isArchived &&
+          member.name.toLowerCase().includes(lowercasedQuery)) ||
         member.email.toLowerCase().includes(lowercasedQuery) ||
         member.recRole.toLowerCase().includes(lowercasedQuery)
     );
-    setFilteredRECMember(filtered);
+
+    const roleOrder = {
+      "REC Chair": 1,
+      "REC Vice Chair": 2,
+      "REC Secretary": 3,
+      "Primary Reviewer": 4,
+    };
+
+    const sortedFiltered = filtered.sort((a, b) => {
+      return roleOrder[a.recRole] - roleOrder[b.recRole];
+    });
+
+    setFilteredRECMember(sortedFiltered);
   };
 
   useEffect(() => {
@@ -54,32 +105,32 @@ function IrebManageRECRoles({ params }) {
       setIsLoading(true);
       try {
         const response = await axios.get(`/api/RECMembers?rec=${rec}`);
-        console.log("API Response:", response.data); // Log the API response
-        setRECMembers(response.data.data || []);
-        setFilteredRECMember(response.data.data || []);
+        const activeContent = response.data.data.filter(
+          (member) => !member.isArchived
+        );
+
+        const roleOrder = {
+          "REC Chair": 1,
+          "REC Vice Chair": 2,
+          "REC Secretary": 3,
+          "Primary Reviewer": 4,
+        };
+
+        const sortedActiveContent = activeContent.sort((a, b) => {
+          return roleOrder[a.recRole] - roleOrder[b.recRole];
+        });
+
+        setRECMembers(sortedActiveContent || []);
+        setFilteredRECMember(sortedActiveContent || []);
       } catch (error) {
         console.error(error);
-        setError("Failed to fetch REC members.");
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (rec) {
-      fetchRECMembersData();
-    }
+    fetchRECMembersData();
   }, [rec]);
-
-  const roleOrder = {
-    "REC Chair": 1,
-    "REC Vice Chair": 2,
-    "REC Secretary": 3,
-    "Primary Reviewer": 4,
-  };
-
-  const sortedRECMembers = RECMembers.sort((a, b) => {
-    return roleOrder[a.recRole] - roleOrder[b.recRole];
-  });
 
   //loading
   const loadingContainerStyle = {
@@ -171,8 +222,8 @@ function IrebManageRECRoles({ params }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {sortedRECMembers.length > 0 ? (
-                    sortedRECMembers.map((member, index) => (
+                  {filteredRECMember.length > 0 ? (
+                    filteredRECMember.map((member, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{member.name}</td>
@@ -194,7 +245,10 @@ function IrebManageRECRoles({ params }) {
                               <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
                             </svg>
                           </button>
-                          <button className="archive-icon">
+                          <button
+                            className="archive-icon"
+                            onClick={() => handleShowArchiveModal(member)}
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="16"
@@ -203,7 +257,7 @@ function IrebManageRECRoles({ params }) {
                               className="bi bi-archive"
                               viewBox="0 0 16 16"
                             >
-                              <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                              <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1-1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
                             </svg>
                           </button>
                         </td>
@@ -225,13 +279,18 @@ function IrebManageRECRoles({ params }) {
 
       <AddRECMemberModal
         show={modalShowAddRECMember}
-        onHide={() => setModalShowAddRECMember(false)}
+        onHide={handleCloseModalAddRECMember}
         REC={REC}
       />
       <EditRECMemberModal
         show={modalShowEditRECMember}
         onHide={handleCloseModalEditRECMember}
         data={selectedMember}
+      />
+      <ArchiveConfirmationModal
+        show={modalShowArchiveConfirmation}
+        onHide={handleCloseModalArchiveModal}
+        onConfirm={handleArchive}
       />
     </div>
   );

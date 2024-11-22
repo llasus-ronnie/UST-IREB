@@ -478,30 +478,31 @@ function RECViewSubmission({ params }) {
               {status === "For-Classification" ? (
                 <>
                   <span>Assign Reviewer:</span>
-                  <select
-                    className="viewsub-changestatus"
-                    value={selectedReviewer}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      handleReviewerChange(e);
-                      setSelectedReviewer(value);
-                    }}
-                  >
-                    <option value="Choose Reviewer">Choose Reviewer</option>
-                    {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
-                      RECMembers.map((member) => (
-                        <option key={member._id} value={member.email}>
+                  {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
+                    RECMembers.map((member) => (
+                      <div key={member._id} className="viewsub-radio">
+                        <label>
+                          <input
+                            type="radio"
+                            name="selectedReviewer"
+                            value={member.email}
+                            checked={selectedReviewer === member.email}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              handleReviewerChange(e);
+                              setSelectedReviewer(value);
+                            }}
+                          />
                           {member.name}
-                        </option>
-                      ))
-                    ) : (
-                      <option value="No Reviewer Available">
-                        No Reviewer Available
-                      </option>
-                    )}
-                  </select>
+                        </label>
+                      </div>
+                    ))
+                  ) : (
+                    <div>No Reviewer Available</div>
+                  )}
                 </>
               ) : null}
+
 
               {status === "Final-Decision" ? (
                 <>

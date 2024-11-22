@@ -68,14 +68,18 @@ export async function PATCH(req) {
   const { rec, name, email, recRole } = await req.json();
 
   try {
+    const updateData = {};
+    if (name) updateData.name = name;
+    if (email) updateData.email = email;
+    if (recRole) updateData.recRole = recRole;
+
     const updatedMember = await RECMembers.findOneAndUpdate(
       { rec },
-      { name, email, rec, recRole },
+      { $set: updateData },
       { new: true }
     );
 
     if (!updatedMember) {
-      console.error("Member not found for REC:", rec);
       return NextResponse.json(
         { success: false, error: "Member not found" },
         { status: 404 }

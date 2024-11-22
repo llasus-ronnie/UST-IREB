@@ -16,6 +16,7 @@ export default function AddAccModal(props) {
   const [accessToken, setAccessToken] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleNameChange = (e) => {
     const nameValue = e.target.value;
@@ -36,10 +37,15 @@ export default function AddAccModal(props) {
   const handleAccessTokenChange = (e) => setAccessToken(e.target.value);
 
   const handleAddAccount = async () => {
-    if (!isEmailValid) {
-      alert("Please enter a valid email.");
+    if (!email || !affiliation || !name || !accessToken) {
+      toast.error("Please fill in all the required fields.");
+      return;
+    } else if (!isEmailValid) {
+      toast.error("Please enter a valid email.");
       return;
     }
+
+    setLoading(true);
 
     try {
       await axios.post("/api/addExternalInvestigator", {
@@ -60,6 +66,8 @@ export default function AddAccModal(props) {
         error
       );
       toast.error("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -117,6 +125,11 @@ export default function AddAccModal(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="addacc-modal-body rounded-body">
+          <p>
+            Note: Kindly ensure that the email address is accurate, <br /> as
+            modifications cannot be made afterward.
+          </p>
+
           <Form>
             {/* Name */}
             <Form.Group
@@ -258,8 +271,12 @@ export default function AddAccModal(props) {
           <Button onClick={handleCancel} className="btn cancel rounded-btn">
             Cancel
           </Button>
-          <Button onClick={handleAddAccount} className="btn addacc rounded-btn">
-            Add Account
+          <Button
+            onClick={handleAddAccount}
+            disabled={loading}
+            className="btn addacc rounded-btn"
+          >
+            {loading ? "Adding..." : "Add Account"}
           </Button>
         </Modal.Footer>
       </Modal>

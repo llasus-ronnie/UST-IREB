@@ -9,6 +9,7 @@ const externalInvestigatorSchema = new Schema({
   accessToken: { type: String, required: true },
   password: { type: String },
   tokenUsed: { type: Boolean, default: false },
+  isArchived: { type: Boolean, default: false },
 });
 
 const ExternalInvestigator =
