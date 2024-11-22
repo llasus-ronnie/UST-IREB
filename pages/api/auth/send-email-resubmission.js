@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { rec, name } = req.body;
+    const { rec, name, status } = req.body;
 
     let transporter = nodemailer.createTransport({
       service: "gmail",
@@ -124,7 +124,7 @@ export default async function handler(req, res) {
                       <td class="content">
                         <p>${name} has submitted a revision.</p>
                         <h2>This submission is under the status:</h2>
-                        <h1>Initial-Submission</h1>
+                        <h1>${status}</h1>
                         <p>
                         Log in to the UST IREB Research Portal to review and manage the submission on the "REC Manage Submissions" page.
                         </p>

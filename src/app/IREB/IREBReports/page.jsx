@@ -224,7 +224,6 @@ function IrebReports() {
       },
     },
   };
-
   //for rec status
   const [REC, setREC] = useState([]);
   const [recStatusData, setRecStatusData] = useState({
@@ -258,110 +257,118 @@ function IrebReports() {
   });
 
   useEffect(() => {
-    async function fetchFormsData() {
+    async function fetchFormsAndRECData() {
       try {
-        const response = await axios.get("/api/forms");
-        const forms = response.data.forms || [];
+        // Fetch RECs
+        const recResponse = await axios.get("/api/REC");
+        const recs = recResponse.data.data || [];
+        setREC(recs);
 
-        const recStatusCountsTemp = {};
+        // Create a mapping of normalized REC names to original names
+        const recNameMapping = recs.reduce((acc, rec) => {
+          const normalizedName = rec.name.replace(/\s+/g, "").toLowerCase();
+          acc[normalizedName] = rec.name; // Store the original name
+          return acc;
+        }, {});
 
+        // Normalize REC names
+        const recNames = Object.keys(recNameMapping);
+
+        // Fetch Forms
+        const formsResponse = await axios.get("/api/forms");
+        const forms = formsResponse.data.forms || [];
+
+        // Initialize REC status counts with original REC names
+        const recStatusCountsTemp = recNames.reduce((acc, normalizedName) => {
+          const originalName = recNameMapping[normalizedName];
+          acc[originalName] = {
+            NewSubmissions: 0,
+            Waiting: 0,
+            Completed: 0,
+            Deferred: 0,
+          };
+          return acc;
+        }, {});
+
+        // Aggregate data
         forms.forEach((form) => {
-          const recName = form.researchEthicsCommittee;
+          const normalizedRecName = form.researchEthicsCommittee
+            .trim()
+            .toLowerCase();
           const status = form.status;
           const finalDecision = form.finalDecision;
 
-          if (!recStatusCountsTemp[recName]) {
-            recStatusCountsTemp[recName] = {
-              NewSubmissions: 0,
-              Waiting: 0,
-              Completed: 0,
-              Deferred: 0,
-            };
-          }
-
-          if (finalDecision === "Deferred") {
-            recStatusCountsTemp[recName].Deferred++;
-          } else if (finalDecision === "Approved") {
-            recStatusCountsTemp[recName].Completed++;
-          } else if (status === "In-Progress") {
-            recStatusCountsTemp[recName].Waiting++;
-          } else if (status === "Initial-Submission") {
-            recStatusCountsTemp[recName].NewSubmissions++;
+          // Use normalized name to find the original REC name
+          const originalName = recNameMapping[normalizedRecName];
+          if (originalName && recStatusCountsTemp[originalName]) {
+            if (finalDecision === "Deferred") {
+              recStatusCountsTemp[originalName].Deferred++;
+            } else if (finalDecision === "Approved") {
+              recStatusCountsTemp[originalName].Completed++;
+            } else if (status === "In-Progress") {
+              recStatusCountsTemp[originalName].Waiting++;
+            } else if (status === "Initial-Submission") {
+              recStatusCountsTemp[originalName].NewSubmissions++;
+            }
           }
         });
 
+        // Extract data for the chart
+        const deferredData = recNames.map(
+          (normalizedName) =>
+            recStatusCountsTemp[recNameMapping[normalizedName]]?.Deferred || 0
+        );
+        const completedData = recNames.map(
+          (normalizedName) =>
+            recStatusCountsTemp[recNameMapping[normalizedName]]?.Completed || 0
+        );
+        const waitingData = recNames.map(
+          (normalizedName) =>
+            recStatusCountsTemp[recNameMapping[normalizedName]]?.Waiting || 0
+        );
+        const newSubmissionsData = recNames.map(
+          (normalizedName) =>
+            recStatusCountsTemp[recNameMapping[normalizedName]]
+              ?.NewSubmissions || 0
+        );
+
+        // Set REC status counts and update chart data
         setRecStatusCounts(recStatusCountsTemp);
 
-        const labels = Object.keys(recStatusCountsTemp);
-        const deferredData = labels.map(
-          (rec) => recStatusCountsTemp[rec].Deferred
-        );
-        const completedData = labels.map(
-          (rec) => recStatusCountsTemp[rec].Completed
-        );
-        const waitingData = labels.map(
-          (rec) => recStatusCountsTemp[rec].Waiting
-        );
-        const newSubmissionsData = labels.map(
-          (rec) => recStatusCountsTemp[rec].NewSubmissions
-        );
-
         setRecStatusData({
-          labels: labels,
+          labels: Object.keys(recStatusCountsTemp), // Original REC names as labels
           datasets: [
             {
               label: "New Submissions",
               data: newSubmissionsData,
-              backgroundColor: "#FFCC00", // Yellow
+              backgroundColor: "#FFCC00",
             },
             {
               label: "Waiting",
               data: waitingData,
-              backgroundColor: "#FFEB3B", // Yellow
+              backgroundColor: "#FFEB3B",
               barThickness: 25,
             },
             {
               label: "Deferred",
               data: deferredData,
-              backgroundColor: "#A0A0A0", // Light grey
+              backgroundColor: "#A0A0A0",
               barThickness: 25,
             },
-
             {
               label: "Approved",
               data: completedData,
-              backgroundColor: "#4CAF50", // Bright yellow
+              backgroundColor: "#4CAF50",
               barThickness: 25,
             },
           ],
         });
       } catch (error) {
-        console.error("Error fetching forms data:", error);
-      }
-    }
-
-    fetchFormsData();
-  }, []);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get("/api/REC");
-        console.log("API Response:", response.data);
-        setREC(response.data.data);
-
-        // Extract REC names and update recStatusData labels
-        const recNames = response.data.data.map((rec) => rec.name);
-        setRecStatusData((prevData) => ({
-          ...prevData,
-          labels: recNames,
-        }));
-      } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
 
-    fetchData();
+    fetchFormsAndRECData();
   }, []);
 
   //for exempt status
