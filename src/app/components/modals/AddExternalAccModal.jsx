@@ -125,10 +125,10 @@ export default function AddAccModal(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="addacc-modal-body rounded-body">
-          <p>
-            Note: Kindly ensure that the email address is accurate, <br /> as
-            modifications cannot be made afterward.
-          </p>
+            <p>
+              Note: Kindly ensure that the email address is accurate, <br /> as
+              modifications cannot be made afterward.
+            </p>
 
           <Form>
             {/* Name */}

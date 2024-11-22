@@ -120,6 +120,7 @@ export default function SignIn() {
             Research Portal, please enter your credentials below.
           </p>
 
+          <div className="input-group">
           <input
             type="email"
             value={email}
@@ -127,6 +128,7 @@ export default function SignIn() {
             placeholder="Email"
             className="admin-input form-control"
           />
+          </div>
 
           <div className="input-group">
             <input

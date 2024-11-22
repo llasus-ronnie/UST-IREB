@@ -86,13 +86,16 @@
 .admin-input {
   width: 100%;
   padding: 10px;
-  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-family: var(--poppins);
   font-size: 14px;
   color: #333;
   transition: border-color 0.3s ease;
+}
+
+.input-group {
+  margin-bottom: 15px;
 }
 
 .admin-input:focus {
