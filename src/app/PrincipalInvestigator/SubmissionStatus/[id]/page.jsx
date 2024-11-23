@@ -60,9 +60,9 @@ function SubmissionStatus({ params }) {
       title: "Initial Submission",
       description:
         "Your initial submission will be reviewed to see if all requirements are complete or if any revisions are needed before proceeding.",
-        remarks: form?.initialSubmission === "Incomplete"
+      remarks: form?.initialSubmission === "Incomplete"
         ? `${form?.initialSubmission}, kindly review the remarks on the table. The edit forms button is open for you to edit your current submission and resubmit your initial requirements. Thank you`
-        : `${form?.initialSubmission}`, 
+        : `${form?.initialSubmission}`,
     },
     {
       id: "Pending-Payment",
@@ -314,7 +314,17 @@ function SubmissionStatus({ params }) {
                             </td>
                             <td>{remark.status}</td>
                             <td>
-                              <a href={remark.remarks}> View Remarks</a>
+                              {remark.remarks && remark.remarks.length > 0 ? (
+                                remark.remarks.map((remarkItem, index) => (
+                                  <div key={index}>
+                                    <a href={remarkItem.url} target="_blank" rel="noopener noreferrer">
+                                      View Remark {index + 1}
+                                    </a>
+                                  </div>
+                                ))
+                              ) : (
+                                <p>No remarks available</p>
+                              )}
                             </td>
                             <td>{remark.remarksComment}</td>
                           </tr>
@@ -328,11 +338,11 @@ function SubmissionStatus({ params }) {
                   </table>
                 </div>
               </div>
-              {form?.initialSubmission === "Incomplete" && form?._id? (
+              {form?.initialSubmission === "Incomplete" && form?._id ? (
                 <Link href={`/PrincipalInvestigator/EditSubmission/${form._id}`} passHref>
                   <button className="submissionstatus-buttons submissionstatus-edit-form">Edit</button>
                 </Link>
-              ): null}
+              ) : null}
 
               <div className="submissionstatus-buttons">
                 {form?.status === "Initial-Result" ? (
