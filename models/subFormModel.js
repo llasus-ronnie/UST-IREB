@@ -331,7 +331,6 @@ const subFormSchema = new Schema({
       },
       message: 'recMember must have between 2 and 4 members.',
     },
-    default: Array(4).fill("kindly wait for your assigned reviewer"),
   },
   
   classification:{

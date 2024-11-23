@@ -31,7 +31,7 @@ function RECViewSubmission({ params }) {
   });
 
   const [RECMembers, setRECMembers] = useState([]);
-  const [selectedReviewer, setSelectedReviewer] = useState("");
+  const [selectedReviewer, setSelectedReviewer] = useState([]);
   const [paymentLink, setPaymentLink] = useState("");
   const [showAcknowledgeModal, setShowAcknowledgeModal] = useState(false);
   const [initialStatus, setInitialStatus] = useState("Initial-Submission");
@@ -217,7 +217,7 @@ function RECViewSubmission({ params }) {
   //recmembers
   useEffect(() => {
     console.log("Current rec value:", rec);
-    
+
     async function getRECMembers() {
       try {
         const res = await axios.get(`/api/RECMembers`, {
@@ -228,12 +228,12 @@ function RECViewSubmission({ params }) {
         console.log("Error loading REC Members");
       }
     }
-    
+
     if (rec && forms?.researchEthicsCommittee) {
       getRECMembers(); // Ensure both `rec` and `forms.researchEthicsCommittee` exist before fetching
     }
   }, [rec, forms?.researchEthicsCommittee]); // Dependency array includes both `rec` and `forms.researchEthicsCommittee`
-  
+
 
   //payment file
   useEffect(() => {
@@ -582,32 +582,43 @@ function RECViewSubmission({ params }) {
                 </>
               ) : null}
 
-              { formClassification ==="Full-Board" || formClassification==="Expedited"  ? (
+              {formClassification === "Full-Board" || formClassification === "Expedited" ? (
                 <>
-                  <span>Assign Reviewer:</span>
-                  {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
-                    RECMembers.map((member) => (
-                      <div key={member._id} className="viewsub-radio">
-                        <label>
-                          <input
-                            type="radio"
-                            name="selectedReviewer"
-                            value={member.email}
-                            checked={selectedReviewer === member.email}
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              handleReviewerChange(e);
-                              setSelectedReviewer(value);
-                            }}
-                          />
-                          {member.name}
-                        </label>
-                      </div>
-                    ))
-                  ) : (
-                    <div>No Reviewer Available</div>
-                  )}
-                </>
+                <span>Assign Reviewer:</span>
+                {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
+                  RECMembers.map((member) => (
+                    <div key={member._id} className="viewsub-checkbox">
+                      <label>
+                        <input
+                          type="checkbox"
+                          name="selectedReviewers"
+                          value={member.email}
+                          checked={selectedReviewer.includes(member.email)} // Check if the reviewer is selected
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            // Handle checkbox selection
+                            if (e.target.checked) {
+                              // Add to the selectedReviewers if checked
+                              setSelectedReviewer((prevSelected) => [...prevSelected, value]);
+                            } else {
+                              // Remove from the selectedReviewers if unchecked
+                              setSelectedReviewer((prevSelected) =>
+                                prevSelected.filter((email) => email !== value)
+                              );
+                            }
+                          }}
+                        />
+                        {member.name}
+                      </label>
+                    </div>
+                  ))
+                ) : (
+                  <div>No Reviewer Available</div>
+                )}
+              </>
+              
+
+
               ) : null}
 
               {status === "Final-Decision" ? (
@@ -670,7 +681,7 @@ function RECViewSubmission({ params }) {
 
               <div className="submissionstatus-card-remarks">
                 <div className="upload-remarks">
-                  {finalDecision === "Approved" || formClassification ==="Exempt" ? (
+                  {finalDecision === "Approved" || formClassification === "Exempt" ? (
                     <span>Certificate:</span>
                   ) : finalDecision === "Deferred" ? (
                     <span>Letter of Disapproval:</span>
