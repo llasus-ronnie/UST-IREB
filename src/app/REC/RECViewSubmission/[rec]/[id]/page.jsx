@@ -26,7 +26,7 @@ function RECViewSubmission({ params }) {
   const [id, setId] = useState("");
   const [status, setStatus] = useState("Initial-Submission");
   const [remarks, setRemarks] = useState({
-    content: '',  // For the file URL (only set when a file is uploaded)
+    content: [],  // For the file URL (only set when a file is uploaded)
     comment: '',  // For the comment text
   });
 
@@ -184,9 +184,12 @@ function RECViewSubmission({ params }) {
       const remarkData = {
         subFormId: id,
         status: status,
-        remarks: data.content
-          ? [{ url: data.content }]  // Only include the file URL if a file is uploaded
-          : [],  // If no file is uploaded, keep remarks empty
+        remarks: data.content && Array.isArray(data.content)
+          ? data.content.map((file) => ({
+            url: file.url, // URL of the file
+            filename: file.filename, // Filename of the file (if available)
+          }))
+          : [],  // If no files are uploaded, keep remarks empty
         remarksComment: data.comment || "",  // If no comment, send an empty string
       };
 
@@ -212,6 +215,7 @@ function RECViewSubmission({ params }) {
       toast.error("Failed to submit remarks. Please try again.");
     }
   }
+
 
 
   //recmembers
@@ -361,18 +365,12 @@ function RECViewSubmission({ params }) {
   };
 
   //remarks file upload
-  const handleFileUpload = (res) => {
-    if (res.info.format !== "pdf") {
-      toast.error("Only PDF files are allowed. Please upload a PDF.");
-      return;
-    }
-    console.log(res.info.secure_url);
-    setRemarks({
-      content: res.info.secure_url,
-      isFile: true,
-      comment: remarks.comment,
-    });
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files); // This will handle multiple file selection
+    // Set the files in state or pass it as data.content
+    setFiles(files);
   };
+
 
   //remarks comment
   const handleRemarksChange = (e) => {
@@ -584,39 +582,39 @@ function RECViewSubmission({ params }) {
 
               {formClassification === "Full-Board" || formClassification === "Expedited" ? (
                 <>
-                <span>Assign Reviewer:</span>
-                {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
-                  RECMembers.map((member) => (
-                    <div key={member._id} className="viewsub-checkbox">
-                      <label>
-                        <input
-                          type="checkbox"
-                          name="selectedReviewers"
-                          value={member.email}
-                          checked={selectedReviewer.includes(member.email)} // Check if the reviewer is selected
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            // Handle checkbox selection
-                            if (e.target.checked) {
-                              // Add to the selectedReviewers if checked
-                              setSelectedReviewer((prevSelected) => [...prevSelected, value]);
-                            } else {
-                              // Remove from the selectedReviewers if unchecked
-                              setSelectedReviewer((prevSelected) =>
-                                prevSelected.filter((email) => email !== value)
-                              );
-                            }
-                          }}
-                        />
-                        {member.name}
-                      </label>
-                    </div>
-                  ))
-                ) : (
-                  <div>No Reviewer Available</div>
-                )}
-              </>
-              
+                  <span>Assign Reviewer:</span>
+                  {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
+                    RECMembers.map((member) => (
+                      <div key={member._id} className="viewsub-checkbox">
+                        <label>
+                          <input
+                            type="checkbox"
+                            name="selectedReviewers"
+                            value={member.email}
+                            checked={selectedReviewer.includes(member.email)} // Check if the reviewer is selected
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              // Handle checkbox selection
+                              if (e.target.checked) {
+                                // Add to the selectedReviewers if checked
+                                setSelectedReviewer((prevSelected) => [...prevSelected, value]);
+                              } else {
+                                // Remove from the selectedReviewers if unchecked
+                                setSelectedReviewer((prevSelected) =>
+                                  prevSelected.filter((email) => email !== value)
+                                );
+                              }
+                            }}
+                          />
+                          {member.name}
+                        </label>
+                      </div>
+                    ))
+                  ) : (
+                    <div>No Reviewer Available</div>
+                  )}
+                </>
+
 
 
               ) : null}
@@ -697,10 +695,10 @@ function RECViewSubmission({ params }) {
                         toast.error("Only PDF files are allowed. Please upload a PDF.");
                         return;
                       }
-                      // Only update the content with the file URL if a file is uploaded
+
                       setRemarks((prevRemarks) => ({
                         ...prevRemarks,
-                        content: res.info.secure_url,  // Set file URL
+                        content: prevRemarks.content ? [...prevRemarks.content, res.info.secure_url] : [res.info.secure_url],  // Append the new file URL
                       }));
                     }}
                   >
@@ -714,6 +712,7 @@ function RECViewSubmission({ params }) {
                       </button>
                     )}
                   </CldUploadWidget>
+
 
 
                   <textarea
