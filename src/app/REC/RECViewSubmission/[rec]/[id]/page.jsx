@@ -501,17 +501,55 @@ function RECViewSubmission({ params }) {
             </a>
 
             <Col xs={12} lg={8} className="viewsub-content-container">
-              <iframe src={url} className="viewsub-iframe" />
-              <a
-                href={url}
-                className="viewsub-download"
-                download={url}
-                style={{ color: "blue" }}
-              >
-                {" "}
-                Download{" "}
-              </a>
-            </Col>
+  {/* Main File Display */}
+  {forms?.mainFileLink && forms.mainFileLink.length > 0 && (
+    <div>
+      <h5>Main File:</h5>
+      {forms.mainFileLink.map((file, index) => (
+        <div key={index}>
+          <iframe
+            src={file.url}
+            className="viewsub-iframe"
+            title={`Main File ${index + 1}`}
+          />
+          <a
+            href={file.url}
+            className="viewsub-download"
+            download={file.filename}
+            style={{ color: "blue" }}
+          >
+            Download {file.filename}
+          </a>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {/* Supplementary Files Display */}
+  {forms?.supplementaryFileLink && forms.supplementaryFileLink.length > 0 && (
+    <div>
+      <h5>Supplementary Files:</h5>
+      {forms.supplementaryFileLink.map((file, index) => (
+        <div key={index}>
+          <iframe
+            src={file.url}
+            className="viewsub-iframe"
+            title={`Supplementary File ${index + 1}`}
+          />
+          <a
+            href={file.url}
+            className="viewsub-download"
+            download={file.filename}
+            style={{ color: "blue" }}
+          >
+            Download {file.filename}
+          </a>
+        </div>
+      ))}
+    </div>
+  )}
+</Col>
+
             <Col xs={12} lg={4} className="viewsub-details-container">
               <h1>Submission Details</h1>
 
