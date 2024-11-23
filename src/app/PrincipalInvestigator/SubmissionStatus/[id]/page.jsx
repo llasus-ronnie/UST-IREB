@@ -298,7 +298,8 @@ function SubmissionStatus({ params }) {
                       <tr>
                         <th>Date</th>
                         <th>Status</th>
-                        <th>Remarks</th>
+                        <th>Remarks File</th>
+                        <th> Comments </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -314,6 +315,7 @@ function SubmissionStatus({ params }) {
                             <td>
                               <a href={remark.remarks}> View Remarks</a>
                             </td>
+                            <td>{remark.remarksComment}</td>
                           </tr>
                         ))
                       ) : (
