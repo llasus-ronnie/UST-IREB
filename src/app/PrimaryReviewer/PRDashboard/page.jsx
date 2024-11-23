@@ -12,6 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 import withAuthorization from "../../../hoc/withAuthorization";
 import { get } from "http";
@@ -20,12 +21,15 @@ function PrDashboard() {
   const [forms, setForms] = useState([]);
   const [statusCounts, setStatusCounts] = useState({});
   const [overdueForms, setOverdueForms] = useState([]);
+  const { data: session } = useSession();
+
+  const userEmail = session?.user?.email;
 
   useEffect(() => {
     async function getForms() {
       try {
         const response = await axios.get("/api/forms", {
-          params: { recMember: forms.recMember },
+          params: { email: userEmail }, 
         });
 
         const assignedForms = response.data.forms || [];

@@ -62,12 +62,14 @@ export async function GET(req) {
   console.log("Email Parameter: ", email);
 
   try {
-    const query = {};
+    // Construct the query with default condition for isArchived
+    const query = { isArchived: false }; // Ensure only non-archived forms are retrieved
+
     if (rec) {
       query.researchEthicsCommittee = rec.trim();
     }
     if (email) {
-      query.email = email.trim(); // Add email to the query
+      query.recMember = { $in: [email.trim()] }; // Check if email exists in recMember array
     }
 
     const forms = await SubmissionForm.find(query);
@@ -81,6 +83,7 @@ export async function GET(req) {
     );
   }
 }
+
 
 export async function DELETE(req) {
   const { searchParams } = new URL(req.url);

@@ -23,7 +23,9 @@ function PrSubmissions() {
   useEffect(() => {
     async function getForms() {
       try {
-        const response = await axios.get("/api/forms");
+        const response = await axios.get("/api/forms", {
+          params: { email: session.user.email },
+        });
         setForms(response.data.forms);
       } catch (error) {
         console.log(error);
