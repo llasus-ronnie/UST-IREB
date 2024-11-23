@@ -30,7 +30,7 @@ function SubmissionList() {
     async function fetchData() {
       try {
         const response = await axios.get("/api/forms", {
-          params: { userEmail: session.user.email }, // Add email as query param
+          params: { email: session.user.email },
         });
         const userForms = response.data.forms;
 
