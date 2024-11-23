@@ -67,8 +67,22 @@ function SubmissionStatus({ params }) {
     {
       id: "Pending-Payment",
       title: "Pending Payment",
-      description:
-        "This is where you need to pay the Ethical Review Fees and submit proof of payment so your research can proceed to classification. Kindly click here for the payment instructions.",
+      description: (
+        <>
+          This is where you need to pay the Ethical Review Fees and submit proof
+          of payment so your research can proceed to classification. Kindly
+          click{" "}
+          <a
+            href="/faqs"
+            style={{ textDecoration: "none" }}
+            onMouseOver={(e) => (e.target.style.textDecoration = "underline")}
+            onMouseOut={(e) => (e.target.style.textDecoration = "none")}
+          >
+            here
+          </a>{" "}
+          for the payment instructions.
+        </>
+      ),
     },
     {
       id: "For-Classification",
@@ -330,7 +344,6 @@ function SubmissionStatus({ params }) {
 
               {/* this will only appear when investigator reach the specific status for payment*/}
               <div className="submissionstatus-uploadproof-container">
-
                 {form?.status === "Pending-Payment" ? (
                   <button
                     className="submissionstatus-uploadproof"

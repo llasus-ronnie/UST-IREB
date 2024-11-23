@@ -32,9 +32,9 @@
 
 .admin-signin-logo-container {
   position: absolute;
-  top: 50%; 
-  left: calc(15%); 
-  transform: translate(-10%, -50%); 
+  top: 50%;
+  left: calc(15%);
+  transform: translate(-10%, -50%);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -47,12 +47,12 @@
 .admin-title {
   font-size: 50px;
   color: #ffbf00;
-  margin-right: 0; 
+  margin-right: 0;
   font-family: var(--poppins);
 }
 
 .research-portal-text {
-  color: white; 
+  color: white;
 }
 
 .admin-signin-box {
@@ -63,8 +63,8 @@
   width: 100%;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   text-align: center;
-  margin-right: 10%; 
-  margin-left: 0; 
+  margin-right: 10%;
+  margin-left: 0;
 }
 
 .admin-signin-title {
@@ -73,7 +73,6 @@
   margin-bottom: 20px;
   text-align: center;
   font-family: var(--poppins);
-
 }
 
 .admin-signin-text {
@@ -84,55 +83,61 @@
   text-align: justify;
 }
 
-
 .admin-input {
-    width: 100%;
-    padding: 10px; 
-    margin-bottom: 15px; 
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    font-family: var(--poppins); 
-    font-size: 14px; 
-    color: #333; 
-    transition: border-color 0.3s ease; 
-  }
-  
-  .admin-input:focus {
-    border-color: var(--tertiary-color); 
-    outline: none; 
-  }
-  
-  .admin-signin-button {
-    background-color: var(--tertiary-color); 
-    color: var(--quaternary-color); 
-    padding: 10px 20px; 
-    border: none; 
-    border-radius: 5px; 
-    font-size: 16px; 
-    cursor: pointer; 
-    font-family: var(--poppins); 
-    transition: background-color 0.3s ease; 
-    width: 100%; 
-  }
-  
-  .admin-signin-button:disabled {
-    background-color: #ccc; 
-    cursor: not-allowed; 
-  }
-  
-  .admin-signin-button:hover:not(:disabled) {
-    background-color: #f0a500; 
-  }
-  
-  .admin-recaptcha {
-    display: inline-block; 
-    margin-top: 10px; 
-  }
-  
-  .recaptcha-wrapper {
-    text-align: left;
-    margin-bottom: 20px;
-  }
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: var(--poppins);
+  font-size: 14px;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.admin-input:focus {
+  border-color: var(--tertiary-color);
+  outline: none;
+}
+
+.error-message {
+  color: #faa0a0;
+}
+
+.admin-signin-button {
+  background-color: var(--tertiary-color);
+  color: var(--quaternary-color);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: var(--poppins);
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.admin-signin-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.admin-signin-button:hover:not(:disabled) {
+  background-color: #f0a500;
+}
+
+.admin-recaptcha {
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.recaptcha-wrapper {
+  text-align: left;
+  margin-bottom: 20px;
+}
 
 .admin-signin-footer {
   text-align: center;
@@ -156,19 +161,18 @@ hr {
 @media screen and (min-width: 1200px) and (max-width: 1440px) {
   .admin-signin-logo-container {
     position: sticky;
-    top: 50%; 
+    top: 50%;
     align-items: center;
     gap: 10px;
     z-index: 2;
   }
 
-
   .admin-signin-box {
     padding: 30px;
     max-width: 550px;
     width: 100%;
-    margin-right: 7%; 
-    margin-left: 0; 
+    margin-right: 7%;
+    margin-left: 0;
     z-index: 2;
   }
 }
@@ -176,7 +180,7 @@ hr {
 @media screen and (max-width: 1199px) {
   .admin-signin-logo-container {
     position: sticky;
-    top: 50%; 
+    top: 50%;
     align-items: center;
     gap: 10px;
     left: 5%;
@@ -191,8 +195,8 @@ hr {
     padding: 30px;
     max-width: 550px;
     width: 100%;
-    margin-right: 1%; 
-    margin-left: 0; 
+    margin-right: 1%;
+    margin-left: 0;
     z-index: 2;
   }
 }
@@ -228,7 +232,6 @@ hr {
   }
 }
 
-
 @media screen and (max-width: 480px) {
   .admin-signin-container {
     padding: 0;
@@ -238,8 +241,8 @@ hr {
 
   .admin-signin-logo-container {
     position: absolute;
-        top: 1rem;
-        transform: none;
+    top: 1rem;
+    transform: none;
   }
 
   .admin-title {
@@ -247,7 +250,7 @@ hr {
   }
 
   .admin-logo {
-    width: 50px
+    width: 50px;
   }
 
   .admin-signin-box {

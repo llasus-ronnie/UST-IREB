@@ -431,7 +431,6 @@ function SummaryForm() {
           </Col>
         </Container>
 
-
         <Row
           style={{ marginTop: "20px", paddingBottom: "20px" }}
           className="justify-content-around"
@@ -439,8 +438,7 @@ function SummaryForm() {
           <Button
             variant="outline-secondary"
             className="PIforms-formbtn"
-            // href="/"
-            onClick={handlePrevious}
+            href="/"
           >
             Back to Home
           </Button>

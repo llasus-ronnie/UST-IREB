@@ -29,17 +29,53 @@ function IrebManageExternal({ params }) {
     setSelectedInvestigator(investigator);
     setModalShowEditAcc(true);
   };
-  const handleShowArchiveModal = () => setModalShowArchiveConfirmation(true);
+  const handleShowArchiveModal = (investigator) => {
+    setSelectedInvestigator(investigator);
+    setModalShowArchiveConfirmation(true);
+  };
+
+  const handleArchive = async () => {
+    if (selectedInvestigator) {
+      try {
+        const response = await axios.patch(
+          `/api/addExternalReviewer/${selectedInvestigator._id}`,
+          {
+            isArchived: true,
+          }
+        );
+        if (response.status === 200) {
+          const updatedExternal = external.map((reviewer) =>
+            reviewer._id === selectedInvestigator._id
+              ? { ...reviewer, isArchived: true }
+              : reviewer
+          );
+          setExternal(updatedExternal);
+          setFilteredExternal(
+            updatedExternal.filter((reviewer) => !reviewer.isArchived)
+          );
+        }
+      } catch (error) {
+        console.error("Error archiving external reviewer:", error);
+      } finally {
+        handleCloseArchiveModal();
+      }
+    }
+  };
+
   const handleCloseAddAccModal = () => setModalShowAddAcc(false);
   const handleCloseEditAccModal = () => setModalShowEditAcc(false);
   const handleCloseArchiveModal = () => setModalShowArchiveConfirmation(false);
 
   const handleSearch = (query) => {
-    setFilteredExternal(
-      external.filter((reviewer) =>
-        reviewer.name.toLowerCase().includes(query.toLowerCase())
-      )
+    const lowercasedQuery = query.toLowerCase();
+    const filtered = external.filter(
+      (reviewer) =>
+        !reviewer.isArchived &&
+        (reviewer.name.toLowerCase().includes(lowercasedQuery) ||
+          reviewer.email.toLowerCase().includes(lowercasedQuery) ||
+          reviewer.affiliation.toLowerCase().includes(lowercasedQuery))
     );
+    setFilteredExternal(filtered);
   };
 
   useEffect(() => {
@@ -49,8 +85,11 @@ function IrebManageExternal({ params }) {
         const response = await axios.get(
           `/api/addExternalReviewer?rec=${params.rec}`
         );
-        setExternal(response.data.data);
-        setFilteredExternal(response.data.data);
+        const activeContent = response.data.data.filter(
+          (reviewer) => !reviewer.isArchived
+        );
+        setExternal(activeContent);
+        setFilteredExternal(activeContent);
       } catch (error) {
         console.error("Error fetching external reviewers:", error);
       } finally {
@@ -178,7 +217,7 @@ function IrebManageExternal({ params }) {
                           </button>
                           <button
                             className="archive-icon"
-                            onClick={handleShowArchiveModal}
+                            onClick={() => handleShowArchiveModal(reviewer)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -219,7 +258,7 @@ function IrebManageExternal({ params }) {
       <ArchiveConfirmationModal
         show={modalShowArchiveConfirmation}
         onHide={handleCloseArchiveModal}
-        data={selectedInvestigator}
+        onConfirm={handleArchive}
       />
     </div>
   );

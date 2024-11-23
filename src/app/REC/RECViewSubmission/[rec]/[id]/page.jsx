@@ -77,10 +77,12 @@ function RECViewSubmission({ params }) {
   //status
   const updateStatusData = async (newStatus) => {
     try {
-      await axios.put(`/api/forms`, {
+      await axios.put(
+        `/api/forms`,
+        {
         id: forms._id,
-        status: newStatus,
-      },
+          status: newStatus,
+        },
         { params: { id: forms._id } }
       );
       toast.success("The status information has been saved successfully.");
@@ -98,10 +100,12 @@ function RECViewSubmission({ params }) {
   //reviewer
   const updateReviewerData = async () => {
     try {
-      await axios.put(`/api/forms`, {
+      await axios.put(
+        `/api/forms`,
+        {
         id: forms._id,
-        recMember: selectedReviewer,
-      },
+          recMember: selectedReviewer,
+        },
         { params: { id: forms._id } }
       );
 
@@ -140,10 +144,14 @@ function RECViewSubmission({ params }) {
   //classification
   const updateClassificationData = async () => {
     try {
-      await axios.put(`/api/forms`, {
+      await axios.put(
+        `/api/forms`,
+        {
         id: forms._id,
-        classification: formClassification,
-      }, { params: { id: forms._id } });
+          classification: formClassification,
+        },
+        { params: { id: forms._id } }
+      );
       console.log("Classification updated:", formClassification);
       toast.success(
         "The classification information has been saved successfully."
@@ -245,15 +253,17 @@ function RECViewSubmission({ params }) {
   //final decision
   async function submitFinalDecision(finalDecision) {
     try {
-      const formUpdateResponse = await axios.put("/api/forms", {
-        finalDecision: finalDecision
-      },
+      const formUpdateResponse = await axios.put(
+        "/api/forms",
         {
-          params: { id: forms._id }
+          finalDecision: finalDecision,
+        },
+        {
+          params: { id: forms._id },
         }
       );
       if (formUpdateResponse.status === 200) {
-        console.log(formUpdateResponse)
+        console.log(formUpdateResponse);
         toast.success("Final decision has been submitted successfully.");
       } else {
         console.error("Failed to update final decision");
@@ -305,7 +315,9 @@ function RECViewSubmission({ params }) {
 
       const [formResponse, resubmissionFileResponse] = await Promise.all([
         axios.get(`/api/forms/${resubmissionId}`),
-        axios.get(`/api/resubmissionFiles`, { params: { subFormId: `${resubmissionId}` } }),
+        axios.get(`/api/resubmissionFiles`, {
+          params: { subFormId: `${resubmissionId}` },
+        }),
       ]);
 
       console.log("Form Response:", formResponse);
@@ -316,8 +328,14 @@ function RECViewSubmission({ params }) {
         return formResponse.data.mainFileLink;
       }
 
-      if (resubmissionFileResponse.status === 200 && resubmissionFileResponse.data.resubmissionFile) {
-        console.log("Found resubmissionFile link:", resubmissionFileResponse.data.resubmissionFile); // Log resubmissionFile link
+      if (
+        resubmissionFileResponse.status === 200 &&
+        resubmissionFileResponse.data.resubmissionFile
+      ) {
+        console.log(
+          "Found resubmissionFile link:",
+          resubmissionFileResponse.data.resubmissionFile
+        ); // Log resubmissionFile link
         return resubmissionFileResponse.data.resubmissionFile;
       }
 
@@ -327,7 +345,6 @@ function RECViewSubmission({ params }) {
       return null;
     }
   };
-
 
   useEffect(() => {
     fetchResubmissionRemarks();
@@ -561,8 +578,6 @@ function RECViewSubmission({ params }) {
                 </>
               ) : null}
 
-
-
               {status === "For-Classification" ? (
                 <>
                   <span>Assign Reviewer:</span>
@@ -591,7 +606,6 @@ function RECViewSubmission({ params }) {
                 </>
               ) : null}
 
-
               {status === "Final-Decision" ? (
                 <>
                   <span>Decision:</span>
@@ -600,10 +614,11 @@ function RECViewSubmission({ params }) {
                     value={finalDecision}
                     onChange={handleDecisionChange}
                   >
-                    <option value="No-value" disabled>Choose your final decision</option>
+                    <option value="No-value" disabled>
+                      Choose your final decision
+                    </option>
                     <option value="Approved">Approved</option>
                     <option value="Deferred">Deferred</option>
-
                   </select>
                 </>
               ) : null}
@@ -621,6 +636,8 @@ function RECViewSubmission({ params }) {
                     <a
                       href={paymentLink}
                       download={paymentLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       style={{ color: "blue" }}
                     >
                       {" "}
@@ -707,14 +724,13 @@ function RECViewSubmission({ params }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {Array.isArray(remarksFile) &&
-                      remarksFile.length > 0 ? (
+                    {Array.isArray(remarksFile) && remarksFile.length > 0 ? (
                       remarksFile.map((remark, index) => (
                         <tr key={index}>
                           <td>
-                            {new Date(
-                              remark.remarksDate
-                            ).toLocaleDateString("en-US")}
+                            {new Date(remark.remarksDate).toLocaleDateString(
+                              "en-US"
+                            )}
                           </td>
                           <td>{remark.status}</td>
                           <td>
@@ -733,7 +749,8 @@ function RECViewSubmission({ params }) {
 
               <div className="submissionstatus-card-remarks">
                 <span>Resubmission</span>
-                <br /><br />
+                <br />
+                <br />
                 <span>Primary Reviewer Remarks:</span>
                 <table className="remarks-table">
                   <thead>
@@ -752,10 +769,10 @@ function RECViewSubmission({ params }) {
                           {remark.resubmission0
                             ? "Initial Result"
                             : remark.resubmission1
-                              ? "Resubmission 1"
-                              : remark.resubmission2
-                                ? "Resubmission 2"
-                                : "No Resubmission"}
+                            ? "Resubmission 1"
+                            : remark.resubmission2
+                            ? "Resubmission 2"
+                            : "No Resubmission"}
                         </td>
                         <td>
                           {remark.fileLink ? (
@@ -789,7 +806,6 @@ function RECViewSubmission({ params }) {
                   </tbody>
                 </table>
               </div>
-
 
               <div className="viewsub-buttons">
                 <button className="viewsub-save" onClick={updateStatus}>

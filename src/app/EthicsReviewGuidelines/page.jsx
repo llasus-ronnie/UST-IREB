@@ -39,66 +39,6 @@ function EthicsReviewGuidelines() {
 
         <Container className="erg-container">
           <div className="erg-maincontent">
-            <div className="erg-supplementary-forms">
-              <h1>Supplementary Forms</h1>
-
-              <div className="erg-description">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-info-circle"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-                </svg>
-                <p>
-                  Download the supplementary forms by clicking on the files
-                  below.
-                </p>
-              </div>
-
-              <ul>
-                <li>
-                  <a
-                    href="https://res.cloudinary.com/dyrf8wr1i/raw/upload/v1731218235/Form-2A-Review-Checklist"
-                    download
-                  >
-                    Form-2A-Review-Checklist
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="https://res.cloudinary.com/dyrf8wr1i/raw/upload/v1731218683/Form-2B-Registration-and-Application-Form-for-Initial-Review-and-Resubmission"
-                    download
-                  >
-                    Form-2B-Registration-and-Application-Form-for-Initial-Review-and-Resubmission
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="https://res.cloudinary.com/dyrf8wr1i/raw/upload/v1731218806/Form-2C-Study-Protocol-Assessment-Form"
-                    download
-                  >
-                    Form-2C-Study-Protocol-Assessment-Form
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="https://res.cloudinary.com/dyrf8wr1i/raw/upload/v1731218897/Form-2D-Informed-Consent-Assessment-Form"
-                    download
-                  >
-                    Form-2D-Informed-Consent-Assessment-Form
-                  </a>
-                </li>
-              </ul>
-            </div>
-
             <div className="erg-ethics-guidelines">
               <h1>Ethics Guidelines</h1>
 
@@ -124,6 +64,8 @@ function EthicsReviewGuidelines() {
                 <li>
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731219415/SupplementaryFiles/2022-NEGRIHP_OG-ver.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     download
                   >
                     2022-NEGRIHP_OG-ver
@@ -134,6 +76,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220103/SupplementaryFiles/ME22-ATCH-Process-Pathway-Requirements-1.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     ME22-ATCH-Process-Pathway-Requirements-1
                   </a>
@@ -143,6 +87,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220172/SupplementaryFiles/ME22-Personal-Data-Request-for-Data-Gathering-Purposes.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     ME22-Personal-Data-Request-for-Data-Gathering-Purposes
                   </a>
@@ -152,6 +98,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220248/SupplementaryFiles/MO01_IREB-General-Policies-and-Guidelines-2023.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     MO01_IREB-General-Policies-and-Guidelines-2023
                   </a>
@@ -161,6 +109,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220297/SupplementaryFiles/nuremburg_code.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     nuremburg_code
                   </a>
@@ -170,6 +120,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220360/SupplementaryFiles/OHRP-Categories-of-REVIEW-v2.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     OHRP-Categories-of-REVIEW-v2
                   </a>
@@ -179,6 +131,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220424/SupplementaryFiles/PHREB-Policies-v4.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     PHREB-Policies-v4
                   </a>
@@ -188,6 +142,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220471/SupplementaryFiles/Title-45-CFR-Part-46.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Title-45-CFR-Part-46
                   </a>
@@ -197,6 +153,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220516/SupplementaryFiles/WEB-CIOMS-EthicalGuidelines.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     WEB-CIOMS-EthicalGuidelines
                   </a>
@@ -206,6 +164,8 @@ function EthicsReviewGuidelines() {
                   <a
                     href="https://res.cloudinary.com/dyrf8wr1i/image/upload/v1731220602/SupplementaryFiles/wma-declaration-of-helsinki.pdf"
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     wma-declaration-of-helsinki
                   </a>

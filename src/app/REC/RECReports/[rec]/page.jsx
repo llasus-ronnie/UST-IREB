@@ -20,6 +20,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import "jspdf-autotable";
 
 //css
 import "../../../styles/rec/RECReports.css";
@@ -39,6 +40,10 @@ ChartJS.register(
 function RECReports({ params }) {
   const { rec } = useParams();
   const [formsData, setFormsData] = useState([]);
+  const [recSubmissionCounts, setRecSubmissionCounts] = useState({});
+  const [recApprovalCounts, setRecApprovalCounts] = useState({});
+  const [recDeferredCounts, setRecDeferredCounts] = useState({});
+  const [statusCounts, setStatusCounts] = useState([]);
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -76,6 +81,8 @@ function RECReports({ params }) {
     async function fetchFormsData() {
       try {
         const response = await axios.get("/api/forms", { params: { rec } });
+        console.log("API Response Data:", response.data);
+
         const forms = response.data.forms || [];
         setFormsData(forms);
 
@@ -96,26 +103,53 @@ function RECReports({ params }) {
           "Dec",
         ];
 
-        let approvedCount = 0,
-          rejectedCount = 0,
-          totalSubmission = 0;
+        let submittedCount = 0;
+        let totalSubmissions = 0;
+
+        let approvedCount = 0;
+        let rejectedCount = 0;
+
+        const recSubmissionCountsTemp = {};
+        const recApprovalCountsTemp = {};
+        const recDeferredCountsTemp = {};
 
         forms.forEach((form) => {
-          const month = new Date(form.date).getMonth();
+          const submissionDate = new Date(form.date);
+          const month = submissionDate.getMonth(); // 0-11 for Jan-Dec
+          const recName = form.researchEthicsCommittee;
+
+          // Increment counts for submissions by month
           submissionCountsArray[month]++;
-          totalSubmission++;
+          if (!recSubmissionCountsTemp[recName]) {
+            recSubmissionCountsTemp[recName] = 0;
+          }
+          recSubmissionCountsTemp[recName]++;
+          totalSubmissions++;
 
-          if (form.status === "Submitted") submittedCount++;
-          else if (form.status === "Approved") approvedCount++;
-          else if (form.status === "Rejected") rejectedCount++;
+          // Count status types for doughnut chart
+          if (form.finalDecision === "No Final Decision Yet") submittedCount++;
+          else if (form.finalDecision === "Approved") {
+            approvedCount++;
+            recApprovalCountsTemp[recName] =
+              (recApprovalCountsTemp[recName] || 0) + 1;
+          } else if (form.finalDecision === "Deferred") {
+            rejectedCount++;
+            recDeferredCountsTemp[recName] =
+              (recDeferredCountsTemp[recName] || 0) + 1;
+          }
 
-          if (form.status === "Approved") {
+          if (form.finalDecision === "Approved") {
             approvedCountsArray[month]++;
           }
         });
 
+        setRecSubmissionCounts(recSubmissionCountsTemp);
+        setRecApprovalCounts(recApprovalCountsTemp);
+        setRecDeferredCounts(recDeferredCountsTemp);
+
+        // Update the bar chart data
         setChartData({
-          labels,
+          labels: labels,
           datasets: [
             {
               label: "Submitted",
@@ -130,12 +164,15 @@ function RECReports({ params }) {
           ],
         });
 
+        // Update the doughnut chart data
         setDoughnutData({
           labels: ["Submitted", "Approved", "Rejected"],
           datasets: [
             {
-              data: [totalSubmission, approvedCount, rejectedCount],
+              label: "Approval Status",
+              data: [totalSubmissions, approvedCount, rejectedCount],
               backgroundColor: ["#FFCC00", "#4CAF50", "#F44336"],
+              hoverOffset: 4,
             },
           ],
         });
@@ -180,15 +217,21 @@ function RECReports({ params }) {
     labels: [],
     datasets: [
       {
-        label: "Waiting",
-        data: [2, 1, 1, 2, 1],
+        label: "In Progress",
+        data: [],
         backgroundColor: "#FFEB3B", // Yellow
         barThickness: 25,
       },
       {
-        label: "Completed",
-        data: [4, 6, 4, 7, 6],
-        backgroundColor: "#FFD700", // Bright yellow
+        label: "Resubmission",
+        data: [],
+        backgroundColor: "#F44336", // Red
+        barThickness: 25,
+      },
+      {
+        label: "Final Review",
+        data: [],
+        backgroundColor: "#4CAF50",
         barThickness: 25,
       },
     ],
@@ -214,39 +257,51 @@ function RECReports({ params }) {
         const forms = formsResponse.data.forms;
 
         // Initialize counts for each reviewer
-        const statusCounts = primaryReviewers.map((reviewer) => ({
+        const counts = primaryReviewers.map((reviewer) => ({
           reviewer,
           inProgress: 0,
           finalReview: 0,
+          resubmission: 0,
         }));
 
         // Count statuses for each reviewer
         forms.forEach((form) => {
-          const reviewerIndex = statusCounts.findIndex(
-            (entry) => entry.reviewer === form.primaryReviewer
+          const reviewerIndex = counts.findIndex(
+            (entry) => entry.reviewer === form.recMember
           );
           if (reviewerIndex !== -1) {
             if (form.status === "In-Progress") {
-              statusCounts[reviewerIndex].inProgress++;
+              counts[reviewerIndex].inProgress++;
             } else if (form.status === "Final-Review") {
-              statusCounts[reviewerIndex].finalReview++;
+              counts[reviewerIndex].finalReview++;
+            } else if (form.status === "Resubmission") {
+              counts[reviewerIndex].resubmission++;
             }
           }
         });
 
+        // Set the status counts in state
+        setStatusCounts(counts);
+
         // Prepare chart data
         setRecStatusData({
-          labels: statusCounts.map((entry) => entry.reviewer),
+          labels: counts.map((entry) => entry.reviewer),
           datasets: [
             {
-              label: "In-Progress",
-              data: statusCounts.map((entry) => entry.inProgress),
+              label: "In Progress",
+              data: counts.map((entry) => entry.inProgress),
               backgroundColor: "#FFEB3B", // Yellow
               barThickness: 25,
             },
             {
-              label: "Final-Review",
-              data: statusCounts.map((entry) => entry.finalReview),
+              label: "Resubmission",
+              data: counts.map((entry) => entry.resubmission),
+              backgroundColor: "#F44336", // Red
+              barThickness: 25,
+            },
+            {
+              label: "Final Review",
+              data: counts.map((entry) => entry.finalReview),
               backgroundColor: "#4CAF50", // Green
               barThickness: 25,
             },
@@ -322,26 +377,107 @@ function RECReports({ params }) {
 
       doc.setFontSize(16);
       doc.text("Submission Overview", 40, 100);
-      doc.addImage(barChartImage, "PNG", 40, 120, 500, 300);
+      doc.addImage(barChartImage, "PNG", 40, 120, 500, 250);
+
+      doc.text("", 0, 400);
+
+      // Add Submission Overview Table
+      const submissionOverviewHeaders = ["Month", "Submitted", "Approved"];
+      const submissionOverviewRows = chartData.labels.map((month, index) => [
+        month,
+        chartData.datasets[0].data[index], // Submitted count
+        chartData.datasets[1].data[index], // Approved count
+      ]);
+
+      doc.setFontSize(16);
+      doc.text("Submission Overview Table", 40, 420);
+
+      doc.autoTable({
+        startY: 440,
+        head: [submissionOverviewHeaders],
+        body: submissionOverviewRows,
+        styles: { font: "helvetica", fontSize: 10 },
+        headStyles: { fillColor: [255, 204, 0] },
+      });
+
       doc.addPage();
 
       const pageWidth = doc.internal.pageSize.width;
-      const doughnutImageWidth = 300;
+      const doughnutImageWidth = 250;
       const centerX = (pageWidth - doughnutImageWidth) / 2;
-      doc.text("REC Analytics", 40, 40);
+      doc.text("REC Analytics", 40, 60);
       doc.addImage(
         doughnutChartImage,
         "PNG",
         centerX,
-        60,
+        80,
         doughnutImageWidth,
-        300
+        250
       );
+
+      doc.text("", 0, 320);
+
+      // Add REC Analytics Table
+      const recAnalyticsHeaders = [
+        "REC Name",
+        "Submissions",
+        "Approved",
+        "Deferred",
+      ];
+      const recAnalyticsRows = Object.entries(recSubmissionCounts).map(
+        ([recName, count]) => [
+          recName,
+          count, // Submissions count
+          recApprovalCounts[recName] || 0, // Approved count
+          recDeferredCounts[recName] || 0, // Deferred count
+        ]
+      );
+
+      doc.text("", 0, 340);
+
+      doc.setFontSize(16);
+      doc.text("REC Analytics Table", 40, 360);
+
+      doc.autoTable({
+        startY: 380,
+        head: [recAnalyticsHeaders],
+        body: recAnalyticsRows,
+        styles: { font: "helvetica", fontSize: 10 },
+        headStyles: { fillColor: [255, 204, 0] },
+      });
 
       doc.addPage();
 
-      doc.text("Task Status by Primary Reviewers", 40, 40);
-      doc.addImage(recStatusChartImage, "PNG", 40, 60, 500, 300);
+      doc.text("Task Status by Primary Reviewers", 40, 60);
+      doc.addImage(recStatusChartImage, "PNG", 40, 80, 500, 250);
+
+      doc.setFontSize(16);
+      doc.text("Reviewer Status Table", 40, 360);
+
+      // Define Headers
+      const reviewerStatusHeaders = [
+        "Reviewer",
+        "In Progress",
+        "Resubmission",
+        "Final Review",
+      ];
+
+      // Map data for table rows
+      const reviewerStatusRows = statusCounts.map((entry) => [
+        entry.reviewer,
+        entry.inProgress,
+        entry.resubmission,
+        entry.finalReview,
+      ]);
+
+      // Add Table
+      doc.autoTable({
+        startY: 380,
+        head: [reviewerStatusHeaders],
+        body: reviewerStatusRows,
+        styles: { font: "helvetica", fontSize: 10 },
+        headStyles: { fillColor: [255, 204, 0] },
+      });
 
       doc.save("REC_Report.pdf");
     } catch (error) {

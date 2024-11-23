@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { useSession } from "next-auth/react";
 
 //components
 import Navbar from "../components/navbar/Navbar";
@@ -23,6 +24,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Image from "next/image";
 
 function Home() {
+  const { data: session } = useSession();
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
     setIsClient(true);
@@ -50,9 +52,16 @@ function Home() {
                 </p>
 
                 <div className="buttons">
-                  <a href="/SignInOption">
-                    <button className="get-started">Get Started</button>
-                  </a>
+                  {session ? (
+                    <a href="/form">
+                      <button className="get-started">Get Started</button>
+                    </a>
+                  ) : (
+                    <a href="/SignInOption">
+                      <button className="get-started">Get Started</button>
+                    </a>
+                  )}
+
                   <a href="#submission-process">
                     <button className="learn-more">Learn More</button>
                   </a>
@@ -82,7 +91,6 @@ function Home() {
                 <ImageZoom />
               </div>
             </div>
-
           </div>
 
           <div className="footer">

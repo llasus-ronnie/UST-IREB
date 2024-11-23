@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { rec, title, name, status } = req.body;
+    const { rec, name, status } = req.body;
 
     let transporter = nodemailer.createTransport({
       service: "gmail",
