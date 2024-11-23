@@ -80,7 +80,7 @@ function RECViewSubmission({ params }) {
       await axios.put(
         `/api/forms`,
         {
-        id: forms._id,
+          id: forms._id,
           status: newStatus,
         },
         { params: { id: forms._id } }
@@ -103,7 +103,7 @@ function RECViewSubmission({ params }) {
       await axios.put(
         `/api/forms`,
         {
-        id: forms._id,
+          id: forms._id,
           recMember: selectedReviewer,
         },
         { params: { id: forms._id } }
@@ -147,7 +147,7 @@ function RECViewSubmission({ params }) {
       await axios.put(
         `/api/forms`,
         {
-        id: forms._id,
+          id: forms._id,
           classification: formClassification,
         },
         { params: { id: forms._id } }
@@ -189,18 +189,18 @@ function RECViewSubmission({ params }) {
           : [],  // If no file is uploaded, keep remarks empty
         remarksComment: data.comment || "",  // If no comment, send an empty string
       };
-  
+
       console.log("Submitting Remarks:", remarkData);  // Add this log to see the request body
-  
+
       const response = await axios.post("/api/remarks", remarkData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-  
+
       toast.success("Remarks have been submitted successfully.");
       getRemarks();
-  
+
       // Optional: Send email notification
       await axios.post("/api/auth/send-email-remarks", {
         email: forms.email,
@@ -212,25 +212,28 @@ function RECViewSubmission({ params }) {
       toast.error("Failed to submit remarks. Please try again.");
     }
   }
-  
+
 
   //recmembers
   useEffect(() => {
     console.log("Current rec value:", rec);
+    
     async function getRECMembers() {
       try {
         const res = await axios.get(`/api/RECMembers`, {
-          params: { rec: rec },
+          params: { rec: forms?.researchEthicsCommittee }, // Use the correct `researchEthicsCommittee` value
         });
         setRECMembers(res.data.data);
       } catch (error) {
         console.log("Error loading REC Members");
       }
     }
-    if (rec) {
-      getRECMembers();
+    
+    if (rec && forms?.researchEthicsCommittee) {
+      getRECMembers(); // Ensure both `rec` and `forms.researchEthicsCommittee` exist before fetching
     }
-  }, [rec]);
+  }, [rec, forms?.researchEthicsCommittee]); // Dependency array includes both `rec` and `forms.researchEthicsCommittee`
+  
 
   //payment file
   useEffect(() => {
@@ -571,6 +574,7 @@ function RECViewSubmission({ params }) {
                     value={formClassification}
                     onChange={handleClassificationChange}
                   >
+                    <option value="No-value" disabled> Choose classification </option>
                     <option value="Full-Board">Full Board</option>
                     <option value="Expedited">Expedited</option>
                     <option value="Exempt">Exempt</option>
@@ -578,7 +582,7 @@ function RECViewSubmission({ params }) {
                 </>
               ) : null}
 
-              {status === "For-Classification" ? (
+              { formClassification ==="Full-Board" || formClassification==="Expedited"  ? (
                 <>
                   <span>Assign Reviewer:</span>
                   {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
@@ -666,7 +670,7 @@ function RECViewSubmission({ params }) {
 
               <div className="submissionstatus-card-remarks">
                 <div className="upload-remarks">
-                  {finalDecision === "Approved" ? (
+                  {finalDecision === "Approved" || formClassification ==="Exempt" ? (
                     <span>Certificate:</span>
                   ) : finalDecision === "Deferred" ? (
                     <span>Letter of Disapproval:</span>
@@ -769,10 +773,10 @@ function RECViewSubmission({ params }) {
                           {remark.resubmission0
                             ? "Initial Result"
                             : remark.resubmission1
-                            ? "Resubmission 1"
-                            : remark.resubmission2
-                            ? "Resubmission 2"
-                            : "No Resubmission"}
+                              ? "Resubmission 1"
+                              : remark.resubmission2
+                                ? "Resubmission 2"
+                                : "No Resubmission"}
                         </td>
                         <td>
                           {remark.fileLink ? (
@@ -820,12 +824,28 @@ function RECViewSubmission({ params }) {
           <ToastContainer />
           <AcknowledgeModal
             show={showAcknowledgeModal}
-            onHide={() => setShowAcknowledgeModal(false)}
-            onConfirm={() => {
+            onHide={() => {
+              console.log("Modal is being hidden");
               setShowAcknowledgeModal(false);
-              updateStatusData("For-Classification");
+            }}
+            onConfirm={() => {
+              console.log("Modal confirmed");
+
+              // Debugging the update status process
+              console.log("Attempting to update status to 'For-Classification'");
+              console.log("Forms object being passed:", forms);
+
+              if (!forms || !forms._id) {
+                console.error("Error: The forms object is invalid or _id is missing");
+              } else {
+                console.log("Forms _id:", forms._id);
+                updateStatusData("For-Classification");
+              }
+
+              setShowAcknowledgeModal(false);
             }}
           />
+
           <InitialSubmissionModal
             show={showCompleteModal}
             onHide={() => setShowCompleteModal(false)}

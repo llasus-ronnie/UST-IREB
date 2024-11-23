@@ -89,6 +89,7 @@ function SubmissionStatus({ params }) {
       title: "For Classification",
       description:
         "Once proof of payment is received, your submission will move to research classification.",
+      remarks: `${"Your form is: ", form?.classification}`
     },
     {
       id: "In-Progress",
