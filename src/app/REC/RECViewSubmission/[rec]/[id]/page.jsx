@@ -127,7 +127,7 @@ function RECViewSubmission({ params }) {
         {
           id: forms._id,
           initialSubmission: initialSubmission,
-          status: initialSubmission === "complete" ? "Pending-Payment" : forms.status,
+          status: initialSubmission === "Completed" ? "Pending-Payment" : forms.status,
         },
         { params: { id: forms._id } }
       );
