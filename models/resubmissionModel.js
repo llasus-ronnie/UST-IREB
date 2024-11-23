@@ -5,10 +5,10 @@ const resubmissionFileSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    resubmissionFile: {
-        type: String,
-        required: true,
-    },
+    resubmissionFile: [{
+        url: String,
+        filename: String,
+    }],
     resubmissionComments: {
         type: String,
         required: false,
@@ -16,19 +16,7 @@ const resubmissionFileSchema = new mongoose.Schema({
     resubmissionFileDate: {
         type: Date,
         default: Date.now
-    },
-    resubmission1: { 
-        type: Boolean, 
-        default: false 
-    },
-    resubmission2: { 
-        type: Boolean, 
-        default: false 
-    }, 
-    resubmission3: { 
-        type: Boolean, 
-        default: false 
-    }, 
+    }
 });
 
 const resubmissionFile =

@@ -9,17 +9,14 @@ const resubmissionRemarkSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    resubmissionRemarksFile: {
-        type: String,
-        required: true,
-    },
+    resubmissionRemarksFile: [{
+        url: String,
+        filename: String,
+    }],
     resubmissionRemarksDate: {
         type: Date,
         default: Date.now
-    },
-    resubmission0: { type: Boolean, default: false },
-     resubmission1: { type: Boolean, default: false },
-        resubmission2: { type: Boolean, default: false }, 
+    }, 
 });
 
 const resubmissionRemarks =

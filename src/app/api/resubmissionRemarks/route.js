@@ -8,52 +8,43 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 
-export async function POST(req, res) {
+// POST Route: Adjusting to handle subFormId from request body
+export async function POST(req) {
     try {
-        const resubmission = await req.json();
-        const { subFormId } = resubmission;
-        await connectDB();
-
-        // Fetch existing resubmissions for the given subFormId
-        const existingResubmissions = await ResubmissionRemarksModel.find({ subFormId });
-
-        console.log("Existing Resubmissions Count: ", existingResubmissions.length);
-
-        // Initialize all resubmission flags as false
-        let resubmission0 = false;
-        let resubmission1 = false;
-        let resubmission2 = false;
-
-        // Set flags based on the number of existing resubmissions
-        if (existingResubmissions.length === 0) {
-            resubmission0 = true; // First resubmission
-        } else if (existingResubmissions.length === 1) {
-            resubmission1 = true; // Second resubmission
-        } else if (existingResubmissions.length === 2) {
-            resubmission2 = true; // Third resubmission
-        }
-
-        console.log("Resubmission Flags: ", { resubmission0, resubmission1, resubmission2 });
-
-        // Construct the new resubmission object
-        const newResubmission = {
-            ...resubmission,
-            resubmission0,
-            resubmission1,
-            resubmission2,
-        };
-
-        // Save the new resubmission to the database
-        const savedResubmission = await ResubmissionRemarksModel.create(newResubmission);
-        return NextResponse.json(savedResubmission, { status: 201 });
-
+      // Parse the incoming JSON payload
+      const resubmission = await req.json();
+  
+      const { subFormId, resubmissionFile, resubmissionComments } = resubmission;
+  
+      if (!subFormId) {
+        console.log("Error: subFormId is required");
+        return NextResponse.json({ error: "subFormId is required" }, { status: 400 });
+      }
+  
+      console.log("Received resubmission data:", { resubmissionFile, resubmissionComments });
+  
+      await connectDB();
+  
+      const existingResubmissions = await ResubmissionRemarksModel.find({ subFormId });
+      console.log("Existing Resubmissions Count: ", existingResubmissions.length);
+  
+      const newResubmission = {
+        subFormId,
+        resubmissionFile: resubmissionFile || [], // Default to an empty array if not provided
+        resubmissionComments: resubmissionComments || "", // Optional field
+      };
+  
+      const savedResubmission = await ResubmissionRemarksModel.create(newResubmission);
+  
+      return NextResponse.json(savedResubmission, { status: 201 });
+  
     } catch (error) {
-        console.error("Error saving resubmission:", error);
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+      console.error("Error saving resubmission:", error.message);
+      return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
-}
-
-
+  }
+  
+  
 
 export async function GET(req) {
     try {

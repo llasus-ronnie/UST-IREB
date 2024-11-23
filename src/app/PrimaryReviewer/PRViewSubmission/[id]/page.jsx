@@ -27,6 +27,8 @@ function PRViewSubmission({ params }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [remarksData, setRemarksData] = useState([]);
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
+  const [resubmissionFiles, setResubmissionFiles] = useState([]); // To store uploaded files
+  const [resubmissionComments, setResubmissionComments] = useState(""); // To store remarks
 
   const { register, handleSubmit, setValue } = useForm();
 
@@ -99,96 +101,73 @@ function PRViewSubmission({ params }) {
     fetchResubmissionRemarks();
   }, [forms]);
 
+  //Post
   async function submitResubmissionRemarks(data) {
     try {
+      // Ensure files are included and mapped correctly
+      const files = resubmissionFiles.map((file) => ({
+        url: file.url,
+        filename: file.filename,
+      }));
+
+      // Log the payload to confirm accuracy
+      console.log("Payload:", {
+        subFormId: forms._id,
+        resubmissionRemarksFile: files,
+        resubmissionComments: data.remarks || resubmissionComments,
+      });
+
+      // Validate the files array
+      if (files.length === 0) {
+        toast.error("Please upload at least one file.");
+        return;
+      }
+
+      // Prepare the payload
       const payload = {
         subFormId: forms._id,
-        resubmissionId: fileId,
-        ...data,
+        resubmissionRemarksFile: files,
+        resubmissionComments: data.remarks || resubmissionComments,
       };
+
+      // Post the payload to save remarks
       const response = await axios.post("/api/resubmissionRemarks", payload);
-      fetchResubmissionRemarks();
 
       if (response.status === 201) {
-        const { resubmission0 } = response.data;
+        const savedResubmission = response.data;
 
-        if (resubmission0) {
+        if (savedResubmission) {
+          // Update form status after successful resubmission
           const formUpdateResponse = await axios.put(
             "/api/forms",
-            { resubmissionStatus: "Resubmission", status: "Initial-Result" },
-            { params: { id: forms._id } }
+            {
+              resubmissionStatus: "Resubmission",
+              status: "Initial-Result",
+              id: forms._id, // Include the `id` here
+            }
           );
+
           if (formUpdateResponse.status === 200) {
             toast.success("Resubmission saved successfully!");
+            fetchResubmissionRemarks(); // Refresh remarks
+          } else {
+            toast.error("Failed to update form status.");
           }
         }
-      }
-
-
-      try {
-        const encodedRECName = encodeURIComponent(
-          forms.researchEthicsCommittee
-        );
-        const recResponse = await axios.get(`/api/REC?name=${encodedRECName}`);
-        console.log("REC Response Data:", recResponse.data);
-        const recData = recResponse.data.data; // Extract the data array
-
-        const rec = recData.find(
-          (rec) =>
-            rec.name.replace(/\s+/g, "").toLowerCase() ===
-            data.researchEthicsCommittee.replace(/\s+/g, "").toLowerCase()
-        );
-
-        if (rec) {
-          if (!rec.email) {
-            toast.error("REC email not found.");
-            return false;
-          }
-        } else {
-          toast.error("REC not found for the provided name.");
-          return false;
-        }
-
-        // Proceed with the email sending logic
-        const emailData = {
-          title: forms.title,
-          name: forms.fullName,
-          email: forms.email,
-        };
-
-        const emailResponse = await axios.post(
-          "/api/auth/send-email-remarks-pr",
-          emailData
-        );
-        console.log("Email Response:", emailResponse);
-        if (emailResponse.status === 200) {
-          toast.success("Email sent successfully!");
-          toast.success("Resubmission Remarks saved successfully!");
-          return true;
-        } else {
-          toast.error("Failed to send email");
-        }
-      } catch (error) {
-        console.error("Error sending email:", error);
-        toast.error("Failed to send email");
-      }
-
-      if (response.status === 201) {
-        toast.success("Resubmission Remarks saved successfully!");
       } else {
-        console.error("Unexpected response status:", response.status);
-        toast.error("Unexpected error. Please try again.");
+        toast.error("Failed to save resubmission remarks.");
       }
     } catch (error) {
-      console.error("Error Response:", error.response?.data || error.message);
-      toast.error("Error saving resubmission remarks. Please try again.");
+      console.error("Error submitting resubmission remarks:", error);
+      toast.error("Error submitting resubmission.");
     }
   }
+
+
 
   async function submitForFinalReview(data) {
     const payload = {
       subFormId: forms._id,
-      resubmissionId: fileId,
       ...data,
     };
     const response = await axios.post("/api/resubmissionRemarks", payload);
@@ -198,16 +177,11 @@ function PRViewSubmission({ params }) {
       toast.success("Resubmission saved successfully!");
     }
 
-    const formUpdateResponse = await axios.put(
-      "/api/forms",
-      {
-        resubmissionStatus: "Final-Review",
-        status: "Final-Decision",
-      },
-      {
-        params: { id: forms._id },
-      }
-    );
+    const formUpdateResponse = await axios.put("/api/forms", {
+      resubmissionStatus: "Resubmission",
+      status: "Initial-Result",
+      id: forms._id,
+    });
     if (formUpdateResponse.status === 200) {
       console.log(formUpdateResponse);
       toast.success("Form status updated to final Review");
@@ -248,6 +222,25 @@ function PRViewSubmission({ params }) {
 
     return <option>No files available</option>;
   };
+
+  const removeFile = (index) => {
+    setResubmissionFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  };
+
+  const handleFileUploadSuccess = (res) => {
+    // Check if the file format is PDF
+    if (res.info.format !== 'pdf') {
+      toast.error("Only PDF files are allowed. Please upload a PDF.");
+      return;
+    }
+
+    // Update the state with the uploaded file information
+    setResubmissionFiles((prevFiles) => [
+      ...prevFiles,
+      { filename: res.info.original_filename, url: res.info.secure_url }
+    ]);
+  };
+
 
 
   return (
@@ -293,24 +286,24 @@ function PRViewSubmission({ params }) {
               Go Back to Manage Submissions
             </a>
             <select
-            className="viewsub-changestatus"
-            onChange={e => setSelectedFile(e.target.value)} // Update selectedFile state
-          >
-            <option value="">Select a file</option>
-            {renderFileOptions()}
-          </select>
-          <Col xs={12} lg={8} className="viewsub-content-container">
-            {selectedFile ? (
-              <iframe
-                src={selectedFile}
-                width="100%"
-                height="800px"
-                title="Selected File"
-              />
-            ) : (
-              <p>No file selected or available for rendering.</p>
-            )}
-          </Col>
+              className="viewsub-changestatus"
+              onChange={e => setSelectedFile(e.target.value)} // Update selectedFile state
+            >
+              <option value="">Select a file</option>
+              {renderFileOptions()}
+            </select>
+            <Col xs={12} lg={8} className="viewsub-content-container">
+              {selectedFile ? (
+                <iframe
+                  src={selectedFile}
+                  width="100%"
+                  height="800px"
+                  title="Selected File"
+                />
+              ) : (
+                <p>No file selected or available for rendering.</p>
+              )}
+            </Col>
 
             <Col xs={12} lg={4} className="viewsub-details-container">
               <h1>Submission Details</h1>
@@ -328,68 +321,48 @@ function PRViewSubmission({ params }) {
               <span>Review Classification:</span>
               <p>{forms?.status || "No classification available"}</p>
 
-              {selectedFile === "Resubmission-1" ? (
-                <div className="viewsub-remarks">
-                  <p>Resubmission Text:</p>
-                  <p style={{ fontWeight: "normal" }}>
-                    {resubmission.resubmission1?.resubmissionComments}
-                  </p>
-                </div>
-              ) : null}
-
-              {selectedFile === "Resubmission-2" ? (
-                <div className="viewsub-remarks">
-                  <p>Resubmission Text:</p>
-                  <p style={{ fontWeight: "normal" }}>
-                    {resubmission.resubmission2?.resubmissionComments}
-                  </p>
-                </div>
-              ) : null}
-
-              {selectedFile === "Resubmission-2" ? (
-                <div className="viewsub-remarks">
-                  <p>Resubmission Text:</p>
-                  <p style={{ fontWeight: "normal" }}>
-                    {resubmission.resubmission2?.resubmissionComments}
-                  </p>
-                </div>
-              ) : null}
-
-              {selectedFile === "Resubmission-3" ? (
-                <div className="viewsub-remarks">
-                  <p>Resubmission Text:</p>
-                  <p style={{ fontWeight: "normal" }}>
-                    {resubmission.resubmission3?.resubmissionComments}
-                  </p>
-                </div>
-              ) : null}
-
               <div className="viewsub-remarks">
+
                 <p>Review Remarks:</p>
                 <CldUploadWidget
                   signatureEndpoint="/api/sign-cloudinary-params"
-                  onSuccess={(res) => {
-                    if (res.info.format !== "pdf") {
-                      toast.error(
-                        "Only PDF files are allowed. Please upload a PDF."
-                      );
-                      return;
-                    }
-                    setValue("resubmissionRemarksFile", res.info.secure_url);
-                  }}
+                  multiple // Allow multiple file uploads
+                  onSuccess={handleFileUploadSuccess}
                 >
-                  {({ open }) => {
-                    return (
+                  {({ open }) => (
+                    <button
+                      type="button"
+                      onClick={() => open()}
+                      className="form-control PIforms-formtext PIforms-file"
+                    >
+                      Upload Files
+                    </button>
+                  )}
+                </CldUploadWidget>
+
+
+                <div className="uploaded-files-list">
+                  {resubmissionFiles.map((file, index) => (
+                    <div key={index} className="file-item">
+                      <span>{file.filename}</span>
                       <button
                         type="button"
-                        onClick={() => open()}
-                        className="form-control PIforms-formtext PIforms-file"
+                        onClick={() => removeFile(index)} // Function to remove file from state
+                        className="remove-file-button"
                       >
-                        Upload file
+                        Remove
                       </button>
-                    );
-                  }}
-                </CldUploadWidget>
+                    </div>
+                  ))}
+                </div>
+
+                <textarea
+                  className="viewsub-textarea"
+                  placeholder="Enter remarks here..."
+                  value={resubmissionComments}
+                  onChange={(e) => setResubmissionComments(e.target.value)} // Bind to state
+                />
+
               </div>
 
               <div className="submissionstatus-card-remarks">
@@ -401,36 +374,7 @@ function PRViewSubmission({ params }) {
                       <th>Date</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {remarksData.map((remark) => (
-                      <tr key={remark._id}>
-                        <td>
-                          {/* Check if resubmission1 or resubmission2 is true and display accordingly */}
-                          {remark.resubmission0
-                            ? "Initial Result"
-                            : remark.resubmission1
-                              ? "Resubmission 1"
-                              : remark.resubmission2
-                                ? "Resubmission 2"
-                                : "No Resubmission"}
-                        </td>
-                        <td>
-                          <a
-                            href={remark.resubmissionRemarksFile}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            View Remarks
-                          </a>
-                        </td>
-                        <td>
-                          {new Date(
-                            remark.resubmissionRemarksDate
-                          ).toLocaleString()}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
+
                 </table>
               </div>
 
