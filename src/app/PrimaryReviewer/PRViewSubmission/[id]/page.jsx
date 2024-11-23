@@ -24,7 +24,7 @@ function PRViewSubmission({ params }) {
   const router = useRouter();
   const [modalShowFinalReview, setModalShowFinalReview] = useState(false);
   const [status, setStatus] = useState("");
-  const [selectedFile, setSelectedFile] = useState("Main-File");
+  const [selectedFile, setSelectedFile] = useState(null);
   const [remarksData, setRemarksData] = useState([]);
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
 
@@ -55,20 +55,21 @@ function PRViewSubmission({ params }) {
           },
         });
 
-        if (response.data) {
-          const { resubmission1, resubmission2, resubmission3 } = response.data;
-          setResubmission({ resubmission1, resubmission2,resubmission3 });
-          console.log("Resubmission API Response:", response.data);
+        if (Array.isArray(response.data)) {
+          setResubmission(response.data);
         } else {
-          setResubmission(null);
+          setResubmission(Object.values(response.data)); // If not an array, convert it to an array
         }
       } catch (error) {
         console.error("Failed to fetch resubmission:", error);
       }
     }
 
-    fetchResubmission();
+    if (forms._id) {
+      fetchResubmission();
+    }
   }, [forms]);
+
 
   const fetchResubmissionRemarks = async () => {
     try {
@@ -122,6 +123,7 @@ function PRViewSubmission({ params }) {
           }
         }
       }
+
 
       try {
         const encodedRECName = encodeURIComponent(
@@ -223,52 +225,30 @@ function PRViewSubmission({ params }) {
     setSelectedFile(e.target.value);
   };
 
-  console.log("resub3:", resubmission.resubmission3?.resubmissionFile);
-
-  const mainFileUrl = getCldImageUrl({
-    width: 960,
-    height: 600,
-    src: `${forms.mainFileLink}`,
-  });
-
-  let fileUrl = "";
-  let fileId = "";
-  if (selectedFile === "Main-File") {
-    fileUrl = mainFileUrl;
-    fileId = forms._id;
-  } else if (selectedFile === "Resubmission-1" && resubmission?.resubmission1) {
-    fileUrl = getCldImageUrl({
-      width: 960,
-      height: 600,
-      src: `${resubmission.resubmission1.resubmissionFile}`,
-    });
-    fileId = resubmission.resubmission1._id;
-  } else if (selectedFile === "Resubmission-2" && resubmission?.resubmission2) {
-    fileUrl = getCldImageUrl({
-      width: 960,
-      height: 600,
-      src: `${resubmission.resubmission2.resubmissionFile}`,
-    });
-    fileId = resubmission.resubmission2._id;
-  }
-  else if (selectedFile === "Resubmission-3" && resubmission?.resubmission3) {
-    fileUrl = getCldImageUrl({
-      width: 960,
-      height: 600,
-      src: `${resubmission.resubmission3.resubmissionFile}`,
-    });
-    fileId = resubmission.resubmission3._id;
-  }
-
-
-  console.log("resubmission 3", resubmission.resubmission3);
-  useEffect(() => {
-    if (resubmission?.resubmission3) {
-      setIsSaveDisabled(true);
-    } else {
-      setIsSaveDisabled(false);
+  const renderFileOptions = () => {
+    if (!forms || typeof forms !== 'object') {
+      return <option>Loading files...</option>;
     }
-  }, [resubmission]);
+
+    const mainFiles = forms.mainFileLink || []; // Default to an empty array if undefined
+    const supplementaryFiles = forms.supplementaryFileLink || []; // Default to an empty array if undefined
+
+    const fileLinks = [
+      ...mainFiles.map(file => ({ filename: file.filename, url: file.url })),
+      ...supplementaryFiles.map(file => ({ filename: file.filename, url: file.url })),
+    ];
+
+    if (fileLinks.length > 0) {
+      return fileLinks.map((file, index) => (
+        <option key={index} value={file.url}>
+          {file.filename}
+        </option>
+      ));
+    }
+
+    return <option>No files available</option>;
+  };
+
 
   return (
     <div className="adminpage-container">
@@ -313,22 +293,25 @@ function PRViewSubmission({ params }) {
               Go Back to Manage Submissions
             </a>
             <select
-              className="viewsub-changestatus"
-              value={selectedFile}
-              onChange={handleChange}
-            >
-              <option value="Main-File">Main File</option>
-              <option value="Resubmission-1">Resubmission 1</option>
-              <option value="Resubmission-2">Resubmission 2</option>
-              <option value="Resubmission-3">Resubmission 3</option>
-            </select>
-            <Col xs={12} lg={8} className="viewsub-content-container">
-              {fileUrl ? (
-                <iframe src={fileUrl} width="100%" height="800px"></iframe>
-              ) : (
-                <p>No file available for the selected option.</p>
-              )}
-            </Col>
+            className="viewsub-changestatus"
+            onChange={e => setSelectedFile(e.target.value)} // Update selectedFile state
+          >
+            <option value="">Select a file</option>
+            {renderFileOptions()}
+          </select>
+          <Col xs={12} lg={8} className="viewsub-content-container">
+            {selectedFile ? (
+              <iframe
+                src={selectedFile}
+                width="100%"
+                height="800px"
+                title="Selected File"
+              />
+            ) : (
+              <p>No file selected or available for rendering.</p>
+            )}
+          </Col>
+
             <Col xs={12} lg={4} className="viewsub-details-container">
               <h1>Submission Details</h1>
 
@@ -363,7 +346,7 @@ function PRViewSubmission({ params }) {
                 </div>
               ) : null}
 
-{selectedFile === "Resubmission-2" ? (
+              {selectedFile === "Resubmission-2" ? (
                 <div className="viewsub-remarks">
                   <p>Resubmission Text:</p>
                   <p style={{ fontWeight: "normal" }}>
@@ -372,7 +355,7 @@ function PRViewSubmission({ params }) {
                 </div>
               ) : null}
 
-{selectedFile === "Resubmission-3" ? (
+              {selectedFile === "Resubmission-3" ? (
                 <div className="viewsub-remarks">
                   <p>Resubmission Text:</p>
                   <p style={{ fontWeight: "normal" }}>
@@ -426,10 +409,10 @@ function PRViewSubmission({ params }) {
                           {remark.resubmission0
                             ? "Initial Result"
                             : remark.resubmission1
-                            ? "Resubmission 1"
-                            : remark.resubmission2
-                            ? "Resubmission 2"
-                            : "No Resubmission"}
+                              ? "Resubmission 1"
+                              : remark.resubmission2
+                                ? "Resubmission 2"
+                                : "No Resubmission"}
                         </td>
                         <td>
                           <a
