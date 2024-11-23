@@ -60,6 +60,9 @@ function SubmissionStatus({ params }) {
       title: "Initial Submission",
       description:
         "Your initial submission will be reviewed to see if all requirements are complete or if any revisions are needed before proceeding.",
+        remarks: form?.initialSubmission === "Incomplete"
+        ? `${form?.initialSubmission}, kindly review the remarks on the table. The edit forms button is open for you to edit your current submission and resubmit your initial requirements. Thank you`
+        : `${form?.initialSubmission}`, 
     },
     {
       id: "Pending-Payment",
@@ -308,14 +311,13 @@ function SubmissionStatus({ params }) {
                   </table>
                 </div>
               </div>
+              {form?.initialSubmission === "Incomplete" && form?._id? (
+                <Link href={`/PrincipalInvestigator/EditSubmission/${form._id}`} passHref>
+                  <button className="submissionstatus-buttons submissionstatus-edit-form">Edit</button>
+                </Link>
+              ): null}
 
               <div className="submissionstatus-buttons">
-                {/* <Link
-                  href={`/PrincipalInvestigator/SubmissionHistory/${form?._id}`}
-                  className="submissionstatus-view-sub"
-                >
-                  View Submission
-                </Link> */}
                 {form?.status === "Initial-Result" ? (
                   <button
                     className="submissionstatus-edit-sub"
@@ -330,13 +332,13 @@ function SubmissionStatus({ params }) {
               <div className="submissionstatus-uploadproof-container">
 
                 {form?.status === "Pending-Payment" ? (
-                <button
-                  className="submissionstatus-uploadproof"
-                  onClick={paymentLink ? handleEditModal : handleShowModal}
-                >
-                  {paymentLink ? "Edit Payment Proof" : "Upload Payment Proof"}
-                </button>
-                ): null
+                  <button
+                    className="submissionstatus-uploadproof"
+                    onClick={paymentLink ? handleEditModal : handleShowModal}
+                  >
+                    {paymentLink ? "Edit Payment Proof" : "Upload Payment Proof"}
+                  </button>
+                ) : null
                 }
                 <div className="submissionstatus-paymentfile">
                   <p>Uplaoded File:</p>

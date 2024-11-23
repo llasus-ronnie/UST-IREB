@@ -109,13 +109,6 @@ function SubmissionList() {
                     >
                       View
                     </Link>
-
-                    <Link
-                      href={`/PrincipalInvestigator/EditSubmission/${form._id}`}
-                      className="view-btn"
-                    >
-                      Edit
-                    </Link>
                     <button
                       className="view-btn"
                       onClick={() => archiveForm(form._id, form.isArchived)}

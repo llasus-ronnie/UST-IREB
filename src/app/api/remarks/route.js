@@ -12,14 +12,17 @@ export async function POST(req, res) {
   try {
     await connectDB();
     const remarks = await req.json();
+    
+    // Log the data received from the frontend
+    console.log("Received Remarks Data:", remarks);
+
     const saveRemark = await RemarksModel.create(remarks);
-    console.log("REMARKS:", saveRemark);
+    console.log("Saved Remark:", saveRemark);
+
     return NextResponse.json(saveRemark, { status: 201 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    console.error("Error saving remark:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
 

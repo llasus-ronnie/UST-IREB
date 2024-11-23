@@ -19,6 +19,9 @@ export default function UploadPaymentProofModal({
   const { register, handleSubmit, setValue } = useForm();
   const { data: session } = useSession();
   const [form, setForm] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [uploadedFileName, setUploadedFileName] = useState(null);
+
 
   //POST payment
   async function submitPayment(data) {
@@ -78,12 +81,11 @@ export default function UploadPaymentProofModal({
 
       if (response.status === 201) {
         toast.success("Payment saved successfully!");
+        props.onHide();
 
         if (onDataChange) {
           onDataChange();
         }
-
-        props.onHide();
       }
     } catch (error) {
       toast.error("Error saving payment. Please try again.");
@@ -139,10 +141,14 @@ export default function UploadPaymentProofModal({
                 if (
                   fileType === "jpg" ||
                   fileType === "jpeg" ||
-                  fileType === "png"
+                  fileType === "png" ||
+                  fileType === "pdf"
                 ) {
                   const secureUrl = res.info.secure_url;
+                  const fileName = res.info.original_filename;
                   setValue("paymentFile", secureUrl);
+                  setUploadedFile(secureUrl);
+                  setUploadedFileName(fileName);
                   toast.success("File uploaded successfully!");
                 } else {
                   toast.error("Please upload a JPEG or PNG image.");
@@ -170,6 +176,24 @@ export default function UploadPaymentProofModal({
                 </button>
               )}
             </CldUploadWidget>
+            {uploadedFile && (
+              <div className="uploaded-file-preview">
+                <p className="uploaded-file-name">Uploaded File: {uploadedFileName}</p>
+                <img src={uploadedFile} alt={uploadedFileName} className="uploaded-file-image" />
+                <button
+                  type="button"
+                  className="btn remove-btn"
+                  onClick={() => {
+                    setUploadedFile(null); 
+                    setUploadedFileName(null); 
+                    setValue("paymentFile", null); 
+                    toast.info("File removed successfully.");
+                  }}
+                >
+                  Remove File
+                </button>
+              </div>
+            )}
             <input
               type="hidden"
               {...register("paymentFile", { required: true })}

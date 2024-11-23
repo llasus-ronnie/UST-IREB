@@ -9,9 +9,13 @@ const remarkSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    remarks: {
+    remarks: [{
+        url: String,  
+        filename: String,  
+    }],
+    remarksComment:{
         type: String,
-        required: true,
+        required: false,
     },
     remarksDate: {
         type: Date,

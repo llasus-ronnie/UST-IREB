@@ -8,6 +8,20 @@
   --poppins: "Poppins", sans-serif;
 }
 
+.uploaded-file-preview{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.remove-btn{
+  color: red;
+}
+
 .modal-dialog {
     width: fit-content;
 }

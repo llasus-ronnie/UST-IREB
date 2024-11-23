@@ -310,8 +310,8 @@ const subFormSchema = new Schema({
     require: true,
   },
   mainFileLink: [{
-    url: String,  // Store the file URL
-    filename: String,  // Store the file name
+    url: String,  
+    filename: String,  
   }],
   supplementaryFileLink: [{
     url: String,
@@ -331,7 +331,7 @@ const subFormSchema = new Schema({
       },
       message: 'recMember must have between 2 and 4 members.',
     },
-    default: ["kindly wait for your assigned reviewer", "kindly wait for your assigned reviewer", "kindly wait for your assigned reviewer", "kindly wait for your assigned reviewer"], 
+    default: Array(4).fill("kindly wait for your assigned reviewer"),
   },
   
   classification:{
@@ -353,6 +353,11 @@ const subFormSchema = new Schema({
       type: Boolean,
       require: true,
       default: false
+    },
+    initialSubmission:{
+      type: String,
+      require: true,
+      default: "Your assigned REC is checking for the completion of your requirements. Kindly wait for their feedback."
     }
 });
 

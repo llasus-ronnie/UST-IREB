@@ -236,6 +236,24 @@ body {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.submissionstatus-edit-form{
+  background-color: var(--tertiary-color);
+  color: var(--quaternary-color);
+  border: none;
+  border-radius: 10px;
+  padding: 0.8rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  font-size: var(--paragraph-size);
+  font-weight: bold;
+  width: 41rem;
+}
+
+.submissionstatus-edit-form:hover {
+  background-color: #e9ac04;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
 .submissionstatus-uploadproof-container {
   width: 100%;
   margin: 1rem 0;

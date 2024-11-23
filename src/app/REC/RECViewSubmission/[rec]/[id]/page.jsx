@@ -17,6 +17,7 @@ import Image from "next/image";
 import "react-toastify/dist/ReactToastify.css";
 import AcknowledgeModal from "../../../../components/modals/AcknowledgePaymentModal";
 import { title } from "process";
+import InitialSubmissionModal from "../../../../components/modals/InitialSubmissionAcknowledgeModal";
 
 function RECViewSubmission({ params }) {
   const [forms, setForms] = useState([]);
@@ -24,7 +25,11 @@ function RECViewSubmission({ params }) {
   const [rec, setRec] = useState("");
   const [id, setId] = useState("");
   const [status, setStatus] = useState("Initial-Submission");
-  const [remarks, setRemarks] = useState({ content: "" }); // Make remarks an object
+  const [remarks, setRemarks] = useState({
+    content: '',  // For the file URL (only set when a file is uploaded)
+    comment: '',  // For the comment text
+  });
+
   const [RECMembers, setRECMembers] = useState([]);
   const [selectedReviewer, setSelectedReviewer] = useState("");
   const [paymentLink, setPaymentLink] = useState("");
@@ -35,9 +40,8 @@ function RECViewSubmission({ params }) {
   const [remarksFile, setRemarksFile] = useState();
   const [finalDecision, setFinalDecision] = useState("");
   const [remarksData, setRemarksData] = useState([]);
-
-
-
+  const [initialSubmission, setInitialSubmission] = useState("Initial-Submission");
+  const [showCompleteModal, setShowCompleteModal] = useState(false);
 
   //unwrapping params
   useEffect(() => {
@@ -74,6 +78,7 @@ function RECViewSubmission({ params }) {
   const updateStatusData = async (newStatus) => {
     try {
       await axios.put(`/api/forms`, {
+        id: forms._id,
         status: newStatus,
       },
         { params: { id: forms._id } }
@@ -94,6 +99,7 @@ function RECViewSubmission({ params }) {
   const updateReviewerData = async () => {
     try {
       await axios.put(`/api/forms`, {
+        id: forms._id,
         recMember: selectedReviewer,
       },
         { params: { id: forms._id } }
@@ -109,10 +115,33 @@ function RECViewSubmission({ params }) {
     }
   };
 
+  //initial submission
+  const updateInitialSubmissionData = async () => {
+    try {
+      await axios.put(
+        `/api/forms`,
+        {
+          id: forms._id,
+          initialSubmission: initialSubmission,
+          status: initialSubmission === "complete" ? "Pending-Payment" : forms.status,
+        },
+        { params: { id: forms._id } }
+      );
+      console.log("Initial Submission updated:", initialSubmission);
+      toast.success(
+        "The initial submission information has been saved successfully."
+      );
+    } catch (error) {
+      console.error("Error updating initial submission:", error);
+      toast.error("Failed to update the initial submission. Please try again.");
+    }
+  };
+
   //classification
   const updateClassificationData = async () => {
     try {
       await axios.put(`/api/forms`, {
+        id: forms._id,
         classification: formClassification,
       }, { params: { id: forms._id } });
       console.log("Classification updated:", formClassification);
@@ -125,7 +154,6 @@ function RECViewSubmission({ params }) {
   };
 
   //GET remarks
-
   async function getRemarks() {
     try {
       const response = await axios.get(`/api/remarks`, {
@@ -146,30 +174,37 @@ function RECViewSubmission({ params }) {
   async function submitRemarks(data) {
     try {
       const remarkData = {
-        remarks: data.content,
         subFormId: id,
         status: status,
+        remarks: data.content
+          ? [{ url: data.content }]  // Only include the file URL if a file is uploaded
+          : [],  // If no file is uploaded, keep remarks empty
+        remarksComment: data.comment || "",  // If no comment, send an empty string
       };
+  
+      console.log("Submitting Remarks:", remarkData);  // Add this log to see the request body
+  
       const response = await axios.post("/api/remarks", remarkData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
+  
       toast.success("Remarks have been submitted successfully.");
       getRemarks();
-
+  
+      // Optional: Send email notification
       await axios.post("/api/auth/send-email-remarks", {
         email: forms.email,
         name: forms.fullName,
         title: forms.title,
       });
     } catch (error) {
-      console.error(
-        "Error submitting form:",
-        error.response?.data || error.message
-      );
+      console.error("Error submitting form:", error.response?.data || error.message);
+      toast.error("Failed to submit remarks. Please try again.");
     }
   }
+  
 
   //recmembers
   useEffect(() => {
@@ -189,6 +224,7 @@ function RECViewSubmission({ params }) {
     }
   }, [rec]);
 
+  //payment file
   useEffect(() => {
     async function fetchPaymentFile() {
       if (forms && forms._id) {
@@ -203,10 +239,10 @@ function RECViewSubmission({ params }) {
         }
       }
     }
-
     fetchPaymentFile();
   }, [forms]);
 
+  //final decision
   async function submitFinalDecision(finalDecision) {
     try {
       const formUpdateResponse = await axios.put("/api/forms", {
@@ -227,6 +263,7 @@ function RECViewSubmission({ params }) {
     }
   }
 
+  //resubmission remarks from PR
   const fetchResubmissionRemarks = async () => {
     try {
       const response = await axios.get("/api/resubmissionRemarks", {
@@ -261,8 +298,6 @@ function RECViewSubmission({ params }) {
       console.error("Error fetching remarks:", error.message);
     }
   };
-
-
 
   const getFileLink = async (resubmissionId) => {
     try {
@@ -305,6 +340,29 @@ function RECViewSubmission({ params }) {
     console.log(newStatus);
   };
 
+  //remarks file upload
+  const handleFileUpload = (res) => {
+    if (res.info.format !== "pdf") {
+      toast.error("Only PDF files are allowed. Please upload a PDF.");
+      return;
+    }
+    console.log(res.info.secure_url);
+    setRemarks({
+      content: res.info.secure_url,
+      isFile: true,
+      comment: remarks.comment,
+    });
+  };
+
+  //remarks comment
+  const handleRemarksChange = (e) => {
+    setRemarks({
+      ...remarks,  // Keep the previous data
+      comment: e.target.value,  // Update only the comment
+    });
+  };
+
+
   const handleBack = () => {
     router.push(`/REC/RECSubmissions/${rec}`);
   };
@@ -337,6 +395,15 @@ function RECViewSubmission({ params }) {
     setFinalDecision(event.target.value);
   };
 
+  const handleInitialSubmission = (event) => {
+    const value = event.target.value;
+    if (value === "Completed") {
+      setShowCompleteModal(true); // Show modal for confirmation
+    } else {
+      setInitialSubmission(value);
+    }
+  };
+
 
   //save data to database
   const updateStatus = async () => {
@@ -347,7 +414,7 @@ function RECViewSubmission({ params }) {
       if (selectedReviewer !== initialReviewer) {
         await updateReviewerData();
       }
-      if (remarks.content) {
+      if (remarks.content || remarks.comment) {
         await submitRemarks(remarks);
       }
       if (formClassification && status === "For-Classification") {
@@ -357,6 +424,9 @@ function RECViewSubmission({ params }) {
       }
       if (finalDecision) {
         await submitFinalDecision(finalDecision);
+      }
+      if (initialSubmission !== "Initial-Submission") {
+        await updateInitialSubmissionData();
       }
     } catch (error) {
       toast.error("Failed to update. Please try again.");
@@ -438,7 +508,7 @@ function RECViewSubmission({ params }) {
               </p>
 
               <span>Submission Status:</span>
-              <p>{forms?.classification || "No classification available"}</p>
+              <p>{forms?.status || "No classification available"}</p>
 
               <span>Status:</span>
               <select
@@ -447,7 +517,7 @@ function RECViewSubmission({ params }) {
                 onChange={handleStatusChange}
               >
                 <option value="Initial-Submission" selected>
-                  Choose Status
+                  Initial Submission
                 </option>
                 <option value="Pending-Payment">Pending Payment</option>
                 <option value="For-Classification">For Classification</option>
@@ -456,6 +526,24 @@ function RECViewSubmission({ params }) {
                 <option value="Resubmission">Resubmission</option>
                 <option value="Final-Decision">Final Decision</option>
               </select>
+
+
+              {status === "Initial-Submission" ? (
+                <>
+                  <span>Completion:</span>
+                  <select
+                    className="viewsub-changestatus"
+                    value={initialSubmission}
+                    onChange={handleInitialSubmission}
+                  >
+                    <option value="Initial-Submission" disabled>
+                      Choose one
+                    </option>
+                    <option value="Completed">Complete</option>
+                    <option value="Incomplete">Incomplete</option>
+                  </select>
+                </>
+              ) : null}
 
               {/* conditional rendering */}
               {status === "For-Classification" ? (
@@ -571,29 +659,43 @@ function RECViewSubmission({ params }) {
 
                   <CldUploadWidget
                     signatureEndpoint="/api/sign-cloudinary-params"
+                    multiple
                     onSuccess={(res) => {
                       if (res.info.format !== "pdf") {
-                        toast.error(
-                          "Only PDF files are allowed. Please upload a PDF."
-                        );
+                        toast.error("Only PDF files are allowed. Please upload a PDF.");
                         return;
                       }
-                      console.log(res.info.secure_url);
-                      setRemarks({ content: res.info.secure_url });
+                      // Only update the content with the file URL if a file is uploaded
+                      setRemarks((prevRemarks) => ({
+                        ...prevRemarks,
+                        content: res.info.secure_url,  // Set file URL
+                      }));
                     }}
                   >
-                    {({ open }) => {
-                      return (
-                        <button
-                          type="button"
-                          onClick={() => open()}
-                          className="form-control PIforms-formtext PIforms-file"
-                        >
-                          Upload file
-                        </button>
-                      );
-                    }}
+                    {({ open }) => (
+                      <button
+                        type="button"
+                        onClick={() => open()}
+                        className="form-control PIforms-formtext PIforms-file"
+                      >
+                        Upload file
+                      </button>
+                    )}
                   </CldUploadWidget>
+
+
+                  <textarea
+                    className="viewsub-textarea"
+                    value={remarks.comment}
+                    onChange={(e) => setRemarks({
+                      ...remarks,
+                      comment: e.target.value,  // Update the comment
+                    })}
+                    placeholder="Enter remarks here..."
+                  />
+
+
+
                 </div>
 
                 <table className="remarks-table">
@@ -706,6 +808,14 @@ function RECViewSubmission({ params }) {
             onConfirm={() => {
               setShowAcknowledgeModal(false);
               updateStatusData("For-Classification");
+            }}
+          />
+          <InitialSubmissionModal
+            show={showCompleteModal}
+            onHide={() => setShowCompleteModal(false)}
+            onConfirm={() => {
+              setShowCompleteModal(false);
+              setInitialSubmission("Completed");
             }}
           />
         </div>
