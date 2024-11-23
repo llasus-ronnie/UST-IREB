@@ -31,7 +31,7 @@ const researcherSchema = new Schema({
 });
 
 const subFormSchema = new Schema({
-  userEmail:{
+  userEmail: {
     type: String,
     require: true,
   },
@@ -309,14 +309,18 @@ const subFormSchema = new Schema({
     type: String,
     require: true,
   },
-  mainFileLink: [{
-    url: String,  
-    filename: String,  
-  }],
-  supplementaryFileLink: [{
-    url: String,
-    filename: String,
-  }],
+  mainFileLink: [
+    {
+      url: String,
+      filename: String,
+    },
+  ],
+  supplementaryFileLink: [
+    {
+      url: String,
+      filename: String,
+    },
+  ],
   status: {
     type: String,
     require: true,
@@ -324,40 +328,42 @@ const subFormSchema = new Schema({
   },
   recMember: {
     type: [String],
-    required: true, 
-    validate: {
-      validator: function (value) {
-        return value.length >= 2 && value.length <= 4;
-      },
-      message: 'recMember must have between 2 and 4 members.',
-    },
+    required: false,
+    // validate: {
+    //   validator: function (value) {
+    //     return value.length >= 2 && value.length <= 4;
+    //   },
+    //   message: 'recMember must have between 2 and 4 members.',
+    // },
   },
-  
-  classification:{
+
+  classification: {
     type: String,
     require: true,
-    default: "No remarks yet, wait for your assigned reviewer to review your submission and give feeback",
+    default:
+      "No remarks yet, wait for your assigned reviewer to review your submission and give feeback",
   },
-  resubmissionStatus:{
+  resubmissionStatus: {
     type: String,
     require: true,
-    default: "Newly-Assigned"
-    },
-    finalDecision:{
-      type: String,
-      require: true,
-      default: "No Final Decision Yet"
-    },
-    isArchived:{
-      type: Boolean,
-      require: true,
-      default: false
-    },
-    initialSubmission:{
-      type: String,
-      require: true,
-      default: "Your assigned REC is checking for the completion of your requirements. Kindly wait for their feedback."
-    }
+    default: "Newly-Assigned",
+  },
+  finalDecision: {
+    type: String,
+    require: true,
+    default: "No Final Decision Yet",
+  },
+  isArchived: {
+    type: Boolean,
+    require: true,
+    default: false,
+  },
+  initialSubmission: {
+    type: String,
+    require: true,
+    default:
+      "Your assigned REC is checking for the completion of your requirements. Kindly wait for their feedback.",
+  },
 });
 
 const subForm =

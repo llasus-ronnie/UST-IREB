@@ -64,11 +64,10 @@ export default function SignIn() {
           }
 
           if (userRec) {
-            toast.success("Successfully logged in!");
             const recName = userRec.rec
               ? userRec.rec.replace(/\s+/g, "")
               : userRec.name.replace(/\s+/g, "");
-            console.log("Redirecting to REC Dashboard:", recName);
+            toast.success("Successfully logged in!");
             router.push(`/REC/RECdashboard/${recName}`);
             return;
           }
