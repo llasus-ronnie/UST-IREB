@@ -117,12 +117,6 @@ function PRViewSubmission({ params }) {
         resubmissionComments: data.remarks || resubmissionComments,
       });
 
-      // Validate the files array
-      if (files.length === 0) {
-        toast.error("Please upload at least one file.");
-        return;
-      }
-
       // Prepare the payload
       const payload = {
         subFormId: forms._id,
