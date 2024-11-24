@@ -108,32 +108,32 @@ function PRViewSubmission({ params }) {
         url: file.url,
         filename: file.filename,
       }));
-  
+
       // Prepare the payload
       const payload = {
         subFormId: forms._id,
         resubmissionRemarksFile: files,
         resubmissionRemarksComments: data.remarks || resubmissionComments, // Use the correct key
       };
-  
+
       const response = await axios.post("/api/resubmissionRemarks", payload);
-  
+
       if (response.status === 201) {
         const savedResubmission = response.data;
-  
+
         if (savedResubmission) {
           const formUpdateResponse = await axios.put(
             "/api/forms",
             {
               resubmissionStatus: "Resubmission",
               status: "Initial-Result",
-              id: forms._id, 
+              id: forms._id,
             }
           );
-  
+
           if (formUpdateResponse.status === 200) {
             toast.success("Resubmission saved successfully!");
-            fetchResubmissionRemarks(); 
+            fetchResubmissionRemarks();
           } else {
             toast.error("Failed to update form status.");
           }
@@ -146,7 +146,7 @@ function PRViewSubmission({ params }) {
       toast.error("Error submitting resubmission.");
     }
   }
-  
+
 
   async function submitForFinalReview(data) {
     const payload = {
@@ -353,7 +353,25 @@ function PRViewSubmission({ params }) {
                       <th>Date</th>
                     </tr>
                   </thead>
-
+                  <tbody>
+                    {remarksData.map((remark, index) => (
+                      <tr key={index}>
+                        <td>{remark.resubmissionRemarksComments}</td>
+                        <td>
+                          {remark.resubmissionRemarksFile && remark.resubmissionRemarksFile.length > 0 ? (
+                            <a href={remark.resubmissionRemarksFile[0].url} target="_blank" rel="noopener noreferrer">
+                              {remark.resubmissionRemarksFile[0].filename}
+                            </a>
+                          ) : (
+                            <p>No file available</p> 
+                          )}
+                        </td>
+                        <td>
+                          {new Date(remark.resubmissionRemarksDate).toLocaleDateString("en-US")}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </table>
               </div>
 
