@@ -188,24 +188,24 @@ function PRViewSubmission({ params }) {
     ];
   
     const renderResubmissionFiles = () => {
-      return resubmission.map((resub, index) => {
-        const resubmissionFiles = resub.resubmissionFile || []; 
+      const resubmissionFiles = resubmission[0]?.resubmissionFile || []; 
     
-        if (resubmissionFiles.length > 0) {
-          return (
-            <optgroup key={index} label={`Resubmission ${index + 1}`}>
-              {resubmissionFiles.map((file, fileIndex) => (
-                <option key={fileIndex} value={file.url}>
-                  {file.filename}
-                </option>
-              ))}
-            </optgroup>
-          );
-        }
+      if (resubmissionFiles.length > 0) {
+        let index = 0;
+        return (
+          <optgroup key={index} label={`Resubmission ${index+1}`}>
+            {resubmissionFiles.map((file, index) => (
+              <option key={index} value={file.url}>
+                {file.filename}
+              </option>
+            ))}
+          </optgroup>
+        );
+      }
     
-        return null; 
-      });
+      return null; // Return nothing if no resubmission files are available
     };
+    
     
   
     if (fileLinks.length > 0) {
