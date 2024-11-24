@@ -22,7 +22,7 @@ import { useSession } from "next-auth/react";
 function PRViewSubmission({ params }) {
   //state variables
   const [forms, setForms] = useState([]);
-  const [resubmission, setResubmission] = useState("");
+  const [resubmission,  setResubmission] = useState("");
   const router = useRouter();
   const [modalShowFinalReview, setModalShowFinalReview] = useState(false);
   const [status, setStatus] = useState("");
@@ -31,6 +31,7 @@ function PRViewSubmission({ params }) {
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const [resubmissionFiles, setResubmissionFiles] = useState([]); // To store uploaded files
   const [resubmissionComments, setResubmissionComments] = useState(""); // To store remarks
+  
 
   const { register, handleSubmit, setValue } = useForm();
 
@@ -53,6 +54,7 @@ function PRViewSubmission({ params }) {
     fetchData();
   }, []);
 
+  //GET Resubmission File
   useEffect(() => {
     async function fetchResubmission() {
       try {
@@ -61,21 +63,18 @@ function PRViewSubmission({ params }) {
             subFormId: forms._id,
           },
         });
-
-        if (Array.isArray(response.data)) {
-          setResubmission(response.data);
-        } else {
-          setResubmission(Object.values(response.data)); // If not an array, convert it to an array
-        }
+          setResubmission(response.data.resubmissions);
+          console.log("Resubmission:", response.data.resubmissions);
       } catch (error) {
         console.error("Failed to fetch resubmission:", error);
       }
     }
-
-    if (forms._id) {
-      fetchResubmission();
-    }
+  
+    fetchResubmission();
   }, [forms]);
+
+  console.log("Resubmission 2:", resubmission[0]?.resubmissionFile); 
+
 
   const fetchResubmissionRemarks = async () => {
     try {
@@ -179,25 +178,54 @@ function PRViewSubmission({ params }) {
     if (!forms || typeof forms !== 'object') {
       return <option>Loading files...</option>;
     }
-
+  
     const mainFiles = forms.mainFileLink || []; // Default to an empty array if undefined
     const supplementaryFiles = forms.supplementaryFileLink || []; // Default to an empty array if undefined
-
+  
     const fileLinks = [
       ...mainFiles.map(file => ({ filename: file.filename, url: file.url })),
       ...supplementaryFiles.map(file => ({ filename: file.filename, url: file.url })),
     ];
-
+  
+    const renderResubmissionFiles = () => {
+      const resubmissionFiles = resubmission[0]?.resubmissionFile || []; 
+    
+      if (resubmissionFiles.length > 0) {
+        return (
+          <optgroup label="Resubmission Files">
+            {resubmissionFiles.map((file, index) => (
+              <option key={index} value={file.url}>
+                {file.filename}
+              </option>
+            ))}
+          </optgroup>
+        );
+      }
+    
+      return null; // Return nothing if no resubmission files are available
+    };
+    
+  
     if (fileLinks.length > 0) {
-      return fileLinks.map((file, index) => (
-        <option key={index} value={file.url}>
-          {file.filename}
-        </option>
-      ));
+      return (
+        <>
+          <optgroup label="Main and Supplementary Files">
+            {fileLinks.map((file, index) => (
+              <option key={index} value={file.url}>
+                {file.filename}
+              </option>
+            ))}
+          </optgroup>
+          {renderResubmissionFiles()} {/* Only render resubmission files if available */}
+        </>
+      );
     }
-
+  
     return <option>No files available</option>;
   };
+  
+  
+
 
   const removeFile = (index) => {
     setResubmissionFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
