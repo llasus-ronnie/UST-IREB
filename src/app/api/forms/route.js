@@ -68,8 +68,12 @@ export async function GET(req) {
       query.researchEthicsCommittee = rec.trim();
     }
     if (email) {
-      query.recMember = { $in: [email.trim()] }; // Check if email exists in recMember array
+      query.$or = [
+        { recMember: { $in: [email.trim()] } },
+        { userEmail: email.trim() } 
+      ];
     }
+    
 
     const forms = await SubmissionForm.find(query);
 

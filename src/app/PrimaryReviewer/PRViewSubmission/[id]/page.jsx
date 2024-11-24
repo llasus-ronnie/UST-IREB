@@ -72,7 +72,6 @@ function PRViewSubmission({ params }) {
     }
   }, [forms]);
 
-
   const fetchResubmissionRemarks = async () => {
     try {
       const response = await axios.get("/api/resubmissionRemarks", {
@@ -101,7 +100,6 @@ function PRViewSubmission({ params }) {
     fetchResubmissionRemarks();
   }, [forms]);
 
-  //Post
   async function submitResubmissionRemarks(data) {
     try {
       const files = resubmissionFiles.map((file) => ({
@@ -147,7 +145,6 @@ function PRViewSubmission({ params }) {
     }
   }
 
-
   async function submitForFinalReview(data) {
     const formUpdateResponse = await axios.put("/api/forms", {
       resubmissionStatus: "Final-Review",
@@ -162,7 +159,6 @@ function PRViewSubmission({ params }) {
     }
   }
 
-  //functions
   const handleBack = () => {
     router.push(`/PrimaryReviewer/PRSubmissions`);
   };

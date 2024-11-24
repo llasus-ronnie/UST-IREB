@@ -25,26 +25,30 @@ function SubmissionList() {
   const { data: session } = useSession();
   const [forms, setForms] = useState([]);
   const [showArchived, setShowArchived] = useState(false);
+  const userEmail = session?.user.email;
 
   useEffect(() => {
     async function fetchData() {
+      if (!session?.user?.email) {
+        console.error("Session email is undefined or not ready.");
+        return;
+      }
+  
+      console.log("Session email: ", session.user.email); // Debug
       try {
         const response = await axios.get("/api/forms", {
           params: { email: session.user.email },
         });
-        const userForms = response.data.forms;
-
-        const filteredForms = showArchived
-          ? userForms
-          : userForms.filter((form) => !form.isArchived);
-
-        setForms(filteredForms);
+        console.log("Response data:", response.data); // Debug
+        setForms(response.data.forms || []); // Handle case where forms is undefined
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching forms:", error.response?.data || error.message);
       }
     }
+  
     fetchData();
-  }, [session, showArchived]);
+  }, [session]);
+  
 
   const archiveForm = async (formId, isArchived) => {
     try {
@@ -116,8 +120,6 @@ function SubmissionList() {
                     >
                       {form.isArchived ? "Undo Archive" : "Archive"}
                     </button>
-
-
                   </td>
                 </tr>
               ))
