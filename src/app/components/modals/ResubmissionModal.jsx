@@ -59,6 +59,15 @@ export default function ResubmissionModal({
 
       if (response.status === 201) {
         toast.success("Resubmission sent successfully!");
+      try {
+        const updateResponse = await axios.put("/api/forms", {
+          id: form._id,
+          status: "Resubmission",
+        });
+      } catch (updateError) {
+        console.error("Error updating form status:", updateError);
+      }
+
         try {
           const encodedRECName = encodeURIComponent(form.researchEthicsCommittee);
           const recResponse = await axios.get(`/api/REC?name=${encodedRECName}`);

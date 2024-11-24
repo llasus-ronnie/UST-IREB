@@ -399,6 +399,7 @@ function PRViewSubmission({ params }) {
               </div>
 
               <div className="viewsub-buttons">
+              {forms.status !== "Final-Decision" && (
                 <button
                   className="viewsub-save"
                   onClick={handleSubmit((data) => {
@@ -413,16 +414,22 @@ function PRViewSubmission({ params }) {
                 >
                   Save Changes
                 </button>
+              )}
                 <button className="viewsub-back" onClick={handleBack}>
                   Back
                 </button>
+                
               </div>
-
+              
+              
               <div
-                className="viewsub-finalrec"
-                onClick={handleShowFinalReviewModal}
+
               >
-                <button>Submit to REC Chair for Final Review</button>
+                {forms.status !== "Final-Decision" && (
+
+                <button className="viewsub-finalrec"
+                onClick={handleShowFinalReviewModal}>Submit to REC Chair for Final Review</button>
+                )}
               </div>
             </Col>
           </Row>
