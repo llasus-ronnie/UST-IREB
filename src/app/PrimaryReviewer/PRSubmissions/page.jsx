@@ -15,16 +15,13 @@ import { useSession } from "next-auth/react";
 import withAuthorization from "../../../hoc/withAuthorization";
 
 function PrSubmissions() {
-  // State declarations
   const [forms, setForms] = useState([]);
   const [remarksData, setRemarksData] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const { data: session } = useSession();
-
   const userEmail = session?.user?.email;
 
 
-  // Fetching data from the database
   useEffect(() => {
     async function getForms() {
       try {
