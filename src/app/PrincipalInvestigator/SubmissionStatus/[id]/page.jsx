@@ -213,11 +213,10 @@ function SubmissionStatus({ params }) {
           },
         });
 
-        if (response.data) {
-          const { resubmission1, resubmission2, resubmission3 } = response.data;
-          setResubmission({ resubmission1, resubmission2, resubmission3 });
+        if (response.data && response.data.resubmissions) {
+          setResubmission(response.data.resubmissions);
         } else {
-          setResubmission(null);
+          setResubmission([]);
         }
       } catch (error) {
         console.error("Failed to fetch resubmission:", error);
@@ -226,6 +225,7 @@ function SubmissionStatus({ params }) {
 
     fetchResubmission();
   }, [form]);
+
 
   let url = null;
   if (paymentLink) {
@@ -338,6 +338,55 @@ function SubmissionStatus({ params }) {
                   </table>
                 </div>
               </div>
+
+              {/* Resubmission */}
+              <div className="submissionstatus-card-remarks">
+                <h1>Resubmission</h1>
+                <div className="submissionstatus-remarks-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Your resubmission files</th>
+                        <th>Comments</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Array.isArray(resubmission) && resubmission.length > 0 ? (
+                        resubmission.map((resubmission, index) => (
+                          <tr key={index}>
+                            <td>
+                              {new Date(resubmission.resubmissionFileDate).toLocaleDateString(
+                                "en-US"
+                              )}
+                            </td>
+                            <td>
+                              {resubmission.resubmissionFile && resubmission.resubmissionFile.length > 0 ? (
+                                resubmission.resubmissionFile.map((resubmissionFile, index) => (
+                                  <div key={index}>
+                                    <a href={resubmissionFile.url} target="_blank" rel="noopener noreferrer">
+                                      {resubmissionFile.filename}
+                                    </a>
+                                  </div>
+                                ))
+                              ) : (
+                                <p>No resubmission available</p>
+                              )}
+                            </td>
+
+                            <td>{resubmission.resubmissionComments}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="3">No resubmission available</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
               {form?.initialSubmission === "Incomplete" && form?._id ? (
                 <Link href={`/PrincipalInvestigator/EditSubmission/${form?._id}`} passHref>
                   <button className="submissionstatus-buttons submissionstatus-edit-form">Edit</button>

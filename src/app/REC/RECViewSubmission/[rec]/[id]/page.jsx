@@ -444,6 +444,10 @@ function RECViewSubmission({ params }) {
         await submitRemarks(remarks);
       }
 
+      if (status === "Initial-Result") {
+        await submitRemarks(remarks);
+      }
+
       // Handle classification updates when status is "For-Classification"
       if (formClassification && status === "For-Classification") {
         await updateClassificationData(formClassification);

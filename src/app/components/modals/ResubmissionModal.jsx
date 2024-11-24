@@ -18,7 +18,7 @@ export default function ResubmissionModal({
 }) {
   const [body, setBody] = useState("");
   const [form, setForm] = useState(null);
-  const [uploadedFile, setUploadedFile] = useState("");
+  const [uploadedFiles, setUploadedFiles] = useState([]); // Changed to array for multiple files
 
   const { register, handleSubmit, setValue } = useForm();
 
@@ -44,67 +44,70 @@ export default function ResubmissionModal({
     fetchData();
   }, [props.subFormId, submissionparams]);
 
-  //submit resubmission
+  // Submit resubmission
   async function submitResubmission(data) {
     try {
       const payload = {
-        subFormId: subFormId.id, // Flatten to string
-        resubmissionFile: data.resubmissionFile, // Rename key
-        resubmissionComments: body, // Add optional comments
+        subFormId: form._id,
+        resubmissionFile: uploadedFiles, // Changed to use the uploaded files array
+        resubmissionComments: data.resubmissionComments || body || "",
       };
-      console.log("Updated Payload:", payload); // Debug payload
+
+      console.log("Updated Payload:", payload);
+
       const response = await axios.post("/api/resubmissionFile", payload);
 
-      try {
-        const encodedRECName = encodeURIComponent(form.researchEthicsCommittee);
-        const recResponse = await axios.get(`/api/REC?name=${encodedRECName}`);
-        console.log("REC Response Data:", recResponse.data);
-        const recData = recResponse.data.data; // Extract the data array
-
-        const rec = recData.find(
-          (rec) =>
-            rec.name.replace(/\s+/g, "").toLowerCase() ===
-            data.researchEthicsCommittee.replace(/\s+/g, "").toLowerCase()
-        );
-
-        if (rec) {
-          if (!rec.email) {
-            toast.error("REC email not found.");
-            return false;
-          }
-        } else {
-          toast.error("REC not found for the provided name.");
-          return false;
-        }
-
-        // Proceed with the email sending logic
-        const emailData = {
-          rec: rec.email,
-          title: form.title,
-          name: form.fullName,
-          status: form.status,
-        };
-
-        const emailResponse = await axios.post(
-          "/api/auth/send-email-resubmission",
-          emailData
-        );
-        console.log("Email Response:", emailResponse);
-        if (emailResponse.status === 200) {
-          toast.success("Email sent successfully!");
-          toast.success("Resubmission saved successfully!");
-          props.onHide();
-          return true;
-        } else {
-          toast.error("Failed to send email");
-        }
-      } catch (error) {
-        console.error("Error sending email:", error);
-        toast.error("Failed to send email");
-      }
-
       if (response.status === 201) {
-        toast.success("Resubmission saved successfully!");
+        toast.success("Resubmission sent successfully!");
+        try {
+          const encodedRECName = encodeURIComponent(form.researchEthicsCommittee);
+          const recResponse = await axios.get(`/api/REC?name=${encodedRECName}`);
+          console.log("REC Response Data:", recResponse.data);
+          const recData = recResponse.data.data; // Extract the data array
+
+          // Find the specific REC by name
+          const rec = recData.find(
+            (rec) =>
+              rec.name.replace(/\s+/g, "").toLowerCase() ===
+              data.researchEthicsCommittee.replace(/\s+/g, "").toLowerCase()
+          );
+
+          // Handle the case if the REC is found or not
+          if (rec) {
+            if (!rec.email) {
+              toast.error("REC email not found.");
+              return false;
+            }
+
+            // Prepare the email data and send it
+            const emailData = {
+              rec: rec.email,
+              title: form.title,
+              name: form.fullName,
+              status: form.status,
+            };
+
+            // Send the email to the REC
+            const emailResponse = await axios.post(
+              "/api/auth/send-email-resubmission",
+              emailData
+            );
+            console.log("Email Response:", emailResponse);
+            if (emailResponse.status === 200) {
+              toast.success("Email sent successfully!");
+              toast.success("Resubmission saved successfully!");
+              props.onHide(); // Hide modal or perform another action after success
+              return true;
+            } else {
+              toast.error("Failed to send email.");
+            }
+          } else {
+            toast.error("REC not found for the provided name.");
+          }
+        } catch (error) {
+          console.error("Error sending email:", error);
+          toast.error("Failed to send email.");
+        }
       } else {
         console.error("Unexpected response status:", response.status);
         toast.error("Unexpected error. Please try again.");
@@ -114,6 +117,11 @@ export default function ResubmissionModal({
       toast.error("Error saving resubmission. Please try again.");
     }
   }
+
+  // Remove uploaded file
+  const removeFile = (fileToRemove) => {
+    setUploadedFiles(uploadedFiles.filter(file => file.url !== fileToRemove.url));
+  };
 
   return (
     <Modal
@@ -137,11 +145,24 @@ export default function ResubmissionModal({
       <Modal.Body className="resubmission-modal-body">
         <div className="resubmission-area">
           <CldUploadWidget
+          multiple
             signatureEndpoint="/api/sign-cloudinary-params"
+            options={{
+              resourceType: 'auto', // Automatically detects file type
+              allowedFormats: ['pdf'], // Restrict to PDF files
+            }}
             onSuccess={(res) => {
-              console.log(res.info.secure_url);
-              setValue("resubmissionFile", res.info.secure_url); // This will log the public ID of the uploaded file
-              setUploadedFile(res.info.secure_url);
+              console.log("Upload Success Response:", res);
+          
+              const uploadedFile = {
+                url: res.info.secure_url,
+                filename: res.info.original_filename,
+              };
+              
+              setUploadedFiles((prevFiles) => [...prevFiles, uploadedFile]); // Correctly append the file to the list
+              setValue("resubmissionFile", uploadedFiles); // You can set form value if needed
+            console.log("Uploaded Files:", uploadedFiles);
+
             }}
           >
             {({ open }) => {
@@ -167,15 +188,23 @@ export default function ResubmissionModal({
               );
             }}
           </CldUploadWidget>
-          {uploadedFile && (
-            <a
-              href={uploadedFile}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="uploaded-file"
-            >
-              View Uploaded File
-            </a>
+
+          {uploadedFiles.length > 0 && (
+            <div className="uploaded-files-list">
+              {uploadedFiles.map((file, index) => (
+                <div key={index} className="uploaded-file-item">
+                  <span>{file.filename}</span>
+                  <button
+                    type="button"
+                    onClick={() => removeFile(file)}
+                    className="remove-file-btn"
+                    style={{color:"red"}}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
           )}
         </div>
         <Form>
@@ -205,7 +234,7 @@ export default function ResubmissionModal({
             submitResubmission(data);
           })}
         >
-          Submit
+          Submit Resubmission
         </Button>
       </Modal.Footer>
     </Modal>
