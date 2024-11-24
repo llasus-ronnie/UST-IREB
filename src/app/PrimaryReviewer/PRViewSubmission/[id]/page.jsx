@@ -403,12 +403,6 @@ function PRViewSubmission({ params }) {
                   onClick={handleSubmit((data) => {
                     submitResubmissionRemarks(data);
                   })}
-                  disabled={isSaveDisabled}
-                  style={{
-                    backgroundColor: isSaveDisabled ? "#d3d3d3" : "#007bff", // Gray when disabled, blue when active
-                    color: isSaveDisabled ? "#7d7d7d" : "#fff", // Lighter text when disabled
-                    cursor: isSaveDisabled ? "not-allowed" : "pointer", // Change cursor style
-                  }}
                 >
                   Save Changes
                 </button>

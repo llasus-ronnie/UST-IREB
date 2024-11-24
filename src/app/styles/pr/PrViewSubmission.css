@@ -27,7 +27,7 @@
     flex-grow: 1;
     transition: margin-left 0.3s ease;
     background-color: var(--secondary-color);
-    height: 100vh;
+    height: fit-content;
     margin-left: 5.625rem;
 }
 
@@ -222,6 +222,15 @@
   margin-right: 0.8rem;
 }
 
+
+.remove-file-button {
+  background-color: #d11f1f;
+  color: white;
+  border-radius: 5px;
+  padding: 0.2rem 0.5rem;
+  margin: 0 1rem;
+}
+
 /* Remarks Table */
 .submissionstatus-card-remarks {
   background-color: var(--quaternary-color);
@@ -229,7 +238,22 @@
   padding: 1rem;
   width: 100%;
   margin: 2rem 0;
+  overflow: auto;
 }
+
+.submissionstatus-card-remarks::-webkit-scrollbar {
+  height: 8px; 
+}
+
+.submissionstatus-card-remarks::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); 
+  border-radius: 4px; 
+}
+
+.submissionstatus-card-remarks::-webkit-scrollbar-track {
+  background-color: #ddd; 
+}
+
 
 .remarks-table {
   width: 100%;

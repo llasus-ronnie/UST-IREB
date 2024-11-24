@@ -27,7 +27,7 @@
     flex-grow: 1;
     transition: margin-left 0.3s ease;
     background-color: var(--secondary-color);
-    height: 100vh;
+    height: fit-content;
     margin-left: 5.625rem;
 }
 
