@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { rec, title, name, status } = req.body;
+    const { rec, name } = req.body;
 
     let transporter = nodemailer.createTransport({
       service: "gmail",
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     let mailOptions = {
       from: `"UST IREB Research Portal" <${process.env.EMAIL_USER}>`,
       to: rec,
-      subject: "UST IREB Research Portal | Submission",
+      subject: "UST IREB Research Portal | Payment Proof Submission",
       html: `
         <!DOCTYPE html>
         <html lang="en">
@@ -124,7 +124,7 @@ export default async function handler(req, res) {
                       <td class="content">
                         <p>${name} has submitted proof of payment.</p>
                         <h2>This submission is under the status:</h2>
-                        <h1>${status}</h1>
+                        <h1>Pending Payment</h1>
                         <p>
                         Log in to the UST IREB Research Portal to review and manage the submission on the "REC Manage Submissions" page.
                         </p>
