@@ -130,7 +130,7 @@ function IrebManageRECRoles({ params }) {
     };
 
     fetchRECMembersData();
-  }, [rec]);
+  }, [params.rec]);
 
   //loading
   const loadingContainerStyle = {
