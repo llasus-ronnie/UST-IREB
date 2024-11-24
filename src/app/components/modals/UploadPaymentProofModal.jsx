@@ -22,7 +22,6 @@ export default function UploadPaymentProofModal({
   const [uploadedFile, setUploadedFile] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState(null);
 
-
   //POST payment
   async function submitPayment(data) {
     try {
@@ -33,15 +32,27 @@ export default function UploadPaymentProofModal({
       });
 
       try {
-        const encodedRECName = encodeURIComponent(form.researchEthicsCommittee);
+        const formResponse = await axios.get(
+          `/api/forms/${submissionparams.id}`
+        );
+        const form = formResponse.data.submission;
+
+        if (!form.researchEthicsCommittee) {
+          toast.error("Research Ethics Committee name is missing.");
+          return false;
+        }
+
+        const encodedRECName = encodeURIComponent(
+          form.researchEthicsCommittee.trim().toLowerCase()
+        );
         const recResponse = await axios.get(`/api/REC?name=${encodedRECName}`);
         console.log("REC Response Data:", recResponse.data);
-        const recData = recResponse.data.data; // Extract the data array
+        const recList = recResponse.data.data; // Extract the data array
 
-        const rec = recData.find(
+        const rec = recList.find(
           (rec) =>
             rec.name.replace(/\s+/g, "").toLowerCase() ===
-            data.researchEthicsCommittee.replace(/\s+/g, "").toLowerCase()
+            form.researchEthicsCommittee.replace(/\s+/g, "").toLowerCase()
         );
 
         if (rec) {
@@ -178,15 +189,21 @@ export default function UploadPaymentProofModal({
             </CldUploadWidget>
             {uploadedFile && (
               <div className="uploaded-file-preview">
-                <p className="uploaded-file-name">Uploaded File: {uploadedFileName}</p>
-                <img src={uploadedFile} alt={uploadedFileName} className="uploaded-file-image" />
+                <p className="uploaded-file-name">
+                  Uploaded File: {uploadedFileName}
+                </p>
+                <img
+                  src={uploadedFile}
+                  alt={uploadedFileName}
+                  className="uploaded-file-image"
+                />
                 <button
                   type="button"
                   className="btn remove-btn"
                   onClick={() => {
-                    setUploadedFile(null); 
-                    setUploadedFileName(null); 
-                    setValue("paymentFile", null); 
+                    setUploadedFile(null);
+                    setUploadedFileName(null);
+                    setValue("paymentFile", null);
                     toast.info("File removed successfully.");
                   }}
                 >
