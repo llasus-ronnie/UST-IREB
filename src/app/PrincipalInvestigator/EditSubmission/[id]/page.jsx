@@ -47,7 +47,7 @@ export default function EditForms() {
         async function getForms() {
             try {
                 const response = await axios.get("/api/forms", {
-                    params: { userEmail: session.user.email },
+                    params: { subformId: forms._id },
                 });
                 const userForms = response.data.forms;
                 setForms(userForms[0]); // Assuming you get an array, set the first form
@@ -55,10 +55,9 @@ export default function EditForms() {
                 toast.error("Error fetching data:", error);
             }
         }
-        if (session?.user?.email) {
             getForms();
-        }
-    }, [session]);
+        
+    }, [forms]);
 
     // Format Research Ethics Committee
     const formatResearchEthicsCommittee = (value) => {

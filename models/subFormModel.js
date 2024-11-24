@@ -177,7 +177,7 @@ const subFormSchema = new Schema({
     type: String,
     require: true,
   },
-  monetarySource: {
+  monetarySource1: {
     type: String,
     require: true,
   },
@@ -193,7 +193,7 @@ const subFormSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  monetarySource: {
+  monetarySource2: {
     type: String,
     require: true,
   },

@@ -58,10 +58,14 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const rec = searchParams.get("rec");
   const email = searchParams.get("email"); 
+  const subformId = searchParams.get("subformId");
 
   try {
     const query = { isArchived: false };
 
+    if (subformId) {
+      query._id = subformId.trim();
+    }
     if (rec) {
       query.researchEthicsCommittee = rec.trim();
     }
@@ -71,7 +75,6 @@ export async function GET(req) {
         { userEmail: email.trim() } 
       ];
     }
-    
 
     const forms = await SubmissionForm.find(query);
 

@@ -641,15 +641,15 @@ function SubmissionFormsP2() {
                     Monetary Source
                   </FormLabel>
                   <FormControl
-                    {...register("monetarySource", {
+                    {...register("monetarySource1", {
                       required: "Please provide a monetary source.",
                     })}
                     type="text"
                     className="form-control PIforms-formtext2"
-                    isInvalid={!!errors.monetarySource}
+                    isInvalid={!!errors.monetarySource1}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.monetarySource?.message}
+                    {errors.monetarySource1?.message}
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
@@ -715,15 +715,15 @@ function SubmissionFormsP2() {
                   Monetary Source
                 </FormLabel>
                 <FormControl
-                  {...register("monetarySource", {
+                  {...register("monetarySource2", {
                     required: "Please provide a monetary source.",
                   })}
                   type="text"
                   className="form-control PIforms-formtext2"
-                  isInvalid={!!errors.monetarySource}
+                  isInvalid={!!errors.monetarySource2}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {errors.monetarySource?.message}
+                  {errors.monetarySource2?.message}
                 </Form.Control.Feedback>
               </Col>
 
