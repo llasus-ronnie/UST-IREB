@@ -73,8 +73,6 @@ function PRViewSubmission({ params }) {
     fetchResubmission();
   }, [forms]);
 
-  console.log("Resubmission 2:", resubmission[0]?.resubmissionFile); 
-
 
   const fetchResubmissionRemarks = async () => {
     try {

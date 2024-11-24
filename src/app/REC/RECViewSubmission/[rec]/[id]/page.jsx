@@ -43,6 +43,7 @@ function RECViewSubmission({ params }) {
   const [initialSubmission, setInitialSubmission] = useState("Initial-Submission");
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [externalReviewers, setExternalReviewers] = useState([]);
+  const [resubmission, setResubmission] = useState("");
 
   //unwrapping params
   useEffect(() => {
@@ -322,6 +323,25 @@ function RECViewSubmission({ params }) {
     }
   };
 
+  // Resubmission File
+  useEffect(() => {
+    async function fetchResubmission() {
+      try {
+        const response = await axios.get("/api/resubmissionFile", {
+          params: {
+            subFormId: forms._id,
+          },
+        });
+        setResubmission(response.data.resubmissions);
+        console.log("Resubmission:", response.data.resubmissions);
+      } catch (error) {
+        console.error("Failed to fetch resubmission:", error);
+      }
+    }
+
+    fetchResubmission();
+  }, [forms]);
+
   const getFileLink = async (resubmissionId) => {
     try {
       console.log("Getting file link for resubmissionId:", resubmissionId);
@@ -473,6 +493,28 @@ function RECViewSubmission({ params }) {
   };
 
 
+  const [selectedFileUrl, setSelectedFileUrl] = useState(""); // State to store the selected file URL
+
+  // Combine main and supplementary files
+  const fileOptions = [
+    ...(forms?.mainFileLink || []).map((file) => ({
+      filename: file.filename,
+      url: file.url,
+    })),
+    ...(forms?.supplementaryFileLink || []).map((file) => ({
+      filename: file.filename,
+      url: file.url,
+    })),
+  ];
+
+  // Handle file selection
+  const handleFileViewChange = (event) => {
+    const selectedUrl = event.target.value;
+    setSelectedFileUrl(selectedUrl);
+  };
+
+
+
   return (
     <div className="adminpage-container">
       <div className="recnav-mobile">
@@ -521,54 +563,47 @@ function RECViewSubmission({ params }) {
               </svg>
               Go Back to Manage Submissions
             </a>
+            {fileOptions.length > 0 ? (
+              <div>
+                <h5>Select a File:</h5>
+                <select
+                  onChange={handleFileViewChange}
+                  className="viewsub-changestatus"
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    -- Select a file to view --
+                  </option>
+                  {fileOptions.map((file, index) => (
+                    <option key={index} value={file.url}>
+                      {file.filename}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : (
+              <p>No files available to view.</p>
+            )}
 
             <Col xs={12} lg={8} className="viewsub-content-container">
-              {/* Main File Display */}
-              {forms?.mainFileLink && forms.mainFileLink.length > 0 && (
-                <div>
-                  <h5>Main File:</h5>
-                  {forms.mainFileLink.map((file, index) => (
-                    <div key={index}>
-                      <iframe
-                        src={file.url}
-                        className="viewsub-iframe"
-                        title={`Main File ${index + 1}`}
-                      />
-                      <a
-                        href={file.url}
-                        className="viewsub-download"
-                        download={file.filename}
-                        style={{ color: "blue" }}
-                      >
-                        Download {file.filename}
-                      </a>
-                    </div>
-                  ))}
+              {selectedFileUrl ? (
+                <div className="file-viewer">
+                  <iframe
+                    src={selectedFileUrl}
+                    className="viewsub-iframe"
+                    title="Selected File Viewer"
+                  />
+                  <a
+                    href={selectedFileUrl}
+                    className="viewsub-download"
+                    download
+                    style={{ color: "blue" }}
+                  >
+                    Download Selected File
+                  </a>
                 </div>
-              )}
-
-              {/* Supplementary Files Display */}
-              {forms?.supplementaryFileLink && forms.supplementaryFileLink.length > 0 && (
-                <div>
-                  <h5>Supplementary Files:</h5>
-                  {forms.supplementaryFileLink.map((file, index) => (
-                    <div key={index}>
-                      <iframe
-                        src={file.url}
-                        className="viewsub-iframe"
-                        title={`Supplementary File ${index + 1}`}
-                      />
-                      <a
-                        href={file.url}
-                        className="viewsub-download"
-                        download={file.filename}
-                        style={{ color: "blue" }}
-                      >
-                        Download {file.filename}
-                      </a>
-                    </div>
-                  ))}
-                </div>
+              ) : (
+                <p>Please select a file to view.</p>
               )}
             </Col>
 
@@ -816,79 +851,123 @@ function RECViewSubmission({ params }) {
                 </div>
 
                 <div className="remarks-table-wrapper">
-                <table className="remarks-table">
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>Status</th>
-                      <th>Remarks</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Array.isArray(remarksFile) && remarksFile.length > 0 ? (
-                      remarksFile.map((remark, index) => (
-                        <tr key={index}>
-                          <td>
-                            {new Date(remark.remarksDate).toLocaleDateString(
-                              "en-US"
-                            )}
-                          </td>
-                          <td>{remark.status}</td>
-                          <td>
-                            <a href={remark.remarks}> View Remarks</a>
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
+                  <table className="remarks-table">
+                    <thead>
                       <tr>
-                        <td colSpan="3">No remarks available</td>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
                       </tr>
-                    )}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {Array.isArray(remarksFile) && remarksFile.length > 0 ? (
+                        remarksFile.map((remark, index) => (
+                          <tr key={index}>
+                            <td>
+                              {new Date(remark.remarksDate).toLocaleDateString(
+                                "en-US"
+                              )}
+                            </td>
+                            <td>{remark.status}</td>
+                            <td>
+                              <a href={remark.remarks}> View Remarks</a>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="3">No remarks available</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
                 </div>
               </div>
 
               <div className="submissionstatus-card-remarks resubmission-card">
                 <span>Resubmission</span>
+                <div className="remarks-table-wrapper">
+                  <table className="remarks-table">
+                    <thead>
+                      <tr>
+                        <th>File</th>
+                        <th>Comments</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Array.isArray(resubmission) && resubmission.length > 0 ? (
+                        resubmission.map((resubmission, index) => (
+                          <tr key={index}>
+                            <td>
+                              {new Date(resubmission.resubmissionFileDate).toLocaleDateString(
+                                "en-US"
+                              )}
+                            </td>
+                            <td>
+                              {resubmission.resubmissionFile && resubmission.resubmissionFile.length > 0 ? (
+                                resubmission.resubmissionFile.map((resubmissionFile, index) => (
+                                  <div key={index}>
+                                    <a href={resubmissionFile.url} target="_blank" rel="noopener noreferrer">
+                                      {resubmissionFile.filename}
+                                    </a>
+                                  </div>
+                                ))
+                              ) : (
+                                <p>No resubmission available</p>
+                              )}
+                            </td>
+
+                            <td>{resubmission.resubmissionComments}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="3">No resubmission available</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+
                 <span>Primary Reviewer Remarks:</span>
                 <div className="remarks-table-wrapper">
-                <table className="remarks-table">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Primary reviewer</th>
-                      <th>File</th>
-                      <th>Remarks</th>
-                      <th>Date</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {remarksData.map((remark,index) => (
-                      <tr key={remark._id}>
-                        <td>{index + 1}</td>
-                        <td>{remark.resubmissionRemarksMember}</td> 
-                        <td>
-                          <a
-                            href={remark.resubmissionRemarksFile}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            View Remarks
-                          </a>
-                        </td>
-                        <td>
-                          {remark.resubmissionRemarksComments}
-                        </td>
-                        <td>
-                          {new Date(
-                            remark.resubmissionRemarksDate
-                          ).toLocaleString()}
-                        </td>
+                  <table className="remarks-table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Primary reviewer</th>
+                        <th>File</th>
+                        <th>Remarks</th>
+                        <th>Date</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {remarksData.map((remark, index) => (
+                        <tr key={remark._id}>
+                          <td>{index + 1}</td>
+                          <td>{remark.resubmissionRemarksMember}</td>
+                          <td>
+                            <a
+                              href={remark.resubmissionRemarksFile}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              View Remarks
+                            </a>
+                          </td>
+                          <td>
+                            {remark.resubmissionRemarksComments}
+                          </td>
+                          <td>
+                            {new Date(
+                              remark.resubmissionRemarksDate
+                            ).toLocaleString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
 
