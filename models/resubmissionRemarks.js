@@ -5,14 +5,14 @@ const resubmissionRemarkSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    resubmissionId:{
-        type: String,
-        required: false,
-    },
     resubmissionRemarksFile: [{
         url: String,
         filename: String,
     }],
+    resubmissionRemarksMember:{
+        type: String,
+        required: true,
+    },
     resubmissionRemarksComments: {
         type: String,
         required: false,

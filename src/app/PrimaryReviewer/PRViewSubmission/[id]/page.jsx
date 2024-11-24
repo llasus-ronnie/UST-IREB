@@ -16,6 +16,8 @@ import { getCldImageUrl } from "next-cloudinary";
 import { toast, ToastContainer } from "react-toastify";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
+import { useSession } from "next-auth/react";
+
 
 function PRViewSubmission({ params }) {
   //state variables
@@ -31,6 +33,9 @@ function PRViewSubmission({ params }) {
   const [resubmissionComments, setResubmissionComments] = useState(""); // To store remarks
 
   const { register, handleSubmit, setValue } = useForm();
+
+  const { data: session } = useSession();
+  const userName = session.user.name;
 
   const handleShowFinalReviewModal = () => setModalShowFinalReview(true);
   const handleCloseFinalReviewModal = () => setModalShowFinalReview(false);
@@ -111,8 +116,11 @@ function PRViewSubmission({ params }) {
       const payload = {
         subFormId: forms._id,
         resubmissionRemarksFile: files,
-        resubmissionRemarksComments: data.remarks || resubmissionComments, // Use the correct key
+        resubmissionRemarksMember: userName,
+        resubmissionRemarksComments: data.remarks || resubmissionComments, 
       };
+
+      console.log("Payload:", payload);
 
       const response = await axios.post("/api/resubmissionRemarks", payload);
 

@@ -15,7 +15,8 @@ export async function POST(req) {
     const {
       subFormId,
       resubmissionRemarksFile,
-      resubmissionRemarksComments, // Use the correct key
+      resubmissionRemarksComments, 
+      resubmissionRemarksMember,
     } = resubmission;
 
     if (!subFormId) {
@@ -28,7 +29,8 @@ export async function POST(req) {
     const newResubmission = {
       subFormId,
       resubmissionRemarksFile: resubmissionRemarksFile || [],
-      resubmissionRemarksComments: resubmissionRemarksComments || "", // Optional field
+      resubmissionRemarksComments: resubmissionRemarksComments || "", 
+      resubmissionRemarksMember
     };
 
     const savedResubmission = await ResubmissionRemarksModel.create(newResubmission);

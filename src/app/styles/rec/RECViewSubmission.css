@@ -253,26 +253,29 @@
   margin: 2rem 0;
   display: flex;
   flex-direction: column;
+  overflow: hidden; 
+}
+
+.remarks-table-wrapper {
+  overflow-x: auto; 
+  overflow-y: visible; 
+  width: 100%; 
 }
 
 .remarks-table {
-  width: 100%;
-  table-layout: auto;
-}
-
-.remarks-table table {
-  width: 100%;
-  border-collapse: collapse;
+  width: 100%; 
+  table-layout: auto; 
+  border-collapse: collapse; 
 }
 
 .remarks-table th,
 .remarks-table td {
   padding: 0.5rem;
   text-align: left;
+  white-space: nowrap; 
 }
 
 .remarks-table th {
-  padding: 0.5rem !important;
   background-color: var(--secondary-color);
   color: var(--primary-color);
 }
@@ -281,30 +284,23 @@
   border-bottom: 1px solid #dcdcdc;
 }
 
-.remarks-table td br {
-  display: block;
+.remarks-table-wrapper::-webkit-scrollbar {
+  height: 8px; 
 }
 
-.remarks-table tbody tr {
-  width: 100%;
+.remarks-table-wrapper::-webkit-scrollbar-track {
+  background: var(--background-color, #f1f1f1); 
 }
 
-.remarks-table tbody td {
-  width: auto;
-  word-wrap: break-word;
+.remarks-table-wrapper::-webkit-scrollbar-thumb {
+  background: var(--secondary-color); 
+  border-radius: 4px; 
 }
 
-.remarks-table tbody {
-  background-color: var(--background-color, #f9f9f9);
+.remarks-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color); 
 }
 
-.remarks-table tbody tr:nth-child(odd) {
-  background-color: var(--alternate-row-color, #ffffff);
-}
-
-.remarks-table tbody tr:hover {
-  background-color: var(--hover-color, #e6f7ff);
-}
 
 /* scroll design  */
 ::-webkit-scrollbar {

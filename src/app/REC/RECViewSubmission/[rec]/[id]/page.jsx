@@ -811,6 +811,7 @@ function RECViewSubmission({ params }) {
 
                 </div>
 
+                <div className="remarks-table-wrapper">
                 <table className="remarks-table">
                   <thead>
                     <tr>
@@ -841,48 +842,28 @@ function RECViewSubmission({ params }) {
                     )}
                   </tbody>
                 </table>
+                </div>
               </div>
 
-              <div className="submissionstatus-card-remarks">
+              <div className="submissionstatus-card-remarks resubmission-card">
                 <span>Resubmission</span>
-                <br />
-                <br />
                 <span>Primary Reviewer Remarks:</span>
+                <div className="remarks-table-wrapper">
                 <table className="remarks-table">
                   <thead>
                     <tr>
-                      <th>Resubmission</th>
+                      <th>#</th>
+                      <th>Primary reviewer</th>
                       <th>File</th>
                       <th>Remarks</th>
                       <th>Date</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {remarksData.map((remark) => (
+                    {remarksData.map((remark,index) => (
                       <tr key={remark._id}>
-                        <td>
-                          {/* Check if resubmission1 or resubmission2 is true and display accordingly */}
-                          {remark.resubmission0
-                            ? "Initial Result"
-                            : remark.resubmission1
-                              ? "Resubmission 1"
-                              : remark.resubmission2
-                                ? "Resubmission 2"
-                                : "No Resubmission"}
-                        </td>
-                        <td>
-                          {remark.fileLink ? (
-                            <a
-                              href={remark.fileLink} // Ensure the link is valid before rendering
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              View File
-                            </a>
-                          ) : (
-                            <span>No File Available</span> // Fallback in case fileLink is not available
-                          )}
-                        </td>
+                        <td>{index + 1}</td>
+                        <td>{remark.resubmissionRemarksMember}</td> 
                         <td>
                           <a
                             href={remark.resubmissionRemarksFile}
@@ -893,6 +874,9 @@ function RECViewSubmission({ params }) {
                           </a>
                         </td>
                         <td>
+                          {remark.resubmissionRemarksComments}
+                        </td>
+                        <td>
                           {new Date(
                             remark.resubmissionRemarksDate
                           ).toLocaleString()}
@@ -901,6 +885,7 @@ function RECViewSubmission({ params }) {
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
 
               <div className="viewsub-buttons">
