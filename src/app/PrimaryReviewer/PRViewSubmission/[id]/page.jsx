@@ -149,20 +149,9 @@ function PRViewSubmission({ params }) {
 
 
   async function submitForFinalReview(data) {
-    const payload = {
-      subFormId: forms._id,
-      ...data,
-    };
-    const response = await axios.post("/api/resubmissionRemarks", payload);
-    fetchResubmissionRemarks();
-
-    if (response.status === 201) {
-      toast.success("Resubmission saved successfully!");
-    }
-
     const formUpdateResponse = await axios.put("/api/forms", {
-      resubmissionStatus: "Resubmission",
-      status: "Initial-Result",
+      resubmissionStatus: "Final-Review",
+      status: "Final-Decision",
       id: forms._id,
     });
     if (formUpdateResponse.status === 200) {
