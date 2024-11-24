@@ -104,46 +104,36 @@ function PRViewSubmission({ params }) {
   //Post
   async function submitResubmissionRemarks(data) {
     try {
-      // Ensure files are included and mapped correctly
       const files = resubmissionFiles.map((file) => ({
         url: file.url,
         filename: file.filename,
       }));
-
-      // Log the payload to confirm accuracy
-      console.log("Payload:", {
-        subFormId: forms._id,
-        resubmissionRemarksFile: files,
-        resubmissionComments: data.remarks || resubmissionComments,
-      });
-
+  
       // Prepare the payload
       const payload = {
         subFormId: forms._id,
         resubmissionRemarksFile: files,
-        resubmissionComments: data.remarks || resubmissionComments,
+        resubmissionRemarksComments: data.remarks || resubmissionComments, // Use the correct key
       };
-
-      // Post the payload to save remarks
+  
       const response = await axios.post("/api/resubmissionRemarks", payload);
-
+  
       if (response.status === 201) {
         const savedResubmission = response.data;
-
+  
         if (savedResubmission) {
-          // Update form status after successful resubmission
           const formUpdateResponse = await axios.put(
             "/api/forms",
             {
               resubmissionStatus: "Resubmission",
               status: "Initial-Result",
-              id: forms._id, // Include the `id` here
+              id: forms._id, 
             }
           );
-
+  
           if (formUpdateResponse.status === 200) {
             toast.success("Resubmission saved successfully!");
-            fetchResubmissionRemarks(); // Refresh remarks
+            fetchResubmissionRemarks(); 
           } else {
             toast.error("Failed to update form status.");
           }
@@ -156,8 +146,7 @@ function PRViewSubmission({ params }) {
       toast.error("Error submitting resubmission.");
     }
   }
-
-
+  
 
   async function submitForFinalReview(data) {
     const payload = {
@@ -222,20 +211,16 @@ function PRViewSubmission({ params }) {
   };
 
   const handleFileUploadSuccess = (res) => {
-    // Check if the file format is PDF
     if (res.info.format !== 'pdf') {
       toast.error("Only PDF files are allowed. Please upload a PDF.");
       return;
     }
 
-    // Update the state with the uploaded file information
     setResubmissionFiles((prevFiles) => [
       ...prevFiles,
       { filename: res.info.original_filename, url: res.info.secure_url }
     ]);
   };
-
-
 
   return (
     <div className="adminpage-container">

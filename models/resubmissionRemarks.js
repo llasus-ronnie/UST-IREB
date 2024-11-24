@@ -13,6 +13,10 @@ const resubmissionRemarkSchema = new mongoose.Schema({
         url: String,
         filename: String,
     }],
+    resubmissionRemarksComments: {
+        type: String,
+        required: false,
+    },
     resubmissionRemarksDate: {
         type: Date,
         default: Date.now

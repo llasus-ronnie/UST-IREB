@@ -8,43 +8,37 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 
-// POST Route: Adjusting to handle subFormId from request body
 export async function POST(req) {
-    try {
-      // Parse the incoming JSON payload
-      const resubmission = await req.json();
-  
-      const { subFormId, resubmissionFile, resubmissionComments } = resubmission;
-  
-      if (!subFormId) {
-        console.log("Error: subFormId is required");
-        return NextResponse.json({ error: "subFormId is required" }, { status: 400 });
-      }
-  
-      console.log("Received resubmission data:", { resubmissionFile, resubmissionComments });
-  
-      await connectDB();
-  
-      const existingResubmissions = await ResubmissionRemarksModel.find({ subFormId });
-      console.log("Existing Resubmissions Count: ", existingResubmissions.length);
-  
-      const newResubmission = {
-        subFormId,
-        resubmissionFile: resubmissionFile || [], // Default to an empty array if not provided
-        resubmissionComments: resubmissionComments || "", // Optional field
-      };
-  
-      const savedResubmission = await ResubmissionRemarksModel.create(newResubmission);
-  
-      return NextResponse.json(savedResubmission, { status: 201 });
-  
-    } catch (error) {
-      console.error("Error saving resubmission:", error.message);
-      return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  try {
+    const resubmission = await req.json();
+
+    const {
+      subFormId,
+      resubmissionRemarksFile,
+      resubmissionRemarksComments, // Use the correct key
+    } = resubmission;
+
+    if (!subFormId) {
+      console.error("Error: subFormId is required");
+      return NextResponse.json({ error: "subFormId is required" }, { status: 400 });
     }
+
+    await connectDB();
+
+    const newResubmission = {
+      subFormId,
+      resubmissionRemarksFile: resubmissionRemarksFile || [],
+      resubmissionRemarksComments: resubmissionRemarksComments || "", // Optional field
+    };
+
+    const savedResubmission = await ResubmissionRemarksModel.create(newResubmission);
+
+    return NextResponse.json(savedResubmission, { status: 201 });
+  } catch (error) {
+    console.error("Error saving resubmission:", error.message);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
-  
-  
+}
 
 export async function GET(req) {
     try {
