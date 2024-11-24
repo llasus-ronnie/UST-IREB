@@ -16,7 +16,6 @@ import withAuthorization from "../../../hoc/withAuthorization";
 
 function PrSubmissions() {
   const [forms, setForms] = useState([]);
-  const [remarksData, setRemarksData] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const { data: session } = useSession();
   const userEmail = session?.user?.email;
@@ -36,33 +35,6 @@ function PrSubmissions() {
     getForms();
   }, []);
 
-  useEffect(() => {
-    const fetchResubmissionRemarks = async () => {
-      try {
-        const response = await axios.get("/api/resubmissionRemarks", {
-          params: {
-            subFormId: forms._id,
-          },
-        });
-        if (response.status === 200) {
-          const sortedRemarks = response.data.getResubmissionRemarks.sort(
-            (a, b) => {
-              const dateA = new Date(a.resubmissionRemarksDate);
-              const dateB = new Date(b.resubmissionRemarksDate);
-              return dateA - dateB;
-            }
-          );
-          setRemarksData(sortedRemarks);
-        } else {
-          console.error("Failed to fetch remarks", response.status);
-        }
-      } catch (error) {
-        console.error("Error fetching remarks:", error.message);
-      }
-    };
-
-    fetchResubmissionRemarks();
-  }, [forms]);
 
   const handleDropDown = (event) => {
     const selectedOption = event.target.value;
