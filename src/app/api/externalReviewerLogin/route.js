@@ -91,3 +91,4 @@ async function addUserToUserTableIfNotExist(email, name, role) {
     await User.create({ email, name, role });
   }
 }
+

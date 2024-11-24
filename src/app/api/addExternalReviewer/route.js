@@ -32,12 +32,14 @@ export async function GET(req) {
   await connectDB();
 
   const { searchParams } = new URL(req.url);
-  const name = searchParams.get("name");
   const rec = searchParams.get("rec");
 
   try {
-    const filter = { ...(name && { name }), ...(rec && { rec }) };
-    const reviewers = await ExternalReviewer.find(filter);
+  const query = {};
+  if (rec) {
+    query.rec = rec.trim();
+  }
+    const reviewers = await ExternalReviewer.find(query);
     return NextResponse.json(
       { success: true, data: reviewers },
       { status: 200 }

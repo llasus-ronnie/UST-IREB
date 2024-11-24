@@ -42,6 +42,7 @@ function RECViewSubmission({ params }) {
   const [remarksData, setRemarksData] = useState([]);
   const [initialSubmission, setInitialSubmission] = useState("Initial-Submission");
   const [showCompleteModal, setShowCompleteModal] = useState(false);
+  const [externalReviewers, setExternalReviewers] = useState([]);
 
   //unwrapping params
   useEffect(() => {
@@ -216,27 +217,33 @@ function RECViewSubmission({ params }) {
     }
   }
 
-
-
   //recmembers
   useEffect(() => {
-    console.log("Current rec value:", rec);
-
-    async function getRECMembers() {
+    async function getRECMembersAndExternalReviewers() {
       try {
-        const res = await axios.get(`/api/RECMembers`, {
-          params: { rec: forms?.researchEthicsCommittee }, // Use the correct `researchEthicsCommittee` value
-        });
-        setRECMembers(res.data.data);
+        const [recMembersRes, externalReviewersRes] = await Promise.all([
+          axios.get(`/api/RECMembers`, {
+            params: { rec: forms?.researchEthicsCommittee }, 
+          }),
+          axios.get(`/api/addExternalReviewer`,{
+            params:{rec: forms?.researchEthicsCommittee}
+          }),
+        ]);
+  
+        console.log("REC Members:", recMembersRes.data.data);
+        console.log("External Reviewers:", externalReviewersRes.data.data);
+  
+        setRECMembers(recMembersRes.data.data);
+        setExternalReviewers(externalReviewersRes.data.data);  
       } catch (error) {
-        console.log("Error loading REC Members");
+        console.log("Error loading REC Members and External Reviewers", error);
       }
     }
-
-    if (rec && forms?.researchEthicsCommittee) {
-      getRECMembers(); // Ensure both `rec` and `forms.researchEthicsCommittee` exist before fetching
+  
+    if (forms?.researchEthicsCommittee) { 
+      getRECMembersAndExternalReviewers();
     }
-  }, [rec, forms?.researchEthicsCommittee]); // Dependency array includes both `rec` and `forms.researchEthicsCommittee`
+  }, [forms?.researchEthicsCommittee]); 
 
 
   //payment file
@@ -366,8 +373,8 @@ function RECViewSubmission({ params }) {
 
   //remarks file upload
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files); // This will handle multiple file selection
-    // Set the files in state or pass it as data.content
+    const files = Array.from(e.target.files); 
+  
     setFiles(files);
   };
 
@@ -375,8 +382,8 @@ function RECViewSubmission({ params }) {
   //remarks comment
   const handleRemarksChange = (e) => {
     setRemarks({
-      ...remarks,  // Keep the previous data
-      comment: e.target.value,  // Update only the comment
+      ...remarks,  
+      comment: e.target.value,  
     });
   };
 
@@ -416,14 +423,12 @@ function RECViewSubmission({ params }) {
   const handleInitialSubmission = (event) => {
     const value = event.target.value;
     if (value === "Completed") {
-      setShowCompleteModal(true); // Show modal for confirmation
+      setShowCompleteModal(true);
     } else {
       setInitialSubmission(value);
     }
   };
 
-
-  //save data to database
   const updateStatus = async () => {
     try {
       if (status !== initialStatus) {
@@ -433,7 +438,9 @@ function RECViewSubmission({ params }) {
         await updateReviewerData();
       }
       if (remarks.content || remarks.comment) {
-        await submitRemarks(remarks);
+        if (initialSubmission === "Initial-Submission") {  // Prevent submitRemarks if updating initial submission
+          await submitRemarks(remarks);
+        }
       }
       if (formClassification && status === "For-Classification") {
         await updateClassificationData(formClassification);
@@ -450,6 +457,7 @@ function RECViewSubmission({ params }) {
       toast.error("Failed to update. Please try again.");
     }
   };
+  
 
   return (
     <div className="adminpage-container">
@@ -622,35 +630,61 @@ function RECViewSubmission({ params }) {
                 <>
                   <span>Assign Reviewer:</span>
                   {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
-                    RECMembers.map((member) => (
-                      <div key={member._id} className="viewsub-checkbox">
-                        <label>
-                          <input
-                            type="checkbox"
-                            name="selectedReviewers"
-                            value={member.email}
-                            checked={selectedReviewer.includes(member.email)} // Check if the reviewer is selected
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              // Handle checkbox selection
-                              if (e.target.checked) {
-                                // Add to the selectedReviewers if checked
-                                setSelectedReviewer((prevSelected) => [...prevSelected, value]);
-                              } else {
-                                // Remove from the selectedReviewers if unchecked
-                                setSelectedReviewer((prevSelected) =>
-                                  prevSelected.filter((email) => email !== value)
-                                );
-                              }
-                            }}
-                          />
-                          {member.name}
-                        </label>
-                      </div>
-                    ))
-                  ) : (
-                    <div>No Reviewer Available</div>
-                  )}
+  RECMembers.map((member) => (
+    <div key={member._id} className="viewsub-checkbox">
+      <label>
+        <input
+          type="checkbox"
+          name="selectedReviewers"
+          value={member.email}
+          checked={selectedReviewer.includes(member.email)} 
+          onChange={(e) => {
+            const value = e.target.value;
+            if (e.target.checked) {
+              setSelectedReviewer((prevSelected) => [...prevSelected, value]);
+            } else {
+              setSelectedReviewer((prevSelected) =>
+                prevSelected.filter((email) => email !== value)
+              );
+            }
+          }}
+        />
+        {member.name}
+      </label>
+    </div>
+  ))
+) : (
+  <div> </div>
+)}
+
+{Array.isArray(externalReviewers) && externalReviewers.length > 0 ? (
+  externalReviewers.map((reviewer) => (
+    <div key={reviewer._id} className="viewsub-checkbox">
+      <label>
+        <input
+          type="checkbox"
+          name="selectedExternalReviewers"
+          value={reviewer.email}
+          checked={selectedReviewer.includes(reviewer.email)}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (e.target.checked) {
+              setSelectedReviewer((prevSelected) => [...prevSelected, value]);
+            } else {
+              setSelectedReviewer((prevSelected) =>
+                prevSelected.filter((email) => email !== value)
+              );
+            }
+          }}
+        />
+        {reviewer.name}
+      </label>
+    </div>
+  ))
+) : (
+  <div> </div>
+)}
+
                 </>
 
 
@@ -871,28 +905,41 @@ function RECViewSubmission({ params }) {
           </Row>
           <ToastContainer />
           <AcknowledgeModal
-            show={showAcknowledgeModal}
-            onHide={() => {
-              console.log("Modal is being hidden");
-              setShowAcknowledgeModal(false);
-            }}
-            onConfirm={() => {
-              console.log("Modal confirmed");
+  show={showAcknowledgeModal}
+  onHide={() => {
+    console.log("Modal is being hidden");
+    setShowAcknowledgeModal(false);
+  }}
+  onConfirm={() => {
+    console.log("Modal confirmed");
 
-              // Debugging the update status process
-              console.log("Attempting to update status to 'For-Classification'");
-              console.log("Forms object being passed:", forms);
+    // Debugging the update status process
+    console.log("Attempting to update status to 'For-Classification'");
+    console.log("Forms object being passed:", forms);
 
-              if (!forms || !forms._id) {
-                console.error("Error: The forms object is invalid or _id is missing");
-              } else {
-                console.log("Forms _id:", forms._id);
-                updateStatusData("For-Classification");
-              }
+    if (!forms || !forms._id) {
+      console.error("Error: The forms object is invalid or _id is missing");
+    } else {
+      console.log("Forms _id:", forms._id);
 
-              setShowAcknowledgeModal(false);
-            }}
-          />
+      // Only proceed with status update if needed
+      if (status !== "For-Classification") {  // Ensure the status is not already "For-Classification"
+        updateStatusData("For-Classification");
+      } else {
+        console.log("Status is already 'For-Classification'. No update needed.");
+      }
+    }
+
+    // Make sure that initial submission and remarks are not updated unnecessarily
+    if (initialSubmission !== "Initial-Submission") {
+      updateInitialSubmissionData();  // Update initial submission if needed, but not at the same time as status change
+    }
+
+    // Close the modal after updates
+    setShowAcknowledgeModal(false);
+  }}
+/>
+
 
           <InitialSubmissionModal
             show={showCompleteModal}

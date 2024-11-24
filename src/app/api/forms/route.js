@@ -58,8 +58,6 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const rec = searchParams.get("rec");
   const email = searchParams.get("email"); 
-  console.log("REC Parameter: ", rec);
-  console.log("Email Parameter: ", email);
 
   try {
     const query = { isArchived: false };

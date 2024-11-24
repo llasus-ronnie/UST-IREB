@@ -40,15 +40,22 @@ export async function GET(req) {
 
   const { searchParams } = new URL(req.url);
   const email = searchParams.get("email");
-  const recName = searchParams.get("rec");
+  const rec = searchParams.get("rec");
 
-  // Build filter object based on query parameters
-  const filter = {};
-  if (email) filter.email = email;
-  if (recName) filter.rec = recName;
+  const query = {};
 
+  if (rec) {
+    query.researchEthicsCommittee = rec.trim();
+  }
+  if (email) {
+    query.$or = [
+      { recMember: { $in: [email.trim()] } },
+      { userEmail: email.trim() } 
+    ];
+  }
+  
   try {
-    const recMembers = await RECMembers.find(filter);
+    const recMembers = await RECMembers.find(query);
     return NextResponse.json(
       { success: true, data: recMembers },
       { status: 200 }

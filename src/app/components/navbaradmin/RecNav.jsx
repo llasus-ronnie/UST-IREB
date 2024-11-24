@@ -201,7 +201,7 @@ const RecNav = (props) => {
                 <ul className="adminnav-dropdown">
                   <li>
                     <a
-                      href={`/REC/RECManageRoles/${props.rec}`}
+                      href={`/REC/RECManageRoles/${rec}`}
                       legacyBehavior
                       onClick={() => isActive("manage")}
                     >
@@ -212,7 +212,7 @@ const RecNav = (props) => {
                   </li>
                   <li>
                     <a
-                      href={`/REC/RECManageExternal/${props.rec}`}
+                      href={`/REC/RECManageExternal/${rec}`}
                       legacyBehavior
                       onClick={() => isActive("manage")}
                     >
@@ -223,7 +223,7 @@ const RecNav = (props) => {
                   </li>
                   <li>
                     <a
-                      href={`/REC/RECManageContent/${props.rec}`}
+                      href={`/REC/RECManageContent/${rec}`}
                       legacyBehavior
                       onClick={() => isActive("manage")}
                     >
