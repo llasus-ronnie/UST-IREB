@@ -45,7 +45,7 @@ export async function GET(req) {
   const query = {};
 
   if (rec) {
-    query.researchEthicsCommittee = rec.trim();
+    query.rec = rec.trim();
   }
   if (email) {
     query.$or = [

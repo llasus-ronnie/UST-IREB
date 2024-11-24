@@ -539,7 +539,7 @@ export default function EditForms() {
                             <input
                                 type="text"
                                 name="monetarySource"
-                                value={forms.monetarySource || ""}
+                                value={forms.monetarySource1 || ""}
                                 onChange={handleChange}
                                 className="form-control"
                             />
@@ -580,7 +580,7 @@ export default function EditForms() {
                             <input
                                 type="text"
                                 name="monetarySource"
-                                value={forms.monetarySource || ""}
+                                value={forms.monetarySource2 || ""}
                                 onChange={handleChange}
                                 className="form-control"
                             />
