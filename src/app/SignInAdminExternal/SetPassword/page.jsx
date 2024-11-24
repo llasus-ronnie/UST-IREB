@@ -34,8 +34,10 @@ export default function SignIn() {
       setPasswordError(
         "Password must contain at least one uppercase letter, a minimum of 10 characters, and at least two numbers."
       );
+      setIsPasswordValid(false);
     } else {
       setPasswordError("");
+      setIsPasswordValid(true);
     }
   };
 
@@ -83,7 +85,7 @@ export default function SignIn() {
             toast.error("Login failed. Please check your credentials.");
           } else {
             toast.success("Password set successfully and logged in.");
-            router.push("/PrimaryReviewer/PRDashboard"); // Redirect to homepage or dashboard
+            router.push("/PrimaryReviewer/PRDashboard");
           }
         } else {
           toast.error("Error setting password: " + response.data.message);
@@ -95,6 +97,7 @@ export default function SignIn() {
       toast.warn("Please complete all fields and verify the reCAPTCHA.");
     }
   };
+
   return (
     <div>
       <div className="admin-signin-container">
