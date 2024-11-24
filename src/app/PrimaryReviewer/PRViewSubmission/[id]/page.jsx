@@ -179,8 +179,8 @@ function PRViewSubmission({ params }) {
       return <option>Loading files...</option>;
     }
   
-    const mainFiles = forms.mainFileLink || []; // Default to an empty array if undefined
-    const supplementaryFiles = forms.supplementaryFileLink || []; // Default to an empty array if undefined
+    const mainFiles = forms.mainFileLink || []
+    const supplementaryFiles = forms.supplementaryFileLink || []; 
   
     const fileLinks = [
       ...mainFiles.map(file => ({ filename: file.filename, url: file.url })),
@@ -188,21 +188,23 @@ function PRViewSubmission({ params }) {
     ];
   
     const renderResubmissionFiles = () => {
-      const resubmissionFiles = resubmission[0]?.resubmissionFile || []; 
+      return resubmission.map((resub, index) => {
+        const resubmissionFiles = resub.resubmissionFile || []; 
     
-      if (resubmissionFiles.length > 0) {
-        return (
-          <optgroup label="Resubmission Files">
-            {resubmissionFiles.map((file, index) => (
-              <option key={index} value={file.url}>
-                {file.filename}
-              </option>
-            ))}
-          </optgroup>
-        );
-      }
+        if (resubmissionFiles.length > 0) {
+          return (
+            <optgroup key={index} label={`Resubmission ${index + 1}`}>
+              {resubmissionFiles.map((file, fileIndex) => (
+                <option key={fileIndex} value={file.url}>
+                  {file.filename}
+                </option>
+              ))}
+            </optgroup>
+          );
+        }
     
-      return null; // Return nothing if no resubmission files are available
+        return null; 
+      });
     };
     
   
