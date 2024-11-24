@@ -54,6 +54,7 @@ function SubmissionFormsP2() {
   async function processForm(data) {
     dispatch(updateFormData(data));
     dispatch(setCurrentStep(currentPage + 1));
+    console.log(data);
   }
 
   const handlePrevious = () => {

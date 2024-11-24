@@ -158,7 +158,7 @@ function SummaryFormHistory({ id }) {
               {formData.proposalReviewedByOtherCommittee ? "Yes" : "No"}
             </p>
             <p className="PIforms-formtext">
-              <strong>Monetary Source:</strong> {formData.monetarySource}
+              <strong>Monetary Source:</strong> {formData.monetarySource1}
             </p>
             <p className="PIforms-formtext">
               <strong>Amount in PHP:</strong> {formData.amountInPHP}
@@ -177,7 +177,7 @@ function SummaryFormHistory({ id }) {
           </Row>
           <Col>
             <p className="PIforms-formtext">
-              <strong>Monetary Source:</strong> {formData.monetarySource}
+              <strong>Monetary Source:</strong> {formData.monetarySource2}
             </p>
             <p className="PIforms-formtext">
               <strong>Amount in Philippines Peso (Php):</strong>{" "}
