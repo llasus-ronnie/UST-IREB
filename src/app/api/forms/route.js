@@ -57,13 +57,12 @@ export async function GET(req) {
 
   const { searchParams } = new URL(req.url);
   const rec = searchParams.get("rec");
-  const email = searchParams.get("email"); // Get the email from query params
+  const email = searchParams.get("email"); 
   console.log("REC Parameter: ", rec);
   console.log("Email Parameter: ", email);
 
   try {
-    // Construct the query with default condition for isArchived
-    const query = { isArchived: false }; // Ensure only non-archived forms are retrieved
+    const query = { isArchived: false };
 
     if (rec) {
       query.researchEthicsCommittee = rec.trim();

@@ -10,6 +10,7 @@ import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 import withAuthorization from "../../../hoc/withAuthorization";
 
@@ -17,14 +18,18 @@ function PrSubmissions() {
   // State declarations
   const [forms, setForms] = useState([]);
   const [remarksData, setRemarksData] = useState([]);
-  const [selectedFilter, setSelectedFilter] = useState("all"); // Tracks the selected dropdown option
+  const [selectedFilter, setSelectedFilter] = useState("all");
+  const { data: session } = useSession();
+
+  const userEmail = session?.user?.email;
+
 
   // Fetching data from the database
   useEffect(() => {
     async function getForms() {
       try {
         const response = await axios.get("/api/forms", {
-          params: { email: session.user.email },
+          params: { email: userEmail }, 
         });
         setForms(response.data.forms);
       } catch (error) {
@@ -62,10 +67,9 @@ function PrSubmissions() {
     fetchResubmissionRemarks();
   }, [forms]);
 
-  // Handle dropdown change
   const handleDropDown = (event) => {
     const selectedOption = event.target.value;
-    setSelectedFilter(selectedOption); // Update the selected filter
+    setSelectedFilter(selectedOption); 
   };
 
   const handleSearch = (query) => {
