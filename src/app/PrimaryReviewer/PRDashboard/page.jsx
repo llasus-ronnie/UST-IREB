@@ -152,8 +152,7 @@ function PrDashboard() {
                       <tr key={index}>
                         <td>{form._id}</td>
                         <td>{form.fullName}</td>
-                        <td>{form.date}</td>
-                        <td>{form.title}</td>
+                        <td>{new Date(form.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</td>                        <td>{form.title}</td>
                         <td>
                           <Link
                             href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}

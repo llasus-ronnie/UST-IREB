@@ -106,12 +106,11 @@ function RECViewSubmission({ params }) {
         {
           id: forms._id,
           recMember: selectedReviewer,
+          status: "In-Progress"
         },
         { params: { id: forms._id } }
       );
-
-      await updateStatusData("In-Progress");
-
+      updateStatusData("In-Progress");
       toast.success(
         "The REC member information has been saved successfully, and the status is updated to 'In-Progress'."
       );
@@ -223,27 +222,27 @@ function RECViewSubmission({ params }) {
       try {
         const [recMembersRes, externalReviewersRes] = await Promise.all([
           axios.get(`/api/RECMembers`, {
-            params: { rec: forms?.researchEthicsCommittee }, 
+            params: { rec: forms?.researchEthicsCommittee },
           }),
-          axios.get(`/api/addExternalReviewer`,{
-            params:{rec: forms?.researchEthicsCommittee}
+          axios.get(`/api/addExternalReviewer`, {
+            params: { rec: forms?.researchEthicsCommittee }
           }),
         ]);
-  
+
         console.log("REC Members:", recMembersRes.data.data);
         console.log("External Reviewers:", externalReviewersRes.data.data);
-  
+
         setRECMembers(recMembersRes.data.data);
-        setExternalReviewers(externalReviewersRes.data.data);  
+        setExternalReviewers(externalReviewersRes.data.data);
       } catch (error) {
         console.log("Error loading REC Members and External Reviewers", error);
       }
     }
-  
-    if (forms?.researchEthicsCommittee) { 
+
+    if (forms?.researchEthicsCommittee) {
       getRECMembersAndExternalReviewers();
     }
-  }, [forms?.researchEthicsCommittee]); 
+  }, [forms?.researchEthicsCommittee]);
 
 
   //payment file
@@ -373,8 +372,8 @@ function RECViewSubmission({ params }) {
 
   //remarks file upload
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files); 
-  
+    const files = Array.from(e.target.files);
+
     setFiles(files);
   };
 
@@ -382,11 +381,10 @@ function RECViewSubmission({ params }) {
   //remarks comment
   const handleRemarksChange = (e) => {
     setRemarks({
-      ...remarks,  
-      comment: e.target.value,  
+      ...remarks,
+      comment: e.target.value,
     });
   };
-
 
   const handleBack = () => {
     router.push(`/REC/RECSubmissions/${rec}`);
@@ -431,25 +429,37 @@ function RECViewSubmission({ params }) {
 
   const updateStatus = async () => {
     try {
+      // Update status if it's different from the initial status
       if (status !== initialStatus) {
         await updateStatusData(status);
       }
+
+      // Update selected reviewer if it's different from the initial reviewer
       if (selectedReviewer !== initialReviewer) {
         await updateReviewerData();
       }
-      if (remarks.content || remarks.comment) {
-        if (initialSubmission === "Initial-Submission") {  // Prevent submitRemarks if updating initial submission
-          await submitRemarks(remarks);
-        }
+
+      // Only submit remarks if conditions allow (skip if Initial-Submission is active)
+      if ((remarks.content || remarks.comment) && initialSubmission !== "Initial-Submission") {
+        await submitRemarks(remarks);
       }
+
+      // Handle classification updates when status is "For-Classification"
       if (formClassification && status === "For-Classification") {
         await updateClassificationData(formClassification);
-      } else if (status === "Pending-Payment") {
+      }
+
+      // Handle status update when status is "Pending-Payment"
+      else if (status === "Pending-Payment") {
         await updateStatusData(status);
       }
+
+      // Submit final decision if it's provided
       if (finalDecision) {
         await submitFinalDecision(finalDecision);
       }
+
+      // Update initial submission data if needed
       if (initialSubmission !== "Initial-Submission") {
         await updateInitialSubmissionData();
       }
@@ -457,7 +467,7 @@ function RECViewSubmission({ params }) {
       toast.error("Failed to update. Please try again.");
     }
   };
-  
+
 
   return (
     <div className="adminpage-container">
@@ -509,54 +519,54 @@ function RECViewSubmission({ params }) {
             </a>
 
             <Col xs={12} lg={8} className="viewsub-content-container">
-  {/* Main File Display */}
-  {forms?.mainFileLink && forms.mainFileLink.length > 0 && (
-    <div>
-      <h5>Main File:</h5>
-      {forms.mainFileLink.map((file, index) => (
-        <div key={index}>
-          <iframe
-            src={file.url}
-            className="viewsub-iframe"
-            title={`Main File ${index + 1}`}
-          />
-          <a
-            href={file.url}
-            className="viewsub-download"
-            download={file.filename}
-            style={{ color: "blue" }}
-          >
-            Download {file.filename}
-          </a>
-        </div>
-      ))}
-    </div>
-  )}
+              {/* Main File Display */}
+              {forms?.mainFileLink && forms.mainFileLink.length > 0 && (
+                <div>
+                  <h5>Main File:</h5>
+                  {forms.mainFileLink.map((file, index) => (
+                    <div key={index}>
+                      <iframe
+                        src={file.url}
+                        className="viewsub-iframe"
+                        title={`Main File ${index + 1}`}
+                      />
+                      <a
+                        href={file.url}
+                        className="viewsub-download"
+                        download={file.filename}
+                        style={{ color: "blue" }}
+                      >
+                        Download {file.filename}
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              )}
 
-  {/* Supplementary Files Display */}
-  {forms?.supplementaryFileLink && forms.supplementaryFileLink.length > 0 && (
-    <div>
-      <h5>Supplementary Files:</h5>
-      {forms.supplementaryFileLink.map((file, index) => (
-        <div key={index}>
-          <iframe
-            src={file.url}
-            className="viewsub-iframe"
-            title={`Supplementary File ${index + 1}`}
-          />
-          <a
-            href={file.url}
-            className="viewsub-download"
-            download={file.filename}
-            style={{ color: "blue" }}
-          >
-            Download {file.filename}
-          </a>
-        </div>
-      ))}
-    </div>
-  )}
-</Col>
+              {/* Supplementary Files Display */}
+              {forms?.supplementaryFileLink && forms.supplementaryFileLink.length > 0 && (
+                <div>
+                  <h5>Supplementary Files:</h5>
+                  {forms.supplementaryFileLink.map((file, index) => (
+                    <div key={index}>
+                      <iframe
+                        src={file.url}
+                        className="viewsub-iframe"
+                        title={`Supplementary File ${index + 1}`}
+                      />
+                      <a
+                        href={file.url}
+                        className="viewsub-download"
+                        download={file.filename}
+                        style={{ color: "blue" }}
+                      >
+                        Download {file.filename}
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Col>
 
             <Col xs={12} lg={4} className="viewsub-details-container">
               <h1>Submission Details</h1>
@@ -618,7 +628,7 @@ function RECViewSubmission({ params }) {
                     value={formClassification}
                     onChange={handleClassificationChange}
                   >
-                    <option value="No-value" disabled> Choose classification </option>
+                    <option value="No-value" selected disabled> Choose classification </option>
                     <option value="Full-Board">Full Board</option>
                     <option value="Expedited">Expedited</option>
                     <option value="Exempt">Exempt</option>
@@ -630,60 +640,60 @@ function RECViewSubmission({ params }) {
                 <>
                   <span>Assign Reviewer:</span>
                   {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
-  RECMembers.map((member) => (
-    <div key={member._id} className="viewsub-checkbox">
-      <label>
-        <input
-          type="checkbox"
-          name="selectedReviewers"
-          value={member.email}
-          checked={selectedReviewer.includes(member.email)} 
-          onChange={(e) => {
-            const value = e.target.value;
-            if (e.target.checked) {
-              setSelectedReviewer((prevSelected) => [...prevSelected, value]);
-            } else {
-              setSelectedReviewer((prevSelected) =>
-                prevSelected.filter((email) => email !== value)
-              );
-            }
-          }}
-        />
-        {member.name}
-      </label>
-    </div>
-  ))
-) : (
-  <div> </div>
-)}
+                    RECMembers.map((member) => (
+                      <div key={member._id} className="viewsub-checkbox">
+                        <label>
+                          <input
+                            type="checkbox"
+                            name="selectedReviewers"
+                            value={member.email}
+                            checked={selectedReviewer.includes(member.email)}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (e.target.checked) {
+                                setSelectedReviewer((prevSelected) => [...prevSelected, value]);
+                              } else {
+                                setSelectedReviewer((prevSelected) =>
+                                  prevSelected.filter((email) => email !== value)
+                                );
+                              }
+                            }}
+                          />
+                          {member.name}
+                        </label>
+                      </div>
+                    ))
+                  ) : (
+                    <div> </div>
+                  )}
 
-{Array.isArray(externalReviewers) && externalReviewers.length > 0 ? (
-  externalReviewers.map((reviewer) => (
-    <div key={reviewer._id} className="viewsub-checkbox">
-      <label>
-        <input
-          type="checkbox"
-          name="selectedExternalReviewers"
-          value={reviewer.email}
-          checked={selectedReviewer.includes(reviewer.email)}
-          onChange={(e) => {
-            const value = e.target.value;
-            if (e.target.checked) {
-              setSelectedReviewer((prevSelected) => [...prevSelected, value]);
-            } else {
-              setSelectedReviewer((prevSelected) =>
-                prevSelected.filter((email) => email !== value)
-              );
-            }
-          }}
-        />
-        {reviewer.name}
-      </label>
-    </div>
-  ))
-) : (
-  <div> </div>
-)}
+                  {Array.isArray(externalReviewers) && externalReviewers.length > 0 ? (
+                    externalReviewers.map((reviewer) => (
+                      <div key={reviewer._id} className="viewsub-checkbox">
+                        <label>
+                          <input
+                            type="checkbox"
+                            name="selectedExternalReviewers"
+                            value={reviewer.email}
+                            checked={selectedReviewer.includes(reviewer.email)}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (e.target.checked) {
+                                setSelectedReviewer((prevSelected) => [...prevSelected, value]);
+                              } else {
+                                setSelectedReviewer((prevSelected) =>
+                                  prevSelected.filter((email) => email !== value)
+                                );
+                              }
+                            }}
+                          />
+                          {reviewer.name}
+                        </label>
+                      </div>
+                    ))
+                  ) : (
+                    <div> </div>
+                  )}
 
                 </>
 
@@ -905,40 +915,40 @@ function RECViewSubmission({ params }) {
           </Row>
           <ToastContainer />
           <AcknowledgeModal
-  show={showAcknowledgeModal}
-  onHide={() => {
-    console.log("Modal is being hidden");
-    setShowAcknowledgeModal(false);
-  }}
-  onConfirm={() => {
-    console.log("Modal confirmed");
+            show={showAcknowledgeModal}
+            onHide={() => {
+              console.log("Modal is being hidden");
+              setShowAcknowledgeModal(false);
+            }}
+            onConfirm={() => {
+              console.log("Modal confirmed");
 
-    // Debugging the update status process
-    console.log("Attempting to update status to 'For-Classification'");
-    console.log("Forms object being passed:", forms);
+              // Debugging the update status process
+              console.log("Attempting to update status to 'For-Classification'");
+              console.log("Forms object being passed:", forms);
 
-    if (!forms || !forms._id) {
-      console.error("Error: The forms object is invalid or _id is missing");
-    } else {
-      console.log("Forms _id:", forms._id);
+              if (!forms || !forms._id) {
+                console.error("Error: The forms object is invalid or _id is missing");
+              } else {
+                console.log("Forms _id:", forms._id);
 
-      // Only proceed with status update if needed
-      if (status !== "For-Classification") {  // Ensure the status is not already "For-Classification"
-        updateStatusData("For-Classification");
-      } else {
-        console.log("Status is already 'For-Classification'. No update needed.");
-      }
-    }
+                // Only proceed with status update if needed
+                if (status !== "For-Classification") {  // Ensure the status is not already "For-Classification"
+                  updateStatusData("For-Classification");
+                } else {
+                  console.log("Status is already 'For-Classification'. No update needed.");
+                }
+              }
 
-    // Make sure that initial submission and remarks are not updated unnecessarily
-    if (initialSubmission !== "Initial-Submission") {
-      updateInitialSubmissionData();  // Update initial submission if needed, but not at the same time as status change
-    }
+              // Make sure that initial submission and remarks are not updated unnecessarily
+              if (initialSubmission !== "Initial-Submission") {
+                updateInitialSubmissionData();  // Update initial submission if needed, but not at the same time as status change
+              }
 
-    // Close the modal after updates
-    setShowAcknowledgeModal(false);
-  }}
-/>
+              // Close the modal after updates
+              setShowAcknowledgeModal(false);
+            }}
+          />
 
 
           <InitialSubmissionModal
