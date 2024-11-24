@@ -241,14 +241,33 @@ function RECReports({ params }) {
     async function fetchData() {
       try {
         // Fetch REC data
-        const recResponse = await axios.get("/api/REC");
+        const recResponse = await axios.get("/api/REC", { params: { rec } });
         setREC(recResponse.data.data);
 
         // Fetch RECMembers data to get Primary Reviewers
-        const membersResponse = await axios.get("/api/RECMembers");
+        const membersResponse = await axios.get("/api/RECMembers", {
+          params: { rec },
+        });
         const primaryReviewers = membersResponse.data.data
           .filter((member) => member.recRole === "Primary Reviewer")
-          .map((member) => member.name);
+          .map((member) => ({
+            email: member.email, // Ensure email is used
+            name: member.name,
+          }));
+
+        // Fetch External Reviewer data
+        const externalResponse = await axios.get("/api/addExternalReviewer", {
+          params: { rec },
+        });
+        const externalReviewers = externalResponse.data.data.map(
+          (reviewer) => ({
+            email: reviewer.email, // Ensure email is used
+            name: reviewer.name,
+          })
+        );
+
+        // Combine all reviewers (Primary + External) with emails
+        const allReviewers = [...primaryReviewers, ...externalReviewers];
 
         // Fetch Forms data
         const formsResponse = await axios.get("/api/forms", {
@@ -256,9 +275,10 @@ function RECReports({ params }) {
         });
         const forms = formsResponse.data.forms;
 
-        // Initialize counts for each reviewer
-        const counts = primaryReviewers.map((reviewer) => ({
-          reviewer,
+        // Initialize counts for all reviewers
+        const counts = allReviewers.map((reviewer) => ({
+          reviewer: reviewer.name, // Display name for the chart
+          email: reviewer.email, // Match by email
           inProgress: 0,
           finalReview: 0,
           resubmission: 0,
@@ -266,18 +286,20 @@ function RECReports({ params }) {
 
         // Count statuses for each reviewer
         forms.forEach((form) => {
-          const reviewerIndex = counts.findIndex(
-            (entry) => entry.reviewer === form.recMember
-          );
-          if (reviewerIndex !== -1) {
-            if (form.status === "In-Progress") {
-              counts[reviewerIndex].inProgress++;
-            } else if (form.status === "Final-Review") {
-              counts[reviewerIndex].finalReview++;
-            } else if (form.status === "Resubmission") {
-              counts[reviewerIndex].resubmission++;
+          form.recMember.forEach((assignedReviewerEmail) => {
+            const reviewerIndex = counts.findIndex(
+              (entry) => entry.email === assignedReviewerEmail
+            );
+            if (reviewerIndex !== -1) {
+              if (form.status === "In-Progress") {
+                counts[reviewerIndex].inProgress++;
+              } else if (form.status === "Final-Review") {
+                counts[reviewerIndex].finalReview++;
+              } else if (form.status === "Resubmission") {
+                counts[reviewerIndex].resubmission++;
+              }
             }
-          }
+          });
         });
 
         // Set the status counts in state
@@ -285,7 +307,7 @@ function RECReports({ params }) {
 
         // Prepare chart data
         setRecStatusData({
-          labels: counts.map((entry) => entry.reviewer),
+          labels: counts.map((entry) => entry.reviewer), // Use names for labels
           datasets: [
             {
               label: "In Progress",
