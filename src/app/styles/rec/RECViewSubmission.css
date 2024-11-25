@@ -302,6 +302,17 @@
   background: var(--primary-color); 
 }
 
+.uploaded-file-item {
+  padding: 1rem 0;
+}
+
+.remove-file-button {
+  background-color: #d11f1f;
+  color: white;
+  border-radius: 5px;
+  padding: 0.2rem 0.5rem;
+  margin: 0 1rem;
+}
 
 /* scroll design  */
 ::-webkit-scrollbar {

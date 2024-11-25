@@ -285,8 +285,8 @@ function SubmissionStatus({ params }) {
                 <p>{form?.status || "No classification available"}</p>
 
                 {/* hide ko muna pero dito ung expedited, exempted, full board */}
-                {/* <span>Review Classification:</span>
-                <p>{form?.classification || "No classification available"}</p> */}
+                <span>Review Classification:</span>
+                <p>{form?.classification || "No classification available"}</p>
               </div>
 
               {/* Remarks */}

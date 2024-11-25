@@ -89,9 +89,9 @@ function SubmissionList() {
             <tr>
               <th>Research Title</th>
               <th>Date of Application</th>
-              <th>Assigned REC</th>
-              <th>Review Classification</th>
-              <th>View Research</th>
+              <th>REC</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
