@@ -397,7 +397,6 @@ function RECViewSubmission({ params }) {
     setFiles(files);
   };
 
-
   //remarks comment
   const handleRemarksChange = (e) => {
     setRemarks({
@@ -490,6 +489,10 @@ function RECViewSubmission({ params }) {
       // Update initial submission data if needed
       if (initialSubmission !== "Initial-Submission") {
         await updateInitialSubmissionData();
+      }
+
+      if(formClassification === "Exempt"){
+        await updateStatusData("Final-Decision")
       }
     } catch (error) {
       toast.error("Failed to update. Please try again.");
