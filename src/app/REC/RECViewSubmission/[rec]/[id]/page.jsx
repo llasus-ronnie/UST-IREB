@@ -517,6 +517,23 @@ function RECViewSubmission({ params }) {
     setSelectedFileUrl(selectedUrl);
   };
 
+  const isImage = (url) => {
+    return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(url);
+  };
+  
+  const isPDF = (url) => {
+    return /\.pdf$/i.test(url);
+  };
+
+  const renderContent = (url) => {
+    if (isImage(url)) {
+      return <img src={url} alt="Payment File" width={200} height={200} />;
+    } else if (isPDF(url)) {
+      return <iframe src={url} width={200} height={200} title="Payment File" />;
+    } else {
+      return <span>Unsupported file type</span>;
+    }
+  };
 
 
   return (
@@ -765,12 +782,7 @@ function RECViewSubmission({ params }) {
                 <span>Proof of Payment:</span>
                 {paymentLink ? (
                   <>
-                    <Image
-                      src={paymentLink}
-                      alt="Payment File"
-                      width={200}
-                      height={200}
-                    />
+                    {renderContent(paymentLink)}
                     <a
                       href={paymentLink}
                       download={paymentLink}
