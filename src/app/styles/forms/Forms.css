@@ -10,7 +10,9 @@
   --heading-1-size: 1.5rem;
   --paragraph-size: 0.85rem;
 }
-
+body,html{
+  overflow-y: scroll;
+}
 .stepbar-nav {
   border-radius: 5px;
   background-image: url("/images/forms/bg-5.jpg");
