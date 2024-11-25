@@ -341,7 +341,7 @@ const subFormSchema = new Schema({
     type: String,
     require: true,
     default:
-      "No remarks yet, wait for your assigned reviewer to review your submission and give feeback",
+      "No classification yet. Kindly wait for further updates.",
   },
   resubmissionStatus: {
     type: String,
