@@ -95,7 +95,10 @@
 }
 
 .input-group {
-  margin-bottom: 15px;
+  margin-top: 7px;
+  margin-bottom: 13px;
+  display: flex;
+  flex-wrap: nowrap;
 }
 
 .admin-input:focus {
