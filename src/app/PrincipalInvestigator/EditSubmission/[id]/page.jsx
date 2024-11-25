@@ -42,12 +42,23 @@ export default function EditForms() {
         },
     });
 
+    const [subformId, setSubformId] = useState(null);
+
+    useEffect(() => {
+        const pathSegments = window.location.pathname.split("/");
+        const id = pathSegments[pathSegments.length - 1]; // Get the last segment
+        setSubformId(id);
+    }, []);
+
+
     // GET Forms
     useEffect(() => {
+        if (!subformId) return; // Ensure subformId is available
+
         async function getForms() {
             try {
                 const response = await axios.get("/api/forms", {
-                    params: { subformId: forms._id },
+                    params: { subformId: subformId },
                 });
                 const userForms = response.data.forms;
                 setForms(userForms[0]); // Assuming you get an array, set the first form
@@ -55,9 +66,9 @@ export default function EditForms() {
                 toast.error("Error fetching data:", error);
             }
         }
-            getForms();
-        
-    }, [forms]);
+
+        getForms();
+    }, [subformId]);
 
     // Format Research Ethics Committee
     const formatResearchEthicsCommittee = (value) => {
