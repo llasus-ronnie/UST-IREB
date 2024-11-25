@@ -44,6 +44,8 @@ function RECViewSubmission({ params }) {
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [externalReviewers, setExternalReviewers] = useState([]);
   const [resubmission, setResubmission] = useState("");
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+
 
   //unwrapping params
   useEffect(() => {
@@ -275,7 +277,7 @@ function RECViewSubmission({ params }) {
         },
         { params: { id: forms._id } }
       );
-        toast.success("Final decision has been submitted successfully.");
+      toast.success("Final decision has been submitted successfully.");
     } catch (error) {
       toast.error("Failed to update final decision. Please try again.");
     }
@@ -458,7 +460,7 @@ function RECViewSubmission({ params }) {
       if (status === "Initial-Result") {
         await submitRemarks(remarks);
       }
-      
+
       if (status === "Final-Decision") {
         await submitRemarks(remarks);
       }
@@ -483,7 +485,7 @@ function RECViewSubmission({ params }) {
         await updateInitialSubmissionData();
       }
 
-      if(formClassification === "Exempt"){
+      if (formClassification === "Exempt") {
         await updateStatusData("Final-Decision")
       }
     } catch (error) {
@@ -515,7 +517,7 @@ function RECViewSubmission({ params }) {
   const isImage = (url) => {
     return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(url);
   };
-  
+
   const isPDF = (url) => {
     return /\.pdf$/i.test(url);
   };
@@ -530,6 +532,28 @@ function RECViewSubmission({ params }) {
     }
   };
 
+  const handleUploadSuccess = (res) => {
+    console.log("Upload Response:", res.info);
+  
+    if (res.info.format !== "pdf") {
+      toast.error("Only PDF files are allowed. Please upload a PDF.");
+      return;
+    }
+  
+    const newFile = {
+      url: res.info.secure_url,
+      filename: res.info.original_filename || res.info.public_id.split("/").pop(),
+    };
+  
+    setUploadedFiles((prevFiles) => [...prevFiles, newFile]);
+  };
+  
+
+  const handleRemoveFile = (fileToRemove) => {
+    setUploadedFiles((prevFiles) =>
+      prevFiles.filter((file) => file.url !== fileToRemove.url)
+    );
+  };
 
   return (
     <div className="adminpage-container">
@@ -765,9 +789,9 @@ function RECViewSubmission({ params }) {
                     onChange={(event) => {
                       const value = event.target.value;
                       setFinalDecision(value);
-                      console.log(value); 
+                      console.log(value);
                     }}
-                    
+
                   >
                     <option value="No-value" disabled>
                       Choose your final decision
@@ -824,33 +848,45 @@ function RECViewSubmission({ params }) {
                     <span>Remarks:</span>
                   )}
 
-                  <CldUploadWidget
-                    signatureEndpoint="/api/sign-cloudinary-params"
-                    multiple
-                    onSuccess={(res) => {
-                      if (res.info.format !== "pdf") {
-                        toast.error("Only PDF files are allowed. Please upload a PDF.");
-                        return;
-                      }
+                  <div>
+                    <CldUploadWidget
+                      signatureEndpoint="/api/sign-cloudinary-params"
+                      multiple
+                      onSuccess={(res) => {
+                        handleUploadSuccess(res);
+                      }}
+                    >
+                      {({ open }) => (
+                        <button
+                          type="button"
+                          onClick={() => open()}
+                          className="form-control PIforms-formtext PIforms-file"
+                        >
+                          Upload file
+                        </button>
+                      )}
+                    </CldUploadWidget>
 
-                      setRemarks((prevRemarks) => ({
-                        ...prevRemarks,
-                        content: prevRemarks.content ? [...prevRemarks.content, res.info.secure_url] : [res.info.secure_url],  // Append the new file URL
-                      }));
-                    }}
-                  >
-                    {({ open }) => (
-                      <button
-                        type="button"
-                        onClick={() => open()}
-                        className="form-control PIforms-formtext PIforms-file"
-                      >
-                        Upload file
-                      </button>
+                    {/* Uploaded files list */}
+                    {uploadedFiles.length > 0 && (
+                      <div className="uploaded-files-list">
+                        {uploadedFiles.map((file, index) => (
+                          <div key={index} className="uploaded-file-item">
+                            <a href={file.url} target="_blank" rel="noopener noreferrer" className="uploaded-file-link">
+                              {file.filename}
+                            </a>
+                            <button
+                              type="button"
+                              className="remove-file-button"
+                              onClick={() => handleRemoveFile(file)}
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        ))}
+                      </div>
                     )}
-                  </CldUploadWidget>
-
-
+                  </div>
 
                   <textarea
                     className="viewsub-textarea"
