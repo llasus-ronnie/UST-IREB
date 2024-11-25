@@ -22,7 +22,7 @@ import { useSession } from "next-auth/react";
 function PRViewSubmission({ params }) {
   //state variables
   const [forms, setForms] = useState([]);
-  const [resubmission,  setResubmission] = useState("");
+  const [resubmission, setResubmission] = useState("");
   const router = useRouter();
   const [modalShowFinalReview, setModalShowFinalReview] = useState(false);
   const [status, setStatus] = useState("");
@@ -31,7 +31,7 @@ function PRViewSubmission({ params }) {
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const [resubmissionFiles, setResubmissionFiles] = useState([]); // To store uploaded files
   const [resubmissionComments, setResubmissionComments] = useState(""); // To store remarks
-  
+
 
   const { register, handleSubmit, setValue } = useForm();
 
@@ -63,13 +63,13 @@ function PRViewSubmission({ params }) {
             subFormId: forms._id,
           },
         });
-          setResubmission(response.data.resubmissions);
-          console.log("Resubmission:", response.data.resubmissions);
+        setResubmission(response.data.resubmissions);
+        console.log("Resubmission:", response.data.resubmissions);
       } catch (error) {
         console.error("Failed to fetch resubmission:", error);
       }
     }
-  
+
     fetchResubmission();
   }, [forms]);
 
@@ -114,7 +114,7 @@ function PRViewSubmission({ params }) {
         subFormId: forms._id,
         resubmissionRemarksFile: files,
         resubmissionRemarksMember: userName,
-        resubmissionRemarksComments: data.remarks || resubmissionComments, 
+        resubmissionRemarksComments: data.remarks || resubmissionComments,
       };
 
       console.log("Payload:", payload);
@@ -124,7 +124,7 @@ function PRViewSubmission({ params }) {
       if (response.status === 201) {
         const savedResubmission = response.data;
 
-        if (forms.status !=="Resubmission") {
+        if (forms.status !== "Resubmission") {
           const formUpdateResponse = await axios.put(
             "/api/forms",
             {
@@ -176,20 +176,20 @@ function PRViewSubmission({ params }) {
     if (!forms || typeof forms !== 'object') {
       return <option>Loading files...</option>;
     }
-  
+
     const mainFiles = forms.mainFileLink || []
-    const supplementaryFiles = forms.supplementaryFileLink || []; 
-  
+    const supplementaryFiles = forms.supplementaryFileLink || [];
+
     const fileLinks = [
       ...mainFiles.map(file => ({ filename: file.filename, url: file.url })),
       ...supplementaryFiles.map(file => ({ filename: file.filename, url: file.url })),
     ];
-  
+
     const renderResubmissionFiles = () => {
       if (!resubmission || resubmission.length === 0) {
         return null; // Return nothing if no resubmissions are available
       }
-    
+
       return resubmission.map((resub, resubIndex) => {
         const resubmissionFiles = resub.resubmissionFile || [];
         if (resubmissionFiles.length > 0) {
@@ -221,11 +221,11 @@ function PRViewSubmission({ params }) {
         </>
       );
     }
-  
+
     return <option>No files available</option>;
   };
-  
-  
+
+
 
 
   const removeFile = (index) => {
@@ -345,7 +345,15 @@ function PRViewSubmission({ params }) {
                 <div className="uploaded-files-list">
                   {resubmissionFiles.map((file, index) => (
                     <div key={index} className="file-item">
-                      <span>{file.filename}</span>
+                      <a
+                        href={file.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="file-link"
+                        style={{color:"blue"}}
+                      >
+                        {file.filename}
+                      </a>
                       <button
                         type="button"
                         onClick={() => removeFile(index)} // Function to remove file from state
@@ -355,6 +363,7 @@ function PRViewSubmission({ params }) {
                       </button>
                     </div>
                   ))}
+
                 </div>
 
                 <textarea
@@ -385,7 +394,7 @@ function PRViewSubmission({ params }) {
                               {remark.resubmissionRemarksFile[0].filename}
                             </a>
                           ) : (
-                            <p>No file available</p> 
+                            <p>No file available</p>
                           )}
                         </td>
                         <td>
@@ -398,30 +407,30 @@ function PRViewSubmission({ params }) {
               </div>
 
               <div className="viewsub-buttons">
-              {forms.status !== "Final-Decision" && (
-                <button
-                  className="viewsub-save"
-                  onClick={handleSubmit((data) => {
-                    submitResubmissionRemarks(data);
-                  })}
-                >
-                  Save Changes
-                </button>
-              )}
+                {forms.status !== "Final-Decision" && (
+                  <button
+                    className="viewsub-save"
+                    onClick={handleSubmit((data) => {
+                      submitResubmissionRemarks(data);
+                    })}
+                  >
+                    Save Changes
+                  </button>
+                )}
                 <button className="viewsub-back" onClick={handleBack}>
                   Back
                 </button>
-                
+
               </div>
-              
-              
+
+
               <div
 
               >
                 {forms.status !== "Final-Decision" && (
 
-                <button className="viewsub-finalrec"
-                onClick={handleShowFinalReviewModal}>Submit to REC Chair for Final Review</button>
+                  <button className="viewsub-finalrec"
+                    onClick={handleShowFinalReviewModal}>Submit to REC Chair for Final Review</button>
                 )}
               </div>
             </Col>
