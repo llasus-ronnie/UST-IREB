@@ -126,12 +126,30 @@ body {
   background-color: #f0a500;
 }
 
+.archive-btn {
+  background-color: #d11f1f;
+  color: var(--quaternary-color);
+  border: none;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.archive-btn:hover {
+  background-color: #851414;
+}
+
 .submission-footer {
   text-align: center;
   padding: 1em;
   background-color: #f8f9fa;
   font-size: var(--paragraph-size);
   color: #555;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .submission-footer p {

@@ -82,11 +82,7 @@ function SubmissionList() {
         <div className="submission-list-header">
           <h2>Submission List</h2>
         </div>
-        <div style={{ backgroundColor: "#ecf0f1", width: "100%"}}>
-          <button onClick={() => setShowArchived((prev) => !prev)} style={{display:"flex", flexDirection:"row", justifyContent:"center", alignItems:"center", gap:"1rem"}}>
-            Show Archived Forms?   {showArchived ? <FaEye /> :<FaEyeSlash />}
-          </button>
-        </div>
+
 
         <table className="submission-table">
           <thead>
@@ -114,7 +110,7 @@ function SubmissionList() {
                       View
                     </Link>
                     <button
-                      className="view-btn"
+                      className="archive-btn"
                       onClick={() => archiveForm(form._id, form.isArchived)}
                       disabled={form.isArchived === null} // Disable if form status is unknown or in progress
                     >
@@ -133,9 +129,9 @@ function SubmissionList() {
           </tbody>
         </table>
         <div className="submission-footer">
-          <p>
-            <i>Click to see further details of your submission</i>
-          </p>
+          <button onClick={() => setShowArchived((prev) => !prev)} style={{display:"flex", flexDirection:"row", justifyContent:"center", alignItems:"center", gap:"1rem"}}>
+            Show Archived Forms?   {showArchived ? <FaEye /> :<FaEyeSlash />}
+          </button>
         </div>
       </div>
     </>

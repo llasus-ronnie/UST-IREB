@@ -21,13 +21,14 @@ $breadcrumbStepCircleHeight: 3.25rem;
     display: flex;
     align-items: flex-start;
     position: relative;
-    margin-bottom: 4rem;
+    padding-bottom: 3rem;
     z-index: 0;
 }
 
 .breadcrumbs-step-line {
     width: 0.3125rem;
-    height: 10.25rem;
+    height: 100%;
+    flex-grow: 1;
     background-color: #dcdcdc;
     position: absolute;
     top: 1.625rem;
@@ -104,6 +105,10 @@ $breadcrumbStepCircleHeight: 3.25rem;
     background-color: var(--tertiary-color);
 }
 
+.breadcrumbs-step-line.no-line {
+    display: none; /* Hide the line for the last step */
+  }
+
 .white-circle{
     background-color: white;
     width: $breadcrumbStepCircleWidth - 1.5rem;
@@ -120,12 +125,11 @@ $breadcrumbStepCircleHeight: 3.25rem;
     }
 
     .breadcrumbs-step-container {
-        margin-bottom: 3rem;
         position: relative;
     }
 
     .breadcrumbs-step-line {
-        height: 10rem;
+        // height: 11.5rem;
         left: 0;
         top: 1.625rem;
     }
@@ -157,7 +161,8 @@ $breadcrumbStepCircleHeight: 3.25rem;
     }
 
     .breadcrumbs-step-container {
-        margin-bottom: 4rem;
+        padding-bottom: 1rem;
+        margin: 0;
     }
 
     .breadcrumbs-step-line {
@@ -192,11 +197,12 @@ $breadcrumbStepCircleHeight: 3.25rem;
     }
 
     .breadcrumbs-step-container {
-        margin-bottom: 4rem;
+        padding-bottom: 2rem;
     }
 
     .breadcrumbs-step-line {
-        height: 14rem;
+        height: 100%;
+        flex-grow: 1;
         top: 1.625rem;
         left: 0;
     }
