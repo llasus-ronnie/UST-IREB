@@ -124,7 +124,7 @@ function PRViewSubmission({ params }) {
       if (response.status === 201) {
         const savedResubmission = response.data;
 
-        if (savedResubmission) {
+        if (forms.status !=="Resubmission") {
           const formUpdateResponse = await axios.put(
             "/api/forms",
             {
@@ -186,26 +186,27 @@ function PRViewSubmission({ params }) {
     ];
   
     const renderResubmissionFiles = () => {
-      const resubmissionFiles = resubmission[0]?.resubmissionFile || []; 
-    
-      if (resubmissionFiles.length > 0) {
-        let index = 0;
-        return (
-          <optgroup key={index} label={`Resubmission ${index+1}`}>
-            {resubmissionFiles.map((file, index) => (
-              <option key={index} value={file.url}>
-                {file.filename}
-              </option>
-            ))}
-          </optgroup>
-        );
+      if (!resubmission || resubmission.length === 0) {
+        return null; // Return nothing if no resubmissions are available
       }
     
-      return null; // Return nothing if no resubmission files are available
+      return resubmission.map((resub, resubIndex) => {
+        const resubmissionFiles = resub.resubmissionFile || [];
+        if (resubmissionFiles.length > 0) {
+          return (
+            <optgroup key={`resubmission-${resubIndex}`} label={`Resubmission ${resubIndex + 1}`}>
+              {resubmissionFiles.map((file, fileIndex) => (
+                <option key={`file-${resubIndex}-${fileIndex}`} value={file.url}>
+                  {file.filename}
+                </option>
+              ))}
+            </optgroup>
+          );
+        }
+        return null; // Return nothing for empty resubmissions
+      });
     };
-    
-    
-  
+
     if (fileLinks.length > 0) {
       return (
         <>

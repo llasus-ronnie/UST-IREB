@@ -128,6 +128,7 @@
     box-sizing: border-box;
     cursor: pointer;
     transition: border 0.3s ease, box-shadow 0.3s ease;
+    height: max-content;
 }
 
 .viewsub-remarks {

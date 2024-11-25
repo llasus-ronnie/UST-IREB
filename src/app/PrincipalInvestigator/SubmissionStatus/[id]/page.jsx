@@ -394,7 +394,7 @@ function SubmissionStatus({ params }) {
               ) : null}
 
               <div className="submissionstatus-buttons">
-                {form?.status === "Initial-Result" ? (
+                {form?.status === "Initial-Result" || form?.status === "Resubmission"? (
                   <button
                     className="submissionstatus-edit-sub"
                     onClick={handleShowSubmissionModal}
