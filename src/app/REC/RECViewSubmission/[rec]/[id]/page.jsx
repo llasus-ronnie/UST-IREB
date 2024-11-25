@@ -268,20 +268,14 @@ function RECViewSubmission({ params }) {
   async function submitFinalDecision(finalDecision) {
     try {
       const formUpdateResponse = await axios.put(
-        "/api/forms",
+        `/api/forms`,
         {
+          id: forms._id,
           finalDecision: finalDecision,
         },
-        {
-          params: { id: forms._id },
-        }
+        { params: { id: forms._id } }
       );
-      if (formUpdateResponse.status === 200) {
-        console.log(formUpdateResponse);
         toast.success("Final decision has been submitted successfully.");
-      } else {
-        console.error("Failed to update final decision");
-      }
     } catch (error) {
       toast.error("Failed to update final decision. Please try again.");
     }
@@ -433,9 +427,7 @@ function RECViewSubmission({ params }) {
     setFormClassification(value);
   };
 
-  const handleDecisionChange = (event) => {
-    setFinalDecision(event.target.value);
-  };
+
 
   const handleInitialSubmission = (event) => {
     const value = event.target.value;
@@ -770,7 +762,12 @@ function RECViewSubmission({ params }) {
                   <select
                     className="viewsub-changestatus"
                     value={finalDecision}
-                    onChange={handleDecisionChange}
+                    onChange={(event) => {
+                      const value = event.target.value;
+                      setFinalDecision(value);
+                      console.log(value); 
+                    }}
+                    
                   >
                     <option value="No-value" disabled>
                       Choose your final decision

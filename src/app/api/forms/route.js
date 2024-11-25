@@ -119,8 +119,6 @@ export async function PUT(req) {
     const formData = await req.json();
     const { id, archived, mainFileLink, supplementaryFileLink, ...otherData } = formData;
 
-    console.log("Received formData:", formData);
-
     if (!id) {
       console.error("Error: ID is required");
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
