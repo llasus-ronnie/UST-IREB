@@ -112,21 +112,39 @@ export default function ResubmissionModal({
             status: form.status,
           };
 
+          const reviewerEmailData = {
+            reviewers: form.recMember,
+            title: form.title,
+            name: form.fullName,
+            status: form.status,
+          };
+
           const emailResponse = await axios.post(
             "/api/auth/send-email-resubmission",
             emailData
           );
           console.log("Email Response:", emailResponse);
+
           if (emailResponse.status === 200) {
-            toast.success("Email sent successfully!");
-            props.onHide();
-            return true;
+            const reviewerEmailResponse = await axios.post(
+              "/api/auth/send-email-resubmission-reviewer",
+              reviewerEmailData
+            );
+            console.log("Reviewer Email Response:", reviewerEmailResponse);
+
+            if (reviewerEmailResponse.status === 200) {
+              toast.success("Emails sent successfully!");
+              props.onHide();
+              return true;
+            } else {
+              toast.error("Failed to send reviewer emails");
+            }
           } else {
             toast.error("Failed to send email");
           }
         } catch (error) {
           console.error("Error sending email:", error);
-          toast.error("Failed to send email");
+          toast.error("Error sending email");
         }
       } else {
         console.error("Unexpected response status:", response.status);
