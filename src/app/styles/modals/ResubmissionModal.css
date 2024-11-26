@@ -165,6 +165,44 @@
     resize: none;
   }
 
+  .uploaded-files-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: center;
+    margin: auto;
+    padding: 0.5rem 0;
+  }
+  
+  .uploaded-file-item {
+    display: grid;
+    grid-template-columns: 1fr auto; 
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    width: 70%;
+  }
+  
+  .uploaded-file-name {
+    padding-right: 0.5rem;
+    text-align: left;
+    word-wrap: break-word;
+  }
+  
+  .remove-file-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.3rem 0.5rem;
+    cursor: pointer;
+    justify-self: center;
+  }
+  
+  .remove-file-btn:hover {
+    background-color: #c0392b;
+  }
+
 /* Two Buttons */
 .resubmission-modal-footer {
   border-top: none;

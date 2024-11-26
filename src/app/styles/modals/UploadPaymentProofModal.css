@@ -18,8 +18,8 @@
   margin-bottom: 1rem;
 }
 
-.remove-btn{
-  color: red;
+.remove-btn {
+  margin: 1rem;
 }
 
 .modal-dialog {
@@ -46,6 +46,7 @@
   flex-direction: column;
   justify-content: center;
   padding: 4rem;
+  padding-bottom: 2rem;
 }
 
 .uploadproof-modal-title {
@@ -166,7 +167,7 @@
 
 .upload-proof-area {
   background-color: var(--quaternary-color);
-  height: 12rem;
+  height: 5rem;
   width: 100%;
   max-width: 35rem;
   border-radius: 10px;
@@ -197,6 +198,7 @@
   display: flex;
   justify-content: center;
   padding: 4rem;
+  padding-top: 2rem;
 }
 
 .uploadproof-modal-footer .btn {

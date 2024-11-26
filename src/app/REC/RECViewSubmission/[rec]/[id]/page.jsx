@@ -877,7 +877,7 @@ function RECViewSubmission({ params }) {
                             </a>
                             <button
                               type="button"
-                              className="remove-file-button"
+                              className="remove-file-button ml-2 btn btn-outline-danger btn-sm"
                               onClick={() => handleRemoveFile(file)}
                             >
                               Remove

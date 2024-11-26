@@ -410,7 +410,7 @@ function PRViewSubmission({ params }) {
                       <button
                         type="button"
                         onClick={() => removeFile(index)} // Function to remove file from state
-                        className="remove-file-button"
+                        className="remove-file-button ml-2 btn btn-outline-danger btn-sm"
                       >
                         Remove
                       </button>
