@@ -216,7 +216,9 @@ function RECDashboard({ params }) {
                           : "No date available"}
                       </td>
 
-                      <td>{form ? form.recMember : "No assigned reviewer"}</td>
+                      <td>  {form && form.recMember && form.recMember.length > 0
+                        ? form.recMember.join(", ")
+                        : "No assigned reviewer"}</td>
                       <td>
                         {form && form.status
                           ? form.status

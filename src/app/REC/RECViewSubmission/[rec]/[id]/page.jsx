@@ -725,15 +725,15 @@ function RECViewSubmission({ params }) {
                           <input
                             type="checkbox"
                             name="selectedReviewers"
-                            value={member.email}
-                            checked={selectedReviewer.includes(member.email)}
+                            value={member.name}
+                            checked={selectedReviewer.includes(member.name)}
                             onChange={(e) => {
                               const value = e.target.value;
                               if (e.target.checked) {
                                 setSelectedReviewer((prevSelected) => [...prevSelected, value]);
                               } else {
                                 setSelectedReviewer((prevSelected) =>
-                                  prevSelected.filter((email) => email !== value)
+                                  prevSelected.filter((name) => email !== value)
                                 );
                               }
                             }}
@@ -753,15 +753,15 @@ function RECViewSubmission({ params }) {
                           <input
                             type="checkbox"
                             name="selectedExternalReviewers"
-                            value={reviewer.email}
-                            checked={selectedReviewer.includes(reviewer.email)}
+                            value={reviewer.name}
+                            checked={selectedReviewer.includes(reviewer.name)}
                             onChange={(e) => {
                               const value = e.target.value;
                               if (e.target.checked) {
                                 setSelectedReviewer((prevSelected) => [...prevSelected, value]);
                               } else {
                                 setSelectedReviewer((prevSelected) =>
-                                  prevSelected.filter((email) => email !== value)
+                                  prevSelected.filter((name) => name !== value)
                                 );
                               }
                             }}
@@ -937,7 +937,7 @@ function RECViewSubmission({ params }) {
               </div>
 
               <div className="submissionstatus-card-remarks resubmission-card">
-                <span>Resubmission</span>
+                <span>Principal Investigator Remarks</span>
                 <div className="remarks-table-wrapper">
                   <table className="remarks-table">
                     <thead>
