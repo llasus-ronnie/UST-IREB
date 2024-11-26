@@ -18,7 +18,6 @@ import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
 import { useSession } from "next-auth/react";
 
-
 function PRViewSubmission({ params }) {
   //state variables
   const [forms, setForms] = useState([]);
@@ -31,7 +30,6 @@ function PRViewSubmission({ params }) {
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const [resubmissionFiles, setResubmissionFiles] = useState([]); // To store uploaded files
   const [resubmissionComments, setResubmissionComments] = useState(""); // To store remarks
-
 
   const { register, handleSubmit, setValue } = useForm();
 
@@ -72,7 +70,6 @@ function PRViewSubmission({ params }) {
 
     fetchResubmission();
   }, [forms]);
-
 
   const fetchResubmissionRemarks = async () => {
     try {
@@ -125,16 +122,65 @@ function PRViewSubmission({ params }) {
         const savedResubmission = response.data;
 
         if (forms.status !== "Resubmission") {
-          const formUpdateResponse = await axios.put(
-            "/api/forms",
-            {
-              resubmissionStatus: "Resubmission",
-              status: "Initial-Result",
-              id: forms._id,
-            }
-          );
+          const formUpdateResponse = await axios.put("/api/forms", {
+            resubmissionStatus: "Resubmission",
+            status: "Initial-Result",
+            id: forms._id,
+          });
 
           if (formUpdateResponse.status === 200) {
+            // Fetch REC email and send email
+            try {
+              const encodedRECName = encodeURIComponent(
+                forms.researchEthicsCommittee.trim().toLowerCase()
+              );
+              const recResponse = await axios.get(
+                `/api/REC?name=${encodedRECName}`
+              );
+              console.log("REC Response Data:", recResponse.data);
+              const recList = recResponse.data.data; // Extract the data array
+
+              const rec = recList.find(
+                (rec) =>
+                  rec.name.replace(/\s+/g, "").toLowerCase() ===
+                  forms.researchEthicsCommittee
+                    .replace(/\s+/g, "")
+                    .toLowerCase()
+              );
+
+              if (rec) {
+                if (!rec.email) {
+                  toast.error("REC email not found.");
+                  return false;
+                }
+              } else {
+                toast.error("REC not found for the provided name.");
+                return false;
+              }
+
+              // Proceed with the email sending logic
+              const emailData = {
+                rec: rec.email,
+                name: session.user.name,
+                status: forms.status,
+              };
+
+              const emailResponse = await axios.post(
+                "/api/auth/send-email-resubmission-pr",
+                emailData
+              );
+              console.log("Email Response:", emailResponse);
+              if (emailResponse.status === 200) {
+                toast.success("Email sent successfully!");
+                props.onHide();
+                return true;
+              } else {
+                toast.error("Failed to send email");
+              }
+            } catch (error) {
+              console.error("Error sending email:", error);
+              toast.error("Failed to send email");
+            }
             toast.success("Resubmission saved successfully!");
             fetchResubmissionRemarks();
           } else {
@@ -173,16 +219,19 @@ function PRViewSubmission({ params }) {
   };
 
   const renderFileOptions = () => {
-    if (!forms || typeof forms !== 'object') {
+    if (!forms || typeof forms !== "object") {
       return <option>Loading files...</option>;
     }
 
-    const mainFiles = forms.mainFileLink || []
+    const mainFiles = forms.mainFileLink || [];
     const supplementaryFiles = forms.supplementaryFileLink || [];
 
     const fileLinks = [
-      ...mainFiles.map(file => ({ filename: file.filename, url: file.url })),
-      ...supplementaryFiles.map(file => ({ filename: file.filename, url: file.url })),
+      ...mainFiles.map((file) => ({ filename: file.filename, url: file.url })),
+      ...supplementaryFiles.map((file) => ({
+        filename: file.filename,
+        url: file.url,
+      })),
     ];
 
     const renderResubmissionFiles = () => {
@@ -194,9 +243,15 @@ function PRViewSubmission({ params }) {
         const resubmissionFiles = resub.resubmissionFile || [];
         if (resubmissionFiles.length > 0) {
           return (
-            <optgroup key={`resubmission-${resubIndex}`} label={`Resubmission ${resubIndex + 1}`}>
+            <optgroup
+              key={`resubmission-${resubIndex}`}
+              label={`Resubmission ${resubIndex + 1}`}
+            >
               {resubmissionFiles.map((file, fileIndex) => (
-                <option key={`file-${resubIndex}-${fileIndex}`} value={file.url}>
+                <option
+                  key={`file-${resubIndex}-${fileIndex}`}
+                  value={file.url}
+                >
                   {file.filename}
                 </option>
               ))}
@@ -217,7 +272,8 @@ function PRViewSubmission({ params }) {
               </option>
             ))}
           </optgroup>
-          {renderResubmissionFiles()} {/* Only render resubmission files if available */}
+          {renderResubmissionFiles()}{" "}
+          {/* Only render resubmission files if available */}
         </>
       );
     }
@@ -225,22 +281,21 @@ function PRViewSubmission({ params }) {
     return <option>No files available</option>;
   };
 
-
-
-
   const removeFile = (index) => {
-    setResubmissionFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setResubmissionFiles((prevFiles) =>
+      prevFiles.filter((_, i) => i !== index)
+    );
   };
 
   const handleFileUploadSuccess = (res) => {
-    if (res.info.format !== 'pdf') {
+    if (res.info.format !== "pdf") {
       toast.error("Only PDF files are allowed. Please upload a PDF.");
       return;
     }
 
     setResubmissionFiles((prevFiles) => [
       ...prevFiles,
-      { filename: res.info.original_filename, url: res.info.secure_url }
+      { filename: res.info.original_filename, url: res.info.secure_url },
     ]);
   };
 
@@ -288,7 +343,7 @@ function PRViewSubmission({ params }) {
             </a>
             <select
               className="viewsub-changestatus"
-              onChange={e => setSelectedFile(e.target.value)} // Update selectedFile state
+              onChange={(e) => setSelectedFile(e.target.value)} // Update selectedFile state
             >
               <option value="">Select a file</option>
               {renderFileOptions()}
@@ -323,7 +378,6 @@ function PRViewSubmission({ params }) {
               <p>{forms?.status || "No classification available"}</p>
 
               <div className="viewsub-remarks">
-
                 <p>Review Remarks:</p>
                 <CldUploadWidget
                   signatureEndpoint="/api/sign-cloudinary-params"
@@ -341,7 +395,6 @@ function PRViewSubmission({ params }) {
                   )}
                 </CldUploadWidget>
 
-
                 <div className="uploaded-files-list">
                   {resubmissionFiles.map((file, index) => (
                     <div key={index} className="file-item">
@@ -350,7 +403,7 @@ function PRViewSubmission({ params }) {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="file-link"
-                        style={{color:"blue"}}
+                        style={{ color: "blue" }}
                       >
                         {file.filename}
                       </a>
@@ -363,7 +416,6 @@ function PRViewSubmission({ params }) {
                       </button>
                     </div>
                   ))}
-
                 </div>
 
                 <textarea
@@ -372,7 +424,6 @@ function PRViewSubmission({ params }) {
                   value={resubmissionComments}
                   onChange={(e) => setResubmissionComments(e.target.value)} // Bind to state
                 />
-
               </div>
 
               <div className="submissionstatus-card-remarks">
@@ -389,8 +440,13 @@ function PRViewSubmission({ params }) {
                       <tr key={index}>
                         <td>{remark.resubmissionRemarksComments}</td>
                         <td>
-                          {remark.resubmissionRemarksFile && remark.resubmissionRemarksFile.length > 0 ? (
-                            <a href={remark.resubmissionRemarksFile[0].url} target="_blank" rel="noopener noreferrer">
+                          {remark.resubmissionRemarksFile &&
+                          remark.resubmissionRemarksFile.length > 0 ? (
+                            <a
+                              href={remark.resubmissionRemarksFile[0].url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
                               {remark.resubmissionRemarksFile[0].filename}
                             </a>
                           ) : (
@@ -398,7 +454,9 @@ function PRViewSubmission({ params }) {
                           )}
                         </td>
                         <td>
-                          {new Date(remark.resubmissionRemarksDate).toLocaleDateString("en-US")}
+                          {new Date(
+                            remark.resubmissionRemarksDate
+                          ).toLocaleDateString("en-US")}
                         </td>
                       </tr>
                     ))}
@@ -420,17 +478,16 @@ function PRViewSubmission({ params }) {
                 <button className="viewsub-back" onClick={handleBack}>
                   Back
                 </button>
-
               </div>
 
-
-              <div
-
-              >
+              <div>
                 {forms.status !== "Final-Decision" && (
-
-                  <button className="viewsub-finalrec"
-                    onClick={handleShowFinalReviewModal}>Submit to REC Chair for Final Review</button>
+                  <button
+                    className="viewsub-finalrec"
+                    onClick={handleShowFinalReviewModal}
+                  >
+                    Submit to REC Chair for Final Review
+                  </button>
                 )}
               </div>
             </Col>
