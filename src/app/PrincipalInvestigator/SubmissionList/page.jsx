@@ -25,6 +25,7 @@ function SubmissionList() {
   const { data: session } = useSession();
   const [forms, setForms] = useState([]);
   const [showArchived, setShowArchived] = useState(false);
+  const [viewArchived, setViewArchived] = useState(false);  // Track archived view
   const userEmail = session?.user.email;
 
   useEffect(() => {
@@ -84,55 +85,127 @@ function SubmissionList() {
         </div>
 
 
-        <table className="submission-table">
-          <thead>
-            <tr>
-              <th>Research Title</th>
-              <th>Date of Application</th>
-              <th>REC</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {forms.length > 0 ? (
-              forms.map((form, index) => (
-                <tr key={index}>
-                  <td>{form.title}</td>
-                  <td>{new Date(form.date).toLocaleDateString("en-US")}</td>
-                  <td>{form.researchEthicsCommittee}</td>
-                  <td>{form.status}</td>
-                  <td className="view-btn-cell">
-                    <Link
-                      href={`/PrincipalInvestigator/SubmissionStatus/${form._id}`}
-                      className="view-btn"
-                    >
-                      View
-                    </Link>
-                    <button
-                      className="archive-btn"
-                      onClick={() => archiveForm(form._id, form.isArchived)}
-                      disabled={form.isArchived === null} // Disable if form status is unknown or in progress
-                    >
-                      {form.isArchived ? "Undo Archive" : "Archive"}
-                    </button>
-                  </td>
+        {viewArchived ? (
+          <div className="archived-view">
+            <table className="submission-table">
+              <thead>
+                <tr>
+                  <th>Research Title</th>
+                  <th>Date of Application</th>
+                  <th>REC</th>
+                  <th>Status</th>
+                  <th>Action</th>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="text-center">
-                  No submissions found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        <div className="submission-footer">
-          <button onClick={() => setShowArchived((prev) => !prev)} style={{display:"flex", flexDirection:"row", justifyContent:"center", alignItems:"center", gap:"1rem"}}>
-            Show Archived Forms?   {showArchived ? <FaEye /> :<FaEyeSlash />}
-          </button>
-        </div>
+              </thead>
+              <tbody>
+                {forms.filter(form => form.isArchived).length > 0 ? (
+                  forms.filter(form => form.isArchived).map((form, index) => (
+                    <tr key={index}>
+                      <td>{form.title}</td>
+                      <td>{new Date(form.date).toLocaleDateString("en-US")}</td>
+                      <td>{form.researchEthicsCommittee}</td>
+                      <td>{form.status}</td>
+                      <td className="view-btn-cell">
+                        <Link
+                          href={`/PrincipalInvestigator/SubmissionStatus/${form._id}`}
+                          className="view-btn"
+                        >
+                          View
+                        </Link>
+                        <button
+                          className="archive-btn"
+                          onClick={() => archiveForm(form._id, form.isArchived)}
+                          disabled={form.isArchived === null} // Disable if form status is unknown or in progress
+                        >
+                          Undo Archive
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="text-center">
+                      No archived submissions found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="active-view">
+            <table className="submission-table">
+              <thead>
+                <tr>
+                  <th>Research Title</th>
+                  <th>Date of Application</th>
+                  <th>REC</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {forms.length > 0 ? (
+                  forms.filter(form => !form.isArchived).map((form, index) => (
+                    <tr key={index}>
+                      <td>{form.title}</td>
+                      <td>{new Date(form.date).toLocaleDateString("en-US")}</td>
+                      <td>{form.researchEthicsCommittee}</td>
+                      <td>{form.status}</td>
+                      <td className="view-btn-cell">
+                        <Link
+                          href={`/PrincipalInvestigator/SubmissionStatus/${form._id}`}
+                          className="view-btn"
+                        >
+                          View
+                        </Link>
+                        <button
+                          className="archive-btn"
+                          onClick={() => archiveForm(form._id, form.isArchived)}
+                          disabled={form.isArchived === null} // Disable if form status is unknown or in progress
+                        >
+                          {form.isArchived ? "Undo Archive" : "Archive"}
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="text-center">
+                      No submissions found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+<div className="submission-footer">
+  <div className="submission-list-toggle">
+    <h3>Show Archived Forms?</h3>
+
+    {!viewArchived && (
+      <button 
+        className="toggle-btn"
+        onClick={() => setViewArchived(true)} 
+      >
+        <FaEye />
+      </button>
+    )}
+
+    {viewArchived && (
+      <button 
+        className="toggle-btn"
+        onClick={() => setViewArchived(false)} 
+      >
+        <FaEyeSlash />
+      </button>
+    )}
+  </div>
+</div>
+
+        
       </div>
     </>
   );
@@ -142,3 +215,4 @@ export default withAuthorization(SubmissionList, [
   "PrincipalInvestigator",
   "ExternalInvestigator",
 ]);
+
