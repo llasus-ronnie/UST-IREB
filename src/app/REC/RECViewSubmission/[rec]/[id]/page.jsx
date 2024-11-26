@@ -25,10 +25,10 @@ function RECViewSubmission({ params }) {
   const [rec, setRec] = useState("");
   const [id, setId] = useState("");
   const [status, setStatus] = useState("Initial-Submission");
-  const [remarks, setRemarks] = useState({
-    content: [],  // For the file URL (only set when a file is uploaded)
-    comment: '',  // For the comment text
-  });
+  const [recRemarksFiles, setRecRemarksFiles] = useState([]);  // To store uploaded files
+  const [recRemarksComment, setRecRemarksComment] = useState("");  // To store the comment
+  const [remarksStatus, setRemarksStatus] = useState("");  // To store remark status
+  const [remarksDate, setRemarksDate] = useState("");  // To store the remark date
 
   const [RECMembers, setRECMembers] = useState([]);
   const [selectedReviewer, setSelectedReviewer] = useState([]);
@@ -184,39 +184,39 @@ function RECViewSubmission({ params }) {
   //remarks
   async function submitRemarks(data) {
     console.log("Submitting remarks data:", data);
+
+    // Prepare the remark data object
+    const remarkData = {
+      subFormId: id,
+      status: status,
+      remarks: recRemarksFiles.map((file) => ({
+        url: file.url,
+        filename: file.filename,
+      })),
+      remarksComment: recRemarksComment || "",
+    };
+    console.log("Remark Data being submitted:", remarkData);  // Check the final data
+
     try {
-      const remarkData = {
-        subFormId: id,
-        status: status,
-        remarks: data.content && Array.isArray(data.content)
-          ? data.content.map((file) => ({
-              url: file.url || "",
-              filename: file.filename || "",
-          }))
-          : [],
-        remarksComment: data.comment || "",
-      };
-  
-      console.log("Remark Data being submitted:", remarkData);  // Check the final data
-  
       const response = await axios.post("/api/remarks", remarkData, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json",  // Make sure to send as JSON
         },
       });
-  
+
       console.log("Server Response:", response);  // Log server response
       toast.success("Remarks have been submitted successfully.");
-      getRemarks();
-  
+      getRemarks();  // Assuming you have this function to refresh remarks data
+
     } catch (error) {
       console.error("Error submitting remarks:", error.response?.data || error.message);
       toast.error("Failed to submit remarks. Please try again.");
     }
   }
-  
-  
-  
+
+
+
+
 
   //recmembers
   useEffect(() => {
@@ -439,6 +439,10 @@ function RECViewSubmission({ params }) {
     }
   };
 
+  const handleCommentChange = (e) => {
+    setRecRemarksComment(e.target.value);  // Update the comment state
+  };
+
   const updateStatus = async () => {
     try {
       // Update status if it's different from the initial status
@@ -533,46 +537,71 @@ function RECViewSubmission({ params }) {
 
   const handleUploadSuccess = (res) => {
     console.log("Upload Response:", res.info); // Log response to check the file details
-  
+
+    // Check if the file is a PDF
     if (res.info.format !== "pdf") {
       toast.error("Only PDF files are allowed. Please upload a PDF.");
       return;
     }
-  
+
+    // Prepare the new file object
     const newFile = {
-      url: res.info.secure_url,
-      filename: res.info.original_filename || res.info.public_id.split("/").pop(),
+      url: res.info.secure_url,  // Get the file URL
+      filename: res.info.original_filename || res.info.public_id.split("/").pop(),  // Get the filename
     };
-  
-    // Update uploadedFiles state
-    setUploadedFiles((prevFiles) => {
+
+    // Update the recRemarksFiles state with the new file
+    setRecRemarksFiles((prevFiles) => {
       console.log("Prev Files:", prevFiles); // Log previous files to see the state before update
-      const updatedFiles = [...prevFiles, newFile];
+      const updatedFiles = [...prevFiles, newFile]; // Add new file to the list
       console.log("Updated Files:", updatedFiles); // Log updated files to ensure they are correct
       return updatedFiles; // Update the state with the new file
     });
-  
-    // Update remarks state
-    setRemarks((prevRemarks) => {
-      const updatedRemarks = {
-        ...prevRemarks,
-        content: [...prevRemarks.content, newFile],
-      };
-      console.log("Updated remarks after file upload:", updatedRemarks.content);  // Log updated remarks
-      return updatedRemarks;
-    });
   };
-  
-  useEffect(() => {
-    console.log("Updated remarks.content:", remarks.content); // Log whenever remarks content changes
-  }, [remarks.content]);
-  
 
   const handleRemoveFile = (fileToRemove) => {
     setUploadedFiles((prevFiles) =>
       prevFiles.filter((file) => file.url !== fileToRemove.url)
     );
   };
+
+  useEffect(() => {
+    const fetchRemarks = async () => {
+      console.log("Form ID in useEffect:", forms._id);  // Debugging
+
+      if (!forms._id) {
+        console.error("Form ID is missing!");
+        return;  // Don't proceed if form ID is missing
+      }
+
+      try {
+        const response = await axios.get('/api/remarks', {
+          params: { subFormId: forms._id },  // Send the form ID as a query parameter
+        });
+        console.log("Fetched remarks data:", response.data);
+
+        // Assuming the response data is an array and contains an object with remarks, comment, etc.
+        const remarksData = response.data[0];  // Get the first remarks object (if available)
+
+        if (remarksData) {
+          // Destructure the data you need from the remarksData object
+          const { status, remarksDate, remarksComment, remarks } = remarksData;
+
+          // Set the fetched data into state
+          setRecRemarksFiles(remarks || []);  // Store files (remarks)
+          setRecRemarksComment(remarksComment || '');  // Store the comment
+          setRemarksStatus(status || '');  // Store the status (if needed)
+          setRemarksDate(remarksDate || ''); // Store the date (if needed)
+        }
+      } catch (error) {
+        console.error("Error fetching remarks:", error);
+      }
+    };
+
+    fetchRemarks();
+  }, [forms]);  // Only run when forms._id changes
+
+
 
   return (
     <div className="adminpage-container">
@@ -871,9 +900,7 @@ function RECViewSubmission({ params }) {
                     <CldUploadWidget
                       signatureEndpoint="/api/sign-cloudinary-params"
                       multiple
-                      onSuccess={(res) => {
-                        handleUploadSuccess(res);
-                      }}
+                      onSuccess={(res) => handleUploadSuccess(res)} // Pass the success handler
                     >
                       {({ open }) => (
                         <button
@@ -910,11 +937,8 @@ function RECViewSubmission({ params }) {
 
                   <textarea
                     className="viewsub-textarea"
-                    value={remarks.comment}
-                    onChange={(e) => setRemarks({
-                      ...remarks,
-                      comment: e.target.value,  // Update the comment
-                    })}
+                    value={recRemarksComment}  // Bind the value to the state
+                    onChange={handleCommentChange}  // Update state on change
                     placeholder="Enter remarks here..."
                   />
 
@@ -928,30 +952,39 @@ function RECViewSubmission({ params }) {
                       <tr>
                         <th>Date</th>
                         <th>Status</th>
-                        <th>Remarks</th>
+                        <th>Comments</th>
+                        <th>Remarks File</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {Array.isArray(remarksFile) && remarksFile.length > 0 ? (
-                        remarksFile.map((remark, index) => (
-                          <tr key={index}>
-                            <td>
-                              {new Date(remark.remarksDate).toLocaleDateString(
-                                "en-US"
-                              )}
-                            </td>
-                            <td>{remark.status}</td>
-                            <td>
-                              <a href={remark.remarks}> View Remarks</a>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan="3">No remarks available</td>
-                        </tr>
-                      )}
+                      <tr>
+                        <td>{new Date(remarksDate).toLocaleDateString("en-US")}</td>
+                        <td>{remarksStatus}</td>
+                        <td>{recRemarksComment}</td>
+                        <td>
+                          <div>
+                            {recRemarksFiles && recRemarksFiles.length > 0 ? (
+                              recRemarksFiles.map((file, fileIndex) => (
+                                <a
+                                  key={fileIndex}
+                                  href={file.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {file.filename}
+                                </a>
+                              ))
+                            ) : (
+                              <p>No files available</p>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
                     </tbody>
+
+
+
+
                   </table>
                 </div>
               </div>

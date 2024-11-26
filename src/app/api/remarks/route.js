@@ -31,18 +31,22 @@ export async function POST(req, res) {
 
 export async function GET(req) {
   try {
-      await connectDB();
-      const url = new URL(req.url);
-      const subFormId = url.searchParams.get('subFormId');
-      console.log("Form ID Parameter: ", subFormId);
-      const remarksData = await RemarksModel.find({ subFormId });
-      if (!remarksData) {
-          return NextResponse.json({ error: "Remarks not found" }, { status: 404 });
-      }
+    await connectDB();
 
-      return NextResponse.json({ remarksData }, { status: 200 });
+    const url = new URL(req.url);
+    const subFormId = url.searchParams.get('subFormId');
+    console.log("Form ID Parameter: ", subFormId);
+
+    const remarksData = await RemarksModel.find({ subFormId });
+
+    if (!remarksData || remarksData.length === 0) {
+      return NextResponse.json({ error: "Remarks not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(remarksData, { status: 200 });  // Directly returning remarksData
+
   } catch (error) {
-      console.error(error);
-      return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error(error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
