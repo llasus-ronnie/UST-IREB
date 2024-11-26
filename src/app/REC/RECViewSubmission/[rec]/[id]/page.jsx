@@ -937,7 +937,7 @@ function RECViewSubmission({ params }) {
               </div>
 
               <div className="submissionstatus-card-remarks resubmission-card">
-                <span>Principal Investigator Remarks</span>
+                <span>Principal Investigator Resubmissions</span>
                 <div className="remarks-table-wrapper">
                   <table className="remarks-table">
                     <thead>
