@@ -189,15 +189,11 @@ body {
 /* Buttons */
 
 .submissionstatus-buttons {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
   width: 100%;
+  margin: 1rem 0;
 }
 
-.submissionstatus-view-sub {
+/* .submissionstatus-view-sub {
   background-color: #2f2f2f;
   color: var(--quaternary-color);
   border: none;
@@ -216,7 +212,7 @@ body {
 .submissionstatus-view-sub:hover {
   background-color: #272727;
   transition: background-color 0.3s ease, transform 0.2s ease;
-}
+} */
 
 .submissionstatus-edit-sub {
   background-color: var(--tertiary-color);
@@ -232,24 +228,6 @@ body {
 }
 
 .submissionstatus-edit-sub:hover {
-  background-color: #e9ac04;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.submissionstatus-edit-form{
-  background-color: var(--tertiary-color);
-  color: var(--quaternary-color);
-  border: none;
-  border-radius: 10px;
-  padding: 0.8rem;
-  margin-top: 1rem;
-  cursor: pointer;
-  font-size: var(--paragraph-size);
-  font-weight: bold;
-  width: 41rem;
-}
-
-.submissionstatus-edit-form:hover {
   background-color: #e9ac04;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }

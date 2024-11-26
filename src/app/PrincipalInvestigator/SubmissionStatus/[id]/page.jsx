@@ -387,13 +387,13 @@ function SubmissionStatus({ params }) {
                 </div>
               </div>
 
+              <div className="submissionstatus-buttons">
               {form?.initialSubmission === "Incomplete" && form?._id ? (
                 <Link href={`/PrincipalInvestigator/EditSubmission/${form?._id}`} passHref>
-                  <button className="submissionstatus-buttons submissionstatus-edit-form">Edit</button>
+                  <button className="submissionstatus-edit-sub">Edit Submission</button>
                 </Link>
               ) : null}
 
-              <div className="submissionstatus-buttons">
                 {form?.status === "Initial-Result" || form?.status === "Resubmission"? (
                   <button
                     className="submissionstatus-edit-sub"
