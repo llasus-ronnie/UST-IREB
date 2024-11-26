@@ -183,41 +183,40 @@ function RECViewSubmission({ params }) {
 
   //remarks
   async function submitRemarks(data) {
+    console.log("Submitting remarks data:", data);
     try {
       const remarkData = {
         subFormId: id,
         status: status,
         remarks: data.content && Array.isArray(data.content)
           ? data.content.map((file) => ({
-            url: file.url, // URL of the file
-            filename: file.filename, // Filename of the file (if available)
+              url: file.url || "",
+              filename: file.filename || "",
           }))
-          : [],  // If no files are uploaded, keep remarks empty
-        remarksComment: data.comment || "",  // If no comment, send an empty string
+          : [],
+        remarksComment: data.comment || "",
       };
-
-      console.log("Submitting Remarks:", remarkData);  // Add this log to see the request body
-
+  
+      console.log("Remark Data being submitted:", remarkData);  // Check the final data
+  
       const response = await axios.post("/api/remarks", remarkData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-
+  
+      console.log("Server Response:", response);  // Log server response
       toast.success("Remarks have been submitted successfully.");
       getRemarks();
-
-      // Optional: Send email notification
-      await axios.post("/api/auth/send-email-remarks", {
-        email: forms.email,
-        name: forms.fullName,
-        title: forms.title,
-      });
+  
     } catch (error) {
-      console.error("Error submitting form:", error.response?.data || error.message);
+      console.error("Error submitting remarks:", error.response?.data || error.message);
       toast.error("Failed to submit remarks. Please try again.");
     }
   }
+  
+  
+  
 
   //recmembers
   useEffect(() => {
@@ -533,7 +532,7 @@ function RECViewSubmission({ params }) {
   };
 
   const handleUploadSuccess = (res) => {
-    console.log("Upload Response:", res.info);
+    console.log("Upload Response:", res.info); // Log response to check the file details
   
     if (res.info.format !== "pdf") {
       toast.error("Only PDF files are allowed. Please upload a PDF.");
@@ -545,8 +544,28 @@ function RECViewSubmission({ params }) {
       filename: res.info.original_filename || res.info.public_id.split("/").pop(),
     };
   
-    setUploadedFiles((prevFiles) => [...prevFiles, newFile]);
+    // Update uploadedFiles state
+    setUploadedFiles((prevFiles) => {
+      console.log("Prev Files:", prevFiles); // Log previous files to see the state before update
+      const updatedFiles = [...prevFiles, newFile];
+      console.log("Updated Files:", updatedFiles); // Log updated files to ensure they are correct
+      return updatedFiles; // Update the state with the new file
+    });
+  
+    // Update remarks state
+    setRemarks((prevRemarks) => {
+      const updatedRemarks = {
+        ...prevRemarks,
+        content: [...prevRemarks.content, newFile],
+      };
+      console.log("Updated remarks after file upload:", updatedRemarks.content);  // Log updated remarks
+      return updatedRemarks;
+    });
   };
+  
+  useEffect(() => {
+    console.log("Updated remarks.content:", remarks.content); // Log whenever remarks content changes
+  }, [remarks.content]);
   
 
   const handleRemoveFile = (fileToRemove) => {
@@ -886,6 +905,7 @@ function RECViewSubmission({ params }) {
                         ))}
                       </div>
                     )}
+
                   </div>
 
                   <textarea

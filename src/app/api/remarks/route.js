@@ -11,8 +11,10 @@ app.use(cors());
 export async function POST(req, res) {
   try {
     await connectDB();
-    const remarks = await req.json();
     
+    // In Next.js 13, you use the 'req.json()' method if using the app directory
+    const remarks = await req.json(); // Ensure the parsing is happening correctly
+
     // Log the data received from the frontend
     console.log("Received Remarks Data:", remarks);
 
@@ -25,6 +27,7 @@ export async function POST(req, res) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
 
 export async function GET(req) {
   try {
