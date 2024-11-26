@@ -27,7 +27,10 @@ function SubmissionStatus({ params }) {
   const [editModalShow, setEditModalShow] = useState(false);
   const [resubmissionModalShow, setResubmissionModalShow] = useState(false);
   const [status, setStatus] = useState(null);
-  const [remarksData, setRemarksData] = useState([]);
+  const [recRemarksFiles, setRecRemarksFiles] = useState([]);  // To store uploaded files
+  const [recRemarksComment, setRecRemarksComment] = useState("");  // To store comment text
+  const [remarksStatus, setRemarksStatus] = useState("");  // To store remark status
+  const [remarksDate, setRemarksDate] = useState("");  // To store the remark date
   const [resubmission, setResubmission] = useState("");
 
   const handleShowModal = () => setModalShow(true);
@@ -159,20 +162,40 @@ function SubmissionStatus({ params }) {
 
   //GET remarks
   useEffect(() => {
-    async function getRemarks() {
-      try {
-        const response = await axios.get(`/api/remarks/`, {
-          params: { subFormId: form._id },
-        });
-        setRemarksFile(response.data.remarksData);
-        setStatus(form.status);
-        console.log("All data:", response.data.remarksData);
-      } catch (error) {
-        console.error("Error fetching remarks file:", error);
+    const fetchRemarks = async () => {
+      console.log("Form ID in useEffect:", form._id);  // Debugging
+
+      if (!form._id) {
+        console.error("Form ID is missing!");
+        return;  // Don't proceed if form ID is missing
       }
-    }
-    getRemarks();
-  }, [form]);
+
+      try {
+        const response = await axios.get('/api/remarks', {
+          params: { subFormId: form._id },  // Send the form ID as a query parameter
+        });
+        console.log("Fetched remarks data:", response.data);
+
+        // Assuming the response data is an array and contains an object with remarks, comment, etc.
+        const remarksData = response.data[0];  // Get the first remarks object (if available)
+
+        if (remarksData) {
+          // Destructure the data you need from the remarksData object
+          const { status, remarksDate, remarksComment, remarks } = remarksData;
+
+          // Set the fetched data into state
+          setRecRemarksFiles(remarks || []);  // Store files (remarks)
+          setRecRemarksComment(remarksComment || '');  // Store the comment
+          setRemarksStatus(status || '');  // Store the status (if needed)
+          setRemarksDate(remarksDate || ''); // Store the date (if needed)
+        }
+      } catch (error) {
+        console.error("Error fetching remarks:", error);
+      }
+    };
+
+    fetchRemarks();
+  }, [form]);  // Only run when forms._id changes
 
   //GET Resubmission Remarks
   useEffect(() => {
@@ -304,37 +327,31 @@ function SubmissionStatus({ params }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {Array.isArray(remarksFile) && remarksFile.length > 0 ? (
-                        remarksFile.map((remark, index) => (
-                          <tr key={index}>
-                            <td>
-                              {new Date(remark.remarksDate).toLocaleDateString(
-                                "en-US"
-                              )}
-                            </td>
-                            <td>{remark.status}</td>
-                            <td>
-                              {remark.remarks && remark.remarks.length > 0 ? (
-                                remark.remarks.map((remarkItem, index) => (
-                                  <div key={index}>
-                                    <a href={remarkItem.url} target="_blank" rel="noopener noreferrer">
-                                      View Remark {index + 1}
-                                    </a>
-                                  </div>
-                                ))
-                              ) : (
-                                <p>No remarks available</p>
-                              )}
-                            </td>
-                            <td>{remark.remarksComment}</td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan="3">No remarks available</td>
-                        </tr>
-                      )}
+                      <tr>
+                        <td>{new Date(remarksDate).toLocaleDateString("en-US")}</td>
+                        <td>{remarksStatus}</td>
+                        <td>
+                          <div>
+                            {recRemarksFiles && recRemarksFiles.length > 0 ? (
+                              recRemarksFiles.map((file, fileIndex) => (
+                                <a
+                                  key={fileIndex}
+                                  href={file.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {file.filename}
+                                </a>
+                              ))
+                            ) : (
+                              <p>No files available</p>
+                            )}
+                          </div>
+                        </td>
+                        <td>{recRemarksComment}</td>
+                      </tr>
                     </tbody>
+
                   </table>
                 </div>
               </div>
@@ -388,13 +405,13 @@ function SubmissionStatus({ params }) {
               </div>
 
               <div className="submissionstatus-buttons">
-              {form?.initialSubmission === "Incomplete" && form?._id ? (
-                <Link href={`/PrincipalInvestigator/EditSubmission/${form?._id}`} passHref>
-                  <button className="submissionstatus-edit-sub">Edit Submission</button>
-                </Link>
-              ) : null}
+                {form?.initialSubmission === "Incomplete" && form?._id ? (
+                  <Link href={`/PrincipalInvestigator/EditSubmission/${form?._id}`} passHref>
+                    <button className="submissionstatus-edit-sub">Edit Submission</button>
+                  </Link>
+                ) : null}
 
-                {form?.status === "Initial-Result" || form?.status === "Resubmission"? (
+                {form?.status === "Initial-Result" || form?.status === "Resubmission" ? (
                   <button
                     className="submissionstatus-edit-sub"
                     onClick={handleShowSubmissionModal}
