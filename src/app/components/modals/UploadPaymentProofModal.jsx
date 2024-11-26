@@ -199,7 +199,7 @@ export default function UploadPaymentProofModal({
                 />
                 <button
                   type="button"
-                  className="btn remove-btn"
+                  className="btn remove-btn ml-2 btn btn-outline-danger btn-sm"
                   onClick={() => {
                     setUploadedFile(null);
                     setUploadedFileName(null);

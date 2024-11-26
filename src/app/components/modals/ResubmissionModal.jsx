@@ -214,18 +214,18 @@ export default function ResubmissionModal({
             <div className="uploaded-files-list">
               {uploadedFiles.map((file, index) => (
                 <div key={index} className="uploaded-file-item">
-                  <span>{file.filename}</span>
+                  <span className="uploaded-file-name">{file.filename}</span>
                   <button
                     type="button"
                     onClick={() => removeFile(file)}
-                    className="remove-file-btn"
-                    style={{ color: "red" }}
+                    className="ml-2 btn btn-outline-danger btn-sm"
                   >
                     Remove
                   </button>
                 </div>
               ))}
             </div>
+
           )}
         </div>
         <Form>
