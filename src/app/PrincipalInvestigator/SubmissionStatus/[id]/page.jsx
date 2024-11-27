@@ -250,14 +250,7 @@ function SubmissionStatus({ params }) {
   }, [form]);
 
 
-  let url = null;
-  if (paymentLink) {
-    url = getCldImageUrl({
-      width: 960,
-      height: 600,
-      src: paymentLink,
-    });
-  }
+
 
   return (
     <>
@@ -405,7 +398,7 @@ function SubmissionStatus({ params }) {
               </div>
 
               <div className="submissionstatus-buttons">
-                {form?.initialSubmission === "Incomplete" && form?._id && form?.status==="Initial-Submission" ? (
+                {form?.initialSubmission === "Incomplete" && form?._id && form?.status === "Initial-Submission" ? (
                   <Link href={`/PrincipalInvestigator/EditSubmission/${form?._id}`} passHref>
                     <button className="submissionstatus-edit-sub">Edit Submission</button>
                   </Link>
@@ -433,18 +426,28 @@ function SubmissionStatus({ params }) {
                 ) : null
                 }
                 <div className="submissionstatus-paymentfile">
-                  <p>Uplaoded File:</p>
-                  {url ? (
-                    <Image
-                      src={url}
-                      alt="Payment File"
-                      width={200}
-                      height={200}
-                    />
+                  <p>Uploaded File:</p>
+                  {paymentLink ? (
+                    // Check if the URL ends with an image extension (like jpg, jpeg, png)
+                    /\.(jpg|jpeg|png)$/i.test(paymentLink) ? (
+                      <Image src={paymentLink} alt="Payment File" width={200} height={200} />
+                    ) :
+                      // If it's not an image, assume it's a PDF
+                      paymentLink.endsWith(".pdf") ? (
+                        <>
+                        <iframe src={paymentLink} className="submissionstatus-iframe"/>
+                        <a href={paymentLink} target="_blank" rel="noopener noreferrer">
+                          <button className="btn btn-primary">View PDF</button>
+                        </a>
+                        </>
+                      ) : (
+                        <p>Unsupported file format</p>
+                      )
                   ) : (
-                    <p> No payment uploaded yet. </p>
+                    <p>No payment uploaded yet.</p>
                   )}
-                </div>
+                </div>;
+
               </div>
             </Col>
 

@@ -20,107 +20,45 @@ export default function UploadPaymentProofModal({
   const { data: session } = useSession();
   const [form, setForm] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [uploadedFileName, setUploadedFileName] = useState(null);
 
-  //POST payment
+
+  // POST payment
   async function submitPayment(data) {
     try {
       const response = await axios.post("/api/payment", data, {
-        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
       });
-
-      try {
-        const formResponse = await axios.get(
-          `/api/forms/${submissionparams.id}`
-        );
-        const form = formResponse.data.submission;
-
-        if (!form.researchEthicsCommittee) {
-          toast.error("Research Ethics Committee name is missing.");
-          return false;
-        }
-
-        const encodedRECName = encodeURIComponent(
-          form.researchEthicsCommittee.trim().toLowerCase()
-        );
-        const recResponse = await axios.get(`/api/REC?name=${encodedRECName}`);
-        console.log("REC Response Data:", recResponse.data);
-        const recList = recResponse.data.data; // Extract the data array
-
-        const rec = recList.find(
-          (rec) =>
-            rec.name.replace(/\s+/g, "").toLowerCase() ===
-            form.researchEthicsCommittee.replace(/\s+/g, "").toLowerCase()
-        );
-
-        if (rec) {
-          if (!rec.email) {
-            toast.error("REC email not found.");
-            return false;
-          }
-        } else {
-          toast.error("REC not found for the provided name.");
-          return false;
-        }
-
-        // Proceed with the email sending logic
-        const emailData = {
-          rec: rec.email,
-          title: form.title,
-          name: form.fullName,
-          status: form.status,
-        };
-
-        const emailResponse = await axios.post(
-          "/api/auth/send-email-payment",
-          emailData
-        );
-        console.log("Email Response:", emailResponse);
-        if (emailResponse.status === 200) {
-          toast.success("Email sent successfully!");
-          props.onHide();
-          return true;
-        } else {
-          toast.error("Failed to send email");
-        }
-      } catch (error) {
-        console.error("Error sending email:", error);
-        toast.error("Failed to send email");
-      }
 
       if (response.status === 201) {
         toast.success("Payment saved successfully!");
         props.onHide();
-
-        if (onDataChange) {
-          onDataChange();
-        }
       }
     } catch (error) {
       toast.error("Error saving payment. Please try again.");
-      console.error(
-        "Error in saving:",
-        error.response ? error.response.data : error.message
-      );
+      console.error("Error in saving:", error.response?.data || error.message);
     }
   }
 
-  //GET Form
+  // GET form
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(`/api/forms/${submissionparams.id}`);
         setForm(response.data.submission);
         setValue("formId", response.data.submission._id);
-        setValue("userEmail", session.user.email);
+        setValue("userEmail", session?.user?.email);
       } catch (error) {
         console.error("Failed to fetch form details:", error);
       }
     }
     fetchData();
   }, [submissionparams, session]);
+
+  const handleRemoveFile = () => {
+    setUploadedFile(null);
+    setValue("paymentFile", null);
+    toast.info("File removed.");
+  };
 
   return (
     <Form>
@@ -139,7 +77,7 @@ export default function UploadPaymentProofModal({
             Upload Proof of Payment
           </Modal.Title>
           <p className="uploadproof-instructions">
-            Kindly upload receipt or proof of transaction in JPEG or PNG format.
+            Kindly upload receipt or proof of transaction in JPEG, PNG, or PDF format.
             File should not exceed 10MB.
           </p>
         </Modal.Header>
@@ -149,20 +87,14 @@ export default function UploadPaymentProofModal({
               signatureEndpoint="/api/sign-cloudinary-params"
               onSuccess={(res) => {
                 const fileType = res.info.format;
-                if (
-                  fileType === "jpg" ||
-                  fileType === "jpeg" ||
-                  fileType === "png" ||
-                  fileType === "pdf"
-                ) {
+                const validFileTypes = ["jpg", "jpeg", "png", "pdf"];
+                if (validFileTypes.includes(fileType)) {
                   const secureUrl = res.info.secure_url;
-                  const fileName = res.info.original_filename;
+                  setUploadedFile({ url: secureUrl, type: fileType });
                   setValue("paymentFile", secureUrl);
-                  setUploadedFile(secureUrl);
-                  setUploadedFileName(fileName);
                   toast.success("File uploaded successfully!");
                 } else {
-                  toast.error("Please upload a JPEG or PNG image.");
+                  toast.error("Invalid file type. Please upload a JPEG, PNG, or PDF.");
                 }
               }}
             >
@@ -187,35 +119,35 @@ export default function UploadPaymentProofModal({
                 </button>
               )}
             </CldUploadWidget>
-            {uploadedFile && (
-              <div className="uploaded-file-preview">
-                <p className="uploaded-file-name">
-                  Uploaded File: {uploadedFileName}
-                </p>
-                <img
-                  src={uploadedFile}
-                  alt={uploadedFileName}
-                  className="uploaded-file-image"
-                />
-                <button
-                  type="button"
-                  className="btn remove-btn ml-2 btn btn-outline-danger btn-sm"
-                  onClick={() => {
-                    setUploadedFile(null);
-                    setUploadedFileName(null);
-                    setValue("paymentFile", null);
-                    toast.info("File removed successfully.");
-                  }}
-                >
-                  Remove File
-                </button>
-              </div>
-            )}
             <input
               type="hidden"
               {...register("paymentFile", { required: true })}
             />
           </div>
+          {uploadedFile && (
+            <div className="uploaded-file-preview">
+              <p>
+                <strong>Uploaded File:</strong>
+              </p>
+              {uploadedFile.type === "pdf" ? (
+                <embed
+                  src={uploadedFile.url}
+                  type="application/pdf"
+                  width="100%"
+                  height="200px"
+                />
+              ) : (
+                <img
+                  src={uploadedFile.url}
+                  alt="Uploaded file"
+                  style={{ maxWidth: "100%", maxHeight: "200px" }}
+                />
+              )}
+              <Button variant="danger" size="sm" onClick={handleRemoveFile}>
+                Remove File
+              </Button>
+            </div>
+          )}
         </Modal.Body>
         <Modal.Footer className="uploadproof-modal-footer">
           <Button onClick={props.onHide} className="btn cancel">
