@@ -38,7 +38,9 @@ function SubmissionList() {
       console.log("Session email: ", session.user.email); // Debug
       try {
         const response = await axios.get("/api/forms", {
-          params: { email: session.user.email },
+          params: { 
+            email: session.user.email, 
+            includeArchived: 'true', },
         });
         console.log("Response data:", response.data); // Debug
         setForms(response.data.forms || []); // Handle case where forms is undefined
@@ -55,7 +57,7 @@ function SubmissionList() {
     try {
       const response = await axios.put("/api/forms", {
         id: formId,
-        isArchived: !isArchived, // Toggle the archive state
+        isArchived: !isArchived, 
       });
 
       setForms((prevForms) =>

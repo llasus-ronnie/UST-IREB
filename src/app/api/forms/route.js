@@ -57,11 +57,16 @@ export async function GET(req) {
 
   const { searchParams } = new URL(req.url);
   const rec = searchParams.get("rec");
-  const email = searchParams.get("email"); 
+  const email = searchParams.get("email");
   const subformId = searchParams.get("subformId");
+  const includeArchived = searchParams.get("includeArchived") === "true"; // Check for 'includeArchived'
 
   try {
-    const query = { isArchived: false };
+    const query = {};
+
+    if (!includeArchived) {
+      query.isArchived = false; // Default behavior: exclude archived forms
+    }
 
     if (subformId) {
       query._id = subformId.trim();
@@ -72,7 +77,7 @@ export async function GET(req) {
     if (email) {
       query.$or = [
         { recMember: { $in: [email.trim()] } },
-        { userEmail: email.trim() } 
+        { userEmail: email.trim() }
       ];
     }
 
@@ -87,6 +92,7 @@ export async function GET(req) {
     );
   }
 }
+
 
 
 export async function DELETE(req) {
