@@ -527,16 +527,6 @@ function RECReports({ params }) {
               </div>
             </div>
 
-            <div className="admin-header-container-mobile">
-              <div className="userloggedin-mobile">
-                <UserLoggedIn />
-              </div>
-              <div className="admin-header">
-                <h1>REC User Profile</h1>
-                <p>View Admin Account Information</p>
-              </div>
-            </div>
-
             <div className="report-page-header">
               <button className="download-btn" onClick={downloadReport}>
                 Download Reports

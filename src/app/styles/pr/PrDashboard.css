@@ -215,18 +215,11 @@
     display: none;
   }
 
-  .pr-header-container-mobile {
-    display: none;
-  }
 }
 
 /* Laptops & Desktops */
 @media only screen and (min-width: 769px) and (max-width: 1200px) {
   .prnav-mobile {
-    display: none;
-  }
-
-  .pr-header-container-mobile {
     display: none;
   }
 
@@ -264,13 +257,20 @@
     }
 
     .pr-header-container {
-      display: none;
+      flex-direction: column-reverse;
+      align-items: start;
+      margin: 0;
+      padding: 0;
     }
-
-    .userloggedin-mobile {
+  
+    .pr-header {
       margin-bottom: 1rem;
     }
-
+  
+    .userloggedin {
+        margin-bottom: 1.5rem;
+    }
+  
     .admindashboard-cards {
       display: flex;
       flex-wrap: wrap;
@@ -321,7 +321,6 @@
       .prnav-mobile {
         display: block;
       }
-
       .adminpage-container .prnav {
         display: none;
       }
@@ -351,16 +350,16 @@
       }
     
       /* Mobile Header */
+
       .pr-header-container {
-        display: none;
+        flex-direction: column-reverse;
+        align-items: start;
+        margin: 0;
+        padding: 0;
       }
-
-      .pr-header-container-mobile {
-        align-items: center;
-      }
-
-      .userloggedin-mobile {
-        margin-bottom: 1.5rem;
+    
+      .userloggedin {
+          margin-bottom: 1.5rem;
       }
 
       /* Mobile Cards */

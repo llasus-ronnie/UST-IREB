@@ -275,14 +275,6 @@ function IrebDashboard() {
               <UserLoggedIn className="userloggedin" />
             </div>
 
-            <div className="ireb-header-container-mobile">
-              <div className="ireb-header">
-                <UserLoggedIn className="userloggedin-mobile" />
-                <h1>IREB Dashboard</h1>
-                <p>Overview of UST-IREB Submissions and RECs.</p>
-              </div>
-            </div>
-
             <br />
             <br />
 

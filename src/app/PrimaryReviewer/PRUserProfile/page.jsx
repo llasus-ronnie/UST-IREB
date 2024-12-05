@@ -33,16 +33,6 @@ function PRUserProfile() {
             </div>
           </div>
 
-          <div className="admin-header-container-mobile">
-            <div className="userloggedin-mobile">
-              <UserLoggedIn />
-            </div>
-            <div className="admin-header">
-              <h1>Primary Reviewer User Profile</h1>
-              <p>View Admin Account Information</p>
-            </div>
-          </div>
-
           <Row className="profile-container profile-maincard">
             <div className="profile-card-title">User Information</div>
             <Col className="profile-left">

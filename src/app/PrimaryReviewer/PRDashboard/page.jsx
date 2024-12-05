@@ -84,16 +84,6 @@ function PrDashboard() {
             </div>
           </div>
 
-          <div className="pr-header-container-mobile">
-            <div className="userloggedin-mobile">
-              <UserLoggedIn />
-            </div>
-            <div className="pr-header">
-              <h1>Primary Reviewer Dashboard</h1>
-              <p>Overview of Assigned Primary Reviewer Submissions.</p>
-            </div>
-          </div>
-
           <Row className="admindashboard-container">
             <Col className="admindashboard-cards">
               <div className="admindashboard-card">

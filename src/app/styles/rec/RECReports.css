@@ -218,11 +218,6 @@
         display: none;
     }
 
-    .userloggedin,
-    .rec-header-container {
-        display: none;
-    }
-
     .admin-header h1 {
         font-size: var(--heading-1-size);
         font-weight: 700;
@@ -292,21 +287,11 @@
     .recnav-mobile {
         display: none;
     }
-
-    .admin-header-container-mobile,
-    .userloggedin-mobile {
-        display: none;
-    }
 }
 
 /* Larger Screens */
 @media only screen and (min-width: 1201px) {
     .recnav-mobile {
-        display: none;
-    }
-
-    .admin-header-container-mobile,
-    .userloggedin-mobile {
         display: none;
     }
 }
@@ -318,14 +303,22 @@
         display: none;
     }
 
-    .rec-header,
-    .userloggedin {
-        display: none;
-    }
-
     .rec-reports {
         margin: 0;
     }
+
+    .rec-header-container {
+        flex-direction: column-reverse;
+        align-items: start;
+      }
+    
+      .rec-header {
+        margin-bottom: 1rem;
+      }
+    
+      .userloggedin {
+          margin-bottom: 1.5rem;
+      }    
 
     /* General Page Container */
     .recpage-container {
@@ -384,10 +377,6 @@
     .download-btn {
         width: 100%; 
         text-align: center;
-    }
-
-    .rec-header-container {
-        margin-left: -30%;
     }
 
     .rec-header h1 {

@@ -150,12 +150,6 @@ function IrebManageExternal() {
             </div>
           </div>
 
-          <div className="ireb-header-container-mobile">
-            <div className="userloggedin-mobile">
-              <UserLoggedIn />
-            </div>
-          </div>
-
           <div className="manage-accounts">
             <div className="me-title">
               <h1>Manage Accounts</h1>

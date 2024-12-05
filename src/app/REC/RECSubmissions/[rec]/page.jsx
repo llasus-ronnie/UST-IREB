@@ -92,18 +92,6 @@ function RecSubmissions({ params }) {
             </div>
           </div>
 
-          <div className="rec-header-container-mobile">
-            <div className="userloggedin-mobile">
-              <UserLoggedIn />
-            </div>
-            <div className="rec-header">
-              <h1>REC Manage Submissions</h1>
-              <p>
-                Manage Initial Review and Principal Investigator Submissions
-              </p>
-            </div>
-          </div>
-
           <div className="rec-submissions-tabs">
             <div className="rec-buttons-container">
               <button onClick={() => handleTableChange("Initial-Submission")}>

@@ -62,12 +62,6 @@ function RECManageContent({ params, ...props }) {
             </div>
           </div>
 
-          <div className="rec-header-container-mobile">
-            <div className="userloggedin-mobile">
-              <UserLoggedIn />
-            </div>
-          </div>
-
           <div className="manage-content">
             <div className="mc-title">
               <h1>Manage REC Content</h1>

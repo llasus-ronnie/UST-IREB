@@ -318,12 +318,6 @@ function PRViewSubmission({ params }) {
             </div>
           </div>
 
-          <div className="pr-header-container-mobile">
-            <div className="userloggedin-mobile">
-              <UserLoggedIn />
-            </div>
-          </div>
-
           <Row className="viewsubmission-container">
             <a href="/PrimaryReviewer/PRSubmissions" className="back-button">
               <svg

@@ -202,7 +202,6 @@
 
     /* PR Dashboard */
     .ireb-dashboard {
-        margin-left: 0;
         padding: 1rem;
         height: auto;
         transition: none;
@@ -213,8 +212,16 @@
     }
 
     .ireb-header-container {
-        display: none;
-    }
+        flex-direction: column-reverse;
+        align-items: start;
+        margin: 0;
+        padding: 0;
+      }
+    
+      .uli-container {
+          margin-bottom: 1.5rem;
+      }
+
     
     /* Main Content Div for PR Dashboard */
     .adminmain-content {
@@ -225,16 +232,6 @@
     }
 
     /* Header */
-    .ireb-header h1 {
-        font-size: calc(var(--title-size) * 0.85);
-        margin-left: 10%;
-    }
-
-    .ireb-header p {
-        font-size: calc(var(--paragraph-size) * 0.9);
-        margin-left: 10%;
-
-    }
 
     /* Two Column Layout */
     .twocol-container {
@@ -247,7 +244,7 @@
     .ireb-chart-container {
         height: 300px; /* Adjust height for medium screens */
         padding: 1rem;
-        width: 80%;
+        width: 100%;
         margin-left: 8%;
         margin: 0 auto;
     }
@@ -256,7 +253,7 @@
     .admindashboard-cards {
         grid-template-columns: 1fr 1fr; /* Two columns on medium screens */
         gap: 1rem;
-        width: 80%;
+        width: 100%;
         margin-left: 8%;
         margin: 0 auto;
 
@@ -266,7 +263,7 @@
     .rec-container {
         padding: 1rem;
         overflow-x: auto;
-        width: 80%;
+        width: 100%;
         margin-left: 8%;
         margin: 0 auto;
 
@@ -306,8 +303,6 @@
 
     /* PR Dashboard */
     .ireb-dashboard {
-        margin-left: 0;
-        padding: 1rem;
         height: auto;
         transition: none;
     }
@@ -320,10 +315,6 @@
         margin-left: 4%;
         margin-right: 4%;
     }
-
-    .ireb-header-container-mobile {
-        display: none;
-    }
     
     /* Main Content Div for PR Dashboard */
     .adminmain-content {
@@ -334,16 +325,6 @@
     }
 
     /* Header */
-    .ireb-header h1 {
-        font-size: calc(var(--title-size) * 0.85);
-        margin-left: 10%;
-    }
-
-    .ireb-header p {
-        font-size: calc(var(--paragraph-size) * 0.9);
-        margin-left: 10%;
-
-    }
 
     /* Two Column Layout */
     .twocol-container {
@@ -396,9 +377,6 @@
   /* Larger Screens */
   @media only screen and (min-width: 1201px) {
     .irebnav-mobile {
-      display: none;
-    }
-    .ireb-header-container-mobile {
         display: none;
     }
   }
@@ -435,11 +413,14 @@
     }
 
     .ireb-header-container {
-        display: none;
-    }
-
-    .userloggedin-mobile {
-        margin-bottom: 1rem;
+        flex-direction: column-reverse;
+        align-items: start;
+        margin: 0;
+        padding: 0;
+      }
+    
+      .uli-container {
+          margin-bottom: 1.5rem;
       }
 
     /* Two Column Layout to Stack */

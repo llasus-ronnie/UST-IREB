@@ -65,16 +65,6 @@ function PrSubmissions() {
             </div>
           </div>
 
-          <div className="pr-header-container-mobile">
-            <div className="userloggedin-mobile">
-              <UserLoggedIn />
-            </div>
-            <div className="pr-header">
-              <h1>Primary Reviewer Submissions</h1>
-              <p>Manage Assigned Tasks, Resubmissions, and Revisions.</p>
-            </div>
-          </div>
-
           <div className="filter-section">
             <div className="search">
               <SearchBar onSearch={handleSearch} className="search-bar" />

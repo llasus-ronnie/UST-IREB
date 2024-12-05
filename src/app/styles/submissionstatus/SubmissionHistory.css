@@ -229,18 +229,6 @@
         display: none;
       }
 
-      .rec-header-container-mobile {
-        align-items: center;
-      }
-
-      .rec-header-container-mobile h1 {
-        font-size: var(--heading-1-size);
-      }
-
-      .userloggedin-mobile {
-        margin-bottom: 1.5rem;
-      }
-
         /* Mobile Content */
         .viewsubmission-container {
             flex-direction: column;

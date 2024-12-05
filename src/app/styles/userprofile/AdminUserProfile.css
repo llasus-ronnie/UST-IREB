@@ -240,19 +240,11 @@
     .adminnav-mobile {
         display: none;
     }
-
-    .admin-header-container-mobile {
-        display: none;
-    }
     }
 
     /* Larger Screens */
     @media only screen and (min-width: 1201px) {
     .adminnav-mobile {
-        display: none;
-    }
-
-    .admin-header-container-mobile {
         display: none;
     }
 }
@@ -300,16 +292,17 @@
   }
 
   .admin-header-container {
-    display: none;
-  }
-
-  .admin-header-container-mobile {
-    align-items: left;
+    flex-direction: column-reverse;
+    align-items: start;
     margin: 0;
     padding: 0;
   }
 
-  .userloggedin-mobile {
+  .admin-header {
+    margin-bottom: 1rem;
+  }
+
+  .userloggedin {
       margin-bottom: 1.5rem;
   }
 
@@ -383,10 +376,6 @@
       display: none;
   }
 
-  .admin-header-container-mobile {
-      display: none;
-  }
-
   /* Tablet General Page Container */
   .adminpage-container {
       flex-direction: column;
@@ -412,7 +401,18 @@
   }
 
   .admin-header-container {
-      padding: 0;
+    flex-direction: column-reverse;
+    align-items: start;
+    margin: 0;
+    padding: 0;
+  }
+
+  .admin-header {
+    margin-bottom: 1rem;
+  }
+
+  .userloggedin {
+      margin-bottom: 1rem;
   }
 
   /* Adjusting profile container layout */

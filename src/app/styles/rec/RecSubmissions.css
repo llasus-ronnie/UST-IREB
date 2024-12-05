@@ -259,10 +259,6 @@
     display: none;
   }
 
-  .rec-header-container-mobile {
-    display: none;
-  }
-
   .rec-submissions-tabs {
     width: 100%;
     box-sizing: border-box;
@@ -277,10 +273,6 @@
 /* Laptops & Desktops */
 @media only screen and (min-width: 769px) and (max-width: 1200px) {
   .recnav-mobile {
-    display: none;
-  }
-
-  .rec-header-container-mobile {
     display: none;
   }
 
@@ -330,7 +322,14 @@
     }
 
     .rec-header-container {
-      display: none;
+      flex-direction: column-reverse;
+      align-items: start;
+      margin: 0;
+      padding: 0;
+    }
+  
+    .userloggedin {
+        margin-bottom: 1.5rem;
     }
 
     .rec-header {
@@ -422,19 +421,15 @@
       }
     
       /* Mobile Header */
+
       .rec-header-container {
-        display: none;
+        flex-direction: column-reverse;
+        align-items: start;
+        margin: 0;
+        padding: 0;
       }
-
-      .rec-header-container-mobile {
-        align-items: center;
-      }
-
-      .rec-header-container-mobile h1 {
-        font-size: var(--heading-1-size);
-      }
-
-      .userloggedin-mobile {
+    
+      .userloggedin {
         margin-bottom: 1.5rem;
       }
 

@@ -234,18 +234,11 @@ tr:hover {
         display: none;
     }
 
-    .rec-header-container-mobile {
-        display: none;
-    }
     }
 
     /* Larger Screens */
     @media only screen and (min-width: 1201px) {
     .adminnav-mobile {
-        display: none;
-    }
-
-    .rec-header-container-mobile {
         display: none;
     }
 }
@@ -285,17 +278,12 @@ tr:hover {
         max-width: 100%;
     }
 
-    .rec-header-container {
-        display: none;
+    .adminheader-container {
+        justify-content: flex-start;
+        margin-bottom: 1rem;
     }
 
-    .rec-header-container-mobile {
-        align-items: left;
-        margin: 0;
-        padding: 0;
-    }
-
-    .userloggedin-mobile {
+    .userloggedin {
         margin-bottom: 1.5rem;
     }
 
@@ -347,10 +335,6 @@ tr:hover {
     /* Tablet */
     @media only screen and (min-width: 577px) and (max-width: 768px) {
     .adminnav-mobile {
-        display: none;
-    }
-        
-    .rec-header-container-mobile {
         display: none;
     }
     
