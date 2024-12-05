@@ -13,6 +13,7 @@ import { CldUploadWidget } from "next-cloudinary";
 export default function EditRECContentModal({ show, onHide, content }) {
   const [heading, setHeading] = useState("");
   const [body, setBody] = useState("");
+  const [error, setError] = useState("");
   const [mainFiles, setMainFiles] = useState([]);
   const [mainFileNames, setMainFileNames] = useState([]);
 
@@ -50,7 +51,15 @@ export default function EditRECContentModal({ show, onHide, content }) {
     fetchRECData();
   }, [status, session]);
 
-  const handleBodyChange = (e) => setBody(e.target.value);
+  const handleBodyChange = (e) => {
+    const value = e.target.value;
+    setBody(value);
+    if (!value.trim()) {
+      setError("Content cannot be empty");
+    } else {
+      setError("");
+    }
+  };
 
   const handleFileUploadSuccess = (res, setFiles, setFileNames) => {
     const uploadedFile = res.info; // Assuming Cloudinary response contains `info`
@@ -64,6 +73,10 @@ export default function EditRECContentModal({ show, onHide, content }) {
   };
 
   const handleSave = async () => {
+    if (!body.trim()) {
+      setError("Content cannot be empty");
+      return;
+    }
     try {
       const recNameWithoutSpaces = heading.replace(/\s+/g, "");
       const filesToSave = mainFiles.map((file) => ({
@@ -134,6 +147,7 @@ export default function EditRECContentModal({ show, onHide, content }) {
                 className="form-control-with-icon rounded-input mc-editcontent-body"
                 rows={5}
               />
+              {error && <div className="text-danger">{error}</div>}
             </Form.Group>
 
             {/* File Upload */}

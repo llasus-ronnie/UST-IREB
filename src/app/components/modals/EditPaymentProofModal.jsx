@@ -16,35 +16,33 @@ export default function UploadPaymentProofModal({
   submissionparams,
   ...props
 }) {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, reset, watch } = useForm();
   const { data: session } = useSession();
   const [form, setForm] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState(null);
 
-async function editPayment(data) {
-  try {
-    // Construct the payload including formId, paymentFile, and userEmail
-    const payload = {
-      formId: data.formId,          // This needs to be retrieved correctly
-      paymentFile: data.paymentFile, // This is set in the onSuccess callback of CldUploadWidget
-      userEmail: data.userEmail      // This is retrieved from the session
-    };
-    console.log("Payload:", payload);
-    // Send the PUT request with the payload
-    const response = await axios.put(`/api/payment?formId=${data.formId}`, payload);
+  async function editPayment(data) {
+    try {
+      const payload = {
+        formId: data.formId,
+        paymentFile: data.paymentFile,
+        userEmail: data.userEmail,
+      };
 
-    if (response.status === 200) {
-      toast.success("Payment proof updated successfully!");
-      props.onHide();
+      const response = await axios.put(`/api/payment?formId=${data.formId}`, payload);
+
+      if (response.status === 200) {
+        toast.success("Payment proof updated successfully!");
+        props.onHide();
+      }
+    } catch (error) {
+      toast.error("Error saving payment. Please try again.");
+      console.error(
+        "Error in saving:",
+        error.response ? error.response.data : error.message
+      );
     }
-  } catch (error) {
-    toast.error("Error saving payment. Please try again.");
-    console.error(
-      "Error in saving:",
-      error.response ? error.response.data : error.message
-    );
   }
-}
-
 
   useEffect(() => {
     async function fetchData() {
@@ -59,6 +57,12 @@ async function editPayment(data) {
     }
     fetchData();
   }, [submissionparams, session]);
+
+  const handleRemoveFile = () => {
+    setUploadedFile(null);
+    setValue("paymentFile", null);
+    toast.info("File removed.");
+  };
 
   return (
     <Form>
@@ -77,7 +81,7 @@ async function editPayment(data) {
             Edit Proof of Payment
           </Modal.Title>
           <p className="uploadproof-instructions">
-            Kindly upload receipt or proof of transaction in JPEG or PNG format.
+            Kindly upload receipt or proof of transaction in JPEG, PNG, or PDF format.
             File should not exceed 10MB.
           </p>
         </Modal.Header>
@@ -87,16 +91,14 @@ async function editPayment(data) {
               signatureEndpoint="/api/sign-cloudinary-params"
               onSuccess={(res) => {
                 const fileType = res.info.format;
-                if (
-                  fileType === "jpg" ||
-                  fileType === "jpeg" ||
-                  fileType === "png"
-                ) {
+                const validFileTypes = ["jpg", "jpeg", "png", "pdf"];
+                if (validFileTypes.includes(fileType)) {
                   const secureUrl = res.info.secure_url;
+                  setUploadedFile({ url: secureUrl, type: fileType });
                   setValue("paymentFile", secureUrl);
                   toast.success("File uploaded successfully!");
                 } else {
-                  toast.error("Please upload a JPEG or PNG image.");
+                  toast.error("Invalid file type. Please upload a JPEG, PNG, or PDF.");
                 }
               }}
             >
@@ -126,6 +128,30 @@ async function editPayment(data) {
               {...register("paymentFile", { required: true })}
             />
           </div>
+          {uploadedFile && (
+            <div className="uploaded-file-preview">
+              <p>
+                <strong>Uploaded File:</strong>
+              </p>
+              {uploadedFile.type === "pdf" ? (
+                <embed
+                  src={uploadedFile.url}
+                  type="application/pdf"
+                  width="100%"
+                  height="200px"
+                />
+              ) : (
+                <img
+                  src={uploadedFile.url}
+                  alt="Uploaded file"
+                  style={{ maxWidth: "100%", maxHeight: "200px" }}
+                />
+              )}
+              <Button variant="danger" size="sm" onClick={handleRemoveFile}>
+                Remove File
+              </Button>
+            </div>
+          )}
         </Modal.Body>
         <Modal.Footer className="uploadproof-modal-footer">
           <Button onClick={props.onHide} className="btn cancel">

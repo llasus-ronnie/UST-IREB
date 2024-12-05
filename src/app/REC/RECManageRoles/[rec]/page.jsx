@@ -31,6 +31,9 @@ function IrebManageRECRoles({ params }) {
   const [filteredRECMember, setFilteredRECMember] = useState([]);
   const { rec } = useParams();
 
+  const [isArchivedShown, setIsArchivedShown] = useState(false);
+  const handleShowArchived = () => setIsArchivedShown(!isArchivedShown);
+
   const handleShowModalAddRECMember = () => setModalShowAddRECMember(true);
   const handleShowModalEditRECMember = (member) => {
     setSelectedMember(member);
@@ -105,9 +108,11 @@ function IrebManageRECRoles({ params }) {
       setIsLoading(true);
       try {
         const response = await axios.get(`/api/RECMembers?rec=${rec}`);
-        const activeContent = response.data.data.filter(
-          (member) => !member.isArchived
-        );
+        const allMembers = response.data.data;
+
+        const filteredMembers = isArchivedShown
+          ? allMembers
+          : allMembers.filter((member) => !member.isArchived);
 
         const roleOrder = {
           "REC Chair": 1,
@@ -116,12 +121,12 @@ function IrebManageRECRoles({ params }) {
           "Primary Reviewer": 4,
         };
 
-        const sortedActiveContent = activeContent.sort((a, b) => {
+        const sortedMembers = filteredMembers.sort((a, b) => {
           return roleOrder[a.recRole] - roleOrder[b.recRole];
         });
 
-        setRECMembers(sortedActiveContent || []);
-        setFilteredRECMember(sortedActiveContent || []);
+        setRECMembers(sortedMembers);
+        setFilteredRECMember(sortedMembers);
       } catch (error) {
         console.error(error);
       } finally {
@@ -130,7 +135,7 @@ function IrebManageRECRoles({ params }) {
     };
 
     fetchRECMembersData();
-  }, [params.rec]);
+  }, [params.rec, isArchivedShown]);
 
   //loading
   const loadingContainerStyle = {
@@ -239,21 +244,23 @@ function IrebManageRECRoles({ params }) {
                               <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
                             </svg>
                           </button>
-                          <button
-                            className="archive-icon"
-                            onClick={() => handleShowArchiveModal(member)}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-archive"
-                              viewBox="0 0 16 16"
+                          {member.isArchived ? null : (
+                            <button
+                              className="archive-icon"
+                              onClick={() => handleShowArchiveModal(member)}
                             >
-                              <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1-1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
-                            </svg>
-                          </button>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                className="bi bi-archive"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1-1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                              </svg>
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))
@@ -266,6 +273,9 @@ function IrebManageRECRoles({ params }) {
                   )}
                 </tbody>
               </table>
+              <button className="archive-toggle" onClick={handleShowArchived}>
+                {isArchivedShown ? "Hide Archived" : "Show Archived"}
+              </button>
             </div>
           </div>
         </div>
