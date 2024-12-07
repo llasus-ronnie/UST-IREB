@@ -23,13 +23,13 @@ function PrDashboard() {
   const [overdueForms, setOverdueForms] = useState([]);
   const { data: session } = useSession();
 
-  const userEmail = session?.user?.email;
+  const userName = session?.user?.name;
 
   useEffect(() => {
     async function getForms() {
       try {
         const response = await axios.get("/api/forms", {
-          params: { email: userEmail }, 
+          params: { name: userName }, 
         });
 
         const assignedForms = response.data.forms || [];
