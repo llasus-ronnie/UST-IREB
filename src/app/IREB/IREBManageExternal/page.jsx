@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import axios from "axios";
 import IrebNav from "../../components/navbaradmin/IrebNav";
 import IrebNavMobile from "../../components/navbaradmin/IrebNavMobile";
@@ -12,6 +12,7 @@ import ArchiveConfirmationModal from "../../components/modals/ArchiveConfirmatio
 import "../../styles/ireb/IrebManageAccounts.css";
 import withAuthorization from "../../../hoc/withAuthorization";
 import { Spinner } from "react-bootstrap";
+import { set } from "mongoose";
 
 function IrebManageExternal() {
   const [modalShowAddAcc, setModalShowAddAcc] = useState(false);
@@ -19,13 +20,15 @@ function IrebManageExternal() {
   const [modalShowArchiveConfirmation, setModalShowArchiveConfirmation] =
     useState(false);
   const [selectedInvestigator, setSelectedInvestigator] = useState(null);
-  const [external, setExternal] = useState([]);
   const [filteredExternal, setFilteredExternal] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [content, setContent] = useState([]);
   const [filteredContent, setFilteredContent] = useState([]);
+
+  const [isArchivedShown, setIsArchivedShown] = useState(false);
+  const handleShowArchived = () => setIsArchivedShown(!isArchivedShown);
 
   const handleShowAddAccModal = () => setModalShowAddAcc(true);
   const handleShowEditAccModal = (investigator) => {
@@ -81,25 +84,48 @@ function IrebManageExternal() {
     setFilteredExternal(filtered);
   };
 
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     setIsLoading(true);
+  //     try {
+  //       const response = await axios.get("/api/addExternalInvestigator");
+  //       const activeContent = response.data.data.filter(
+  //         (account) => !account.isArchived
+  //       );
+  //       setContent(activeContent);
+  //       setFilteredExternal(activeContent);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   }
+
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
-    async function fetchData() {
+    const fetchExternalInvestigators = async () => {
       setIsLoading(true);
       try {
         const response = await axios.get("/api/addExternalInvestigator");
-        const activeContent = response.data.data.filter(
-          (account) => !account.isArchived
-        );
-        setContent(activeContent);
-        setFilteredExternal(activeContent);
+        const allInvestigators = response.data.data;
+
+        const filteredExternal = isArchivedShown
+          ? allInvestigators
+          : allInvestigators.filter((account) => !account.isArchived);
+
+        setContent(filteredExternal);
+        setFilteredExternal(filteredExternal);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
         setIsLoading(false);
       }
-    }
+    };
 
-    fetchData();
-  }, []);
+    fetchExternalInvestigators();
+  }, [isArchivedShown]);
 
   //loading
 
@@ -210,21 +236,23 @@ function IrebManageExternal() {
                               <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
                             </svg>
                           </button>
-                          <button
-                            className="archive-icon"
-                            onClick={() => handleShowArchiveModal(account)}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-archive"
-                              viewBox="0 0 16 16"
+                          {account.isArchived ? null : (
+                            <button
+                              className="archive-icon"
+                              onClick={() => handleShowArchiveModal(account)}
                             >
-                              <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
-                            </svg>
-                          </button>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                className="bi bi-archive"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                              </svg>
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))
@@ -235,6 +263,9 @@ function IrebManageExternal() {
                   )}
                 </tbody>
               </table>
+              <button className="archive-toggle" onClick={handleShowArchived}>
+                {isArchivedShown ? "Hide Archived" : "Show Archived"}
+              </button>
             </div>
           </div>
         </div>

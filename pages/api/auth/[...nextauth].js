@@ -31,6 +31,14 @@ const handler = NextAuth({
         });
 
         if (externalInvestigator) {
+          if (externalInvestigator.isArchived) {
+            console.log(
+              "Attempt to login with archived account:",
+              externalInvestigator.email
+            );
+            return null;
+          }
+
           const isPasswordValid = await bcrypt.compare(
             credentials.password,
             externalInvestigator.password
@@ -54,6 +62,14 @@ const handler = NextAuth({
         });
 
         if (externalReviewer) {
+          if (externalReviewer.isArchived) {
+            console.log(
+              "Attempt to login with archived account:",
+              externalReviewer.email
+            );
+            return null;
+          }
+
           const isPasswordValid = await bcrypt.compare(
             credentials.password,
             externalReviewer.password
@@ -76,7 +92,7 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role || (await getRoleFromDB(user.email)); // Retrieve role if not set
+        token.role = user.role || (await getRoleFromDB(user.email));
       }
       return token;
     },
@@ -105,6 +121,14 @@ const handler = NextAuth({
               email: profile.email,
             });
             if (recMember) {
+              if (recMember.isArchived) {
+                console.log(
+                  "Attempt to login with archived REC member account:",
+                  recMember.email
+                );
+                return false;
+              }
+
               if (recMember.recRole === "Primary Reviewer") {
                 role = "PrimaryReviewer";
               } else {
