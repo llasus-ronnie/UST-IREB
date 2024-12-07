@@ -75,7 +75,7 @@ export async function GET(req) {
       query.researchEthicsCommittee = rec.trim();
     }
     if (email) {
-        userEmail: email.trim() 
+        userEmail= email.trim() 
     }
 
     const forms = await SubmissionForm.find(query);
