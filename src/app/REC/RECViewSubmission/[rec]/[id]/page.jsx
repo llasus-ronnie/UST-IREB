@@ -432,69 +432,89 @@ function RECViewSubmission({ params }) {
 
   const handleInitialSubmission = (event) => {
     const value = event.target.value;
+  
+    // Handle the case when "Completed" is selected
     if (value === "Completed") {
-      setShowCompleteModal(true);
+      setShowCompleteModal(true); // Show the modal for confirmation
+      // Close the modal and set the state when confirmed
+      const confirmCompletion = () => {
+        setShowCompleteModal(false);
+        setInitialSubmission("Completed");
+        console.log("Initial Submission:", "Completed");
+      };
+      confirmCompletion(); // Call the confirmation logic
     } else {
+      // Handle other cases
       setInitialSubmission(value);
+      console.log("Initial Submission:", value);
     }
   };
-
+  
   const handleCommentChange = (e) => {
     setRecRemarksComment(e.target.value);  // Update the comment state
   };
 
   const updateStatus = async () => {
     try {
+      // Define remarks from the state
+      const remarks = {
+        content: recRemarksFiles,  // Assuming `recRemarksFiles` is the array of uploaded files
+        comment: recRemarksComment,  // Assuming `recRemarksComment` is the comment from state
+      };
+  
       // Update status if it's different from the initial status
       if (status !== initialStatus) {
         await updateStatusData(status);
       }
-
+  
       // Update selected reviewer if it's different from the initial reviewer
       if (selectedReviewer !== initialReviewer) {
         await updateReviewerData();
       }
-
+  
       // Only submit remarks if conditions allow (skip if Initial-Submission is active)
-      if ((remarks.content || remarks.comment) && initialSubmission !== "Initial-Submission") {
+      if ((remarks.content.length > 0 || remarks.comment) && initialSubmission !== "Initial-Submission") {
         await submitRemarks(remarks);
       }
-
+  
       if (status === "Initial-Result") {
         await submitRemarks(remarks);
       }
-
+  
       if (status === "Final-Decision") {
         await submitRemarks(remarks);
       }
-
+  
       // Handle classification updates when status is "For-Classification"
       if (formClassification && status === "For-Classification") {
         await updateClassificationData(formClassification);
       }
-
+  
       // Handle status update when status is "Pending-Payment"
       else if (status === "Pending-Payment") {
         await updateStatusData(status);
       }
-
+  
       // Submit final decision if it's provided
       if (finalDecision) {
         await submitFinalDecision(finalDecision);
       }
-
+  
       // Update initial submission data if needed
-      if (initialSubmission !== "Initial-Submission") {
-        await updateInitialSubmissionData();
+      if (initialSubmission == "Completed" || initialSubmission == "Incomplete") {
+        await updateInitialSubmissionData(initialSubmission);
       }
-
+  
       if (formClassification === "Exempt") {
-        await updateStatusData("Final-Decision")
+        await updateStatusData("Final-Decision");
       }
     } catch (error) {
       toast.error("Failed to update. Please try again.");
+      console.error("Error occurred during update process:", error);
     }
   };
+  
+  
 
 
   const [selectedFileUrl, setSelectedFileUrl] = useState(""); // State to store the selected file URL
@@ -761,7 +781,7 @@ function RECViewSubmission({ params }) {
                           <input
                             type="checkbox"
                             name="selectedReviewers"
-                            value={member.email}
+                            value={member.name}
                             checked={selectedReviewer.includes(member.name)}
                             onChange={(e) => {
                               const value = e.target.value;
@@ -1101,11 +1121,6 @@ function RECViewSubmission({ params }) {
                 }
               }
 
-              // Make sure that initial submission and remarks are not updated unnecessarily
-              if (initialSubmission !== "Initial-Submission") {
-                updateInitialSubmissionData();  // Update initial submission if needed, but not at the same time as status change
-              }
-
               // Close the modal after updates
               setShowAcknowledgeModal(false);
             }}
@@ -1118,6 +1133,7 @@ function RECViewSubmission({ params }) {
             onConfirm={() => {
               setShowCompleteModal(false);
               setInitialSubmission("Completed");
+              console.log("Initial Submission:", initialSubmission);
             }}
           />
         </div>
