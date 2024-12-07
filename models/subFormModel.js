@@ -329,12 +329,6 @@ const subFormSchema = new Schema({
   recMember: {
     type: [String],
     required: false,
-    // validate: {
-    //   validator: function (value) {
-    //     return value.length >= 2 && value.length <= 4;
-    //   },
-    //   message: 'recMember must have between 2 and 4 members.',
-    // },
   },
 
   classification: {
