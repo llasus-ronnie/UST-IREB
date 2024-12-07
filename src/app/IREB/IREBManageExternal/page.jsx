@@ -263,10 +263,10 @@ function IrebManageExternal() {
                   )}
                 </tbody>
               </table>
-              <button className="archive-toggle" onClick={handleShowArchived}>
-                {isArchivedShown ? "Hide Archived" : "Show Archived"}
-              </button>
             </div>
+            <button className="archive-toggle" onClick={handleShowArchived}>
+              {isArchivedShown ? "Hide Archived" : "Show Archived"}
+            </button>
           </div>
         </div>
       </div>
