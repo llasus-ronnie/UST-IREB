@@ -721,7 +721,7 @@ function RECViewSubmission({ params }) {
 
               <Link href={`/REC/SubmissionSummary/${forms._id}`} style={{ color:"blue" }}> More Details here </Link>
               <br/>
-
+              <br/>
 
               <span>Status:</span>
               <select
