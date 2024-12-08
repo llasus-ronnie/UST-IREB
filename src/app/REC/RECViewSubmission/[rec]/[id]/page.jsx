@@ -719,6 +719,9 @@ function RECViewSubmission({ params }) {
               <span>Submission Status:</span>
               <p>{forms?.status || "No classification available"}</p>
 
+              <Link href={`/REC/SubmissionSummary/${forms._id}`}> More Details here </Link>
+
+
               <span>Status:</span>
               <select
                 className="viewsub-changestatus"
