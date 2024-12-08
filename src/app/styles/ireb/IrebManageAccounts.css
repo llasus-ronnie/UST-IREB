@@ -278,6 +278,20 @@ tr:hover {
   margin-right: 0.8rem;
 }
 
+.archive-toggle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: gray;
+}
+
+.archive-toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 /* scroll design  */
 ::-webkit-scrollbar {
   background-color: var(--primary-color);
