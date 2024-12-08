@@ -251,8 +251,7 @@ function RECReports({ params }) {
         const primaryReviewers = membersResponse.data.data
           .filter((member) => member.recRole === "Primary Reviewer")
           .map((member) => ({
-            email: member.email, // Ensure email is used
-            name: member.name,
+            name: member.name, // Ensure name is used
           }));
 
         // Fetch External Reviewer data
@@ -261,12 +260,11 @@ function RECReports({ params }) {
         });
         const externalReviewers = externalResponse.data.data.map(
           (reviewer) => ({
-            email: reviewer.email, // Ensure email is used
-            name: reviewer.name,
+            name: reviewer.name, // Ensure name is used
           })
         );
 
-        // Combine all reviewers (Primary + External) with emails
+        // Combine all reviewers (Primary + External) with names
         const allReviewers = [...primaryReviewers, ...externalReviewers];
 
         // Fetch Forms data
@@ -278,7 +276,6 @@ function RECReports({ params }) {
         // Initialize counts for all reviewers
         const counts = allReviewers.map((reviewer) => ({
           reviewer: reviewer.name, // Display name for the chart
-          email: reviewer.email, // Match by email
           inProgress: 0,
           finalReview: 0,
           resubmission: 0,
@@ -286,9 +283,9 @@ function RECReports({ params }) {
 
         // Count statuses for each reviewer
         forms.forEach((form) => {
-          form.recMember.forEach((assignedReviewerEmail) => {
+          form.recMember.forEach((assignedReviewerName) => {
             const reviewerIndex = counts.findIndex(
-              (entry) => entry.email === assignedReviewerEmail
+              (entry) => entry.reviewer === assignedReviewerName
             );
             if (reviewerIndex !== -1) {
               if (form.status === "In-Progress") {
