@@ -53,20 +53,59 @@ const RecNavMobile = (props) => {
     setIsDragging(false);
   };
 
+  const [rec, setRec] = useState(""); 
+  const [id, setId] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const path = window.location.pathname; 
+      const pathParts = path.split("/"); 
+
+      const recParam = pathParts[3];
+      const idParam = pathParts[4];
+
+      setRec(recParam);
+      setId(idParam);
+    }
+  }, []);
+  console.log("rec", rec);
+
+useEffect(() => {
+  const path = window.location.pathname;
+
+  if (path.includes(`RECdashboard/${rec}`)) {
+    setIsActive("home");
+  } else if (path.includes("RECUserProfile")) {
+    setIsActive("profile");
+  } else if (path.includes(`RECSubmissions/${rec}`)) {
+    setIsActive("submissions");
+  } else if (path.includes(`RECManageRoles/${rec}`)) {
+    setIsActive("manage");
+  } else if (path.includes(`RECManageExternal/${rec}`)) {
+    setIsActive("manage");
+  } else if (path.includes(`RECManageContent/${rec}`)) {
+    setIsActive("manage");
+  } else if (path.includes("RECReports")) {
+    setIsActive("reports");
+  } else {
+    setIsActive("");
+  }
+}, [props.rec]);
+
   useEffect(() => {
     const path = window.location.pathname;
 
-    if (path.includes(`RECdashboard/${props.rec}`)) {
+    if (path.includes(`RECdashboard/${rec}`)) {
       setIsActive("home");
     } else if (path.includes("RECUserProfile")) {
       setIsActive("profile");
-    } else if (path.includes(`RECSubmissions/${props.rec}`)) {
+    } else if (path.includes(`RECSubmissions/${rec}`)) {
       setIsActive("submissions");
-    } else if (path.includes(`RECManageRoles/${props.rec}`)) {
+    } else if (path.includes(`RECManageRoles/${rec}`)) {
       setIsActive("manage");
-    } else if (path.includes(`RECManageExternal/${props.rec}`)) {
+    } else if (path.includes(`RECManageExternal/${rec}`)) {
       setIsActive("manage");
-    } else if (path.includes(`RECManageContent/${props.rec}`)) {
+    } else if (path.includes(`RECManageContent/${rec}`)) {
       setIsActive("manage");
     } else if (path.includes("RECReports")) {
       setIsActive("reports");
@@ -83,7 +122,7 @@ const RecNavMobile = (props) => {
             <li
               className={`${isActive === "profile" ? "active-linkline" : ""}`}
             >
-              <a href={`/REC/RECUserProfile/${props.rec}`}>
+              <a href={`/REC/RECUserProfile/${rec}`}>
                 <div>
                   <svg
                     fill="#a58324"
@@ -102,7 +141,7 @@ const RecNavMobile = (props) => {
             </li>
 
             <li className={`${isActive === "home" ? "active-linkline" : ""}`}>
-              <a href={`/REC/RECdashboard/${props.rec}`}>
+              <a href={`/REC/RECdashboard/${rec}`}>
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +165,7 @@ const RecNavMobile = (props) => {
                 isActive === "submissions" ? "active-linkline" : ""
               }`}
             >
-              <a href={`/REC/RECSubmissions/${props.rec}`}>
+              <a href={`/REC/RECSubmissions/${rec}`}>
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -181,7 +220,7 @@ const RecNavMobile = (props) => {
             <li
               className={`${isActive === "reports" ? "active-linkline" : ""}`}
             >
-              <a href={`/REC/RECReports/${props.rec}`}>
+              <a href={`/REC/RECReports/${rec}`}>
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -256,13 +295,13 @@ const RecNavMobile = (props) => {
           onTouchEnd={handleDragEnd}
         >
           <div className="grab-handle"></div>
-          <a href={`/REC/RECManageRoles/${props.rec}`}>
+          <a href={`/REC/RECManageRoles/${rec}`}>
             <p>Manage REC Roles</p>
           </a>
-          <a href={`/REC/RECManageExternal/${props.rec}`}>
+          <a href={`/REC/RECManageExternal/${rec}`}>
             <p>Manage REC External Reviewer</p>
           </a>
-          <a href={`/REC/RECManageContent/${props.rec}`}>
+          <a href={`/REC/RECManageContent/${rec}`}>
             <p>Manage REC Content</p>
           </a>
       </div>
