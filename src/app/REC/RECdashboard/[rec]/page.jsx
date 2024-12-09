@@ -50,8 +50,11 @@ function RECDashboard({ params }) {
             const formDate = new Date(form.date);
             const dateSinceSubmission = today - formDate;
 
-            // Check if the form is more than 7 days old
-            return dateSinceSubmission > 7 * 24 * 60 * 60 * 1000;
+            // Check if the form is more than 7 days old and not in "final-decision" status
+            return (
+              dateSinceSubmission > 7 * 24 * 60 * 60 * 1000 &&
+              form.status !== "Final-Decision"
+            );
           }
           return false;
         });
@@ -162,16 +165,13 @@ function RECDashboard({ params }) {
                   <tr>
                     <th>Title</th>
                     <th>Submission Date</th>
-                    <th>Assigned Reviewer</th>
-                    <th>Task</th>
-                    <th>Deadline</th>
                   </tr>
                 </thead>
                 <tbody>
                   {overdueForms.map((form, index) => (
                     <tr key={index}>
                       <td>
-                        <Link href={`REC/RECViewSubmission`}>
+                        <Link href={`../../REC/RECViewSubmission`}>
                           <div className="deadline-links">
                             <p>{form.title}</p>
                           </div>
@@ -216,9 +216,12 @@ function RECDashboard({ params }) {
                           : "No date available"}
                       </td>
 
-                      <td>  {form && form.recMember && form.recMember.length > 0
-                        ? form.recMember.join(", ")
-                        : "No assigned reviewer"}</td>
+                      <td>
+                        {" "}
+                        {form && form.recMember && form.recMember.length > 0
+                          ? form.recMember.join(", ")
+                          : "No assigned reviewer"}
+                      </td>
                       <td>
                         {form && form.status
                           ? form.status
