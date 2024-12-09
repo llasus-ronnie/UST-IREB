@@ -251,7 +251,8 @@ function RECReports({ params }) {
         const primaryReviewers = membersResponse.data.data
           .filter((member) => member.recRole === "Primary Reviewer")
           .map((member) => ({
-            name: member.name, // Ensure name is used
+            email: member.email, // Ensure email is used
+            name: member.name,
           }));
 
         // Fetch External Reviewer data
@@ -260,11 +261,12 @@ function RECReports({ params }) {
         });
         const externalReviewers = externalResponse.data.data.map(
           (reviewer) => ({
-            name: reviewer.name, // Ensure name is used
+            email: reviewer.email, // Ensure email is used
+            name: reviewer.name,
           })
         );
 
-        // Combine all reviewers (Primary + External) with names
+        // Combine all reviewers (Primary + External) with emails
         const allReviewers = [...primaryReviewers, ...externalReviewers];
 
         // Fetch Forms data
@@ -276,6 +278,7 @@ function RECReports({ params }) {
         // Initialize counts for all reviewers
         const counts = allReviewers.map((reviewer) => ({
           reviewer: reviewer.name, // Display name for the chart
+          email: reviewer.email, // Match by email
           inProgress: 0,
           finalReview: 0,
           resubmission: 0,
@@ -283,14 +286,14 @@ function RECReports({ params }) {
 
         // Count statuses for each reviewer
         forms.forEach((form) => {
-          form.recMember.forEach((assignedReviewerName) => {
+          form.recMember.forEach((assignedReviewerEmail) => {
             const reviewerIndex = counts.findIndex(
-              (entry) => entry.reviewer === assignedReviewerName
+              (entry) => entry.email === assignedReviewerEmail
             );
             if (reviewerIndex !== -1) {
               if (form.status === "In-Progress") {
                 counts[reviewerIndex].inProgress++;
-              } else if (form.status === "Final-Review") {
+              } else if (form.status === "Final-Decision") {
                 counts[reviewerIndex].finalReview++;
               } else if (form.status === "Resubmission") {
                 counts[reviewerIndex].resubmission++;
