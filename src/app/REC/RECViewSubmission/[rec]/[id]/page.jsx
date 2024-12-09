@@ -1083,35 +1083,35 @@ function RECViewSubmission({ params }) {
                           <td>{remark.resubmissionRemarksMember}</td>
                           <td>
                             {/* Iterate over the remark's resubmissionRemarksFile if it's an array */}
-                            {Array.isArray(remark.resubmissionRemarksFile) ? (
-                              remark.resubmissionRemarksFile.map((file, fileIndex) => {
-                                const fileName = file.filename;
-                                return (
-                                  <>
-                                  <a
-                                    key={fileIndex}
-                                    href={file}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    {fileName}
-                                  </a>
-                                  <br/>
-                                  </>
-                                );
-                              })
-                            ) : (
-                              "No file"
-                            )}
-
+                            {Array.isArray(remark.resubmissionRemarksFile)
+                              ? remark.resubmissionRemarksFile.map(
+                                  (file, fileIndex) => {
+                                    const fileName = file.filename;
+                                    return (
+                                      <>
+                                        <a
+                                          key={fileIndex}
+                                          href={file.url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          {fileName}
+                                        </a>
+                                        <br />
+                                      </>
+                                    );
+                                  }
+                                )
+                              : "No file"}
                           </td>
                           <td>{remark.resubmissionRemarksComments}</td>
                           <td>
-                            {new Date(remark.resubmissionRemarksDate).toLocaleString()}
+                            {new Date(
+                              remark.resubmissionRemarksDate
+                            ).toLocaleString()}
                           </td>
                         </tr>
                       ))}
-
                     </tbody>
                   </table>
                 </div>
