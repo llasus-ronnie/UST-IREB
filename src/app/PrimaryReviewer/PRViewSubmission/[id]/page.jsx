@@ -426,40 +426,50 @@ function PRViewSubmission({ params }) {
                     <tr>
                       <th>Resubmission</th>
                       <th>File</th>
+                      <th>Comment</th>
                       <th>Date</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {remarksData.map((remark, index) => (
-                      <tr key={index}>
-                        <td>{remark.resubmissionRemarksComments}</td>
-                        <td>
-                          {remark.resubmissionRemarksFile &&
-                          remark.resubmissionRemarksFile.length > 0 ? (
-                            <a
-                              href={remark.resubmissionRemarksFile[0].url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {remark.resubmissionRemarksFile[0].filename}
-                            </a>
-                          ) : (
-                            <p>No file available</p>
-                          )}
-                        </td>
-                        <td>
-                          {new Date(
-                            remark.resubmissionRemarksDate
-                          ).toLocaleDateString("en-US")}
-                        </td>
-                      </tr>
-                    ))}
+                  {remarksData.map((remark, index) => (
+                        <tr key={remark._id}>
+                          <td>{index + 1}</td>
+                          <td>
+                            {/* Iterate over the remark's resubmissionRemarksFile if it's an array */}
+                            {Array.isArray(remark.resubmissionRemarksFile) ? (
+                              remark.resubmissionRemarksFile.map((file, fileIndex) => {
+                                const fileName = file.filename;
+                                return (
+                                  <>
+                                  <a
+                                    key={fileIndex}
+                                    href={file}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {fileName}
+                                  </a>
+                                  <br/>
+                                  </>
+                                );
+                              })
+                            ) : (
+                              "No file"
+                            )}
+
+                          </td>
+                          <td>{remark.resubmissionRemarksComments}</td>
+                          <td>
+                            {new Date(remark.resubmissionRemarksDate).toLocaleString()}
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
 
               <div className="viewsub-buttons">
-                {forms.status !== "Final-Decision" && (
+                {forms?.status !== "Final-Decision" && (
                   <button
                     className="viewsub-save"
                     onClick={handleSubmit((data) => {
@@ -475,7 +485,7 @@ function PRViewSubmission({ params }) {
               </div>
 
               <div>
-                {forms.status !== "Final-Decision" && (
+                {forms?.status !== "Final-Decision" && (
                   <button
                     className="viewsub-finalrec"
                     onClick={handleShowFinalReviewModal}

@@ -1082,22 +1082,36 @@ function RECViewSubmission({ params }) {
                           <td>{index + 1}</td>
                           <td>{remark.resubmissionRemarksMember}</td>
                           <td>
-                            <a
-                              href={remark.resubmissionRemarksFile}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              View Remarks
-                            </a>
+                            {/* Iterate over the remark's resubmissionRemarksFile if it's an array */}
+                            {Array.isArray(remark.resubmissionRemarksFile) ? (
+                              remark.resubmissionRemarksFile.map((file, fileIndex) => {
+                                const fileName = file.filename;
+                                return (
+                                  <>
+                                  <a
+                                    key={fileIndex}
+                                    href={file}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {fileName}
+                                  </a>
+                                  <br/>
+                                  </>
+                                );
+                              })
+                            ) : (
+                              "No file"
+                            )}
+
                           </td>
                           <td>{remark.resubmissionRemarksComments}</td>
                           <td>
-                            {new Date(
-                              remark.resubmissionRemarksDate
-                            ).toLocaleString()}
+                            {new Date(remark.resubmissionRemarksDate).toLocaleString()}
                           </td>
                         </tr>
                       ))}
+
                     </tbody>
                   </table>
                 </div>
