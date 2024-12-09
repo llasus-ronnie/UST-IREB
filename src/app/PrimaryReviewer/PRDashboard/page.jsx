@@ -88,7 +88,7 @@ function PrDashboard() {
             <Col className="admindashboard-cards">
               <div className="admindashboard-card">
                 <h2>Newly Assigned</h2>
-                <h3>{statusCounts["In-Progress"] || 0}</h3>
+                <h3>{statusCounts["In-Progress "] || 0}</h3>
                 <p>Submissions</p>
               </div>
               <div className="admindashboard-card">
