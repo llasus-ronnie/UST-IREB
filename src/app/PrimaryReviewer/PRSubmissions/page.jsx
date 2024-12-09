@@ -20,7 +20,6 @@ function PrSubmissions() {
   const { data: session } = useSession();
   const userEmail = session?.user?.email;
 
-
   useEffect(() => {
     async function getForms() {
       try {
@@ -34,7 +33,6 @@ function PrSubmissions() {
     }
     getForms();
   }, []);
-
 
   const handleDropDown = (event) => {
     const selectedOption = event.target.value;
