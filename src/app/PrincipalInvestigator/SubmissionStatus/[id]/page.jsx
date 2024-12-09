@@ -321,8 +321,10 @@ function SubmissionStatus({ params }) {
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{new Date(remarksDate).toLocaleDateString("en-US")}</td>
-                        <td>{remarksStatus}</td>
+                        <td>
+                          {remarksDate ? new Date(remarksDate).toLocaleDateString("en-US") : "No date available"}
+                        </td>                        
+                        <td>{remarksStatus ? remarksStatus : "No status available"}</td>
                         <td>
                           <div>
                             {recRemarksFiles && recRemarksFiles.length > 0 ? (
@@ -341,7 +343,7 @@ function SubmissionStatus({ params }) {
                             )}
                           </div>
                         </td>
-                        <td>{recRemarksComment}</td>
+                        <td>{recRemarksComment ? recRemarksComment : "No comments available"}</td>
                       </tr>
                     </tbody>
 
@@ -435,10 +437,10 @@ function SubmissionStatus({ params }) {
                       // If it's not an image, assume it's a PDF
                       paymentLink.endsWith(".pdf") ? (
                         <>
-                        <iframe src={paymentLink} className="submissionstatus-iframe"/>
-                        <a href={paymentLink} target="_blank" rel="noopener noreferrer">
-                          <button className="btn btn-primary">View PDF</button>
-                        </a>
+                          <iframe src={paymentLink} className="submissionstatus-iframe" />
+                          <a href={paymentLink} target="_blank" rel="noopener noreferrer">
+                            <button className="btn btn-primary">View PDF</button>
+                          </a>
                         </>
                       ) : (
                         <p>Unsupported file format</p>
