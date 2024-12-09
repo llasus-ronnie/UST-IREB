@@ -178,8 +178,8 @@ function PRViewSubmission({ params }) {
                 toast.error("Failed to send email");
               }
             } catch (error) {
-              console.error("Error sending email:", error);
-              toast.error("Failed to send email");
+              // console.error("Error sending email:", error);
+              // toast.error("Failed to send email");
             }
             toast.success("Resubmission saved successfully!");
             fetchResubmissionRemarks();
