@@ -293,7 +293,7 @@ function RECReports({ params }) {
             if (reviewerIndex !== -1) {
               if (form.status === "In-Progress") {
                 counts[reviewerIndex].inProgress++;
-              } else if (form.status === "Final-Review") {
+              } else if (form.status === "Final-Decision") {
                 counts[reviewerIndex].finalReview++;
               } else if (form.status === "Resubmission") {
                 counts[reviewerIndex].resubmission++;
