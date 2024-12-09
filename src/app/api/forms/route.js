@@ -75,12 +75,12 @@ export async function GET(req) {
       query.researchEthicsCommittee = rec.trim();
     }
     if (email) {
-      if (isRecMemberQuery) {
-        query.recMember = email.trim();
-      } else {
-        query.email = email.trim();
-      }
+      query.$or = [
+        { userEmail: email.trim() }, // Matches the `userEmail` field
+        { recMember: { $in: [email.trim()] } } // Matches `email` in the `recMember` array
+      ];
     }
+    
     
 
     const forms = await SubmissionForm.find(query);
