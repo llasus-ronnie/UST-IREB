@@ -786,7 +786,7 @@ function RECViewSubmission({ params }) {
                             type="checkbox"
                             name="selectedReviewers"
                             value={member.email}
-                            checked={selectedReviewer.includes(member.name)}
+                            // checked={selectedReviewer.includes(member.name)}
                             onChange={(e) => {
                               const value = e.target.value;
                               if (e.target.checked) {
