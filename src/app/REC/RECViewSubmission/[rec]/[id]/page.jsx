@@ -198,7 +198,7 @@ function RECViewSubmission({ params }) {
         "Error submitting remarks:",
         error.response?.data || error.message
       );
-      toast.error("Failed to submit remarks. Please try again.");
+      // toast.error("Failed to submit remarks. Please try again.");
     }
   }
 
