@@ -164,22 +164,6 @@ function RECViewSubmission({ params }) {
     }
   };
 
-  //GET remarks
-  async function getRemarks() {
-    try {
-      const response = await axios.get(`/api/remarks`, {
-        params: { subFormId: forms._id },
-      });
-      setRemarksFile(response.data.remarksData);
-      setStatus(forms.status);
-      console.log("All data:", response.data.remarksData);
-    } catch (error) {
-      console.error("Error fetching remarks file:", error);
-    }
-  }
-  useEffect(() => {
-    getRemarks();
-  }, [forms]);
 
   //remarks
   async function submitRemarks(data) {
@@ -432,7 +416,7 @@ function RECViewSubmission({ params }) {
 
   const handleInitialSubmission = (event) => {
     const value = event.target.value;
-  
+
     // Handle the case when "Completed" is selected
     if (value === "Completed") {
       setShowCompleteModal(true); // Show the modal for confirmation
@@ -449,7 +433,7 @@ function RECViewSubmission({ params }) {
       console.log("Initial Submission:", value);
     }
   };
-  
+
   const handleCommentChange = (e) => {
     setRecRemarksComment(e.target.value);  // Update the comment state
   };
@@ -461,50 +445,50 @@ function RECViewSubmission({ params }) {
         content: recRemarksFiles,  // Assuming `recRemarksFiles` is the array of uploaded files
         comment: recRemarksComment,  // Assuming `recRemarksComment` is the comment from state
       };
-  
+
       // Update status if it's different from the initial status
       if (status !== initialStatus) {
         await updateStatusData(status);
       }
-  
+
       // Update selected reviewer if it's different from the initial reviewer
       if (selectedReviewer !== initialReviewer) {
         await updateReviewerData();
       }
-  
+
       // Only submit remarks if conditions allow (skip if Initial-Submission is active)
       if ((remarks.content.length > 0 || remarks.comment) && initialSubmission !== "Initial-Submission") {
         await submitRemarks(remarks);
       }
-  
+
       if (status === "Initial-Result") {
         await submitRemarks(remarks);
       }
-  
+
       if (status === "Final-Decision") {
         await submitRemarks(remarks);
       }
-  
+
       // Handle classification updates when status is "For-Classification"
       if (formClassification && status === "For-Classification") {
         await updateClassificationData(formClassification);
       }
-  
+
       // Handle status update when status is "Pending-Payment"
       else if (status === "Pending-Payment") {
         await updateStatusData(status);
       }
-  
+
       // Submit final decision if it's provided
       if (finalDecision) {
         await submitFinalDecision(finalDecision);
       }
-  
+
       // Update initial submission data if needed
       if (initialSubmission == "Completed" || initialSubmission == "Incomplete") {
         await updateInitialSubmissionData(initialSubmission);
       }
-  
+
       if (formClassification === "Exempt") {
         await updateStatusData("Final-Decision");
       }
@@ -513,8 +497,8 @@ function RECViewSubmission({ params }) {
       console.error("Error occurred during update process:", error);
     }
   };
-  
-  
+
+
 
 
   const [selectedFileUrl, setSelectedFileUrl] = useState(""); // State to store the selected file URL
@@ -585,6 +569,8 @@ function RECViewSubmission({ params }) {
     );
   };
 
+  const [remarksList, setRemarksList] = useState([]); // State to hold all remarks
+
   useEffect(() => {
     const fetchRemarks = async () => {
       console.log("Form ID in useEffect:", forms._id);  // Debugging
@@ -600,18 +586,13 @@ function RECViewSubmission({ params }) {
         });
         console.log("Fetched remarks data:", response.data);
 
-        // Assuming the response data is an array and contains an object with remarks, comment, etc.
-        const remarksData = response.data[0];  // Get the first remarks object (if available)
+        // Assuming the response data is an array of remarks
+        const remarksData = response.data;
 
-        if (remarksData) {
-          // Destructure the data you need from the remarksData object
-          const { status, remarksDate, remarksComment, remarks } = remarksData;
-
-          // Set the fetched data into state
-          setRecRemarksFiles(remarks || []);  // Store files (remarks)
-          setRecRemarksComment(remarksComment || '');  // Store the comment
-          setRemarksStatus(status || '');  // Store the status (if needed)
-          setRemarksDate(remarksDate || ''); // Store the date (if needed)
+        if (remarksData && remarksData.length > 0) {
+          setRemarksList(remarksData); // Set all remarks in the state
+        } else {
+          console.log("No remarks found for this form.");
         }
       } catch (error) {
         console.error("Error fetching remarks:", error);
@@ -619,8 +600,7 @@ function RECViewSubmission({ params }) {
     };
 
     fetchRemarks();
-  }, [forms]);  // Only run when forms._id changes
-
+  }, [forms]);
 
 
   return (
@@ -719,9 +699,9 @@ function RECViewSubmission({ params }) {
               <span>Submission Status:</span>
               <p>{forms?.status || "No classification available"}</p>
 
-              <Link href={`/REC/SubmissionSummary/${forms._id}`} style={{ color:"blue" }}> More Details here </Link>
-              <br/>
-              <br/>
+              <Link href={`/REC/SubmissionSummary/${forms._id}`} style={{ color: "blue" }}> More Details here </Link>
+              <br />
+              <br />
 
               <span>Status:</span>
               <select
@@ -958,6 +938,7 @@ function RECViewSubmission({ params }) {
 
                 </div>
 
+                {/* TAG */}
                 <div className="remarks-table-wrapper">
                   <table className="remarks-table">
                     <thead>
@@ -965,38 +946,45 @@ function RECViewSubmission({ params }) {
                         <th>Date</th>
                         <th>Status</th>
                         <th>Comments</th>
-                        <th>Remarks File</th>
+                        <th>Files</th>
                       </tr>
-                    </thead>
+                      </thead>
                     <tbody>
-                      <tr>
-                        <td>{new Date(remarksDate).toLocaleDateString("en-US")}</td>
-                        <td>{remarksStatus}</td>
-                        <td>{recRemarksComment}</td>
-                        <td>
-                          <div>
-                            {recRemarksFiles && recRemarksFiles.length > 0 ? (
-                              recRemarksFiles.map((file, fileIndex) => (
-                                <a
-                                  key={fileIndex}
-                                  href={file.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  {file.filename}
-                                </a>
-                              ))
-                            ) : (
-                              <p>No files available</p>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
+                      {remarksList.length > 0 ? (
+                        remarksList.map((remark, index) => (
+                          <tr key={index}>
+                            <td>{new Date(remark.remarksDate).toLocaleDateString("en-US")}</td>
+                            <td>{remark.status}</td>
+                            <td>{remark.remarksComment}</td>
+                            <td>
+                              <div>
+                                {remark.remarks && remark.remarks.length > 0 ? (
+                                  remark.remarks.map((file, fileIndex) => (
+                                    <>
+                                    <a
+                                      key={fileIndex}
+                                      href={file.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      {file.filename}
+                                    </a>
+                                    <br/>
+                                    </>
+                                  ))
+                                ) : (
+                                  <p>No files available</p>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="4">No remarks available</td>
+                        </tr>
+                      )}
                     </tbody>
-
-
-
-
                   </table>
                 </div>
               </div>

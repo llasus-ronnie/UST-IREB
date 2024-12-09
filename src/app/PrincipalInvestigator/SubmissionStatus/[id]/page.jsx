@@ -27,10 +27,6 @@ function SubmissionStatus({ params }) {
   const [editModalShow, setEditModalShow] = useState(false);
   const [resubmissionModalShow, setResubmissionModalShow] = useState(false);
   const [status, setStatus] = useState(null);
-  const [recRemarksFiles, setRecRemarksFiles] = useState([]);  // To store uploaded files
-  const [recRemarksComment, setRecRemarksComment] = useState("");  // To store comment text
-  const [remarksStatus, setRemarksStatus] = useState("");  // To store remark status
-  const [remarksDate, setRemarksDate] = useState("");  // To store the remark date
   const [resubmission, setResubmission] = useState("");
 
   const handleShowModal = () => setModalShow(true);
@@ -160,34 +156,26 @@ function SubmissionStatus({ params }) {
     fetchPaymentFile();
   }, [form]);
 
-  //GET remarks
+  const [remarksList, setRemarksList] = useState([]); // State to hold all remarks
   useEffect(() => {
     const fetchRemarks = async () => {
-      console.log("Form ID in useEffect:", form._id);  // Debugging
-
       if (!form._id) {
         console.error("Form ID is missing!");
-        return;  // Don't proceed if form ID is missing
+        return;
       }
-
       try {
         const response = await axios.get('/api/remarks', {
           params: { subFormId: form._id },  // Send the form ID as a query parameter
         });
         console.log("Fetched remarks data:", response.data);
 
-        // Assuming the response data is an array and contains an object with remarks, comment, etc.
-        const remarksData = response.data[0];  // Get the first remarks object (if available)
+        // Assuming the response data is an array of remarks
+        const remarksData = response.data;
 
-        if (remarksData) {
-          // Destructure the data you need from the remarksData object
-          const { status, remarksDate, remarksComment, remarks } = remarksData;
-
-          // Set the fetched data into state
-          setRecRemarksFiles(remarks || []);  // Store files (remarks)
-          setRecRemarksComment(remarksComment || '');  // Store the comment
-          setRemarksStatus(status || '');  // Store the status (if needed)
-          setRemarksDate(remarksDate || ''); // Store the date (if needed)
+        if (remarksData && remarksData.length > 0) {
+          setRemarksList(remarksData); // Set all remarks in the state
+        } else {
+          console.log("No remarks found for this form.");
         }
       } catch (error) {
         console.error("Error fetching remarks:", error);
@@ -195,7 +183,7 @@ function SubmissionStatus({ params }) {
     };
 
     fetchRemarks();
-  }, [form]);  // Only run when forms._id changes
+  }, [form]);
 
   //GET Resubmission Remarks
   useEffect(() => {
@@ -310,43 +298,51 @@ function SubmissionStatus({ params }) {
                 <h1>Remarks</h1>
                 <div className="submissionstatus-remarks-table">
                   {/* <iframe src={remarksUrl} className="submissionstatus-iframe" /> */}
-                  <table>
+                  <table className="remarks-table">
                     <thead>
                       <tr>
                         <th>Date</th>
                         <th>Status</th>
-                        <th>Remarks File</th>
-                        <th> Comments </th>
+                        <th>Comments</th>
+                        <th>Files</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          {remarksDate ? new Date(remarksDate).toLocaleDateString("en-US") : "No date available"}
-                        </td>                        
-                        <td>{remarksStatus ? remarksStatus : "No status available"}</td>
-                        <td>
-                          <div>
-                            {recRemarksFiles && recRemarksFiles.length > 0 ? (
-                              recRemarksFiles.map((file, fileIndex) => (
-                                <a
-                                  key={fileIndex}
-                                  href={file.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  {file.filename}
-                                </a>
-                              ))
-                            ) : (
-                              <p>No files available</p>
-                            )}
-                          </div>
-                        </td>
-                        <td>{recRemarksComment ? recRemarksComment : "No comments available"}</td>
-                      </tr>
+                      {remarksList.length > 0 ? (
+                        remarksList.map((remark, index) => (
+                          <tr key={index}>
+                            <td>{new Date(remark.remarksDate).toLocaleDateString("en-US")}</td>
+                            <td>{remark.status}</td>
+                            <td>{remark.remarksComment}</td>
+                            <td>
+                              <div>
+                                {remark.remarks && remark.remarks.length > 0 ? (
+                                  remark.remarks.map((file, fileIndex) => (
+                                    <>
+                                      <a
+                                        key={fileIndex}
+                                        href={file.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {file.filename}
+                                      </a>
+                                      <br />
+                                    </>
+                                  ))
+                                ) : (
+                                  <p>No files available</p>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="4">No remarks available</td>
+                        </tr>
+                      )}
                     </tbody>
-
                   </table>
                 </div>
               </div>
