@@ -11,6 +11,7 @@ import EditFAQModal from "../../components/modals/EditFAQModal";
 import ArchiveConfirmationModal from "../../components/modals/ArchiveConfirmationModal";
 import "../../styles/rec/RECManageContent.css";
 import { Spinner } from "react-bootstrap";
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 
 import withAuthorization from "../../../hoc/withAuthorization";
 
@@ -242,9 +243,12 @@ function IREBManageContent(props) {
                 </tbody>
               </table>
             </div>
-            <button className="archive-toggle" onClick={handleShowArchived}>
-              {isArchivedShown ? "Hide Archived" : "Show Archived"}
-            </button>
+            <div className="archive-toggle-container">
+              <button className="archive-toggle" onClick={handleShowArchived}>
+                {isArchivedShown ? "Hide Archived" : "Show Archived"}
+                {isArchivedShown ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
         </div>
       </div>

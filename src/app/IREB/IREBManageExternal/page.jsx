@@ -13,6 +13,7 @@ import "../../styles/ireb/IrebManageAccounts.css";
 import withAuthorization from "../../../hoc/withAuthorization";
 import { Spinner } from "react-bootstrap";
 import { set } from "mongoose";
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 
 function IrebManageExternal() {
   const [modalShowAddAcc, setModalShowAddAcc] = useState(false);
@@ -264,9 +265,12 @@ function IrebManageExternal() {
                 </tbody>
               </table>
             </div>
-            <button className="archive-toggle" onClick={handleShowArchived}>
-              {isArchivedShown ? "Hide Archived" : "Show Archived"}
-            </button>
+            <div className="archive-toggle-container">
+              <button className="archive-toggle" onClick={handleShowArchived}>
+                {isArchivedShown ? "Hide Archived" : "Show Archived"}
+                {isArchivedShown ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
         </div>
       </div>
