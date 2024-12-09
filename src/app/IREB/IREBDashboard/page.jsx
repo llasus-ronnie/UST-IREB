@@ -287,7 +287,7 @@ function IrebDashboard() {
               {/* Submission Cards */}
               <div className="admindashboard-cards">
                 <div className="admindashboard-card">
-                  <h2>New Submissions</h2>
+                  <h2>Total Submissions</h2>
                   <h3>{newlyAssignedCount}</h3>
                   <p>Submissions</p>
                 </div>
@@ -302,8 +302,8 @@ function IrebDashboard() {
                   <p>Researches</p>
                 </div>
                 <div className="admindashboard-card">
-                  <h2>Total Assigned</h2>
-                  <h3>{totalAssignedCount}</h3>
+                  <h2>Total Approved</h2>
+                  <h3>{approvedCountsArray}</h3>
                   <p>Tasks</p>
                 </div>
               </div>
