@@ -193,8 +193,8 @@ function RECViewSubmission({ params }) {
       getRemarks();  // Assuming you have this function to refresh remarks data
 
     } catch (error) {
-      console.error("Error submitting remarks:", error.response?.data || error.message);
-      toast.error("Failed to submit remarks. Please try again.");
+      // console.error("Error submitting remarks:", error.response?.data || error.message);
+      // toast.error("Failed to submit remarks. Please try again.");
     }
   }
 
@@ -948,7 +948,7 @@ function RECViewSubmission({ params }) {
                         <th>Comments</th>
                         <th>Files</th>
                       </tr>
-                      </thead>
+                    </thead>
                     <tbody>
                       {remarksList.length > 0 ? (
                         remarksList.map((remark, index) => (
@@ -961,15 +961,15 @@ function RECViewSubmission({ params }) {
                                 {remark.remarks && remark.remarks.length > 0 ? (
                                   remark.remarks.map((file, fileIndex) => (
                                     <>
-                                    <a
-                                      key={fileIndex}
-                                      href={file.url}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                    >
-                                      {file.filename}
-                                    </a>
-                                    <br/>
+                                      <a
+                                        key={fileIndex}
+                                        href={file.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {file.filename}
+                                      </a>
+                                      <br />
                                     </>
                                   ))
                                 ) : (
@@ -1053,24 +1053,36 @@ function RECViewSubmission({ params }) {
                           <td>{index + 1}</td>
                           <td>{remark.resubmissionRemarksMember}</td>
                           <td>
-                            <a
-                              href={remark.resubmissionRemarksFile}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              View Remarks
-                            </a>
+                            {/* Iterate over the remark's resubmissionRemarksFile if it's an array */}
+                            {Array.isArray(remark.resubmissionRemarksFile) ? (
+                              remark.resubmissionRemarksFile.map((file, fileIndex) => {
+                                const fileName = file.filename;
+                                return (
+                                  <>
+                                  <a
+                                    key={fileIndex}
+                                    href={file}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {fileName}
+                                  </a>
+                                  <br/>
+                                  </>
+                                );
+                              })
+                            ) : (
+                              "No file"
+                            )}
+
                           </td>
+                          <td>{remark.resubmissionRemarksComments}</td>
                           <td>
-                            {remark.resubmissionRemarksComments}
-                          </td>
-                          <td>
-                            {new Date(
-                              remark.resubmissionRemarksDate
-                            ).toLocaleString()}
+                            {new Date(remark.resubmissionRemarksDate).toLocaleString()}
                           </td>
                         </tr>
                       ))}
+
                     </tbody>
                   </table>
                 </div>
