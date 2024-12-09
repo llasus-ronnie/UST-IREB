@@ -99,7 +99,7 @@ function PRViewSubmission({ params }) {
     fetchResubmissionRemarks();
   }, [forms]);
 
-  async function submitResubmissionRemarks(data) {
+  async function submitResubmissionRemarks(data, props) {
     try {
       const files = resubmissionFiles.map((file) => ({
         url: file.url,
