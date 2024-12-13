@@ -125,6 +125,7 @@ function SubmissionFormsP2() {
                     type="text"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.fullName}
+                    placeholder="ex. Juan Dela Cruz"
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.fullName?.message}
@@ -147,6 +148,7 @@ function SubmissionFormsP2() {
                     type="email"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.email}
+                    placeholder="ex. juandelacruz@email.com"
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.email?.message}
@@ -169,6 +171,7 @@ function SubmissionFormsP2() {
                   type="number"
                   className="form-control PIforms-formtext2"
                   isInvalid={!!errors.phone}
+                  placeholder="ex. 09123456789"
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.phone?.message}
@@ -186,6 +189,7 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control PIforms-formtext2"
                   isInvalid={!!errors.institutionAffiliation}
+                  placeholder="ex. University of Santo Tomas"
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.institutionAffiliation?.message}
@@ -207,6 +211,7 @@ function SubmissionFormsP2() {
                   {...register("additionalFullName")}
                   type="text"
                   className="form-control PIforms-formtext2"
+                  placeholder="ex. Juana Dela Cruz"
                 />
               </Col>
 
@@ -216,6 +221,7 @@ function SubmissionFormsP2() {
                   {...register("additionalEmail")}
                   type="email"
                   className="form-control PIforms-formtext2"
+                  placeholder="ex. juanadelecruz@email.com"
                 />
               </Col>
 
@@ -227,6 +233,7 @@ function SubmissionFormsP2() {
                   {...register("additionalPhone")}
                   type="number"
                   className="form-control PIforms-formtext2"
+                  placeholder="ex. 09123456789"
                 />
               </Col>
 
@@ -238,6 +245,7 @@ function SubmissionFormsP2() {
                   {...register("additionalInstitutionAffiliation")}
                   type="text"
                   className="form-control PIforms-formtext2"
+                  placeholder="ex. University of Santo Tomas"
                 />
               </Col>
             </Row>
@@ -286,6 +294,7 @@ function SubmissionFormsP2() {
                     type="text"
                     className="form-control PIforms-formtext3"
                     isInvalid={!!errors.title}
+                    placeholder="Title of the research proposal"
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.title?.message}
@@ -305,6 +314,7 @@ function SubmissionFormsP2() {
                     as="textarea"
                     className="form-control PIforms-formtext3"
                     isInvalid={!!errors.background}
+                    placeholder="Background of the research proposal"
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.background?.message}
@@ -324,6 +334,7 @@ function SubmissionFormsP2() {
                     as="textarea"
                     className="form-control PIforms-formtext3"
                     isInvalid={!!errors.objectives}
+                    placeholder="Objectives of the research proposal"
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.objectives?.message}
@@ -344,6 +355,7 @@ function SubmissionFormsP2() {
                     as="textarea"
                     className="form-control PIforms-formtext3"
                     isInvalid={!!errors.expectedOutcomes}
+                    placeholder="Expected outcomes and use of result of the research proposal"
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.expectedOutcomes?.message}
@@ -361,6 +373,7 @@ function SubmissionFormsP2() {
                     type="text"
                     className="form-control PIforms-formtext3"
                     isInvalid={!!errors.keywords}
+                    placeholder="Keywords of the research proposal"
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.keywords?.message}
@@ -416,6 +429,7 @@ function SubmissionFormsP2() {
                       required: "Please provide a start date.",
                     })}
                     type="date"
+                    placeholder="2024-01-01"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.startDate}
                   />
@@ -433,6 +447,7 @@ function SubmissionFormsP2() {
                       required: "Please provide an end date.",
                     })}
                     type="date"
+                    placeholder="2024-12-31"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.endDate}
                   />
@@ -452,6 +467,7 @@ function SubmissionFormsP2() {
                       required: "Please provide a primary sponsor.",
                     })}
                     type="text"
+                    placeholder="ex. University of XYZ"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.primarySponsor}
                   />
@@ -471,6 +487,7 @@ function SubmissionFormsP2() {
                       required: "Please provide a secondary sponsor.",
                     })}
                     type="text"
+                    placeholder="ex. Organization ABC"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.secondarySponsor}
                   />
@@ -491,6 +508,7 @@ function SubmissionFormsP2() {
                         "Please specify if it involves multi-country research.",
                     })}
                     type="text"
+                    placeholder="Yes or No"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.multiCountryResearch}
                   />
@@ -511,6 +529,7 @@ function SubmissionFormsP2() {
                         "Please specify if it involves multi-site research.",
                     })}
                     type="text"
+                    placeholder="Yes or No"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.multiSiteResearch}
                   />
@@ -528,6 +547,7 @@ function SubmissionFormsP2() {
                       required: "Please provide a region.",
                     })}
                     type="text"
+                    placeholder="ex. Asia-Pacific"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.region}
                   />
@@ -547,6 +567,7 @@ function SubmissionFormsP2() {
                       required: "Please provide a research field.",
                     })}
                     type="text"
+                    placeholder="ex. Health Sciences"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.researchField}
                   />
@@ -566,6 +587,7 @@ function SubmissionFormsP2() {
                       required: "Please specify if it involves human subjects.",
                     })}
                     type="text"
+                    placeholder="Yes or No"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.involvesHumanSubjects}
                   />
@@ -585,6 +607,7 @@ function SubmissionFormsP2() {
                       required: "Please provide a proposal type.",
                     })}
                     type="text"
+                    placeholder="ex. Clinical Trial"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.proposalType}
                   />
@@ -604,6 +627,7 @@ function SubmissionFormsP2() {
                       required: "Please specify the data collection method.",
                     })}
                     type="text"
+                    placeholder="ex. Surveys, Interviews"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.dataCollection}
                   />
@@ -646,6 +670,7 @@ function SubmissionFormsP2() {
                       required: "Please provide a monetary source.",
                     })}
                     type="text"
+                    placeholder="ex. Government Grant"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.monetarySource1}
                   />
@@ -665,6 +690,7 @@ function SubmissionFormsP2() {
                       required: "Please provide the amount in Philippine Peso.",
                     })}
                     type="number"
+                    placeholder="ex. 1000000"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.amountInPHP}
                   />
@@ -684,6 +710,7 @@ function SubmissionFormsP2() {
                       required: "Please provide another source of funding.",
                     })}
                     type="text"
+                    placeholder="ex. Private Organization"
                     className="form-control PIforms-formtext2"
                     isInvalid={!!errors.otherSource}
                   />
@@ -722,6 +749,7 @@ function SubmissionFormsP2() {
                   type="text"
                   className="form-control PIforms-formtext2"
                   isInvalid={!!errors.monetarySource2}
+                  placeholder="ex.  Private Organization"
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.monetarySource2?.message}
@@ -739,6 +767,7 @@ function SubmissionFormsP2() {
                   type="number"
                   className="form-control PIforms-formtext2"
                   isInvalid={!!errors.amountInPHP}
+                  placeholder="ex.  1000000"
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.amountInPHP?.message}
