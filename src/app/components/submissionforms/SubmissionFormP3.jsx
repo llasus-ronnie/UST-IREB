@@ -266,7 +266,11 @@ function SubmissionFormP3() {
                   </button>
                 )}
               </CldUploadWidget>
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback
+                className="PIforms-formtext"
+                style={{ color: "#dc3545" }}
+                type="invalid"
+              >
                 {errors.mainFile?.message}
               </Form.Control.Feedback>
             </Row>
@@ -278,7 +282,10 @@ function SubmissionFormP3() {
                   <strong className="PIforms-formtext">Main Files:</strong>
                   <ul>
                     {mainFileNames.map((fileName, index) => (
-                      <li className="PIforms-formtext" key={index}>
+                      <li
+                        className="PIforms-formtext d-flex justify-content-between"
+                        key={index}
+                      >
                         {fileName}
                         <Button
                           variant="outline-danger"
@@ -352,7 +359,11 @@ function SubmissionFormP3() {
                   </button>
                 )}
               </CldUploadWidget>
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback
+                className="PIforms-formtext"
+                style={{ color: "#dc3545" }}
+                type="invalid"
+              >
                 {errors.supplementaryFile?.message}
               </Form.Control.Feedback>
             </Row>
@@ -365,7 +376,10 @@ function SubmissionFormP3() {
                   </strong>
                   <ul>
                     {supplementaryFileNames.map((fileName, index) => (
-                      <li className="PIforms-formtext" key={index}>
+                      <li
+                        className="PIforms-formtext d-flex justify-content-between"
+                        key={index}
+                      >
                         {fileName}
                         <Button
                           variant="outline-danger"

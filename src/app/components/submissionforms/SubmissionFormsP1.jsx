@@ -135,8 +135,15 @@ function SubmissionFormsP1() {
               <FormLabel className="PIforms-formtext">
                 Research Ethics Committee
               </FormLabel>
+              {errors.researchEthicsCommittee && (
+                <p className="PIforms-formtext" style={{ color: "#dc3545" }}>
+                  {errors.researchEthicsCommittee.message}
+                </p>
+              )}
               <FormSelect
-                {...register("researchEthicsCommittee")}
+                {...register("researchEthicsCommittee", {
+                  required: "Please select a research ethics committee.",
+                })}
                 className="form-control PIforms-select"
                 required
               >
