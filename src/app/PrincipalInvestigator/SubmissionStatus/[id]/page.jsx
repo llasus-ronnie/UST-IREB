@@ -11,6 +11,7 @@ import { PropagateLoader } from "react-spinners";
 import UploadPaymentProofModal from "../../../components/modals/UploadPaymentProofModal.jsx";
 import EditPaymentModal from "../../../components/modals/EditPaymentProofModal.jsx";
 import ResubmissionModal from "../../../components/modals/ResubmissionModal.jsx";
+import AppealModal from "../../../components/modals/AppealModal.jsx";
 
 import withAuthorization from "../../../../hoc/withAuthorization";
 import { useSession, getSession } from "next-auth/react";
@@ -26,12 +27,14 @@ function SubmissionStatus({ params }) {
   const [modalShow, setModalShow] = useState(false);
   const [editModalShow, setEditModalShow] = useState(false);
   const [resubmissionModalShow, setResubmissionModalShow] = useState(false);
+  const [appealModalShow, setAppealModalShow] = useState(false); 
   const [status, setStatus] = useState(null);
   const [resubmission, setResubmission] = useState("");
 
   const handleShowModal = () => setModalShow(true);
   const handleEditModal = () => setEditModalShow(true);
   const handleCloseEditModal = () => setEditModalShow(false);
+  const handleCloseAppealModal = () => setAppealModalShow(false);
   const handleCloseModal = () => setModalShow(false);
   const handleShowSubmissionModal = () => setResubmissionModalShow(true);
   const handleCloseSubmissionModal = () => setResubmissionModalShow(false);
@@ -88,7 +91,7 @@ function SubmissionStatus({ params }) {
       title: "For Classification",
       description:
         "Once proof of payment is received, your submission will move to research classification.",
-      remarks: `${"Your form is: ", form?.classification}`
+      remarks: `${form?.classification ? `Your form is: ${form.classification}` : "Loading..."}`
     },
     {
       id: "In-Progress",
@@ -113,6 +116,7 @@ function SubmissionStatus({ params }) {
       title: "Final Decision",
       description:
         "Once all revisions are complete, your submission will be forwarded to the REC Chair for the final review. You will be notified of the final decision shortly thereafter in the remarks section. Thank you!",
+      remarks: `${"Your form is: ", form?.finalDecision}`
     },
   ];
 
@@ -236,8 +240,6 @@ function SubmissionStatus({ params }) {
 
     fetchResubmission();
   }, [form]);
-
-
 
 
   return (
@@ -410,6 +412,13 @@ function SubmissionStatus({ params }) {
                     Resubmission
                   </button>
                 ) : null}
+
+                {form?.finalDecision === "Deferred" ? (
+                    <button 
+                    className="submissionstatus-edit-sub"
+                    onClick={() => setAppealModalShow(true)}
+                    >Appeal</button>
+                ) : null}
               </div>
 
               {/* this will only appear when investigator reach the specific status for payment*/}
@@ -476,6 +485,12 @@ function SubmissionStatus({ params }) {
           <EditPaymentModal
             show={editModalShow}
             onHide={handleCloseEditModal}
+            submissionparams={unwrappedParams}
+          />
+
+          <AppealModal 
+            show={appealModalShow}
+            onHide={handleCloseAppealModal}
             submissionparams={unwrappedParams}
           />
         </>
