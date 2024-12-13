@@ -302,8 +302,8 @@ function IrebDashboard() {
                   <p>Researches</p>
                 </div>
                 <div className="admindashboard-card">
-                  <h2>Total Approved</h2>
-                  <h3>{approvedCountsArray}</h3>
+                  <h2>Total Assigned</h2>
+                  <h3>{totalAssignedCount}</h3>
                   <p>Tasks</p>
                 </div>
               </div>
