@@ -21,7 +21,6 @@ export default function UploadPaymentProofModal({
   const [form, setForm] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
 
-
   // POST payment
   async function submitPayment(data) {
     try {
@@ -77,8 +76,8 @@ export default function UploadPaymentProofModal({
             Upload Proof of Payment
           </Modal.Title>
           <p className="uploadproof-instructions">
-            Kindly upload receipt or proof of transaction in JPEG, PNG, or PDF format.
-            File should not exceed 10MB.
+            Kindly upload receipt or proof of transaction in JPEG, PNG, or PDF
+            format. File should not exceed 10MB.
           </p>
         </Modal.Header>
         <Modal.Body className="uploadproof-modal-body">
@@ -87,14 +86,26 @@ export default function UploadPaymentProofModal({
               signatureEndpoint="/api/sign-cloudinary-params"
               onSuccess={(res) => {
                 const fileType = res.info.format;
+                const fileSize = res.info.bytes;
                 const validFileTypes = ["jpg", "jpeg", "png", "pdf"];
+                const maxFileSize = 10 * 1024 * 1024; // 10MB in bytes
+
+                if (fileSize > maxFileSize) {
+                  toast.error(
+                    "File size exceeds 10MB. Please upload a smaller file."
+                  );
+                  return;
+                }
+
                 if (validFileTypes.includes(fileType)) {
                   const secureUrl = res.info.secure_url;
                   setUploadedFile({ url: secureUrl, type: fileType });
                   setValue("paymentFile", secureUrl);
                   toast.success("File uploaded successfully!");
                 } else {
-                  toast.error("Invalid file type. Please upload a JPEG, PNG, or PDF.");
+                  toast.error(
+                    "Invalid file type. Please upload a JPEG, PNG, or PDF."
+                  );
                 }
               }}
             >

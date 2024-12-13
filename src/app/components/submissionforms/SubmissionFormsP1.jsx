@@ -18,6 +18,9 @@ import {
 } from "../../../redux/slices/submissionFormSlice";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SubmissionFormsP1() {
   const [validated, setValidated] = useState(false);
@@ -65,6 +68,10 @@ function SubmissionFormsP1() {
   }, [session, setValue]);
 
   async function processForm(data) {
+    if (data.dataPrivacy !== "agree") {
+      toast.error("You must agree to the Data Privacy terms to proceed.");
+      return;
+    }
     const sanitizedData = {
       ...data,
       researchEthicsCommittee: data.researchEthicsCommittee.replace(/\s+/g, ""),
@@ -224,46 +231,48 @@ function SubmissionFormsP1() {
           <hr></hr>
           <h1 className="PIforms-header">Data Privacy</h1>
           <p className="PIforms-dataprivacy-text">
-          We value your privacy and are committed to safeguarding the personal and research information you provide through this portal. 
-          In compliance with the Data Privacy Act of 2012, all data submitted will be collected, processed, and stored securely for the 
-          purposes of managing research submissions, evaluations, and related activities. <br></br>
+            We value your privacy and are committed to safeguarding the personal
+            and research information you provide through this portal. In
+            compliance with the Data Privacy Act of 2012, all data submitted
+            will be collected, processed, and stored securely for the purposes
+            of managing research submissions, evaluations, and related
+            activities. <br></br>
           </p>
 
-{/* Radio Buttons */}
-<Container className="PIforms-checkcont">
-  <Row className="justify-content-center">
-    <Col md="8">
-      <Form.Group controlId="dataPrivacy">
-        <div>
-          <FormCheck
-            {...register("dataPrivacy", {
-              required: "You must select an option.",
-            })}
-            type="radio"
-            value="agree"
-            className="PIforms-formcheck"
-            label="I agree to the collection, processing, and storage of my data as stated in the Data Privacy Act of 2012."
-            isInvalid={!!errors.dataPrivacy}
-          />
-          <FormCheck
-            {...register("dataPrivacy", {
-              required: "You must select an option.",
-            })}
-            type="radio"
-            value="disagree"
-            className="PIforms-formcheck"
-            label="I do not agree to the collection, processing, and storage of my data as stated in the Data Privacy Act of 2012."
-            isInvalid={!!errors.dataPrivacy}
-          />
-        </div>
-        <Form.Control.Feedback type="invalid">
-          {errors.dataPrivacy?.message}
-        </Form.Control.Feedback>
-      </Form.Group>
-    </Col>
-  </Row>
-</Container>
-
+          {/* Radio Buttons */}
+          <Container className="PIforms-checkcont">
+            <Row className="justify-content-center">
+              <Col md="8">
+                <Form.Group controlId="dataPrivacy">
+                  <div>
+                    <FormCheck
+                      {...register("dataPrivacy", {
+                        required: "You must select an option.",
+                      })}
+                      type="radio"
+                      value="agree"
+                      className="PIforms-formcheck"
+                      label="I agree to the collection, processing, and storage of my data as stated in the Data Privacy Act of 2012."
+                      isInvalid={!!errors.dataPrivacy}
+                    />
+                    <FormCheck
+                      {...register("dataPrivacy", {
+                        required: "You must select an option.",
+                      })}
+                      type="radio"
+                      value="disagree"
+                      className="PIforms-formcheck"
+                      label="I do not agree to the collection, processing, and storage of my data as stated in the Data Privacy Act of 2012."
+                      isInvalid={!!errors.dataPrivacy}
+                    />
+                  </div>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.dataPrivacy?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+          </Container>
 
           {/* buttons */}
           <Row
@@ -287,6 +296,7 @@ function SubmissionFormsP1() {
           </Row>
         </Form>
       </Container>
+      <ToastContainer position="bottom-right" />
     </div>
   );
 }

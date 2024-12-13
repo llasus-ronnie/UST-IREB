@@ -387,7 +387,7 @@ function SubmissionFormsP2() {
           <h1 className="PIforms-headtext">
             3. Proposal Details <br />{" "}
             <i style={{ fontSize: "15px", color: "grey" }}>
-              Put N/A if not applicable.
+              All fields are required. Put N/A if not applicable.
             </i>
           </h1>
 
