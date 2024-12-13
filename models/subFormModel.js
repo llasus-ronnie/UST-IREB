@@ -358,6 +358,16 @@ const subFormSchema = new Schema({
     default:
       "Your assigned REC is checking for the completion of your requirements. Kindly wait for their feedback.",
   },
+  appeal:{
+    type: Boolean,
+    require: true,
+    default: false,
+  },
+  appealStatus: {
+    type: String,
+    enum: ['accepted', 'declined'],
+    default: "No appeal Yet",
+  },
 });
 
 const subForm =
