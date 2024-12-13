@@ -630,6 +630,43 @@ function IrebReports() {
     },
   };
 
+  const [selectedFilters, setSelectedFilters] = useState({
+    Exempt: true,
+    Expedited: true,
+    FullBoard: true,
+  });
+
+  // Update dataset based on filters
+  const filteredData = {
+    labels: recStatusDataExempt.labels, // Assuming labels are consistent across datasets
+    datasets: [
+      selectedFilters.Exempt && {
+        label: "Exempt",
+        data: recStatusDataExempt.datasets[0].data,
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+      },
+      selectedFilters.Expedited && {
+        label: "Expedited",
+        data: recStatusDataExpedited.datasets[0].data,
+        backgroundColor: "rgba(153, 102, 255, 0.6)",
+      },
+      selectedFilters.FullBoard && {
+        label: "Full Board",
+        data: recStatusDataFullBoard.datasets[0].data,
+        backgroundColor: "rgba(255, 159, 64, 0.6)",
+      },
+    ].filter(Boolean),
+  };
+
+  // Handle checkbox changes
+  const handleFilterChange = (event) => {
+    const { name, checked } = event.target;
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: checked,
+    }));
+  };
+
   //download
   const downloadReport = async () => {
     const doc = new jsPDF("portrait", "pt", "a4");
@@ -644,15 +681,20 @@ function IrebReports() {
     const recStatusChartElement = document.querySelector(
       ".ireb-rec-status-chart canvas"
     );
-    const recStatusChartElementExempt = document.querySelector(
-      ".ireb-rec-status-exempt-chart canvas"
+
+    const recStatusChartCombined = document.querySelector(
+      ".ireb-rec-status-combined-chart canvas"
     );
-    const recStatusChartElementExpedited = document.querySelector(
-      ".ireb-rec-status-expedited-chart canvas"
-    );
-    const recStatusChartElementFullBoard = document.querySelector(
-      ".ireb-rec-status-fullboard-chart canvas"
-    );
+
+    // const recStatusChartElementExempt = document.querySelector(
+    //   ".ireb-rec-status-exempt-chart canvas"
+    // );
+    // const recStatusChartElementExpedited = document.querySelector(
+    //   ".ireb-rec-status-expedited-chart canvas"
+    // );
+    // const recStatusChartElementFullBoard = document.querySelector(
+    //   ".ireb-rec-status-fullboard-chart canvas"
+    // );
 
     if (barChartElement && doughnutChartElement && recStatusChartElement) {
       const barChartImage = await html2canvas(barChartElement).then((canvas) =>
@@ -664,15 +706,19 @@ function IrebReports() {
       const recStatusChartImage = await html2canvas(recStatusChartElement).then(
         (canvas) => canvas.toDataURL("image/png")
       );
-      const recStatusChartImageExempt = await html2canvas(
-        recStatusChartElementExempt
+
+      const recStatusChartCombinedImage = await html2canvas(
+        recStatusChartCombined
       ).then((canvas) => canvas.toDataURL("image/png"));
-      const recStatusChartImageExpedited = await html2canvas(
-        recStatusChartElementExpedited
-      ).then((canvas) => canvas.toDataURL("image/png"));
-      const recStatusChartImageFullBoard = await html2canvas(
-        recStatusChartElementFullBoard
-      ).then((canvas) => canvas.toDataURL("image/png"));
+      // const recStatusChartImageExempt = await html2canvas(
+      //   recStatusChartElementExempt
+      // ).then((canvas) => canvas.toDataURL("image/png"));
+      // const recStatusChartImageExpedited = await html2canvas(
+      //   recStatusChartElementExpedited
+      // ).then((canvas) => canvas.toDataURL("image/png"));
+      // const recStatusChartImageFullBoard = await html2canvas(
+      //   recStatusChartElementFullBoard
+      // ).then((canvas) => canvas.toDataURL("image/png"));
 
       doc.setFontSize(16);
       doc.text("Submission Overview", 40, 100);
@@ -787,18 +833,18 @@ function IrebReports() {
 
       doc.addPage();
 
-      doc.text("REC Review Classification Status: Exempt", 40, 60);
-      doc.addImage(recStatusChartImageExempt, "PNG", 40, 80, 500, 250);
+      doc.text("REC Review Classification Status", 40, 60);
+      doc.addImage(recStatusChartCombined, "PNG", 40, 80, 500, 250);
 
-      doc.text("", 0, 400);
+      // doc.text("", 0, 400);
 
-      doc.text("REC Review Classification Status: Expedited", 40, 420);
-      doc.addImage(recStatusChartImageExpedited, "PNG", 40, 440, 500, 250);
+      // doc.text("REC Review Classification Status: Expedited", 40, 420);
+      // doc.addImage(recStatusChartImageExpedited, "PNG", 40, 440, 500, 250);
 
-      doc.addPage();
+      // doc.addPage();
 
-      doc.text("REC Review Classification Status: Full Board", 40, 60);
-      doc.addImage(recStatusChartImageFullBoard, "PNG", 40, 80, 500, 250);
+      // doc.text("REC Review Classification Status: Full Board", 40, 60);
+      // doc.addImage(recStatusChartImageFullBoard, "PNG", 40, 80, 500, 250);
 
       // Add Table for REC Status
       const tableHeaders = [
@@ -917,32 +963,74 @@ function IrebReports() {
             </div>
             <br />
 
-            {/* exempt */}
+            {/* Filter Checkboxes */}
+            <div className="rec-filter-container d-flex justify-content-around">
+              <h3>Filter by Review Classification</h3>
+              <label>
+                <input
+                  type="checkbox"
+                  name="Exempt"
+                  checked={selectedFilters.Exempt}
+                  onChange={handleFilterChange}
+                />
+                Exempt
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  name="Expedited"
+                  checked={selectedFilters.Expedited}
+                  onChange={handleFilterChange}
+                />
+                Expedited
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  name="FullBoard"
+                  checked={selectedFilters.FullBoard}
+                  onChange={handleFilterChange}
+                />
+                Full Board
+              </label>
+            </div>
+
+            {/* Merged REC Review Classification Chart */}
             <div className="rec-container">
+              <h3>REC Review Classification Status</h3>
+              <div className="ireb-rec-status-combined-chart">
+                <Bar data={filteredData} options={recStatusOptions} />
+              </div>
+            </div>
+
+            <br />
+
+            {/* exempt */}
+            {/* <div className="rec-container">
               <h3>REC Review Classification Status: Exempt</h3>
               <div className="ireb-rec-status-exempt-chart">
                 <Bar data={recStatusDataExempt} options={recStatusOptions} />
               </div>
             </div>
-            <br />
+            <br /> */}
 
             {/* expedited*/}
-            <div className="rec-container">
+            {/* <div className="rec-container">
               <h3>REC Review Classification Status: Expedited</h3>
               <div className="ireb-rec-status-expedited-chart">
                 <Bar data={recStatusDataExpedited} options={recStatusOptions} />
               </div>
             </div>
-            <br />
+            <br /> */}
 
             {/* full board */}
-            <div className="rec-container">
+            {/* <div className="rec-container">
               <h3>REC Review Classification Status: Full Board</h3>
               <div className="ireb-rec-status-fullboard-chart">
                 <Bar data={recStatusDataFullBoard} options={recStatusOptions} />
               </div>
             </div>
-            <br />
+            <br /> */}
           </div>
         </div>
       </div>
