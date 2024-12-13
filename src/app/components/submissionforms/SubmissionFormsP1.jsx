@@ -152,7 +152,7 @@ function SubmissionFormsP1() {
             </Row>
           </Container>
           <hr></hr>
-          <h1 className="PIforms-header">Data Privacy Agreement</h1>
+          <h1 className="PIforms-header">Terms and Conditions</h1>
           <p className="PIforms-text">
             Indicate that this proposal is ready to be considered by the Review
             Committee by checking off the following <br></br> (comments to the
@@ -211,6 +211,52 @@ function SubmissionFormsP1() {
               </Col>
             </Row>
           </Container>
+
+          {/* Data Privacy Part */}
+
+          <hr></hr>
+          <h1 className="PIforms-header">Data Privacy</h1>
+          <p className="PIforms-dataprivacy-text">
+          We value your privacy and are committed to safeguarding the personal and research information you provide through this portal. 
+          In compliance with the Data Privacy Act of 2012, all data submitted will be collected, processed, and stored securely for the 
+          purposes of managing research submissions, evaluations, and related activities. <br></br>
+          </p>
+
+{/* Radio Buttons */}
+<Container className="PIforms-checkcont">
+  <Row className="justify-content-center">
+    <Col md="8">
+      <Form.Group controlId="dataPrivacy">
+        <div>
+          <FormCheck
+            {...register("dataPrivacy", {
+              required: "You must select an option.",
+            })}
+            type="radio"
+            value="agree"
+            className="PIforms-formcheck"
+            label="I agree to the collection, processing, and storage of my data as stated in the Data Privacy Act of 2012."
+            isInvalid={!!errors.dataPrivacy}
+          />
+          <FormCheck
+            {...register("dataPrivacy", {
+              required: "You must select an option.",
+            })}
+            type="radio"
+            value="disagree"
+            className="PIforms-formcheck"
+            label="I do not agree to the collection, processing, and storage of my data as stated in the Data Privacy Act of 2012."
+            isInvalid={!!errors.dataPrivacy}
+          />
+        </div>
+        <Form.Control.Feedback type="invalid">
+          {errors.dataPrivacy?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+    </Col>
+  </Row>
+</Container>
+
 
           {/* buttons */}
           <Row
