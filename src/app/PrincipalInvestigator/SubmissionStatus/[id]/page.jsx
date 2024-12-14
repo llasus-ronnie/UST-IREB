@@ -44,7 +44,6 @@ function SubmissionStatus({ params }) {
   const [form, setForm] = useState(null);
   const [isClient, setIsClient] = useState(null);
   const [paymentLink, setPaymentLink] = useState(null);
-  const [remarksFile, setRemarksFile] = useState();
 
   useEffect(() => {
     params
@@ -240,7 +239,6 @@ function SubmissionStatus({ params }) {
 
     fetchResubmission();
   }, [form]);
-
 
   return (
     <>

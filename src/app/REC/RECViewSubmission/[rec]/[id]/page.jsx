@@ -18,6 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AcknowledgeModal from "../../../../components/modals/AcknowledgePaymentModal";
 import { title } from "process";
 import InitialSubmissionModal from "../../../../components/modals/InitialSubmissionAcknowledgeModal";
+import AcknowledgeAppealModal from "../../../../components/modals/AcknowledgeAppealModal";
 
 function RECViewSubmission({ params }) {
   const [forms, setForms] = useState([]);
@@ -29,6 +30,8 @@ function RECViewSubmission({ params }) {
   const [recRemarksComment, setRecRemarksComment] = useState(""); // To store the comment
   const [remarksStatus, setRemarksStatus] = useState(""); // To store remark status
   const [remarksDate, setRemarksDate] = useState(""); // To store the remark date
+  const [acknowledgeModal, setAcknowledgeModal] = useState(false);
+
 
   const [RECMembers, setRECMembers] = useState([]);
   const [selectedReviewer, setSelectedReviewer] = useState([]);
@@ -543,6 +546,9 @@ function RECViewSubmission({ params }) {
     }
   };
 
+  const handleShowAcknowledgeModal = () => setAcknowledgeModal(true);
+  const handleCloseAcknowledgeModal = () => setAcknowledgeModal(false);
+
   const handleUploadSuccess = (res) => {
     console.log("Upload Response:", res.info); // Log response to check the file details
 
@@ -768,7 +774,7 @@ function RECViewSubmission({ params }) {
               ) : null}
 
               {formClassification === "Full-Board" ||
-              formClassification === "Expedited" ? (
+                formClassification === "Expedited" ? (
                 <>
                   <span>Assign Reviewer:</span>
                   {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
@@ -803,7 +809,7 @@ function RECViewSubmission({ params }) {
                   )}
 
                   {Array.isArray(externalReviewers) &&
-                  externalReviewers.length > 0 ? (
+                    externalReviewers.length > 0 ? (
                     externalReviewers.map((reviewer) => (
                       <div key={reviewer._id} className="viewsub-checkbox">
                         <label>
@@ -857,6 +863,13 @@ function RECViewSubmission({ params }) {
                 </>
               ) : null}
 
+              {forms?.appeal === true && (
+                <button style={{ backgroundColor:"white" }}
+                onClick={handleShowAcknowledgeModal}
+
+                >Review the submission</button>
+              )}                            
+
               <div className="viewsub-proofofpayment">
                 <span>Proof of Payment:</span>
                 {paymentLink ? (
@@ -896,13 +909,14 @@ function RECViewSubmission({ params }) {
               <div className="submissionstatus-card-remarks">
                 <div className="upload-remarks">
                   {finalDecision === "Approved" ||
-                  formClassification === "Exempt" ? (
+                    formClassification === "Exempt" ? (
                     <span>Certificate:</span>
                   ) : finalDecision === "Deferred" ? (
                     <span>Letter of Disapproval:</span>
                   ) : (
                     <span>Remarks:</span>
                   )}
+
 
                   <div>
                     <CldUploadWidget
@@ -1023,7 +1037,7 @@ function RECViewSubmission({ params }) {
                     </thead>
                     <tbody>
                       {Array.isArray(resubmission) &&
-                      resubmission.length > 0 ? (
+                        resubmission.length > 0 ? (
                         resubmission.map((resubmission, index) => (
                           <tr key={index}>
                             <td>
@@ -1033,7 +1047,7 @@ function RECViewSubmission({ params }) {
                             </td>
                             <td>
                               {resubmission.resubmissionFile &&
-                              resubmission.resubmissionFile.length > 0 ? (
+                                resubmission.resubmissionFile.length > 0 ? (
                                 resubmission.resubmissionFile.map(
                                   (resubmissionFile, index) => (
                                     <div key={index}>
@@ -1085,23 +1099,23 @@ function RECViewSubmission({ params }) {
                             {/* Iterate over the remark's resubmissionRemarksFile if it's an array */}
                             {Array.isArray(remark.resubmissionRemarksFile)
                               ? remark.resubmissionRemarksFile.map(
-                                  (file, fileIndex) => {
-                                    const fileName = file.filename;
-                                    return (
-                                      <>
-                                        <a
-                                          key={fileIndex}
-                                          href={file.url}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                        >
-                                          {fileName}
-                                        </a>
-                                        <br />
-                                      </>
-                                    );
-                                  }
-                                )
+                                (file, fileIndex) => {
+                                  const fileName = file.filename;
+                                  return (
+                                    <>
+                                      <a
+                                        key={fileIndex}
+                                        href={file.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {fileName}
+                                      </a>
+                                      <br />
+                                    </>
+                                  );
+                                }
+                              )
                               : "No file"}
                           </td>
                           <td>{remark.resubmissionRemarksComments}</td>
@@ -1174,6 +1188,16 @@ function RECViewSubmission({ params }) {
               setInitialSubmission("Completed");
               console.log("Initial Submission:", initialSubmission);
             }}
+          />
+
+          <AcknowledgeAppealModal
+            show={acknowledgeModal}
+            onHide={() => setAcknowledgeModal(false)}
+            onConfirm={() => {
+              setAcknowledgeModal(false);
+              console.log("Acknowledged appeal");
+            }}
+            submissionparams={id}
           />
         </div>
       </div>

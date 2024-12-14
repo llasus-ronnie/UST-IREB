@@ -95,7 +95,6 @@ export async function GET(req) {
   }
 }
 
-
 export async function DELETE(req) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
@@ -124,7 +123,7 @@ export async function PUT(req) {
   try {
     await connectDB();
     const formData = await req.json();
-    const { id, archived, mainFileLink, supplementaryFileLink, ...otherData } = formData;
+    const { id, archived, mainFileLink, supplementaryFileLink, appeal, ...otherData } = formData;
 
     if (!id) {
       console.error("Error: ID is required");
@@ -169,6 +168,11 @@ export async function PUT(req) {
       existingForm.archived = archived; 
     }
 
+    if (typeof appeal === 'boolean') {
+      existingForm.appeal = appeal;
+    }
+
+
 
     const updatedForm = await SubmissionForm.findByIdAndUpdate(
       id,
@@ -176,7 +180,8 @@ export async function PUT(req) {
         ...otherData,
         mainFileLink: mainFileLink || existingForm.mainFileLink,
         supplementaryFileLink: supplementaryFileLink || existingForm.supplementaryFileLink,
-        archived: archived !== undefined ? archived : existingForm.archived, // Only update if passed
+        archived: archived !== undefined ? archived : existingForm.archived, 
+        appeal: appeal !== undefined ? appeal : existingForm.appeal
       },
       { new: true }
     );
