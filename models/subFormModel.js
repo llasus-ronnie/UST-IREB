@@ -334,8 +334,7 @@ const subFormSchema = new Schema({
   classification: {
     type: String,
     require: true,
-    default:
-      "No classification yet. Kindly wait for further updates.",
+    default: "No classification yet. Kindly wait for further updates.",
   },
   resubmissionStatus: {
     type: String,
@@ -358,14 +357,14 @@ const subFormSchema = new Schema({
     default:
       "Your assigned REC is checking for the completion of your requirements. Kindly wait for their feedback.",
   },
-  appeal:{
+  appeal: {
     type: Boolean,
     require: true,
     default: false,
   },
   appealStatus: {
     type: String,
-    enum: ['accepted', 'declined'],
+    enum: ["accepted", "declined", "No appeal Yet"],
     default: "No appeal Yet",
   },
 });

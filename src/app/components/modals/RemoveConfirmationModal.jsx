@@ -11,7 +11,7 @@ export default function ArchiveConfirmationModal(props) {
   };
 
   return (
-    <Modal 
+    <Modal
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
@@ -34,7 +34,7 @@ export default function ArchiveConfirmationModal(props) {
           Cancel
         </Button>
         <Button onClick={handleArchive} className="btn archive">
-          Archive
+          Remove
         </Button>
       </Modal.Footer>
     </Modal>

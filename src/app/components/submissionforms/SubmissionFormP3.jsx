@@ -23,6 +23,8 @@ import "../../styles/forms/Forms.css";
 
 import ConfirmSubmissionModal from "../../components/modals/ConfirmSubmissionModal";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import RemoveConfirmationModal from "../../components/modals/RemoveConfirmationModal";
 
 function SubmissionFormP3() {
   const [validated, setValidated] = useState(false);
@@ -165,16 +167,35 @@ function SubmissionFormP3() {
     toast.success(`${fileType} uploaded successfully!`);
   };
 
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [fileToRemoveIndex, setFileToRemoveIndex] = useState(null);
+  const [fileTypeToRemove, setFileTypeToRemove] = useState(null);
+
   const handleRemoveFile = (index, fileType) => {
-    if (fileType === "main") {
-      setMainFiles((prev) => prev.filter((_, i) => i !== index));
-      setMainFileNames((prev) => prev.filter((_, i) => i !== index));
+    setFileToRemoveIndex(index);
+    setFileTypeToRemove(fileType);
+    setShowRemoveModal(true);
+  };
+
+  const confirmRemoveFile = () => {
+    if (fileTypeToRemove === "main") {
+      setMainFiles((prev) => prev.filter((_, i) => i !== fileToRemoveIndex));
+      setMainFileNames((prev) =>
+        prev.filter((_, i) => i !== fileToRemoveIndex)
+      );
       toast.info("Main file removed.");
-    } else if (fileType === "supplementary") {
-      setSupplementaryFiles((prev) => prev.filter((_, i) => i !== index));
-      setSupplementaryFileNames((prev) => prev.filter((_, i) => i !== index));
+    } else if (fileTypeToRemove === "supplementary") {
+      setSupplementaryFiles((prev) =>
+        prev.filter((_, i) => i !== fileToRemoveIndex)
+      );
+      setSupplementaryFileNames((prev) =>
+        prev.filter((_, i) => i !== fileToRemoveIndex)
+      );
       toast.info("Supplementary file removed.");
     }
+    setShowRemoveModal(false);
+    setFileToRemoveIndex(null);
+    setFileTypeToRemove(null);
   };
 
   useEffect(() => {
@@ -426,6 +447,12 @@ function SubmissionFormP3() {
         show={modalShow}
         onHide={handleCloseModal}
         onConfirm={handleConfirmSubmission}
+      />
+
+      <RemoveConfirmationModal
+        show={showRemoveModal}
+        onHide={() => setShowRemoveModal(false)}
+        onConfirm={confirmRemoveFile}
       />
     </div>
   );

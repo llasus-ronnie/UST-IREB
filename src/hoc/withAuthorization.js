@@ -19,7 +19,7 @@ const AuthorizationWrapper = ({ children, requiredRoles }) => {
         );
       }
     } else if (status === "unauthenticated") {
-      router.replace("../SignInOption");
+      router.replace("/SignInOption");
     }
   }, [status, session, requiredRoles, router]);
 
