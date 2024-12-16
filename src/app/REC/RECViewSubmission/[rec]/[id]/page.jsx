@@ -868,7 +868,7 @@ function RECViewSubmission({ params }) {
                 <button 
                 onClick={handleShowAcknowledgeModal}
                 className="viewsub-save"
-                >Review the submission</button>
+                >Appeal Decision</button>
                 </div>
               )}                            
 
