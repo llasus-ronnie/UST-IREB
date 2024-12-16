@@ -643,19 +643,19 @@ function IrebReports() {
       selectedFilters.Exempt && {
         label: "Exempt",
         data: recStatusDataExempt.datasets[0].data,
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        backgroundColor: "#fcbf15",
         barThickness: 25,
       },
       selectedFilters.Expedited && {
         label: "Expedited",
         data: recStatusDataExpedited.datasets[0].data,
-        backgroundColor: "rgba(153, 102, 255, 0.6)",
+        backgroundColor: "#FF7A00",
         barThickness: 25,
       },
       selectedFilters.FullBoard && {
         label: "Full Board",
         data: recStatusDataFullBoard.datasets[0].data,
-        backgroundColor: "rgba(255, 159, 64, 0.6)",
+        backgroundColor: "#369AD2",
         barThickness: 25,
       },
     ].filter(Boolean),
