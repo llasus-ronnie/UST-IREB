@@ -644,16 +644,19 @@ function IrebReports() {
         label: "Exempt",
         data: recStatusDataExempt.datasets[0].data,
         backgroundColor: "rgba(75, 192, 192, 0.6)",
+        barThickness: 25,
       },
       selectedFilters.Expedited && {
         label: "Expedited",
         data: recStatusDataExpedited.datasets[0].data,
         backgroundColor: "rgba(153, 102, 255, 0.6)",
+        barThickness: 25,
       },
       selectedFilters.FullBoard && {
         label: "Full Board",
         data: recStatusDataFullBoard.datasets[0].data,
         backgroundColor: "rgba(255, 159, 64, 0.6)",
+        barThickness: 25,
       },
     ].filter(Boolean),
   };
@@ -963,41 +966,42 @@ function IrebReports() {
             </div>
             <br />
 
-            {/* Filter Checkboxes */}
-            <div className="rec-filter-container d-flex justify-content-around">
-              <h3>Filter by Review Classification</h3>
-              <label>
-                <input
-                  type="checkbox"
-                  name="Exempt"
-                  checked={selectedFilters.Exempt}
-                  onChange={handleFilterChange}
-                />
-                Exempt
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="Expedited"
-                  checked={selectedFilters.Expedited}
-                  onChange={handleFilterChange}
-                />
-                Expedited
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="FullBoard"
-                  checked={selectedFilters.FullBoard}
-                  onChange={handleFilterChange}
-                />
-                Full Board
-              </label>
-            </div>
-
             {/* Merged REC Review Classification Chart */}
             <div className="rec-container">
               <h3>REC Review Classification Status</h3>
+
+              {/* Filter Checkboxes */}
+              <div className=" d-flex justify-content-around">
+                <h2>Filter by Review Classification</h2>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="Exempt"
+                    checked={selectedFilters.Exempt}
+                    onChange={handleFilterChange}
+                  />
+                  Exempt
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="Expedited"
+                    checked={selectedFilters.Expedited}
+                    onChange={handleFilterChange}
+                  />
+                  Expedited
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="FullBoard"
+                    checked={selectedFilters.FullBoard}
+                    onChange={handleFilterChange}
+                  />
+                  Full Board
+                </label>
+              </div>
+
               <div className="ireb-rec-status-combined-chart">
                 <Bar data={filteredData} options={recStatusOptions} />
               </div>
