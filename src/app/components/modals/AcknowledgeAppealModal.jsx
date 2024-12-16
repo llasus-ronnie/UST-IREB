@@ -78,7 +78,7 @@ export default function AcknowledgeAppealModal({
             const updateResponse = await axios.put("/api/forms", {
                 id: form._id,
                 appealStatus: "accepted",
-                status: "resubmission",
+                status: "Resubmission",
             });
             if (updateResponse.status === 200) {
                 console.log("Appeal: ", updateResponse.data);

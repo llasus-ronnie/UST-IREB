@@ -864,10 +864,12 @@ function RECViewSubmission({ params }) {
               ) : null}
 
               {forms?.appeal === true && (
-                <button style={{ backgroundColor:"white" }}
+                <div className="viewsub-buttons">
+                <button 
                 onClick={handleShowAcknowledgeModal}
-
+                className="viewsub-save"
                 >Review the submission</button>
+                </div>
               )}                            
 
               <div className="viewsub-proofofpayment">

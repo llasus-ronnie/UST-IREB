@@ -58,6 +58,7 @@ function SubmissionList() {
       const response = await axios.put("/api/forms", {
         id: formId,
         isArchived: !isArchived, 
+        archivedAt: new Date(),
       });
 
       setForms((prevForms) =>
