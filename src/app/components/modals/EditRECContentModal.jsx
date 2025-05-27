@@ -62,7 +62,7 @@ export default function EditRECContentModal({ show, onHide, content }) {
   };
 
   const handleFileUploadSuccess = (res, setFiles, setFileNames) => {
-    const uploadedFile = res.info; // Assuming Cloudinary response contains `info`
+    const uploadedFile = res.info;
     setFiles((prev) => [...prev, uploadedFile]);
     setFileNames((prev) => [...prev, uploadedFile.original_filename]);
   };
@@ -80,15 +80,15 @@ export default function EditRECContentModal({ show, onHide, content }) {
     try {
       const recNameWithoutSpaces = heading.replace(/\s+/g, "");
       const filesToSave = mainFiles.map((file) => ({
-        url: file.secure_url, // Cloudinary's URL
-        filename: file.original_filename, // File name
+        url: file.secure_url,
+        filename: file.original_filename,
       }));
 
       await axios.post("/api/RECContent", {
         rec: recNameWithoutSpaces,
         heading,
         body,
-        files: filesToSave, // Pass files here
+        files: filesToSave,
       });
       console.log("Content added to database");
       toast.success("REC Content added successfully");

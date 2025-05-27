@@ -25,13 +25,10 @@ import {
 import AdditionalResearcher from "./AdditionalResearcher";
 
 function SubmissionFormsP2() {
-  //form validation
   const [validated, setValidated] = useState(false);
 
-  //dispatch function
   const dispatch = useDispatch();
 
-  //initial states from store
   const currentPage = useSelector((store) => store.submissionForm.currentStep);
   const formData = useSelector((store) => store.submissionForm.formData);
   const additionalResearcher = useSelector(
@@ -61,33 +58,11 @@ function SubmissionFormsP2() {
     dispatch(setCurrentStep(currentPage - 1));
   };
 
-  //add a researcher
   const handleAddResearcher = () => {
     dispatch(addResearcher());
   };
 
-  //dispatching reducers from store
-  // async function processForm(data){
-  //   dispatch (updateFormData(data));
-  //   try {
-  //   const response = await fetch("/api/forms", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(formData),  // Use the data from react-hook-form
-  //   });
-
-  //   console.log(response);
-  // } catch (error) {
-  //   console.error("Error submitting form:", error);
-  // }
-  // }
-
-  // const handleFormSubmission = async (e) => {
-
   const handleProcessData = (data, index) => {
-    // Update the form data in Redux for the specific researcher by index
     const updatedData = {
       additionalFullName: data[`additionalFullName${index + 1}`],
       additionalEmail: data[`additionalEmail${index + 1}`],
@@ -256,8 +231,8 @@ function SubmissionFormsP2() {
             >
               {additionalResearcher.map((_, index) => (
                 <AdditionalResearcher
-                  register={register} // Pass the register method here
-                  index={index} // Pass the index to register unique inputs
+                  register={register}
+                  index={index}
                   key={index}
                   addResearcher={addResearcher}
                 />
@@ -773,23 +748,6 @@ function SubmissionFormsP2() {
                   {errors.amountInPHP?.message}
                 </Form.Control.Feedback>
               </Col>
-
-              {/* tbf */}
-              {/* <Row
-                style={{ marginTop: "20px" }}
-                className="justify-content-around"
-              >
-                <Button variant="outline-secondary" className="PIforms-formbtn">
-                  Remove
-                </Button>
-                <Button
-                  type="submit"
-                  variant="outline-warning"
-                  className="PIforms-formbtn"
-                >
-                  Add More Source
-                </Button>
-              </Row> */}
             </Row>
           </Container>
 

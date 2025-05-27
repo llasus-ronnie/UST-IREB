@@ -13,7 +13,7 @@ import AddRECMemberModal from "../../../components/modals/AddRECMemberModal";
 import EditRECMemberModal from "../../../components/modals/EditRECMemberModal";
 import ArchiveConfirmationModal from "../../../components/modals/ArchiveConfirmationModal";
 import "../../../styles/ireb/IrebManageAccounts.css";
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import withAuthorization from "../../../../hoc/withAuthorization";
 import { set } from "mongoose";
@@ -138,7 +138,6 @@ function IrebManageRECRoles({ params }) {
     fetchRECMembersData();
   }, [params.rec, isArchivedShown]);
 
-  //loading
   const loadingContainerStyle = {
     display: "flex",
     flexDirection: "column",
@@ -276,11 +275,11 @@ function IrebManageRECRoles({ params }) {
               </table>
             </div>
             <div className="archive-toggle-container">
-                <button className="archive-toggle" onClick={handleShowArchived}>
-                  {isArchivedShown ? "Hide Archived" : "Show Archived"}
-                  {isArchivedShown ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
+              <button className="archive-toggle" onClick={handleShowArchived}>
+                {isArchivedShown ? "Hide Archived" : "Show Archived"}
+                {isArchivedShown ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
         </div>
       </div>

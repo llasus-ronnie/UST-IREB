@@ -11,8 +11,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 //components
 import Navbar from "../../components/navbar/Navbar";
@@ -20,12 +19,11 @@ import Navbar from "../../components/navbar/Navbar";
 //hoc
 import withAuthorization from "../../../hoc/withAuthorization";
 
-
 function SubmissionList() {
   const { data: session } = useSession();
   const [forms, setForms] = useState([]);
   const [showArchived, setShowArchived] = useState(false);
-  const [viewArchived, setViewArchived] = useState(false);  // Track archived view
+  const [viewArchived, setViewArchived] = useState(false);
   const userEmail = session?.user.email;
 
   useEffect(() => {
@@ -34,30 +32,33 @@ function SubmissionList() {
         console.error("Session email is undefined or not ready.");
         return;
       }
-  
-      console.log("Session email: ", session.user.email); // Debug
+
+      console.log("Session email: ", session.user.email);
       try {
         const response = await axios.get("/api/forms", {
-          params: { 
-            email: session.user.email, 
-            includeArchived: 'true', },
+          params: {
+            email: session.user.email,
+            includeArchived: "true",
+          },
         });
-        console.log("Response data:", response.data); // Debug
-        setForms(response.data.forms || []); // Handle case where forms is undefined
+        console.log("Response data:", response.data);
+        setForms(response.data.forms || []);
       } catch (error) {
-        console.error("Error fetching forms:", error.response?.data || error.message);
+        console.error(
+          "Error fetching forms:",
+          error.response?.data || error.message
+        );
       }
     }
-  
+
     fetchData();
   }, [session]);
-  
 
   const archiveForm = async (formId, isArchived) => {
     try {
       const response = await axios.put("/api/forms", {
         id: formId,
-        isArchived: !isArchived, 
+        isArchived: !isArchived,
         archivedAt: new Date(),
       });
 
@@ -67,7 +68,10 @@ function SubmissionList() {
         )
       );
     } catch (error) {
-      console.error(`${isArchived ? "Error unarchiving" : "Error archiving"} form:`, error);
+      console.error(
+        `${isArchived ? "Error unarchiving" : "Error archiving"} form:`,
+        error
+      );
     }
   };
 
@@ -87,7 +91,6 @@ function SubmissionList() {
           <h2>Submission List</h2>
         </div>
 
-
         {viewArchived ? (
           <div className="archived-view">
             <table className="submission-table">
@@ -101,30 +104,36 @@ function SubmissionList() {
                 </tr>
               </thead>
               <tbody>
-                {forms.filter(form => form.isArchived).length > 0 ? (
-                  forms.filter(form => form.isArchived).map((form, index) => (
-                    <tr key={index}>
-                      <td>{form.title}</td>
-                      <td>{new Date(form.date).toLocaleDateString("en-US")}</td>
-                      <td>{form.researchEthicsCommittee}</td>
-                      <td>{form.status}</td>
-                      <td className="view-btn-cell">
-                        <Link
-                          href={`/PrincipalInvestigator/SubmissionStatus/${form._id}`}
-                          className="view-btn"
-                        >
-                          View
-                        </Link>
-                        <button
-                          className="archive-btn"
-                          onClick={() => archiveForm(form._id, form.isArchived)}
-                          disabled={form.isArchived === null} // Disable if form status is unknown or in progress
-                        >
-                          Undo Archive
-                        </button>
-                      </td>
-                    </tr>
-                  ))
+                {forms.filter((form) => form.isArchived).length > 0 ? (
+                  forms
+                    .filter((form) => form.isArchived)
+                    .map((form, index) => (
+                      <tr key={index}>
+                        <td>{form.title}</td>
+                        <td>
+                          {new Date(form.date).toLocaleDateString("en-US")}
+                        </td>
+                        <td>{form.researchEthicsCommittee}</td>
+                        <td>{form.status}</td>
+                        <td className="view-btn-cell">
+                          <Link
+                            href={`/PrincipalInvestigator/SubmissionStatus/${form._id}`}
+                            className="view-btn"
+                          >
+                            View
+                          </Link>
+                          <button
+                            className="archive-btn"
+                            onClick={() =>
+                              archiveForm(form._id, form.isArchived)
+                            }
+                            disabled={form.isArchived === null}
+                          >
+                            Undo Archive
+                          </button>
+                        </td>
+                      </tr>
+                    ))
                 ) : (
                   <tr>
                     <td colSpan="5" className="text-center">
@@ -149,29 +158,35 @@ function SubmissionList() {
               </thead>
               <tbody>
                 {forms.length > 0 ? (
-                  forms.filter(form => !form.isArchived).map((form, index) => (
-                    <tr key={index}>
-                      <td>{form.title}</td>
-                      <td>{new Date(form.date).toLocaleDateString("en-US")}</td>
-                      <td>{form.researchEthicsCommittee}</td>
-                      <td>{form.status}</td>
-                      <td className="view-btn-cell">
-                        <Link
-                          href={`/PrincipalInvestigator/SubmissionStatus/${form._id}`}
-                          className="view-btn"
-                        >
-                          View
-                        </Link>
-                        <button
-                          className="archive-btn"
-                          onClick={() => archiveForm(form._id, form.isArchived)}
-                          disabled={form.isArchived === null} // Disable if form status is unknown or in progress
-                        >
-                          {form.isArchived ? "Undo Archive" : "Archive"}
-                        </button>
-                      </td>
-                    </tr>
-                  ))
+                  forms
+                    .filter((form) => !form.isArchived)
+                    .map((form, index) => (
+                      <tr key={index}>
+                        <td>{form.title}</td>
+                        <td>
+                          {new Date(form.date).toLocaleDateString("en-US")}
+                        </td>
+                        <td>{form.researchEthicsCommittee}</td>
+                        <td>{form.status}</td>
+                        <td className="view-btn-cell">
+                          <Link
+                            href={`/PrincipalInvestigator/SubmissionStatus/${form._id}`}
+                            className="view-btn"
+                          >
+                            View
+                          </Link>
+                          <button
+                            className="archive-btn"
+                            onClick={() =>
+                              archiveForm(form._id, form.isArchived)
+                            }
+                            disabled={form.isArchived === null}
+                          >
+                            {form.isArchived ? "Undo Archive" : "Archive"}
+                          </button>
+                        </td>
+                      </tr>
+                    ))
                 ) : (
                   <tr>
                     <td colSpan="5" className="text-center">
@@ -184,31 +199,29 @@ function SubmissionList() {
           </div>
         )}
 
-<div className="submission-footer">
-  <div className="submission-list-toggle">
-    <h3>Show Archived Forms?</h3>
+        <div className="submission-footer">
+          <div className="submission-list-toggle">
+            <h3>Show Archived Forms?</h3>
 
-    {!viewArchived && (
-      <button 
-        className="toggle-btn"
-        onClick={() => setViewArchived(true)} 
-      >
-        <FaEye />
-      </button>
-    )}
+            {!viewArchived && (
+              <button
+                className="toggle-btn"
+                onClick={() => setViewArchived(true)}
+              >
+                <FaEye />
+              </button>
+            )}
 
-    {viewArchived && (
-      <button 
-        className="toggle-btn"
-        onClick={() => setViewArchived(false)} 
-      >
-        <FaEyeSlash />
-      </button>
-    )}
-  </div>
-</div>
-
-        
+            {viewArchived && (
+              <button
+                className="toggle-btn"
+                onClick={() => setViewArchived(false)}
+              >
+                <FaEyeSlash />
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     </>
   );
@@ -218,4 +231,3 @@ export default withAuthorization(SubmissionList, [
   "PrincipalInvestigator",
   "ExternalInvestigator",
 ]);
-

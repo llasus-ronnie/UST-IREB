@@ -12,7 +12,6 @@ function SummaryHistory({ params }) {
   const [forms, setForms] = useState([]);
   const router = useRouter();
 
-  // Ensure `params.id` exists before trying to fetch data
   useEffect(() => {
     if (params?.id) {
       async function fetchData() {
@@ -28,7 +27,7 @@ function SummaryHistory({ params }) {
   }, [params?.id]);
 
   const handleBack = () => {
-    router.back(); // Ensure the function is called
+    router.back();
   };
 
   return (
@@ -56,72 +55,6 @@ function SummaryHistory({ params }) {
           <Col xs={12} lg={8} className="viewsub-content-container">
             <SummaryFormHistory id={params.id} />
           </Col>
-
-          {/* <Col xs={12} lg={4} className="viewsub-details-container">
-            <h1>Submission History</h1>
-            <table className="submission-history-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Filename</th>
-                </tr>
-              </thead>
-              <tbody>
-                {forms.map((form, index) => (
-                  <tr key={index}>
-                    <td>{new Date(form.date).toLocaleDateString()}</td>
-                    <td>
-                      <Link href={`/path/to/file/${form.filename}`}>
-                        {form.filename}
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-
-                para ma visualize lang
-                <tr>
-                  <td>11/1/2024 12:00</td>
-                  <td>
-                    <Link href={`/path/to/file/sample-file-1.pdf`}>
-                      Proposal Form
-                    </Link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>11/1/2024 12:00</td>
-                  <td>
-                    <Link href={`/path/to/file/sample-file-1.pdf`}>
-                      sample-file-1.pdf
-                    </Link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>11/2/2024 13:00</td>
-                  <td>
-                    <Link href={`/path/to/file/sample-file-2.pdf`}>
-                      sample-file-2.pdf
-                    </Link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>11/2/2024 13:00</td>
-                  <td>
-                    <Link href={`/path/to/file/sample-file-1.pdf`}>
-                      Resubmission Comment
-                    </Link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>11/3/2024 14:00</td>
-                  <td>
-                    <Link href={`/path/to/file/sample-file-2.pdf`}>
-                      sample-file-3.pdf
-                    </Link>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </Col> */}
         </Row>
       </div>
     </>

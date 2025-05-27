@@ -20,39 +20,39 @@ const UserInfo = () => {
 
   useEffect(() => {
     setIsClient(true);
-  },[]);
+  }, []);
 
   const userName = session?.user?.name || "IREB Chair";
   const profileImage =
     session?.user?.image || "/images/userloggedin/user-placeholder.png";
 
-  const formattedDate = currentTime.toLocaleDateString("en-US")
+  const formattedDate = currentTime.toLocaleDateString("en-US");
   const formattedTime = currentTime.toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-        hour12: true, // For 12-hour format with AM/PM
-      });
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: true,
+  });
 
   return (
     <>
-    {isClient && (
-    <div className="uli-container">
-      <Image
-        src={profileImage}
-        alt="Profile"
-        width={40}
-        height={40}
-        className="uli-image"
-      />
-      <div className="uli-textContainer">
-        <div className="uli-name">{userName}</div>
-        <div className="uli-time">
-          {formattedDate} {formattedTime}{" "}
+      {isClient && (
+        <div className="uli-container">
+          <Image
+            src={profileImage}
+            alt="Profile"
+            width={40}
+            height={40}
+            className="uli-image"
+          />
+          <div className="uli-textContainer">
+            <div className="uli-name">{userName}</div>
+            <div className="uli-time">
+              {formattedDate} {formattedTime}{" "}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    )}
+      )}
     </>
   );
 };

@@ -75,14 +75,12 @@ function SetPassword() {
 
     if (isEmailValid && isPasswordValid && isRecaptchaVerified) {
       try {
-        // Send email and password to the API to update the password
         const response = await axios.post("/api/set-password", {
           email,
           password,
         });
 
         if (response.data.success) {
-          // Automatically log the user in after setting the password
           const loginResult = await signIn("credentials", {
             redirect: false,
             email,
@@ -93,7 +91,7 @@ function SetPassword() {
             toast.error("Login failed. Please check your credentials.");
           } else {
             toast.success("Password set successfully and logged in.");
-            router.push("/"); // Redirect to homepage or dashboard
+            router.push("/");
           }
         } else {
           toast.error("Error setting password: " + response.data.message);

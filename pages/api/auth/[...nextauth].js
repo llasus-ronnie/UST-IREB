@@ -110,13 +110,11 @@ const handler = NextAuth({
         await connectDB();
         const userExist = await User.findOne({ email: profile.email });
         if (!userExist) {
-          // Check if the email exists in the REC table
           const recExist = await REC.findOne({ email: profile.email });
           let role = "PrincipalInvestigator";
           if (recExist) {
             role = "REC";
           } else {
-            // Check if the email exists in the RECMembers table
             const recMember = await RECMembers.findOne({
               email: profile.email,
             });
@@ -144,7 +142,6 @@ const handler = NextAuth({
             role: role,
           });
         } else {
-          // Update the role if the user already exists and is not IREB
           if (userExist.role !== "IREB") {
             const recExist = await REC.findOne({ email: profile.email });
             if (recExist) {

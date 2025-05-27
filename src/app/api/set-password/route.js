@@ -10,10 +10,8 @@ export async function POST(req) {
   console.log("Received data:", { email, password });
 
   try {
-    // Check if the user exists in ExternalInvestigator collection
     let user = await ExternalInvestigator.findOne({ email });
 
-    // If not found, check in ExternalReviewer collection
     if (!user) {
       user = await ExternalReviewer.findOne({ email });
     }
@@ -25,16 +23,13 @@ export async function POST(req) {
       );
     }
 
-    // Hash the new password
     const hashedPassword = await hashPassword(password);
     console.log("Hashed password:", hashedPassword);
 
-    // Update the user's password and remove the access token
     user.password = hashedPassword;
-    delete user.accessToken; // Invalidate token
+    delete user.accessToken;
     await user.save();
 
-    // Respond with success message, do not log in here
     return NextResponse.json(
       { success: true, message: "Password updated successfully" },
       { status: 200 }

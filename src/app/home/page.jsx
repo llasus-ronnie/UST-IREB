@@ -12,15 +12,12 @@ import Carousel from "../components/carousel/Slider";
 import SubmissionProcess from "../components/submissionprocess/SubmissionProcess";
 import ImageZoom from "../components/imagezoom/ImageZoom";
 
-//images
-
 import flowchart from "../../../public/images/home/section-4-processflowchart.png";
 
 // css
 import "../styles/home/home.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-//extra dependencies
 import Image from "next/image";
 
 function Home() {

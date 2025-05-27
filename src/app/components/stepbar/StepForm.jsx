@@ -13,18 +13,13 @@ import SubFormP3 from "../submissionforms/SubmissionFormP3";
 import Summary from "../submissionforms/SummaryForm";
 
 export default function StepForm() {
-  //render based on current step
-
-  //dispatch function
   const dispatch = useDispatch();
 
-  //initial states from store
   const currentStep = useSelector((store) => store.submissionForm.currentStep);
   const formData = useSelector((store) => store.submissionForm.formData);
   console.log(formData, currentStep);
 
   function renderFormByStep(step) {
-    //passes in the state we are on (props)
     if (step === 1) {
       return <SubFormP1 />;
     } else if (step === 2) {

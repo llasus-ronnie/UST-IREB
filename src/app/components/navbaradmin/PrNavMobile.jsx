@@ -35,7 +35,6 @@ const PrNavMobile = (props) => {
     } else if (path.includes("PRUserProfile")) {
       setIsActive("profile");
     } else if (path.includes("PRSubmissions")) {
-      //change to submission page
       setIsActive("submissions");
     } else {
       setIsActive("");

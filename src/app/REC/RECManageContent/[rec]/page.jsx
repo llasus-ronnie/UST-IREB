@@ -121,7 +121,6 @@ function RECManageContent({ params, ...props }) {
                   ) : (
                     <tr>
                       <td colSpan="5">No data available</td>{" "}
-                      {/* Fallback when no data */}
                     </tr>
                   )}
                 </tbody>

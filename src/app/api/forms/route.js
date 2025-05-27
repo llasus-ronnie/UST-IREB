@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 import express from "express";
 import cors from "cors";
 
-//cors
 const app = express();
 app.use(cors());
 
@@ -17,10 +16,16 @@ export async function POST(req, res) {
 
     if (
       !Array.isArray(data.mainFileLink) ||
-      data.mainFileLink.some((file) => typeof file.url !== "string" || typeof file.filename !== "string")
+      data.mainFileLink.some(
+        (file) =>
+          typeof file.url !== "string" || typeof file.filename !== "string"
+      )
     ) {
       return NextResponse.json(
-        { error: "Invalid mainFileLink format. Expected an array of objects with url and filename." },
+        {
+          error:
+            "Invalid mainFileLink format. Expected an array of objects with url and filename.",
+        },
         { status: 400 }
       );
     }
@@ -28,18 +33,24 @@ export async function POST(req, res) {
     if (
       data.supplementaryFileLink &&
       (!Array.isArray(data.supplementaryFileLink) ||
-        data.supplementaryFileLink.some((file) => typeof file.url !== "string" || typeof file.filename !== "string"))
+        data.supplementaryFileLink.some(
+          (file) =>
+            typeof file.url !== "string" || typeof file.filename !== "string"
+        ))
     ) {
       return NextResponse.json(
-        { error: "Invalid supplementaryFileLink format. Expected an array of objects with url and filename." },
+        {
+          error:
+            "Invalid supplementaryFileLink format. Expected an array of objects with url and filename.",
+        },
         { status: 400 }
       );
     }
 
     const saveForm = await SubmissionForm.create({
       ...data,
-      mainFileLink: data.mainFileLink, // no transformation needed here
-      supplementaryFileLink: data.supplementaryFileLink || [], // if supplementaryFileLink is present
+      mainFileLink: data.mainFileLink,
+      supplementaryFileLink: data.supplementaryFileLink || [],
     });
 
     return NextResponse.json({ saveForm }, { status: 200 });
@@ -59,13 +70,13 @@ export async function GET(req) {
   const rec = searchParams.get("rec");
   const email = searchParams.get("email");
   const subformId = searchParams.get("subformId");
-  const includeArchived = searchParams.get("includeArchived") === "true"; // Check for 'includeArchived'
+  const includeArchived = searchParams.get("includeArchived") === "true";
 
   try {
     const query = {};
 
     if (!includeArchived) {
-      query.isArchived = false; // Default behavior: exclude archived forms
+      query.isArchived = false;
     }
 
     if (subformId) {
@@ -76,12 +87,10 @@ export async function GET(req) {
     }
     if (email) {
       query.$or = [
-        { userEmail: email.trim() }, // Matches the `userEmail` field
-        { recMember: { $in: [email.trim()] } } // Matches `email` in the `recMember` array
+        { userEmail: email.trim() },
+        { recMember: { $in: [email.trim()] } },
       ];
     }
-    
-    
 
     const forms = await SubmissionForm.find(query);
 
@@ -123,7 +132,14 @@ export async function PUT(req) {
   try {
     await connectDB();
     const formData = await req.json();
-    const { id, archived, mainFileLink, supplementaryFileLink, appeal, ...otherData } = formData;
+    const {
+      id,
+      archived,
+      mainFileLink,
+      supplementaryFileLink,
+      appeal,
+      ...otherData
+    } = formData;
 
     if (!id) {
       console.error("Error: ID is required");
@@ -134,12 +150,16 @@ export async function PUT(req) {
       mainFileLink &&
       (!Array.isArray(mainFileLink) ||
         mainFileLink.some(
-          (file) => typeof file.url !== "string" || typeof file.filename !== "string"
+          (file) =>
+            typeof file.url !== "string" || typeof file.filename !== "string"
         ))
     ) {
       console.error("Invalid mainFileLink format:", mainFileLink);
       return NextResponse.json(
-        { error: "Invalid mainFileLink format. Expected an array of objects with url and filename." },
+        {
+          error:
+            "Invalid mainFileLink format. Expected an array of objects with url and filename.",
+        },
         { status: 400 }
       );
     }
@@ -148,12 +168,19 @@ export async function PUT(req) {
       supplementaryFileLink &&
       (!Array.isArray(supplementaryFileLink) ||
         supplementaryFileLink.some(
-          (file) => typeof file.url !== "string" || typeof file.filename !== "string"
+          (file) =>
+            typeof file.url !== "string" || typeof file.filename !== "string"
         ))
     ) {
-      console.error("Invalid supplementaryFileLink format:", supplementaryFileLink);
+      console.error(
+        "Invalid supplementaryFileLink format:",
+        supplementaryFileLink
+      );
       return NextResponse.json(
-        { error: "Invalid supplementaryFileLink format. Expected an array of objects with url and filename." },
+        {
+          error:
+            "Invalid supplementaryFileLink format. Expected an array of objects with url and filename.",
+        },
         { status: 400 }
       );
     }
@@ -164,24 +191,23 @@ export async function PUT(req) {
       return NextResponse.json({ error: "Form not found" }, { status: 404 });
     }
 
-    if (typeof archived === 'boolean') {
-      existingForm.archived = archived; 
+    if (typeof archived === "boolean") {
+      existingForm.archived = archived;
     }
 
-    if (typeof appeal === 'boolean') {
+    if (typeof appeal === "boolean") {
       existingForm.appeal = appeal;
     }
-
-
 
     const updatedForm = await SubmissionForm.findByIdAndUpdate(
       id,
       {
         ...otherData,
         mainFileLink: mainFileLink || existingForm.mainFileLink,
-        supplementaryFileLink: supplementaryFileLink || existingForm.supplementaryFileLink,
-        archived: archived !== undefined ? archived : existingForm.archived, 
-        appeal: appeal !== undefined ? appeal : existingForm.appeal
+        supplementaryFileLink:
+          supplementaryFileLink || existingForm.supplementaryFileLink,
+        archived: archived !== undefined ? archived : existingForm.archived,
+        appeal: appeal !== undefined ? appeal : existingForm.appeal,
       },
       { new: true }
     );
@@ -191,7 +217,9 @@ export async function PUT(req) {
     return NextResponse.json(updatedForm, { status: 200 });
   } catch (error) {
     console.error("Error in PUT:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
-

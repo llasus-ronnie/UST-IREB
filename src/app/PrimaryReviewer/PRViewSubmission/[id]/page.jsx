@@ -19,7 +19,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSession } from "next-auth/react";
 
 function PRViewSubmission({ params }) {
-  //state variables
   const [forms, setForms] = useState([]);
   const [resubmission, setResubmission] = useState("");
   const router = useRouter();
@@ -28,8 +27,8 @@ function PRViewSubmission({ params }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [remarksData, setRemarksData] = useState([]);
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
-  const [resubmissionFiles, setResubmissionFiles] = useState([]); // To store uploaded files
-  const [resubmissionComments, setResubmissionComments] = useState(""); // To store remarks
+  const [resubmissionFiles, setResubmissionFiles] = useState([]);
+  const [resubmissionComments, setResubmissionComments] = useState("");
 
   const { register, handleSubmit, setValue } = useForm();
 
@@ -52,7 +51,6 @@ function PRViewSubmission({ params }) {
     fetchData();
   }, []);
 
-  //GET Resubmission File
   useEffect(() => {
     async function fetchResubmission() {
       try {
@@ -81,12 +79,12 @@ function PRViewSubmission({ params }) {
       if (response.status === 200) {
         const sortedRemarks = response.data.getResubmissionRemarks.sort(
           (a, b) => {
-            const dateA = new Date(a.resubmissionRemarksDate); // Ensure this field contains date with time
+            const dateA = new Date(a.resubmissionRemarksDate);
             const dateB = new Date(b.resubmissionRemarksDate);
-            return dateA - dateB; // Sorting in ascending order
+            return dateA - dateB;
           }
         );
-        setRemarksData(sortedRemarks); // Set the sorted remarks data
+        setRemarksData(sortedRemarks);
       } else {
         console.error("Failed to fetch remarks", response.status);
       }
@@ -106,7 +104,6 @@ function PRViewSubmission({ params }) {
         filename: file.filename,
       }));
 
-      // Prepare the payload
       const payload = {
         subFormId: forms._id,
         resubmissionRemarksFile: files,
@@ -129,7 +126,6 @@ function PRViewSubmission({ params }) {
           });
 
           if (formUpdateResponse.status === 200) {
-            // Fetch REC email and send email
             try {
               const encodedRECName = encodeURIComponent(
                 forms.researchEthicsCommittee.trim().toLowerCase()
@@ -138,7 +134,7 @@ function PRViewSubmission({ params }) {
                 `/api/REC?name=${encodedRECName}`
               );
               console.log("REC Response Data:", recResponse.data);
-              const recList = recResponse.data.data; // Extract the data array
+              const recList = recResponse.data.data;
 
               const rec = recList.find(
                 (rec) =>
@@ -158,7 +154,6 @@ function PRViewSubmission({ params }) {
                 return false;
               }
 
-              // Proceed with the email sending logic
               const emailData = {
                 rec: rec.email,
                 name: session.user.name,
@@ -177,10 +172,7 @@ function PRViewSubmission({ params }) {
               } else {
                 toast.error("Failed to send email");
               }
-            } catch (error) {
-              // console.error("Error sending email:", error);
-              // toast.error("Failed to send email");
-            }
+            } catch (error) {}
             toast.success("Resubmission saved successfully!");
             fetchResubmissionRemarks();
           } else {
@@ -236,7 +228,7 @@ function PRViewSubmission({ params }) {
 
     const renderResubmissionFiles = () => {
       if (!resubmission || resubmission.length === 0) {
-        return null; // Return nothing if no resubmissions are available
+        return null;
       }
 
       return resubmission.map((resub, resubIndex) => {
@@ -258,7 +250,7 @@ function PRViewSubmission({ params }) {
             </optgroup>
           );
         }
-        return null; // Return nothing for empty resubmissions
+        return null;
       });
     };
 
@@ -273,7 +265,6 @@ function PRViewSubmission({ params }) {
             ))}
           </optgroup>
           {renderResubmissionFiles()}{" "}
-          {/* Only render resubmission files if available */}
         </>
       );
     }
@@ -337,7 +328,7 @@ function PRViewSubmission({ params }) {
             </a>
             <select
               className="viewsub-changestatus"
-              onChange={(e) => setSelectedFile(e.target.value)} // Update selectedFile state
+              onChange={(e) => setSelectedFile(e.target.value)}
             >
               <option value="">Select a file</option>
               {renderFileOptions()}
@@ -375,7 +366,7 @@ function PRViewSubmission({ params }) {
                 <p>Review Remarks:</p>
                 <CldUploadWidget
                   signatureEndpoint="/api/sign-cloudinary-params"
-                  multiple // Allow multiple file uploads
+                  multiple
                   onSuccess={handleFileUploadSuccess}
                 >
                   {({ open }) => (
@@ -403,7 +394,7 @@ function PRViewSubmission({ params }) {
                       </a>
                       <button
                         type="button"
-                        onClick={() => removeFile(index)} // Function to remove file from state
+                        onClick={() => removeFile(index)}
                         className="remove-file-button ml-2 btn btn-outline-danger btn-sm"
                       >
                         Remove
@@ -416,7 +407,7 @@ function PRViewSubmission({ params }) {
                   className="viewsub-textarea"
                   placeholder="Enter remarks here..."
                   value={resubmissionComments}
-                  onChange={(e) => setResubmissionComments(e.target.value)} // Bind to state
+                  onChange={(e) => setResubmissionComments(e.target.value)}
                 />
               </div>
 
@@ -431,39 +422,39 @@ function PRViewSubmission({ params }) {
                     </tr>
                   </thead>
                   <tbody>
-                  {remarksData.map((remark, index) => (
-                        <tr key={remark._id}>
-                          <td>{index + 1}</td>
-                          <td>
-                            {/* Iterate over the remark's resubmissionRemarksFile if it's an array */}
-                            {Array.isArray(remark.resubmissionRemarksFile) ? (
-                              remark.resubmissionRemarksFile.map((file, fileIndex) => {
-                                const fileName = file.filename;
-                                return (
-                                  <>
-                                  <a
-                                    key={fileIndex}
-                                    href={file}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    {fileName}
-                                  </a>
-                                  <br/>
-                                  </>
-                                );
-                              })
-                            ) : (
-                              "No file"
-                            )}
-
-                          </td>
-                          <td>{remark.resubmissionRemarksComments}</td>
-                          <td>
-                            {new Date(remark.resubmissionRemarksDate).toLocaleString()}
-                          </td>
-                        </tr>
-                      ))}
+                    {remarksData.map((remark, index) => (
+                      <tr key={remark._id}>
+                        <td>{index + 1}</td>
+                        <td>
+                          {Array.isArray(remark.resubmissionRemarksFile)
+                            ? remark.resubmissionRemarksFile.map(
+                                (file, fileIndex) => {
+                                  const fileName = file.filename;
+                                  return (
+                                    <>
+                                      <a
+                                        key={fileIndex}
+                                        href={file}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {fileName}
+                                      </a>
+                                      <br />
+                                    </>
+                                  );
+                                }
+                              )
+                            : "No file"}
+                        </td>
+                        <td>{remark.resubmissionRemarksComments}</td>
+                        <td>
+                          {new Date(
+                            remark.resubmissionRemarksDate
+                          ).toLocaleString()}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

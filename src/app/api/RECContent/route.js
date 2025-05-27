@@ -8,29 +8,25 @@ export async function POST(req) {
   const { rec, heading, body, files } = await req.json();
 
   try {
-    // Validate files array
     if (files && !files.every((file) => file.url && file.filename)) {
       throw new Error(
         "Invalid file data. Ensure each file has 'url' and 'filename'."
       );
     }
 
-    // Check if an entry for the given REC already exists
     let recContent = await RECContent.findOne({ rec });
 
     if (recContent) {
-      // Update the existing entry
       recContent.heading = heading;
       recContent.body = body;
-      recContent.files = files; // Update files
+      recContent.files = files;
       await recContent.save();
     } else {
-      // Create a new entry
       recContent = new RECContent({
         rec,
         heading,
         body,
-        files, // Include files
+        files,
       });
       await recContent.save();
     }

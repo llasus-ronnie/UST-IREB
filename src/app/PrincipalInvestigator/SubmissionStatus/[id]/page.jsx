@@ -27,7 +27,7 @@ function SubmissionStatus({ params }) {
   const [modalShow, setModalShow] = useState(false);
   const [editModalShow, setEditModalShow] = useState(false);
   const [resubmissionModalShow, setResubmissionModalShow] = useState(false);
-  const [appealModalShow, setAppealModalShow] = useState(false); 
+  const [appealModalShow, setAppealModalShow] = useState(false);
   const [status, setStatus] = useState(null);
   const [resubmission, setResubmission] = useState("");
 
@@ -39,7 +39,6 @@ function SubmissionStatus({ params }) {
   const handleShowSubmissionModal = () => setResubmissionModalShow(true);
   const handleCloseSubmissionModal = () => setResubmissionModalShow(false);
 
-  //unwrapping the params kasi ang arte ni nextjs
   const [unwrappedParams, setUnwrappedParams] = useState(null);
   const [form, setForm] = useState(null);
   const [isClient, setIsClient] = useState(null);
@@ -61,9 +60,10 @@ function SubmissionStatus({ params }) {
       title: "Initial Submission",
       description:
         "Your initial submission will be reviewed to see if all requirements are complete or if any revisions are needed before proceeding.",
-      remarks: form?.initialSubmission === "Incomplete"
-        ? `${form?.initialSubmission}, kindly review the remarks on the table. The edit forms button is open for you to edit your current submission and resubmit your initial requirements. Thank you`
-        : `${form?.initialSubmission}`,
+      remarks:
+        form?.initialSubmission === "Incomplete"
+          ? `${form?.initialSubmission}, kindly review the remarks on the table. The edit forms button is open for you to edit your current submission and resubmit your initial requirements. Thank you`
+          : `${form?.initialSubmission}`,
     },
     {
       id: "Pending-Payment",
@@ -90,7 +90,11 @@ function SubmissionStatus({ params }) {
       title: "For Classification",
       description:
         "Once proof of payment is received, your submission will move to research classification.",
-      remarks: `${form?.classification ? `Your form is: ${form.classification}` : "Loading..."}`
+      remarks: `${
+        form?.classification
+          ? `Your form is: ${form.classification}`
+          : "Loading..."
+      }`,
     },
     {
       id: "In-Progress",
@@ -115,11 +119,10 @@ function SubmissionStatus({ params }) {
       title: "Final Decision",
       description:
         "Once all revisions are complete, your submission will be forwarded to the REC Chair for the final review. You will be notified of the final decision shortly thereafter in the remarks section. Thank you!",
-      remarks: `${"Your form is: ", form?.finalDecision}`
+      remarks: `${("Your form is: ", form?.finalDecision)}`,
     },
   ];
 
-  //GET Form
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -140,7 +143,6 @@ function SubmissionStatus({ params }) {
     setIsClient(true);
   }, []);
 
-  //GET Payment
   async function fetchPaymentFile() {
     if (form && form._id) {
       try {
@@ -159,7 +161,7 @@ function SubmissionStatus({ params }) {
     fetchPaymentFile();
   }, [form]);
 
-  const [remarksList, setRemarksList] = useState([]); // State to hold all remarks
+  const [remarksList, setRemarksList] = useState([]);
   useEffect(() => {
     const fetchRemarks = async () => {
       if (!form._id) {
@@ -167,16 +169,15 @@ function SubmissionStatus({ params }) {
         return;
       }
       try {
-        const response = await axios.get('/api/remarks', {
-          params: { subFormId: form._id },  // Send the form ID as a query parameter
+        const response = await axios.get("/api/remarks", {
+          params: { subFormId: form._id },
         });
         console.log("Fetched remarks data:", response.data);
 
-        // Assuming the response data is an array of remarks
         const remarksData = response.data;
 
         if (remarksData && remarksData.length > 0) {
-          setRemarksList(remarksData); // Set all remarks in the state
+          setRemarksList(remarksData);
         } else {
           console.log("No remarks found for this form.");
         }
@@ -188,7 +189,6 @@ function SubmissionStatus({ params }) {
     fetchRemarks();
   }, [form]);
 
-  //GET Resubmission Remarks
   useEffect(() => {
     const fetchResubmissionRemarks = async () => {
       try {
@@ -200,12 +200,12 @@ function SubmissionStatus({ params }) {
         if (response.status === 200) {
           const sortedRemarks = response.data.getResubmissionRemarks.sort(
             (a, b) => {
-              const dateA = new Date(a.resubmissionRemarksDate); // Ensure this field contains date with time
+              const dateA = new Date(a.resubmissionRemarksDate);
               const dateB = new Date(b.resubmissionRemarksDate);
-              return dateA - dateB; // Sorting in ascending order
+              return dateA - dateB;
             }
           );
-          setRemarksData(sortedRemarks); // Set the sorted remarks data
+          setRemarksData(sortedRemarks);
         } else {
           console.error("Failed to fetch remarks", response.status);
         }
@@ -217,7 +217,6 @@ function SubmissionStatus({ params }) {
     fetchResubmissionRemarks();
   }, [form]);
 
-  //GET Resubmission File
   useEffect(() => {
     async function fetchResubmission() {
       try {
@@ -288,7 +287,6 @@ function SubmissionStatus({ params }) {
                 <span>Submission Status:</span>
                 <p>{form?.status || "No classification available"}</p>
 
-                {/* hide ko muna pero dito ung expedited, exempted, full board */}
                 <span>Review Classification:</span>
                 <p>{form?.classification || "No classification available"}</p>
               </div>
@@ -297,7 +295,6 @@ function SubmissionStatus({ params }) {
               <div className="submissionstatus-card-remarks">
                 <h1>Remarks</h1>
                 <div className="submissionstatus-remarks-table">
-                  {/* <iframe src={remarksUrl} className="submissionstatus-iframe" /> */}
                   <table className="remarks-table">
                     <thead>
                       <tr>
@@ -311,7 +308,11 @@ function SubmissionStatus({ params }) {
                       {remarksList.length > 0 ? (
                         remarksList.map((remark, index) => (
                           <tr key={index}>
-                            <td>{new Date(remark.remarksDate).toLocaleDateString("en-US")}</td>
+                            <td>
+                              {new Date(remark.remarksDate).toLocaleDateString(
+                                "en-US"
+                              )}
+                            </td>
                             <td>{remark.status}</td>
                             <td>{remark.remarksComment}</td>
                             <td>
@@ -360,23 +361,31 @@ function SubmissionStatus({ params }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {Array.isArray(resubmission) && resubmission.length > 0 ? (
+                      {Array.isArray(resubmission) &&
+                      resubmission.length > 0 ? (
                         resubmission.map((resubmission, index) => (
                           <tr key={index}>
                             <td>
-                              {new Date(resubmission.resubmissionFileDate).toLocaleDateString(
-                                "en-US"
-                              )}
+                              {new Date(
+                                resubmission.resubmissionFileDate
+                              ).toLocaleDateString("en-US")}
                             </td>
                             <td>
-                              {resubmission.resubmissionFile && resubmission.resubmissionFile.length > 0 ? (
-                                resubmission.resubmissionFile.map((resubmissionFile, index) => (
-                                  <div key={index}>
-                                    <a href={resubmissionFile.url} target="_blank" rel="noopener noreferrer">
-                                      {resubmissionFile.filename}
-                                    </a>
-                                  </div>
-                                ))
+                              {resubmission.resubmissionFile &&
+                              resubmission.resubmissionFile.length > 0 ? (
+                                resubmission.resubmissionFile.map(
+                                  (resubmissionFile, index) => (
+                                    <div key={index}>
+                                      <a
+                                        href={resubmissionFile.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {resubmissionFile.filename}
+                                      </a>
+                                    </div>
+                                  )
+                                )
                               ) : (
                                 <p>No resubmission available</p>
                               )}
@@ -396,13 +405,21 @@ function SubmissionStatus({ params }) {
               </div>
 
               <div className="submissionstatus-buttons">
-                {form?.initialSubmission === "Incomplete" && form?._id && form?.status === "Initial-Submission" ? (
-                  <Link href={`/PrincipalInvestigator/EditSubmission/${form?._id}`} passHref>
-                    <button className="submissionstatus-edit-sub">Edit Submission</button>
+                {form?.initialSubmission === "Incomplete" &&
+                form?._id &&
+                form?.status === "Initial-Submission" ? (
+                  <Link
+                    href={`/PrincipalInvestigator/EditSubmission/${form?._id}`}
+                    passHref
+                  >
+                    <button className="submissionstatus-edit-sub">
+                      Edit Submission
+                    </button>
                   </Link>
                 ) : null}
 
-                {form?.status === "Initial-Result" || form?.status === "Resubmission" ? (
+                {form?.status === "Initial-Result" ||
+                form?.status === "Resubmission" ? (
                   <button
                     className="submissionstatus-edit-sub"
                     onClick={handleShowSubmissionModal}
@@ -412,47 +429,58 @@ function SubmissionStatus({ params }) {
                 ) : null}
 
                 {form?.finalDecision === "Deferred" ? (
-                    <button 
+                  <button
                     className="submissionstatus-edit-sub"
                     onClick={() => setAppealModalShow(true)}
-                    >Appeal</button>
+                  >
+                    Appeal
+                  </button>
                 ) : null}
               </div>
 
-              {/* this will only appear when investigator reach the specific status for payment*/}
               <div className="submissionstatus-uploadproof-container">
                 {form?.status === "Pending-Payment" ? (
                   <button
                     className="submissionstatus-uploadproof"
                     onClick={paymentLink ? handleEditModal : handleShowModal}
                   >
-                    {paymentLink ? "Edit Payment Proof" : "Upload Payment Proof"}
+                    {paymentLink
+                      ? "Edit Payment Proof"
+                      : "Upload Payment Proof"}
                   </button>
-                ) : null
-                }
+                ) : null}
                 <div className="submissionstatus-paymentfile">
                   <p>Uploaded File:</p>
                   {paymentLink ? (
-                    // Check if the URL ends with an image extension (like jpg, jpeg, png)
                     /\.(jpg|jpeg|png)$/i.test(paymentLink) ? (
-                      <Image src={paymentLink} alt="Payment File" width={200} height={200} />
-                    ) :
-                      // If it's not an image, assume it's a PDF
-                      paymentLink.endsWith(".pdf") ? (
-                        <>
-                          <iframe src={paymentLink} className="submissionstatus-iframe" />
-                          <a href={paymentLink} target="_blank" rel="noopener noreferrer">
-                            <button className="btn btn-primary">View PDF</button>
-                          </a>
-                        </>
-                      ) : (
-                        <p>Unsupported file format</p>
-                      )
+                      <Image
+                        src={paymentLink}
+                        alt="Payment File"
+                        width={200}
+                        height={200}
+                      />
+                    ) : paymentLink.endsWith(".pdf") ? (
+                      <>
+                        <iframe
+                          src={paymentLink}
+                          className="submissionstatus-iframe"
+                        />
+                        <a
+                          href={paymentLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <button className="btn btn-primary">View PDF</button>
+                        </a>
+                      </>
+                    ) : (
+                      <p>Unsupported file format</p>
+                    )
                   ) : (
                     <p>No payment uploaded yet.</p>
                   )}
-                </div>;
-
+                </div>
+                ;
               </div>
             </Col>
 
@@ -486,12 +514,11 @@ function SubmissionStatus({ params }) {
             submissionparams={unwrappedParams}
           />
 
-          <AppealModal 
+          <AppealModal
             show={appealModalShow}
             onHide={handleCloseAppealModal}
             submissionparams={unwrappedParams}
           />
-
         </>
       )}
     </>

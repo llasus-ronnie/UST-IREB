@@ -8,7 +8,6 @@ export async function POST(req) {
   const { email, accessToken } = await req.json();
 
   try {
-    // Find investigator by email
     const investigator = await ExternalInvestigator.findOne({ email });
 
     if (!investigator) {
@@ -19,9 +18,7 @@ export async function POST(req) {
       );
     }
 
-    // Check if the investigator has already set a password
     if (investigator.password) {
-      // If a password exists, validate password instead of access token
       const isPasswordMatch = await bcrypt.compare(
         accessToken,
         investigator.password
@@ -34,13 +31,12 @@ export async function POST(req) {
         );
       }
       console.log("Password matches, login successful");
-      // await new Promise((resolve) => setTimeout(resolve, 10000)); // 10 seconds delay
+
       return NextResponse.json(
         { success: true, message: "Login successful" },
         { status: 200 }
       );
     } else {
-      // First-time login scenario with access token
       if (investigator.accessToken === accessToken) {
         investigator.tokenUsed = true;
         await investigator.save();

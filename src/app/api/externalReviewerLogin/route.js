@@ -9,7 +9,6 @@ export async function POST(req) {
   const { email, accessToken } = await req.json();
 
   try {
-    // Find reviewer by email
     const reviewer = await ExternalReviewer.findOne({ email });
 
     if (!reviewer) {
@@ -20,9 +19,7 @@ export async function POST(req) {
       );
     }
 
-    // Check if the reviewer has already set a password
     if (reviewer.password) {
-      // If a password exists, validate password instead of access token
       const isPasswordMatch = await bcrypt.compare(
         accessToken,
         reviewer.password
@@ -36,7 +33,6 @@ export async function POST(req) {
       }
       console.log("Password matches, login successful");
 
-      // Add user to User table if not already present
       await addUserToUserTableIfNotExist(
         reviewer.email,
         reviewer.name,
@@ -48,13 +44,11 @@ export async function POST(req) {
         { status: 200 }
       );
     } else {
-      // First-time login scenario with access token
       if (reviewer.accessToken === accessToken) {
         reviewer.tokenUsed = true;
         await reviewer.save();
         console.log("Access token matches, please set your password");
 
-        // Add user to User table if not already present
         await addUserToUserTableIfNotExist(
           reviewer.email,
           reviewer.name,
@@ -91,4 +85,3 @@ async function addUserToUserTableIfNotExist(email, name, role) {
     await User.create({ email, name, role });
   }
 }
-

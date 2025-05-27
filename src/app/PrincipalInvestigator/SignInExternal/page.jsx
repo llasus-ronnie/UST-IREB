@@ -64,24 +64,20 @@ function SignIn() {
     try {
       const response = await axios.post("/api/externalInvestigatorLogin", {
         email,
-        accessToken, // Could be either the access token or password
+        accessToken,
       });
 
       if (response.data.success) {
-        // If successful, try to establish a session with NextAuth
         const nextAuthSignIn = await signIn("credentials", {
           redirect: false,
           email,
-          password: accessToken, // Use accessToken here as it might be password or access token
+          password: accessToken,
         });
         if (nextAuthSignIn && !nextAuthSignIn.error) {
           toast.success("Login successful");
-          router.push("/"); // Redirect to home or another protected page
+          router.push("/");
         }
-        // else {
-        //   toast.error("Failed to create session");
-        // }
-        // If first-time login, redirect to password setup
+
         if (response.data.message.includes("set your password")) {
           toast.success("Sign in successful, please create a password");
           router.push(

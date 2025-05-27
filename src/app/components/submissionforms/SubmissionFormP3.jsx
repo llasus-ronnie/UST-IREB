@@ -37,7 +37,6 @@ function SubmissionFormP3() {
   const currentPage = useSelector((store) => store.submissionForm.currentStep);
   const formData = useSelector((store) => store.submissionForm.formData);
 
-  // Dispatch function
   const dispatch = useDispatch();
 
   const {
@@ -53,12 +52,10 @@ function SubmissionFormP3() {
     },
   });
 
-  // Modal state
   const [modalShow, setModalShow] = useState(false);
   const handleShowModal = () => setModalShow(true);
   const handleCloseModal = () => setModalShow(false);
 
-  // Function to handle previous button click
   const handlePrevious = () => {
     dispatch(setCurrentStep(currentPage - 1));
   };
@@ -138,14 +135,12 @@ function SubmissionFormP3() {
     return true;
   };
 
-  // Process form submission
   const processForm = (data) => {
     if (!validateFiles()) return;
     dispatch(updateFormData(data));
     handleShowModal();
   };
 
-  // Confirm submission
   const handleConfirmSubmission = () => {
     submitDataToServer(formData);
     handleCloseModal();
@@ -347,7 +342,6 @@ function SubmissionFormP3() {
                 {...register("supplementaryFileType", {
                   required: "Please select a file type.",
                 })}
-                // isInvalid={!!errors.supplementaryFileType}
               >
                 <option disabled value="">
                   Choose...

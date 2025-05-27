@@ -108,50 +108,41 @@ function IrebDashboard() {
 
         forms.forEach((form) => {
           const submissionDate = new Date(form.date);
-          const month = submissionDate.getMonth(); // 0-11 for Jan-Dec
+          const month = submissionDate.getMonth();
 
-          // Normalize the REC name in the forms
           const recName = form.researchEthicsCommittee
             .toLowerCase()
-            .replace(/\s+/g, ""); // Trim spaces and convert to lowercase
+            .replace(/\s+/g, "");
 
-          // Increment counts for all submissions
           submissionCountsArray[month]++;
 
-          // Increment counts for approved submissions
           if (form.finalDecision === "Approved") {
             approvedCountsArray[month]++;
           }
 
-          // Final review count
           if (form.status === "Final-Review") {
             forFinalReviewCount++;
           }
 
-          // Total assigned count
           if (form.status === "In-Progress") {
             totalAssignedCount++;
           }
 
-          // Resubmission count
           if (form.status === "Resubmission") {
             resubmissionCount++;
           }
 
-          // Count per REC
           if (!recSubmissionCounts[recName]) {
             recSubmissionCounts[recName] = 0;
           }
           recSubmissionCounts[recName]++;
         });
 
-        // Update the state for submission counts per REC
         setSubmissionCounts(recSubmissionCounts);
         setForFinalReviewCount(forFinalReviewCount);
         setTotalAssignedCount(totalAssignedCount);
         setResubmissionCount(resubmissionCount);
 
-        // Update the chart data with both submitted and approved counts
         setChartData({
           labels: labels,
           datasets: [
@@ -175,7 +166,6 @@ function IrebDashboard() {
     fetchFormsData();
   }, []);
 
-  // For REC members data (to find REC Chair)
   useEffect(() => {
     async function fetchRECChairs() {
       try {
@@ -328,8 +318,8 @@ function IrebDashboard() {
                   {REC.map((rec) => {
                     const normalizedRecName = rec.name
                       .toLowerCase()
-                      .replace(/\s+/g, ""); // Normalize REC name for submission count lookup
-                    const count = submissionCounts[normalizedRecName] || 0; // Use normalized name for lookup
+                      .replace(/\s+/g, "");
+                    const count = submissionCounts[normalizedRecName] || 0;
 
                     return (
                       <tr key={rec.id}>

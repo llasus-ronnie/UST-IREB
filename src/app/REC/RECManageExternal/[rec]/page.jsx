@@ -13,7 +13,7 @@ import ArchiveConfirmationModal from "../../../components/modals/ArchiveConfirma
 import "../../../styles/ireb/IrebManageAccounts.css";
 import withAuthorization from "../../../../hoc/withAuthorization";
 import { Spinner } from "react-bootstrap";
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function IrebManageExternal({ params }) {
   const [modalShowAddAcc, setModalShowAddAcc] = useState(false);
@@ -106,8 +106,6 @@ function IrebManageExternal({ params }) {
 
     fetchExternalReviewers();
   }, [params.rec, isArchivedShown]);
-
-  //loading
 
   const loadingContainerStyle = {
     display: "flex",

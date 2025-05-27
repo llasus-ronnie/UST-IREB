@@ -10,7 +10,6 @@ import {
 } from "../../../redux/slices/submissionFormSlice";
 
 function SummaryForm() {
-  // Access form data from the Redux store
   const formData = useSelector((store) => store.submissionForm.formData);
   const additionalResearchers = useSelector(
     (store) => store.submissionForm.additionalResearchers
@@ -322,7 +321,6 @@ function SummaryForm() {
           </Col>
         </Container>
 
-        {/* Potential Risks */}
         <Container className="PIforms-rescont">
           <Row>
             <h1 className="PIforms-resconthead">Potential Risks</h1>
@@ -374,7 +372,6 @@ function SummaryForm() {
           </Col>
         </Container>
 
-        {/* Potential Benefits */}
         <Container className="PIforms-rescont">
           <Row>
             <h1 className="PIforms-resconthead">Potential Benefits:</h1>

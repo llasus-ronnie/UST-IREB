@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function PATCH(req, { params }) {
   await connectDB();
 
-  const { id } = params; // Capture the ID from the URL
+  const { id } = params;
   const { name, affiliation, isArchived } = await req.json();
 
   try {
@@ -17,7 +17,7 @@ export async function PATCH(req, { params }) {
     const updatedReviewer = await ExternalReviewer.findByIdAndUpdate(
       id,
       updateData,
-      { new: true } // Return the updated document
+      { new: true }
     );
 
     if (!updatedReviewer) {

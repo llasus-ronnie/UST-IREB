@@ -25,61 +25,59 @@ function PrDashboard() {
 
   const userEmail = session?.user?.email;
 
-useEffect(() => {
-  async function getForms() {
-    try {
-      const response = await axios.get("/api/forms", {
-        params: { email: userEmail },
-      });
+  useEffect(() => {
+    async function getForms() {
+      try {
+        const response = await axios.get("/api/forms", {
+          params: { email: userEmail },
+        });
 
-      const assignedForms = response.data.forms || [];
+        const assignedForms = response.data.forms || [];
 
-      setForms(assignedForms);
+        setForms(assignedForms);
 
-      const newStatusCounts = {
-        "Initial-Submission": 0,
-        "Pending-Payment": 0,
-        "For-Classification": 0,
-        "In-Progress": 0,
-        "Initial-Result": 0,
-        Resubmission: 0,
-        Approved: 0,
-      };
+        const newStatusCounts = {
+          "Initial-Submission": 0,
+          "Pending-Payment": 0,
+          "For-Classification": 0,
+          "In-Progress": 0,
+          "Initial-Result": 0,
+          Resubmission: 0,
+          Approved: 0,
+        };
 
-      assignedForms.forEach((form) => {
-        if (form.status && newStatusCounts.hasOwnProperty(form.status)) {
-          newStatusCounts[form.status] += 1;
-        }
-      });
+        assignedForms.forEach((form) => {
+          if (form.status && newStatusCounts.hasOwnProperty(form.status)) {
+            newStatusCounts[form.status] += 1;
+          }
+        });
 
-      setStatusCounts(newStatusCounts);
+        setStatusCounts(newStatusCounts);
 
-      console.log("Assigned Forms:", assignedForms);
+        console.log("Assigned Forms:", assignedForms);
 
-      const overdueForms = assignedForms.filter((form) => {
-        if (form.date) {
-          const today = new Date();
-          const formDate = new Date(form.date);
-          const dateSinceSubmission = today - formDate;
+        const overdueForms = assignedForms.filter((form) => {
+          if (form.date) {
+            const today = new Date();
+            const formDate = new Date(form.date);
+            const dateSinceSubmission = today - formDate;
 
-          // Check if the form is more than 7 days old and not in "final-decision" status
-          return (
-            dateSinceSubmission > 7 * 24 * 60 * 60 * 1000 &&
-            form.status !== "Final-Decision"
-          );
-        }
-        return false;
-      });
-      setOverdueForms(overdueForms);
-
-    } catch (error) {
-      toast.error("Error loading data");
-      console.error("Error fetching assigned tasks:", error);
+            return (
+              dateSinceSubmission > 7 * 24 * 60 * 60 * 1000 &&
+              form.status !== "Final-Decision"
+            );
+          }
+          return false;
+        });
+        setOverdueForms(overdueForms);
+      } catch (error) {
+        toast.error("Error loading data");
+        console.error("Error fetching assigned tasks:", error);
+      }
     }
-  }
 
-  getForms();
-}, [userEmail]);
+    getForms();
+  }, [userEmail]);
 
   return (
     <div className="adminpage-container">
@@ -127,24 +125,24 @@ useEffect(() => {
             <Col className="needs-attention">
               <h1>Assigned Tasks that Need Attention</h1>
               <p className="needs-attention-content mt-3">
-                  {overdueForms.map((form, index) => (
-                    <tr key={index}>
-                      <td>
-                        <Link href={`../../REC/RECViewSubmission`}>
-                          <div className="deadline-links">
-                            <p>{form.title}</p>
-                          </div>
-                        </Link>
-                      </td>
-                      <td>
-                        {new Date(form.date).toLocaleDateString("en-US", {
-                          month: "2-digit",
-                          day: "2-digit",
-                          year: "numeric",
-                        })}
-                      </td>
-                    </tr>
-                  ))}
+                {overdueForms.map((form, index) => (
+                  <tr key={index}>
+                    <td>
+                      <Link href={`../../REC/RECViewSubmission`}>
+                        <div className="deadline-links">
+                          <p>{form.title}</p>
+                        </div>
+                      </Link>
+                    </td>
+                    <td>
+                      {new Date(form.date).toLocaleDateString("en-US", {
+                        month: "2-digit",
+                        day: "2-digit",
+                        year: "numeric",
+                      })}
+                    </td>
+                  </tr>
+                ))}
               </p>
             </Col>
           </Row>
@@ -168,7 +166,14 @@ useEffect(() => {
                       <tr key={index}>
                         <td>{form._id}</td>
                         <td>{form.fullName}</td>
-                        <td>{new Date(form.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</td>                        <td>{form.title}</td>
+                        <td>
+                          {new Date(form.date).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </td>{" "}
+                        <td>{form.title}</td>
                         <td>
                           <Link
                             href={`/PrimaryReviewer/PRViewSubmission/${form._id}`}

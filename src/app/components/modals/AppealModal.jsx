@@ -39,7 +39,6 @@ export default function AppealModal({ submissionparams, subFormId, ...props }) {
         console.log("Appeal: ", updateResponse.data);
         toast.success("Appeal sent successfully!");
 
-        // Send email notification
         try {
           const formResponse = await axios.get(
             `/api/forms/${submissionparams.id}`
@@ -76,7 +75,6 @@ export default function AppealModal({ submissionparams, subFormId, ...props }) {
             return false;
           }
 
-          // Proceed with the email sending logic
           const emailData = {
             rec: rec.email,
             title: form.title,

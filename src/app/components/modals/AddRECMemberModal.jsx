@@ -49,9 +49,6 @@ export default function AddRECMemberModal(props) {
       console.log("Account added to database");
       toast.success("REC Member added successfully");
 
-      // await axios.post("/api/auth/send-email", { email, token: accessToken });
-      // toast.success("Email sent successfully");
-
       props.onHide();
     } catch (error) {
       console.error(

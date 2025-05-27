@@ -18,7 +18,7 @@ export default function ResubmissionModal({
 }) {
   const [body, setBody] = useState("");
   const [form, setForm] = useState(null);
-  const [uploadedFiles, setUploadedFiles] = useState([]); // Changed to array for multiple files
+  const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const { register, handleSubmit, setValue } = useForm();
 
@@ -44,12 +44,11 @@ export default function ResubmissionModal({
     fetchData();
   }, [props.subFormId, submissionparams]);
 
-  // Submit resubmission
   async function submitResubmission(data) {
     try {
       const payload = {
         subFormId: form._id,
-        resubmissionFile: uploadedFiles, // Changed to use the uploaded files array
+        resubmissionFile: uploadedFiles,
         resubmissionComments: data.resubmissionComments || body || "",
       };
 
@@ -86,7 +85,7 @@ export default function ResubmissionModal({
             `/api/REC?name=${encodedRECName}`
           );
           console.log("REC Response Data:", recResponse.data);
-          const recList = recResponse.data.data; // Extract the data array
+          const recList = recResponse.data.data;
 
           const rec = recList.find(
             (rec) =>
@@ -104,7 +103,6 @@ export default function ResubmissionModal({
             return false;
           }
 
-          // Proceed with the email sending logic
           const emailData = {
             rec: rec.email,
             title: form.title,
@@ -156,7 +154,6 @@ export default function ResubmissionModal({
     }
   }
 
-  // Remove uploaded file
   const removeFile = (fileToRemove) => {
     setUploadedFiles(
       uploadedFiles.filter((file) => file.url !== fileToRemove.url)
@@ -188,8 +185,8 @@ export default function ResubmissionModal({
             multiple
             signatureEndpoint="/api/sign-cloudinary-params"
             options={{
-              resourceType: "auto", // Automatically detects file type
-              allowedFormats: ["pdf"], // Restrict to PDF files
+              resourceType: "auto",
+              allowedFormats: ["pdf"],
             }}
             onSuccess={(res) => {
               console.log("Upload Success Response:", res);
@@ -199,8 +196,8 @@ export default function ResubmissionModal({
                 filename: res.info.original_filename,
               };
 
-              setUploadedFiles((prevFiles) => [...prevFiles, uploadedFile]); // Correctly append the file to the list
-              setValue("resubmissionFile", uploadedFiles); // You can set form value if needed
+              setUploadedFiles((prevFiles) => [...prevFiles, uploadedFile]);
+              setValue("resubmissionFile", uploadedFiles);
               console.log("Uploaded Files:", uploadedFiles);
             }}
           >
@@ -243,7 +240,6 @@ export default function ResubmissionModal({
                 </div>
               ))}
             </div>
-
           )}
         </div>
         <Form>

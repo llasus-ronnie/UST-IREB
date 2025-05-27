@@ -30,7 +30,7 @@ function RecSubmissions({ params }) {
   const [forms, setForms] = useState([]);
   const [statusCount, setStatusCount] = useState({});
 
-  const { rec } = useParams(); // Get the current route parameter
+  const { rec } = useParams();
 
   useEffect(() => {
     async function fetchData() {
@@ -59,15 +59,22 @@ function RecSubmissions({ params }) {
   };
 
   const [unwrappedParams, setUnwrappedParams] = useState({});
-  
+
   const statusDescriptions = {
-    "Initial-Submission": "This status indicates that the submission is under review for completeness. The REC must verify that all required documents are provided and request revisions if necessary.",
-    "Pending-Payment": "This status signifies that the submission is awaiting payment for ethical review fees. The REC must verify the proof of payment and proceed to classification upon confirmation of receipt.",
-    "For-Classification": "This status occurs once proof of payment is received. The REC is responsible for classifying the research submission into the appropriate review type—expedited, full board, or exempt.",
-    "In-Progress": "This status indicates that the submission is currently with the primary reviewer for ethical review. The REC must monitor the progress of the review and ensure timely feedback.",
-    "Initial-Result": "This status means the submission has been initially reviewed by the primary reviewer.",
-    "Resubmission": "This status indicates that revisions are required based on the primary reviewer’s feedback and is awaiting resubmission from the principal investigator.",
-    "Final-Decision": "This status indicates that all revisions have been reviewed. The Primary Reviewer has forwarded the submission to the REC Chair for the final decision. If approved, the REC is responsible for issuing the ethics review certificate.",
+    "Initial-Submission":
+      "This status indicates that the submission is under review for completeness. The REC must verify that all required documents are provided and request revisions if necessary.",
+    "Pending-Payment":
+      "This status signifies that the submission is awaiting payment for ethical review fees. The REC must verify the proof of payment and proceed to classification upon confirmation of receipt.",
+    "For-Classification":
+      "This status occurs once proof of payment is received. The REC is responsible for classifying the research submission into the appropriate review type—expedited, full board, or exempt.",
+    "In-Progress":
+      "This status indicates that the submission is currently with the primary reviewer for ethical review. The REC must monitor the progress of the review and ensure timely feedback.",
+    "Initial-Result":
+      "This status means the submission has been initially reviewed by the primary reviewer.",
+    Resubmission:
+      "This status indicates that revisions are required based on the primary reviewer’s feedback and is awaiting resubmission from the principal investigator.",
+    "Final-Decision":
+      "This status indicates that all revisions have been reviewed. The Primary Reviewer has forwarded the submission to the REC Chair for the final decision. If approved, the REC is responsible for issuing the ethics review certificate.",
   };
 
   return (
@@ -119,7 +126,8 @@ function RecSubmissions({ params }) {
                 <p>Resubmission</p>
               </button>
               <button onClick={() => handleTableChange("Final-Decision")}>
-                <span>{statusCount["Final-Decision"] || 0}</span> <p>Final Decision</p>
+                <span>{statusCount["Final-Decision"] || 0}</span>{" "}
+                <p>Final Decision</p>
               </button>
             </div>
 

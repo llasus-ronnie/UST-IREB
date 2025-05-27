@@ -26,12 +26,11 @@ function RECViewSubmission({ params }) {
   const [rec, setRec] = useState("");
   const [id, setId] = useState("");
   const [status, setStatus] = useState("Initial-Submission");
-  const [recRemarksFiles, setRecRemarksFiles] = useState([]); // To store uploaded files
-  const [recRemarksComment, setRecRemarksComment] = useState(""); // To store the comment
-  const [remarksStatus, setRemarksStatus] = useState(""); // To store remark status
-  const [remarksDate, setRemarksDate] = useState(""); // To store the remark date
+  const [recRemarksFiles, setRecRemarksFiles] = useState([]);
+  const [recRemarksComment, setRecRemarksComment] = useState("");
+  const [remarksStatus, setRemarksStatus] = useState("");
+  const [remarksDate, setRemarksDate] = useState("");
   const [acknowledgeModal, setAcknowledgeModal] = useState(false);
-
 
   const [RECMembers, setRECMembers] = useState([]);
   const [selectedReviewer, setSelectedReviewer] = useState([]);
@@ -50,7 +49,6 @@ function RECViewSubmission({ params }) {
   const [resubmission, setResubmission] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
-  //unwrapping params
   useEffect(() => {
     async function unwrapParams() {
       const unwrappedParams = await params;
@@ -72,7 +70,7 @@ function RECViewSubmission({ params }) {
             response.data.submission.status || "Initial-Submission"
           ); // Store initial status
           setSelectedReviewer(response.data.submission.recMember || "");
-          setInitialReviewer(response.data.submission.recMember || ""); // Store initial reviewer
+          setInitialReviewer(response.data.submission.recMember || "");
         } catch (error) {
           console.error(error);
         }
@@ -174,7 +172,6 @@ function RECViewSubmission({ params }) {
   async function submitRemarks(data) {
     console.log("Submitting remarks data:", data);
 
-    // Prepare the remark data object
     const remarkData = {
       subFormId: id,
       status: status,
@@ -184,24 +181,23 @@ function RECViewSubmission({ params }) {
       })),
       remarksComment: recRemarksComment || "",
     };
-    console.log("Remark Data being submitted:", remarkData); // Check the final data
+    console.log("Remark Data being submitted:", remarkData);
 
     try {
       const response = await axios.post("/api/remarks", remarkData, {
         headers: {
-          "Content-Type": "application/json", // Make sure to send as JSON
+          "Content-Type": "application/json",
         },
       });
 
-      console.log("Server Response:", response); // Log server response
+      console.log("Server Response:", response);
       toast.success("Remarks have been submitted successfully.");
-      getRemarks(); // Assuming you have this function to refresh remarks data
+      getRemarks();
     } catch (error) {
       console.error(
         "Error submitting remarks:",
         error.response?.data || error.message
       );
-      // toast.error("Failed to submit remarks. Please try again.");
     }
   }
 
@@ -417,46 +413,39 @@ function RECViewSubmission({ params }) {
   const handleInitialSubmission = (event) => {
     const value = event.target.value;
 
-    // Handle the case when "Completed" is selected
     if (value === "Completed") {
-      setShowCompleteModal(true); // Show the modal for confirmation
-      // Close the modal and set the state when confirmed
+      setShowCompleteModal(true);
       const confirmCompletion = () => {
         setShowCompleteModal(false);
         setInitialSubmission("Completed");
         console.log("Initial Submission:", "Completed");
       };
-      confirmCompletion(); // Call the confirmation logic
+      confirmCompletion();
     } else {
-      // Handle other cases
       setInitialSubmission(value);
       console.log("Initial Submission:", value);
     }
   };
 
   const handleCommentChange = (e) => {
-    setRecRemarksComment(e.target.value); // Update the comment state
+    setRecRemarksComment(e.target.value);
   };
 
   const updateStatus = async () => {
     try {
-      // Define remarks from the state
       const remarks = {
-        content: recRemarksFiles, // Assuming `recRemarksFiles` is the array of uploaded files
-        comment: recRemarksComment, // Assuming `recRemarksComment` is the comment from state
+        content: recRemarksFiles,
+        comment: recRemarksComment,
       };
 
-      // Update status if it's different from the initial status
       if (status !== initialStatus) {
         await updateStatusData(status);
       }
 
-      // Update selected reviewer if it's different from the initial reviewer
       if (selectedReviewer !== initialReviewer) {
         await updateReviewerData();
       }
 
-      // Only submit remarks if conditions allow (skip if Initial-Submission is active)
       if (
         (remarks.content.length > 0 || remarks.comment) &&
         initialSubmission !== "Initial-Submission"
@@ -476,22 +465,16 @@ function RECViewSubmission({ params }) {
         await submitRemarks(remarks);
       }
 
-      // Handle classification updates when status is "For-Classification"
       if (formClassification && status === "For-Classification") {
         await updateClassificationData(formClassification);
-      }
-
-      // Handle status update when status is "Pending-Payment"
-      else if (status === "Pending-Payment") {
+      } else if (status === "Pending-Payment") {
         await updateStatusData(status);
       }
 
-      // Submit final decision if it's provided
       if (finalDecision) {
         await submitFinalDecision(finalDecision);
       }
 
-      // Update initial submission data if needed
       if (
         initialSubmission == "Completed" ||
         initialSubmission == "Incomplete"
@@ -508,9 +491,8 @@ function RECViewSubmission({ params }) {
     }
   };
 
-  const [selectedFileUrl, setSelectedFileUrl] = useState(""); // State to store the selected file URL
+  const [selectedFileUrl, setSelectedFileUrl] = useState("");
 
-  // Combine main and supplementary files
   const fileOptions = [
     ...(forms?.mainFileLink || []).map((file) => ({
       filename: file.filename,
@@ -522,7 +504,6 @@ function RECViewSubmission({ params }) {
     })),
   ];
 
-  // Handle file selection
   const handleFileViewChange = (event) => {
     const selectedUrl = event.target.value;
     setSelectedFileUrl(selectedUrl);
@@ -550,27 +531,24 @@ function RECViewSubmission({ params }) {
   const handleCloseAcknowledgeModal = () => setAcknowledgeModal(false);
 
   const handleUploadSuccess = (res) => {
-    console.log("Upload Response:", res.info); // Log response to check the file details
+    console.log("Upload Response:", res.info);
 
-    // Check if the file is a PDF
     if (res.info.format !== "pdf") {
       toast.error("Only PDF files are allowed. Please upload a PDF.");
       return;
     }
 
-    // Prepare the new file object
     const newFile = {
-      url: res.info.secure_url, // Get the file URL
+      url: res.info.secure_url,
       filename:
-        res.info.original_filename || res.info.public_id.split("/").pop(), // Get the filename
+        res.info.original_filename || res.info.public_id.split("/").pop(),
     };
 
-    // Update the recRemarksFiles state with the new file
     setRecRemarksFiles((prevFiles) => {
-      console.log("Prev Files:", prevFiles); // Log previous files to see the state before update
-      const updatedFiles = [...prevFiles, newFile]; // Add new file to the list
-      console.log("Updated Files:", updatedFiles); // Log updated files to ensure they are correct
-      return updatedFiles; // Update the state with the new file
+      console.log("Prev Files:", prevFiles);
+      const updatedFiles = [...prevFiles, newFile];
+      console.log("Updated Files:", updatedFiles);
+      return updatedFiles;
     });
   };
 
@@ -580,28 +558,27 @@ function RECViewSubmission({ params }) {
     );
   };
 
-  const [remarksList, setRemarksList] = useState([]); // State to hold all remarks
+  const [remarksList, setRemarksList] = useState([]);
 
   useEffect(() => {
     const fetchRemarks = async () => {
-      console.log("Form ID in useEffect:", forms._id); // Debugging
+      console.log("Form ID in useEffect:", forms._id);
 
       if (!forms._id) {
         console.error("Form ID is missing!");
-        return; // Don't proceed if form ID is missing
+        return;
       }
 
       try {
         const response = await axios.get("/api/remarks", {
-          params: { subFormId: forms._id }, // Send the form ID as a query parameter
+          params: { subFormId: forms._id },
         });
         console.log("Fetched remarks data:", response.data);
 
-        // Assuming the response data is an array of remarks
         const remarksData = response.data;
 
         if (remarksData && remarksData.length > 0) {
-          setRemarksList(remarksData); // Set all remarks in the state
+          setRemarksList(remarksData);
         } else {
           console.log("No remarks found for this form.");
         }
@@ -753,7 +730,6 @@ function RECViewSubmission({ params }) {
                 </>
               ) : null}
 
-              {/* conditional rendering */}
               {status === "For-Classification" ? (
                 <>
                   <span>Classification:</span>
@@ -774,7 +750,7 @@ function RECViewSubmission({ params }) {
               ) : null}
 
               {formClassification === "Full-Board" ||
-                formClassification === "Expedited" ? (
+              formClassification === "Expedited" ? (
                 <>
                   <span>Assign Reviewer:</span>
                   {Array.isArray(RECMembers) && RECMembers.length > 0 ? (
@@ -785,7 +761,6 @@ function RECViewSubmission({ params }) {
                             type="checkbox"
                             name="selectedReviewers"
                             value={member.email}
-                            // checked={selectedReviewer.includes(member.name)}
                             onChange={(e) => {
                               const value = e.target.value;
                               if (e.target.checked) {
@@ -809,7 +784,7 @@ function RECViewSubmission({ params }) {
                   )}
 
                   {Array.isArray(externalReviewers) &&
-                    externalReviewers.length > 0 ? (
+                  externalReviewers.length > 0 ? (
                     externalReviewers.map((reviewer) => (
                       <div key={reviewer._id} className="viewsub-checkbox">
                         <label>
@@ -865,12 +840,14 @@ function RECViewSubmission({ params }) {
 
               {forms?.appeal === true && (
                 <div className="viewsub-buttons">
-                <button 
-                onClick={handleShowAcknowledgeModal}
-                className="viewsub-save"
-                >Appeal Decision</button>
+                  <button
+                    onClick={handleShowAcknowledgeModal}
+                    className="viewsub-save"
+                  >
+                    Appeal Decision
+                  </button>
                 </div>
-              )}                            
+              )}
 
               <div className="viewsub-proofofpayment">
                 <span>Proof of Payment:</span>
@@ -911,7 +888,7 @@ function RECViewSubmission({ params }) {
               <div className="submissionstatus-card-remarks">
                 <div className="upload-remarks">
                   {finalDecision === "Approved" ||
-                    formClassification === "Exempt" ? (
+                  formClassification === "Exempt" ? (
                     <span>Certificate:</span>
                   ) : finalDecision === "Deferred" ? (
                     <span>Letter of Disapproval:</span>
@@ -919,12 +896,11 @@ function RECViewSubmission({ params }) {
                     <span>Remarks:</span>
                   )}
 
-
                   <div>
                     <CldUploadWidget
                       signatureEndpoint="/api/sign-cloudinary-params"
                       multiple
-                      onSuccess={(res) => handleUploadSuccess(res)} // Pass the success handler
+                      onSuccess={(res) => handleUploadSuccess(res)}
                     >
                       {({ open }) => (
                         <button
@@ -965,8 +941,8 @@ function RECViewSubmission({ params }) {
 
                   <textarea
                     className="viewsub-textarea"
-                    value={recRemarksComment} // Bind the value to the state
-                    onChange={handleCommentChange} // Update state on change
+                    value={recRemarksComment}
+                    onChange={handleCommentChange}
                     placeholder="Enter remarks here..."
                   />
                 </div>
@@ -1039,7 +1015,7 @@ function RECViewSubmission({ params }) {
                     </thead>
                     <tbody>
                       {Array.isArray(resubmission) &&
-                        resubmission.length > 0 ? (
+                      resubmission.length > 0 ? (
                         resubmission.map((resubmission, index) => (
                           <tr key={index}>
                             <td>
@@ -1049,7 +1025,7 @@ function RECViewSubmission({ params }) {
                             </td>
                             <td>
                               {resubmission.resubmissionFile &&
-                                resubmission.resubmissionFile.length > 0 ? (
+                              resubmission.resubmissionFile.length > 0 ? (
                                 resubmission.resubmissionFile.map(
                                   (resubmissionFile, index) => (
                                     <div key={index}>
@@ -1098,26 +1074,25 @@ function RECViewSubmission({ params }) {
                           <td>{index + 1}</td>
                           <td>{remark.resubmissionRemarksMember}</td>
                           <td>
-                            {/* Iterate over the remark's resubmissionRemarksFile if it's an array */}
                             {Array.isArray(remark.resubmissionRemarksFile)
                               ? remark.resubmissionRemarksFile.map(
-                                (file, fileIndex) => {
-                                  const fileName = file.filename;
-                                  return (
-                                    <>
-                                      <a
-                                        key={fileIndex}
-                                        href={file.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        {fileName}
-                                      </a>
-                                      <br />
-                                    </>
-                                  );
-                                }
-                              )
+                                  (file, fileIndex) => {
+                                    const fileName = file.filename;
+                                    return (
+                                      <>
+                                        <a
+                                          key={fileIndex}
+                                          href={file.url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          {fileName}
+                                        </a>
+                                        <br />
+                                      </>
+                                    );
+                                  }
+                                )
                               : "No file"}
                           </td>
                           <td>{remark.resubmissionRemarksComments}</td>
@@ -1153,7 +1128,6 @@ function RECViewSubmission({ params }) {
             onConfirm={() => {
               console.log("Modal confirmed");
 
-              // Debugging the update status process
               console.log(
                 "Attempting to update status to 'For-Classification'"
               );
@@ -1166,9 +1140,7 @@ function RECViewSubmission({ params }) {
               } else {
                 console.log("Forms _id:", forms._id);
 
-                // Only proceed with status update if needed
                 if (status !== "For-Classification") {
-                  // Ensure the status is not already "For-Classification"
                   updateStatusData("For-Classification");
                 } else {
                   console.log(
@@ -1177,7 +1149,6 @@ function RECViewSubmission({ params }) {
                 }
               }
 
-              // Close the modal after updates
               setShowAcknowledgeModal(false);
             }}
           />

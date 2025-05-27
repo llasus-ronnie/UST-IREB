@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import RecNav from "../../../components/navbaradmin/RecNav";
 import RecNavMobile from "../../../components/navbaradmin/RecNavMobile";
 import RecHeader from "../../../components/recheader/RecHeader";
-import axios from "axios"; // You can use any library for HTTP requests
+import axios from "axios";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import Image from "next/image";
@@ -43,14 +43,12 @@ function RECDashboard({ params }) {
         });
         const fetchForms = response.data.forms;
 
-        // Filter forms that need attention (submitted over 7 days ago)
         const overdueForms = fetchForms.filter((form) => {
           if (form.date) {
             const today = new Date();
             const formDate = new Date(form.date);
             const dateSinceSubmission = today - formDate;
 
-            // Check if the form is more than 7 days old and not in "final-decision" status
             return (
               dateSinceSubmission > 7 * 24 * 60 * 60 * 1000 &&
               form.status !== "Final-Decision"
@@ -90,7 +88,6 @@ function RECDashboard({ params }) {
     setStatusCounts(newStatusCounts);
   }, [forms]);
 
-  //hydration error fix
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -150,7 +147,6 @@ function RECDashboard({ params }) {
               </div>
             </div>
 
-            {/* Deadline Cards Converted to Table */}
             <div className="deadline-table-container">
               <div className="deadline-table-header">
                 <h2>Needs Attention</h2>

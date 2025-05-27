@@ -1,62 +1,59 @@
-import { get } from 'http';
+import { get } from "http";
 
-const {createSlice} = require('@reduxjs/toolkit');
+const { createSlice } = require("@reduxjs/toolkit");
 
-//initial states
-const initialState={
-    currentStep: 1, //form starts at step 1
-    formData:{}, //form data is initially null
+const initialState = {
+  currentStep: 1,
+  formData: {},
 
-    //adiitional researcher
-    additionalResearcher: [],
-    fileName: "",
-    paymentFile: ""
-}
+  //adiitional researcher
+  additionalResearcher: [],
+  fileName: "",
+  paymentFile: "",
+};
 
-
-//slice creation
 const submissionFormSlice = createSlice({
-    name: 'submissionForm',
-    initialState:initialState,
-    reducers:{
-        setCurrentStep(state, action){
-            state.currentStep = action.payload;
-        },
-
-        updateFormData(state, action){ //takes the data and updates the form data
-        state.formData = {
-            ...state.formData, 
-            ...action.payload
-        }
+  name: "submissionForm",
+  initialState: initialState,
+  reducers: {
+    setCurrentStep(state, action) {
+      state.currentStep = action.payload;
     },
 
-        addResearcher(state, action) {
-            const newResearcher = {
-                additionalFullName: '',
-                additionalEmail: '',
-                additionalPhone: '',
-                additionalInstitutionAffiliation: ''
-            };
-            
-            state.additionalResearcher.push(newResearcher);
-        },
+    updateFormData(state, action) {
+      state.formData = {
+        ...state.formData,
+        ...action.payload,
+      };
+    },
 
-        getFileName(state, action){
-            state.fileName = action.payload;
-        },
+    addResearcher(state, action) {
+      const newResearcher = {
+        additionalFullName: "",
+        additionalEmail: "",
+        additionalPhone: "",
+        additionalInstitutionAffiliation: "",
+      };
 
-        getPaymentFile(state, action){
-            state.paymentFile = action.payload;
-        }
-    }
+      state.additionalResearcher.push(newResearcher);
+    },
+
+    getFileName(state, action) {
+      state.fileName = action.payload;
+    },
+
+    getPaymentFile(state, action) {
+      state.paymentFile = action.payload;
+    },
+  },
 });
 
 export const {
-    setCurrentStep,
-    updateFormData,
-    addResearcher,
-    getFileName,
-    getPaymentFile
+  setCurrentStep,
+  updateFormData,
+  addResearcher,
+  getFileName,
+  getPaymentFile,
 } = submissionFormSlice.actions;
 
 export default submissionFormSlice.reducer;

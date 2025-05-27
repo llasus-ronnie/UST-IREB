@@ -13,7 +13,7 @@ import "../../styles/ireb/IrebManageAccounts.css";
 import withAuthorization from "../../../hoc/withAuthorization";
 import { Spinner } from "react-bootstrap";
 import { set } from "mongoose";
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function IrebManageExternal() {
   const [modalShowAddAcc, setModalShowAddAcc] = useState(false);
@@ -84,26 +84,6 @@ function IrebManageExternal() {
     );
     setFilteredExternal(filtered);
   };
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     setIsLoading(true);
-  //     try {
-  //       const response = await axios.get("/api/addExternalInvestigator");
-  //       const activeContent = response.data.data.filter(
-  //         (account) => !account.isArchived
-  //       );
-  //       setContent(activeContent);
-  //       setFilteredExternal(activeContent);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   }
-
-  //   fetchData();
-  // }, []);
 
   useEffect(() => {
     const fetchExternalInvestigators = async () => {

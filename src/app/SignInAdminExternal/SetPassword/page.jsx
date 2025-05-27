@@ -67,14 +67,12 @@ export default function SignIn() {
 
     if (isEmailValid && isPasswordValid && isRecaptchaVerified) {
       try {
-        // Send email and password to the API to update the password
         const response = await axios.post("/api/set-password", {
           email,
           password,
         });
 
         if (response.data.success) {
-          // Automatically log the user in after setting the password
           const loginResult = await signIn("credentials", {
             redirect: false,
             email,

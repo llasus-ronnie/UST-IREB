@@ -35,8 +35,8 @@ export default function EditForms() {
   const [editingFileIndex, setEditingFileIndex] = useState(null);
   const [editingSupplementaryFileIndex, setEditingSupplementaryFileIndex] =
     useState(null);
-  const [newMainFiles, setNewMainFiles] = useState([]); // Newly uploaded main files
-  const [newSupplementaryFiles, setNewSupplementaryFiles] = useState([]); // Newly uploaded supplementary files
+  const [newMainFiles, setNewMainFiles] = useState([]);
+  const [newSupplementaryFiles, setNewSupplementaryFiles] = useState([]);
   const { data: session } = useSession();
   const {
     register,
@@ -52,13 +52,12 @@ export default function EditForms() {
 
   useEffect(() => {
     const pathSegments = window.location.pathname.split("/");
-    const id = pathSegments[pathSegments.length - 1]; // Get the last segment
+    const id = pathSegments[pathSegments.length - 1];
     setSubformId(id);
   }, []);
 
-  // GET Forms
   useEffect(() => {
-    if (!subformId) return; // Ensure subformId is available
+    if (!subformId) return;
 
     async function getForms() {
       try {
@@ -66,7 +65,7 @@ export default function EditForms() {
           params: { subformId: subformId },
         });
         const userForms = response.data.forms;
-        setForms(userForms[0]); // Assuming you get an array, set the first form
+        setForms(userForms[0]);
       } catch (error) {
         toast.error("Error fetching data:", error);
       }
@@ -101,24 +100,21 @@ export default function EditForms() {
     const fileName = res.info.original_filename;
 
     if (fileType === "main") {
-      // Replace the specific file at the provided index
       setForms((prev) => {
         const updatedFiles = [...prev.mainFileLink];
-        updatedFiles[index] = { url: fileUrl, filename: fileName }; // Replace file
+        updatedFiles[index] = { url: fileUrl, filename: fileName };
         return { ...prev, mainFileLink: updatedFiles };
       });
       toast.success("Main file replaced successfully.");
     } else if (fileType === "supplementary") {
-      // Replace the specific file at the provided index
       setForms((prev) => {
         const updatedFiles = [...prev.supplementaryFileLink];
-        updatedFiles[index] = { url: fileUrl, filename: fileName }; // Replace file
+        updatedFiles[index] = { url: fileUrl, filename: fileName };
         return { ...prev, supplementaryFileLink: updatedFiles };
       });
       toast.success("Supplementary file replaced successfully.");
     }
 
-    // Reset editing index
     setEditingFileIndex(null);
     setEditingSupplementaryFileIndex(null);
   };
@@ -195,11 +191,11 @@ export default function EditForms() {
 
     if (fileType === "main") {
       setMainFiles((prevFiles) => [...prevFiles, newFile]);
-      setNewMainFiles((prevNewFiles) => [...prevNewFiles, newFile]); // Track new files
+      setNewMainFiles((prevNewFiles) => [...prevNewFiles, newFile]);
       toast.success("Main file added.");
     } else if (fileType === "supplementary") {
       setSupplementaryFiles((prevFiles) => [...prevFiles, newFile]);
-      setNewSupplementaryFiles((prevNewFiles) => [...prevNewFiles, newFile]); // Track new files
+      setNewSupplementaryFiles((prevNewFiles) => [...prevNewFiles, newFile]);
       toast.success("Supplementary file added.");
     }
   };
@@ -207,20 +203,20 @@ export default function EditForms() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
-      id: forms._id, // Include the form ID
+      id: forms._id,
       mainFileLink: [
-        ...forms.mainFileLink, // Include existing files
+        ...forms.mainFileLink,
         ...newMainFiles.map((file) => ({
           url: file.url,
           filename: file.filename,
-        })), // Add newly uploaded files
+        })),
       ],
       supplementaryFileLink: [
-        ...forms.supplementaryFileLink, // Include existing files
+        ...forms.supplementaryFileLink,
         ...newSupplementaryFiles.map((file) => ({
           url: file.url,
           filename: file.filename,
-        })), // Add newly uploaded files
+        })),
       ],
     };
     try {
@@ -1133,7 +1129,6 @@ export default function EditForms() {
                   <FormLabel className="PIforms-formtext">
                     Select File:
                   </FormLabel>
-                  {/* Upload widget will appear only for the file being edited */}
                 </Row>
 
                 {/* main files */}
@@ -1142,7 +1137,7 @@ export default function EditForms() {
                     <div className="uploaded-files">
                       <CldUploadWidget
                         signatureEndpoint="/api/sign-cloudinary-params"
-                        onSuccess={(result) => handleAddFile(result, "main")} // Add the file to the main array
+                        onSuccess={(result) => handleAddFile(result, "main")}
                       >
                         {({ open }) => (
                           <button
@@ -1204,7 +1199,7 @@ export default function EditForms() {
                                   variant="outline-primary"
                                   size="sm"
                                   className="ml-2"
-                                  onClick={() => setEditingFileIndex(index)} // Trigger edit mode for this file
+                                  onClick={() => setEditingFileIndex(index)}
                                 >
                                   Edit
                                 </Button>
@@ -1225,7 +1220,7 @@ export default function EditForms() {
                       </ul>
                     </div>
                   )}
-                  {/* Upload widget will appear only for the file being edited */}
+
                   {editingFileIndex !== null && (
                     <CldUploadWidget
                       signatureEndpoint="/api/sign-cloudinary-params"
@@ -1381,11 +1376,10 @@ export default function EditForms() {
                       </div>
                     )}
 
-                  {/* Upload widget will appear only for the file being edited */}
                   {editingSupplementaryFileIndex !== null && (
                     <CldUploadWidget
                       signatureEndpoint="/api/sign-cloudinary-params"
-                      multiple={false} // Only one file at a time
+                      multiple={false}
                       onSuccess={(res) =>
                         handleFileUploadSuccess(
                           res,

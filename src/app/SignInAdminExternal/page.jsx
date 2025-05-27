@@ -61,7 +61,6 @@ export default function SignIn() {
       });
 
       if (response.data.success) {
-        // If successful, try to establish a session with NextAuth
         const nextAuthSignIn = await signIn("credentials", {
           redirect: false,
           email,
@@ -72,11 +71,6 @@ export default function SignIn() {
           toast.success("Login successful");
           router.push("/PrimaryReviewer/PRDashboard");
         }
-        // else {
-        //   toast.error("Failed to create session");
-        // }
-
-        // If first-time login, redirect to password setup
         if (response.data.message.includes("set your password")) {
           toast.success("Sign in successful, please create a password");
           router.push(
@@ -121,13 +115,13 @@ export default function SignIn() {
           </p>
 
           <div className="input-group">
-          <input
-            type="email"
-            value={email}
-            onChange={handleEmailChange}
-            placeholder="Email"
-            className="admin-input form-control"
-          />
+            <input
+              type="email"
+              value={email}
+              onChange={handleEmailChange}
+              placeholder="Email"
+              className="admin-input form-control"
+            />
           </div>
 
           <div className="input-group">

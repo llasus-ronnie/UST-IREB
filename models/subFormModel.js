@@ -354,8 +354,8 @@ const subFormSchema = new Schema({
   archivedAt: {
     type: Date,
     default: null,
-    index: { expires: '10y' } // Automatically delete documents 10 years after being archived
-    },
+    index: { expires: "10y" },
+  },
   initialSubmission: {
     type: String,
     require: true,

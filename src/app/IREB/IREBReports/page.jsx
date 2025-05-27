@@ -75,12 +75,12 @@ function IrebReports() {
         display: true,
         text: "REC Submissions",
       },
-      dragData: true, // Enable drag functionality
-      dragDataRound: 0, // Round dragged values
+      dragData: true,
+      dragDataRound: 0,
       onDragEnd: function (e, datasetIndex, index, value) {
         const updatedData = [...chartData.datasets];
-        updatedData[datasetIndex].data[index] = value; // Update dragged value
-        setChartData({ ...chartData, datasets: updatedData }); // Set new data in state
+        updatedData[datasetIndex].data[index] = value;
+        setChartData({ ...chartData, datasets: updatedData });
       },
     },
     scales: {
@@ -128,10 +128,9 @@ function IrebReports() {
 
         forms.forEach((form) => {
           const submissionDate = new Date(form.date);
-          const month = submissionDate.getMonth(); // 0-11 for Jan-Dec
+          const month = submissionDate.getMonth();
           const recName = form.researchEthicsCommittee;
 
-          // Increment counts for submissions by month
           submissionCountsArray[month]++;
           if (!recSubmissionCountsTemp[recName]) {
             recSubmissionCountsTemp[recName] = 0;
@@ -139,7 +138,6 @@ function IrebReports() {
           recSubmissionCountsTemp[recName]++;
           totalSubmissions++;
 
-          // Count status types for doughnut chart
           if (form.finalDecision === "No Final Decision Yet") submittedCount++;
           else if (form.finalDecision === "Approved") {
             approvedCount++;
@@ -160,7 +158,6 @@ function IrebReports() {
         setRecApprovalCounts(recApprovalCountsTemp);
         setRecDeferredCounts(recDeferredCountsTemp);
 
-        // Update the bar chart data
         setChartData({
           labels: labels,
           datasets: [
@@ -177,7 +174,6 @@ function IrebReports() {
           ],
         });
 
-        // Update the doughnut chart data
         setDoughnutData({
           labels: ["Submitted", "Approved", "Rejected"],
           datasets: [
@@ -196,7 +192,6 @@ function IrebReports() {
     fetchFormsData();
   }, []);
 
-  // rec analytics (doughnut chart data state)
   const [doughnutData, setDoughnutData] = useState({
     labels: [],
     datasets: [
@@ -224,7 +219,7 @@ function IrebReports() {
       },
     },
   };
-  //for rec status
+
   const [REC, setREC] = useState([]);
   const [recStatusData, setRecStatusData] = useState({
     labels: [],
@@ -232,25 +227,25 @@ function IrebReports() {
       {
         label: "New Submissions",
         data: [],
-        backgroundColor: "#A0A0A0", // Light grey
+        backgroundColor: "#A0A0A0",
         barThickness: 25,
       },
       {
         label: "Waiting",
         data: [],
-        backgroundColor: "#FFEB3B", // Yellow
+        backgroundColor: "#FFEB3B",
         barThickness: 25,
       },
       {
         label: "Approved",
         data: [],
-        backgroundColor: "#4CAF50", // Bright yellow
+        backgroundColor: "#4CAF50",
         barThickness: 25,
       },
       {
         label: "Deferred",
         data: [],
-        backgroundColor: "#A0A0A0", // Light grey
+        backgroundColor: "#A0A0A0",
         barThickness: 25,
       },
     ],
@@ -259,26 +254,21 @@ function IrebReports() {
   useEffect(() => {
     async function fetchFormsAndRECData() {
       try {
-        // Fetch RECs
         const recResponse = await axios.get("/api/REC");
         const recs = recResponse.data.data || [];
         setREC(recs);
 
-        // Create a mapping of normalized REC names to original names
         const recNameMapping = recs.reduce((acc, rec) => {
           const normalizedName = rec.name.replace(/\s+/g, "").toLowerCase();
-          acc[normalizedName] = rec.name; // Store the original name
+          acc[normalizedName] = rec.name;
           return acc;
         }, {});
 
-        // Normalize REC names
         const recNames = Object.keys(recNameMapping);
 
-        // Fetch Forms
         const formsResponse = await axios.get("/api/forms");
         const forms = formsResponse.data.forms || [];
 
-        // Initialize REC status counts with original REC names
         const recStatusCountsTemp = recNames.reduce((acc, normalizedName) => {
           const originalName = recNameMapping[normalizedName];
           acc[originalName] = {
@@ -290,7 +280,6 @@ function IrebReports() {
           return acc;
         }, {});
 
-        // Aggregate data
         forms.forEach((form) => {
           const normalizedRecName = form.researchEthicsCommittee
             .trim()
@@ -298,7 +287,6 @@ function IrebReports() {
           const status = form.status;
           const finalDecision = form.finalDecision;
 
-          // Use normalized name to find the original REC name
           const originalName = recNameMapping[normalizedRecName];
           if (originalName && recStatusCountsTemp[originalName]) {
             if (finalDecision === "Deferred") {
@@ -313,7 +301,6 @@ function IrebReports() {
           }
         });
 
-        // Extract data for the chart
         const deferredData = recNames.map(
           (normalizedName) =>
             recStatusCountsTemp[recNameMapping[normalizedName]]?.Deferred || 0
@@ -332,11 +319,10 @@ function IrebReports() {
               ?.NewSubmissions || 0
         );
 
-        // Set REC status counts and update chart data
         setRecStatusCounts(recStatusCountsTemp);
 
         setRecStatusData({
-          labels: Object.keys(recStatusCountsTemp), // Original REC names as labels
+          labels: Object.keys(recStatusCountsTemp),
           datasets: [
             {
               label: "New Submissions",
@@ -371,14 +357,13 @@ function IrebReports() {
     fetchFormsAndRECData();
   }, []);
 
-  //for exempt status
   const [recStatusDataExempt, setRecStatusDataExempt] = useState({
     labels: [],
     datasets: [
       {
         label: "Exempt",
         data: [],
-        backgroundColor: "#A0A0A0", // Light grey
+        backgroundColor: "#A0A0A0",
         barThickness: 25,
       },
     ],
@@ -435,7 +420,6 @@ function IrebReports() {
         console.log("API Response:", response.data);
         setREC(response.data.data);
 
-        // Extract REC names and update recStatusData labels
         const recNames = response.data.data.map((rec) => rec.name);
         setRecStatusData((prevData) => ({
           ...prevData,
@@ -449,14 +433,13 @@ function IrebReports() {
     fetchData();
   }, []);
 
-  //for exempt status
   const [recStatusDataExpedited, setRecStatusDataExpedited] = useState({
     labels: [],
     datasets: [
       {
         label: "Expedited",
         data: [],
-        backgroundColor: "#A0A0A0", // Light grey
+        backgroundColor: "#A0A0A0",
         barThickness: 25,
       },
     ],
@@ -513,7 +496,6 @@ function IrebReports() {
         console.log("API Response:", response.data);
         setREC(response.data.data);
 
-        // Extract REC names and update recStatusData labels
         const recNames = response.data.data.map((rec) => rec.name);
         setRecStatusData((prevData) => ({
           ...prevData,
@@ -527,14 +509,13 @@ function IrebReports() {
     fetchData();
   }, []);
 
-  //for exempt status
   const [recStatusDataFullBoard, setRecStatusDataFullBoard] = useState({
     labels: [],
     datasets: [
       {
         label: "Full Board",
         data: [],
-        backgroundColor: "#A0A0A0", // Light grey
+        backgroundColor: "#A0A0A0",
         barThickness: 25,
       },
     ],
@@ -606,7 +587,7 @@ function IrebReports() {
   }, []);
 
   const recStatusOptions = {
-    indexAxis: "y", // Horizontal bar chart
+    indexAxis: "y",
     responsive: true,
     plugins: {
       legend: {
@@ -636,9 +617,8 @@ function IrebReports() {
     FullBoard: true,
   });
 
-  // Update dataset based on filters
   const filteredData = {
-    labels: recStatusDataExempt.labels, // Assuming labels are consistent across datasets
+    labels: recStatusDataExempt.labels,
     datasets: [
       selectedFilters.Exempt && {
         label: "Exempt",
@@ -661,7 +641,6 @@ function IrebReports() {
     ].filter(Boolean),
   };
 
-  // Handle checkbox changes
   const handleFilterChange = (event) => {
     const { name, checked } = event.target;
     setSelectedFilters((prevFilters) => ({
@@ -670,7 +649,6 @@ function IrebReports() {
     }));
   };
 
-  //download
   const downloadReport = async () => {
     const doc = new jsPDF("portrait", "pt", "a4");
 
@@ -689,16 +667,6 @@ function IrebReports() {
       ".ireb-rec-status-combined-chart canvas"
     );
 
-    // const recStatusChartElementExempt = document.querySelector(
-    //   ".ireb-rec-status-exempt-chart canvas"
-    // );
-    // const recStatusChartElementExpedited = document.querySelector(
-    //   ".ireb-rec-status-expedited-chart canvas"
-    // );
-    // const recStatusChartElementFullBoard = document.querySelector(
-    //   ".ireb-rec-status-fullboard-chart canvas"
-    // );
-
     if (barChartElement && doughnutChartElement && recStatusChartElement) {
       const barChartImage = await html2canvas(barChartElement).then((canvas) =>
         canvas.toDataURL("image/png")
@@ -713,15 +681,6 @@ function IrebReports() {
       const recStatusChartCombinedImage = await html2canvas(
         recStatusChartCombined
       ).then((canvas) => canvas.toDataURL("image/png"));
-      // const recStatusChartImageExempt = await html2canvas(
-      //   recStatusChartElementExempt
-      // ).then((canvas) => canvas.toDataURL("image/png"));
-      // const recStatusChartImageExpedited = await html2canvas(
-      //   recStatusChartElementExpedited
-      // ).then((canvas) => canvas.toDataURL("image/png"));
-      // const recStatusChartImageFullBoard = await html2canvas(
-      //   recStatusChartElementFullBoard
-      // ).then((canvas) => canvas.toDataURL("image/png"));
 
       doc.setFontSize(16);
       doc.text("Submission Overview", 40, 100);
@@ -729,12 +688,11 @@ function IrebReports() {
 
       doc.text("", 0, 400);
 
-      // Add Submission Overview Table
       const submissionOverviewHeaders = ["Month", "Submitted", "Approved"];
       const submissionOverviewRows = chartData.labels.map((month, index) => [
         month,
-        chartData.datasets[0].data[index], // Submitted count
-        chartData.datasets[1].data[index], // Approved count
+        chartData.datasets[0].data[index],
+        chartData.datasets[1].data[index],
       ]);
 
       doc.setFontSize(16);
@@ -750,12 +708,10 @@ function IrebReports() {
 
       doc.addPage();
 
-      // Center the Doughnut Chart on the page
       const pageWidth = doc.internal.pageSize.width;
       const doughnutImageWidth = 250;
       const centerX = (pageWidth - doughnutImageWidth) / 2;
 
-      // Add Doughnut Chart to the PDF
       doc.text("REC Analytics", 40, 60);
       doc.addImage(
         doughnutChartImage,
@@ -768,7 +724,6 @@ function IrebReports() {
 
       doc.text("", 0, 320);
 
-      // Add REC Analytics Table
       const recAnalyticsHeaders = [
         "REC Name",
         "Submissions",
@@ -779,8 +734,8 @@ function IrebReports() {
         ([recName, count]) => [
           recName,
           count, // Submissions count
-          recApprovalCounts[recName] || 0, // Approved count
-          recDeferredCounts[recName] || 0, // Deferred count
+          recApprovalCounts[recName] || 0,
+          recDeferredCounts[recName] || 0,
         ]
       );
 
@@ -799,13 +754,11 @@ function IrebReports() {
 
       doc.addPage();
 
-      // Add REC Status Chart to the PDF
       doc.text("Task Status by RECs", 40, 60);
       doc.addImage(recStatusChartImage, "PNG", 40, 80, 500, 250);
 
       doc.text("", 0, 400);
 
-      // Add REC Status Table
       const recStatusHeaders = [
         "REC Name",
         "New Submissions",
@@ -839,17 +792,6 @@ function IrebReports() {
       doc.text("REC Review Classification Status", 40, 60);
       doc.addImage(recStatusChartCombined, "PNG", 40, 80, 500, 250);
 
-      // doc.text("", 0, 400);
-
-      // doc.text("REC Review Classification Status: Expedited", 40, 420);
-      // doc.addImage(recStatusChartImageExpedited, "PNG", 40, 440, 500, 250);
-
-      // doc.addPage();
-
-      // doc.text("REC Review Classification Status: Full Board", 40, 60);
-      // doc.addImage(recStatusChartImageFullBoard, "PNG", 40, 80, 500, 250);
-
-      // Add Table for REC Status
       const tableHeaders = [
         "REC Name",
         "Full-Board Submissions",
@@ -966,11 +908,9 @@ function IrebReports() {
             </div>
             <br />
 
-            {/* Merged REC Review Classification Chart */}
             <div className="rec-container">
               <h3>REC Review Classification Status</h3>
 
-              {/* Filter Checkboxes */}
               <div className=" d-flex justify-content-around">
                 <h2>Filter by Review Classification</h2>
                 <label>
@@ -1008,33 +948,6 @@ function IrebReports() {
             </div>
 
             <br />
-
-            {/* exempt */}
-            {/* <div className="rec-container">
-              <h3>REC Review Classification Status: Exempt</h3>
-              <div className="ireb-rec-status-exempt-chart">
-                <Bar data={recStatusDataExempt} options={recStatusOptions} />
-              </div>
-            </div>
-            <br /> */}
-
-            {/* expedited*/}
-            {/* <div className="rec-container">
-              <h3>REC Review Classification Status: Expedited</h3>
-              <div className="ireb-rec-status-expedited-chart">
-                <Bar data={recStatusDataExpedited} options={recStatusOptions} />
-              </div>
-            </div>
-            <br /> */}
-
-            {/* full board */}
-            {/* <div className="rec-container">
-              <h3>REC Review Classification Status: Full Board</h3>
-              <div className="ireb-rec-status-fullboard-chart">
-                <Bar data={recStatusDataFullBoard} options={recStatusOptions} />
-              </div>
-            </div>
-            <br /> */}
           </div>
         </div>
       </div>

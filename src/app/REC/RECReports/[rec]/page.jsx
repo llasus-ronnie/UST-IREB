@@ -62,12 +62,12 @@ function RECReports({ params }) {
         display: true,
         text: "REC Submissions",
       },
-      dragData: true, // Enable drag functionality
-      dragDataRound: 0, // Round dragged values
+      dragData: true,
+      dragDataRound: 0,
       onDragEnd: function (e, datasetIndex, index, value) {
         const updatedData = [...chartData.datasets];
-        updatedData[datasetIndex].data[index] = value; // Update dragged value
-        setChartData({ ...chartData, datasets: updatedData }); // Set new data in state
+        updatedData[datasetIndex].data[index] = value;
+        setChartData({ ...chartData, datasets: updatedData });
       },
     },
     scales: {
@@ -115,10 +115,9 @@ function RECReports({ params }) {
 
         forms.forEach((form) => {
           const submissionDate = new Date(form.date);
-          const month = submissionDate.getMonth(); // 0-11 for Jan-Dec
+          const month = submissionDate.getMonth();
           const recName = form.researchEthicsCommittee;
 
-          // Increment counts for submissions by month
           submissionCountsArray[month]++;
           if (!recSubmissionCountsTemp[recName]) {
             recSubmissionCountsTemp[recName] = 0;
@@ -126,7 +125,6 @@ function RECReports({ params }) {
           recSubmissionCountsTemp[recName]++;
           totalSubmissions++;
 
-          // Count status types for doughnut chart
           if (form.finalDecision === "No Final Decision Yet") submittedCount++;
           else if (form.finalDecision === "Approved") {
             approvedCount++;
@@ -147,7 +145,6 @@ function RECReports({ params }) {
         setRecApprovalCounts(recApprovalCountsTemp);
         setRecDeferredCounts(recDeferredCountsTemp);
 
-        // Update the bar chart data
         setChartData({
           labels: labels,
           datasets: [
@@ -164,7 +161,6 @@ function RECReports({ params }) {
           ],
         });
 
-        // Update the doughnut chart data
         setDoughnutData({
           labels: ["Submitted", "Approved", "Rejected"],
           datasets: [
@@ -183,7 +179,6 @@ function RECReports({ params }) {
     fetchFormsData();
   }, [rec]);
 
-  // rec analytics (doughnut chart data state)
   const [doughnutData, setDoughnutData] = useState({
     labels: [],
     datasets: [
@@ -219,13 +214,13 @@ function RECReports({ params }) {
       {
         label: "In Progress",
         data: [],
-        backgroundColor: "#FFEB3B", // Yellow
+        backgroundColor: "#FFEB3B",
         barThickness: 25,
       },
       {
         label: "Resubmission",
         data: [],
-        backgroundColor: "#F44336", // Red
+        backgroundColor: "#F44336",
         barThickness: 25,
       },
       {
@@ -240,51 +235,44 @@ function RECReports({ params }) {
   useEffect(() => {
     async function fetchData() {
       try {
-        // Fetch REC data
         const recResponse = await axios.get("/api/REC", { params: { rec } });
         setREC(recResponse.data.data);
 
-        // Fetch RECMembers data to get Primary Reviewers
         const membersResponse = await axios.get("/api/RECMembers", {
           params: { rec },
         });
         const primaryReviewers = membersResponse.data.data
           .filter((member) => member.recRole === "Primary Reviewer")
           .map((member) => ({
-            email: member.email, // Ensure email is used
+            email: member.email,
             name: member.name,
           }));
 
-        // Fetch External Reviewer data
         const externalResponse = await axios.get("/api/addExternalReviewer", {
           params: { rec },
         });
         const externalReviewers = externalResponse.data.data.map(
           (reviewer) => ({
-            email: reviewer.email, // Ensure email is used
+            email: reviewer.email,
             name: reviewer.name,
           })
         );
 
-        // Combine all reviewers (Primary + External) with emails
         const allReviewers = [...primaryReviewers, ...externalReviewers];
 
-        // Fetch Forms data
         const formsResponse = await axios.get("/api/forms", {
           params: { rec },
         });
         const forms = formsResponse.data.forms;
 
-        // Initialize counts for all reviewers
         const counts = allReviewers.map((reviewer) => ({
-          reviewer: reviewer.name, // Display name for the chart
-          email: reviewer.email, // Match by email
+          reviewer: reviewer.name,
+          email: reviewer.email,
           inProgress: 0,
           finalReview: 0,
           resubmission: 0,
         }));
 
-        // Count statuses for each reviewer
         forms.forEach((form) => {
           form.recMember.forEach((assignedReviewerEmail) => {
             const reviewerIndex = counts.findIndex(
@@ -302,29 +290,27 @@ function RECReports({ params }) {
           });
         });
 
-        // Set the status counts in state
         setStatusCounts(counts);
 
-        // Prepare chart data
         setRecStatusData({
-          labels: counts.map((entry) => entry.reviewer), // Use names for labels
+          labels: counts.map((entry) => entry.reviewer),
           datasets: [
             {
               label: "In Progress",
               data: counts.map((entry) => entry.inProgress),
-              backgroundColor: "#FFEB3B", // Yellow
+              backgroundColor: "#FFEB3B",
               barThickness: 25,
             },
             {
               label: "Resubmission",
               data: counts.map((entry) => entry.resubmission),
-              backgroundColor: "#F44336", // Red
+              backgroundColor: "#F44336",
               barThickness: 25,
             },
             {
               label: "Final Review",
               data: counts.map((entry) => entry.finalReview),
-              backgroundColor: "#4CAF50", // Green
+              backgroundColor: "#4CAF50",
               barThickness: 25,
             },
           ],
@@ -338,7 +324,7 @@ function RECReports({ params }) {
   }, [rec]);
 
   const recStatusOptions = {
-    indexAxis: "y", // Horizontal bar chart
+    indexAxis: "y",
     responsive: true,
     plugins: {
       legend: {
@@ -366,7 +352,6 @@ function RECReports({ params }) {
     try {
       const doc = new jsPDF("portrait", "pt", "a4");
 
-      // Header for the PDF
       doc.setFontSize(18);
       doc.text("REC Reports", 40, 40);
       doc.setFontSize(12);
@@ -403,12 +388,11 @@ function RECReports({ params }) {
 
       doc.text("", 0, 400);
 
-      // Add Submission Overview Table
       const submissionOverviewHeaders = ["Month", "Submitted", "Approved"];
       const submissionOverviewRows = chartData.labels.map((month, index) => [
         month,
-        chartData.datasets[0].data[index], // Submitted count
-        chartData.datasets[1].data[index], // Approved count
+        chartData.datasets[0].data[index],
+        chartData.datasets[1].data[index],
       ]);
 
       doc.setFontSize(16);
@@ -439,7 +423,6 @@ function RECReports({ params }) {
 
       doc.text("", 0, 320);
 
-      // Add REC Analytics Table
       const recAnalyticsHeaders = [
         "REC Name",
         "Submissions",
@@ -449,9 +432,9 @@ function RECReports({ params }) {
       const recAnalyticsRows = Object.entries(recSubmissionCounts).map(
         ([recName, count]) => [
           recName,
-          count, // Submissions count
-          recApprovalCounts[recName] || 0, // Approved count
-          recDeferredCounts[recName] || 0, // Deferred count
+          count,
+          recApprovalCounts[recName] || 0,
+          recDeferredCounts[recName] || 0,
         ]
       );
 
@@ -476,7 +459,6 @@ function RECReports({ params }) {
       doc.setFontSize(16);
       doc.text("Reviewer Status Table", 40, 360);
 
-      // Define Headers
       const reviewerStatusHeaders = [
         "Reviewer",
         "In Progress",
@@ -484,7 +466,6 @@ function RECReports({ params }) {
         "Final Review",
       ];
 
-      // Map data for table rows
       const reviewerStatusRows = statusCounts.map((entry) => [
         entry.reviewer,
         entry.inProgress,
@@ -492,7 +473,6 @@ function RECReports({ params }) {
         entry.finalReview,
       ]);
 
-      // Add Table
       doc.autoTable({
         startY: 380,
         head: [reviewerStatusHeaders],

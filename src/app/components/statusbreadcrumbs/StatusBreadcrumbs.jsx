@@ -5,7 +5,14 @@ import "../../styles/statusbreadcrumbs/StatusBreadcrumbs.scss";
 import axios from "axios";
 
 const CheckMarkSVG = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" className="bi bi-check-lg" viewBox="0 0 16 16">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    fill="white"
+    className="bi bi-check-lg"
+    viewBox="0 0 16 16"
+  >
     <path
       d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"
       fill="white"
@@ -50,8 +57,7 @@ export default function StatusBreadcrumbs({ steps = [], params }) {
     }
   }, [params]);
 
-  // Determine the index of the active step based on form.status
-  const activeStep = steps.findIndex(step => step.id === form?.status);
+  const activeStep = steps.findIndex((step) => step.id === form?.status);
   const lastStep = steps.length - 1;
 
   return (
@@ -62,25 +68,52 @@ export default function StatusBreadcrumbs({ steps = [], params }) {
             {steps.map((step, index) => {
               const isLastStep = index === lastStep;
               return (
-                <div key={index} className={`breadcrumbs-step-container ${index < activeStep ? 'completed' : ''}`}>
-                  <div className={`breadcrumbs-step-line ${index < activeStep ? 'yellow' : ''} ${isLastStep ? 'no-line' : ''}`}></div>
-                  <div className={`breadcrumbs-step-circle ${form && form.status === step.id ? 'active' : ''} ${index < activeStep ? 'completed' : ''}`}>
-                  {index < activeStep && <CheckMarkSVG />}
+                <div
+                  key={index}
+                  className={`breadcrumbs-step-container ${
+                    index < activeStep ? "completed" : ""
+                  }`}
+                >
+                  <div
+                    className={`breadcrumbs-step-line ${
+                      index < activeStep ? "yellow" : ""
+                    } ${isLastStep ? "no-line" : ""}`}
+                  ></div>
+                  <div
+                    className={`breadcrumbs-step-circle ${
+                      form && form.status === step.id ? "active" : ""
+                    } ${index < activeStep ? "completed" : ""}`}
+                  >
+                    {index < activeStep && <CheckMarkSVG />}
                     {form && form.status === step.id && (
                       <div className="white-circle"></div>
                     )}
                   </div>
                   <div className="breadcrumbs-step-content">
-                    <div className={`breadcrumbs-step-title ${form && form.status === step.id ? 'active' : ''} ${index < activeStep ? 'completed' : ''}`}>{step.title}</div>
+                    <div
+                      className={`breadcrumbs-step-title ${
+                        form && form.status === step.id ? "active" : ""
+                      } ${index < activeStep ? "completed" : ""}`}
+                    >
+                      {step.title}
+                    </div>
                     {step.description && (
                       <>
-                      <div className={`breadcrumbs-step-description ${form && form.status === step.id ? 'active' : ''} ${index < activeStep ? 'completed' : ''}`}>
-                        {step.description}
-                      </div>
-                      <div className={`breadcrumbs-step-description ${form && form.status === step.id ? 'active' : ''} ${index < activeStep ? 'completed' : ''}`}>
-                      {step.remarks}
-                    </div>
-                    </>
+                        <div
+                          className={`breadcrumbs-step-description ${
+                            form && form.status === step.id ? "active" : ""
+                          } ${index < activeStep ? "completed" : ""}`}
+                        >
+                          {step.description}
+                        </div>
+                        <div
+                          className={`breadcrumbs-step-description ${
+                            form && form.status === step.id ? "active" : ""
+                          } ${index < activeStep ? "completed" : ""}`}
+                        >
+                          {step.remarks}
+                        </div>
+                      </>
                     )}
                   </div>
                 </div>

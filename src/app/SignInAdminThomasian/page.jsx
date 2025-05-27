@@ -31,28 +31,24 @@ export default function SignIn() {
         const { role, email } = session.user;
 
         try {
-          // First check for IREB role
           if (role === "IREB") {
             toast.success("Successfully logged in!");
             router.push("/IREB/IREBDashboard");
             return;
           }
 
-          // Finally check for PrimaryReviewer role
           if (role === "PrimaryReviewer") {
             toast.success("Successfully logged in!");
             router.push("/PrimaryReviewer/PRDashboard");
             return;
           }
 
-          // Then check for REC role
           const recResponse = await axios.get(`/api/REC?email=${email}`);
           const recData = recResponse.data.data;
 
           let userRec = recData.find((rec) => rec.email === email);
 
           if (!userRec) {
-            // If not found in REC table, check RECMembers table
             const recMembersResponse = await axios.get(
               `/api/RECMembers?email=${email}`
             );
@@ -72,7 +68,6 @@ export default function SignIn() {
             return;
           }
 
-          // If no role matches, route to Unauthorized
           router.push("../Unauthorized");
         } catch (error) {
           console.error("Error routing user by role:", error);

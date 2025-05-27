@@ -127,16 +127,11 @@ function IrebManageExternal() {
             <div className="managerec-cards-container">
               {filteredREC && filteredREC.length > 0 ? (
                 filteredREC.map((form, index) => (
-                  <a
-                    key={index}
-                    className="managerec-card"
-                    // href={`../IREB/IREBManageRECRoles/${form._id}`}
-                  >
+                  <a key={index} className="managerec-card">
                     <div className="edit-icon-container">
                       <button
                         className="edit-icon"
                         onClick={(e) => {
-                          // e.stopPropagation();
                           e.preventDefault();
                           handleShowModalEditREC(form);
                         }}

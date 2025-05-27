@@ -216,7 +216,6 @@ export default function AddRECModal(props) {
               <CldUploadWidget
                 signatureEndpoint="/api/sign-cloudinary-params"
                 onSuccess={(res) => {
-                  // Check if the uploaded file is an image format
                   const acceptedFormats = ["jpg", "jpeg", "png"];
                   if (!acceptedFormats.includes(res.info.format)) {
                     toast.error(
@@ -225,14 +224,12 @@ export default function AddRECModal(props) {
                     return;
                   }
 
-                  // Check if the file size exceeds 10MB
-                  const maxSizeInBytes = 10 * 1024 * 1024; // 10MB in bytes
+                  const maxSizeInBytes = 10 * 1024 * 1024;
                   if (res.info.bytes > maxSizeInBytes) {
                     toast.error("File size should not exceed 10MB.");
                     return;
                   }
 
-                  // Set logo URL if the file is an accepted image format and size
                   setLogo(res.info.secure_url);
                 }}
               >

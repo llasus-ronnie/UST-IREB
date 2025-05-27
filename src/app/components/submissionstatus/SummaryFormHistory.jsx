@@ -15,18 +15,17 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 function SummaryFormHistory({ id }) {
-  const [formData, setFormData] = useState(null); // Local state for form data
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
+  const [formData, setFormData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (id) {
-      // Check if `id` is available
       const fetchFormData = async () => {
         try {
           setLoading(true);
-          const response = await axios.get(`/api/forms/${id}`); // Replace with your actual API endpoint
-          setFormData(response.data); // Store fetched data
+          const response = await axios.get(`/api/forms/${id}`);
+          setFormData(response.data);
         } catch (error) {
           setError("Failed to load data.");
         } finally {
@@ -36,7 +35,7 @@ function SummaryFormHistory({ id }) {
 
       fetchFormData();
     }
-  }, [id]); // Dependency array ensures fetch is triggered when id changes
+  }, [id]);
 
   if (loading) {
     return <div>Loading...</div>;

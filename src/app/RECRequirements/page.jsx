@@ -54,7 +54,7 @@ function Requirements() {
                         {faq.files.map((file, fileIndex) => (
                           <li key={fileIndex}>
                             <a
-                              href={file.url} // Assuming file.url contains the file's Cloudinary URL
+                              href={file.url}
                               target="_blank"
                               rel="noopener noreferrer"
                             >

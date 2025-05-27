@@ -5,14 +5,14 @@ import { NextResponse } from "next/server";
 export async function PATCH(req, { params }) {
   await connectDB();
 
-  const { id } = params; // Capture the ID from the URL
+  const { id } = params;
   const { heading, body, isArchived } = await req.json();
 
   try {
     const updatedIREBContent = await IREBContent.findByIdAndUpdate(
       id,
-      { heading, body, isArchived }, // Update multiple fields if provided
-      { new: true } // Return the updated document
+      { heading, body, isArchived },
+      { new: true }
     );
 
     if (!updatedIREBContent) {

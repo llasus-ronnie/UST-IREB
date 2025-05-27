@@ -11,7 +11,7 @@ import EditFAQModal from "../../components/modals/EditFAQModal";
 import ArchiveConfirmationModal from "../../components/modals/ArchiveConfirmationModal";
 import "../../styles/rec/RECManageContent.css";
 import { Spinner } from "react-bootstrap";
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import withAuthorization from "../../../hoc/withAuthorization";
 
@@ -237,7 +237,6 @@ function IREBManageContent(props) {
                   ) : (
                     <tr>
                       <td colSpan="5">No data available</td>
-                      {/* Fallback when no data */}
                     </tr>
                   )}
                 </tbody>

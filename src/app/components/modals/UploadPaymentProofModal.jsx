@@ -88,7 +88,7 @@ export default function UploadPaymentProofModal({
                 const fileType = res.info.format;
                 const fileSize = res.info.bytes;
                 const validFileTypes = ["jpg", "jpeg", "png", "pdf"];
-                const maxFileSize = 10 * 1024 * 1024; // 10MB in bytes
+                const maxFileSize = 10 * 1024 * 1024;
 
                 if (fileSize > maxFileSize) {
                   toast.error(
